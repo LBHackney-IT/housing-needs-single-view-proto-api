@@ -3,3 +3,7 @@ secrets*
 .env*
 *.db
 .vscode
+
+lib/.DS_Store
+
+.DS_Store

@@ -1,5 +1,3 @@
-const RawSearchResults = require('../testdata/RawSearchResults');
-const GroupedSearchResults = require('../testdata/GroupedSearchResults');
 const groupRecords = require('../../lib/use-cases/GroupRecords')(
   ({ Systems } = require('../../lib/Constants'))
 );
@@ -17,11 +15,6 @@ const expectRecordsToHaveBeenGrouped = results => {
 };
 
 describe('GroupRecords', () => {
-  it('groups the records', () => {
-    const results = groupRecords(RawSearchResults);
-    expect(JSON.stringify(results)).toBe(JSON.stringify(GroupedSearchResults));
-  });
-
   it(`groups records where uhContact id's are equal`, () => {
     const records = createTwoRecordsWithMatchingProps('links', {
       uhContact: 11026
