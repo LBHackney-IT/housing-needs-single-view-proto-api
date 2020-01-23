@@ -1,0 +1,62 @@
+service: hn-single-view-api
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-2
+  stage: production
+  profile: hackney
+  timeout: 15
+  vpc:
+    securityGroupIds:
+      - sg-022acccbebd7bca46
+    subnetIds:
+      - subnet-00356e0650138f74f
+      - subnet-0a7f442c22a6feedc
+
+plugins:
+  - serverless-offline
+  - serverless-offline-ssm
+
+functions:
+  hn-single-view-api:
+    name: hn-single-view-api-${self:provider.stage}
+    role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
+    handler: api/index.handler
+    package:
+      exclude:
+        - '**'
+      include:
+        - api/index.js
+        - api/lib/**
+        - api/node_modules/**
+    events:
+      - http:
+          path: '{proxy+}'
+          method: ANY
+          authorizer: ${self:custom.authorizer.hn-single-view-api-authorizer}
+    # environment:
+    # W2_DB_URL: ${ssm:/uhw-document-api/production/W2_DB_URL}
+    # W2_IMAGE_SERVER_URL: ${ssm:/uhw-document-api/production/W2_IMAGE_SERVER_URL}
+    # NODE_ENV: production
+  hn-single-view-api-authorizer:
+    name: hn-single-view-api-authorizer-${self:provider.stage}
+    role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
+    handler: authorizer/index.handler
+    package:
+      exclude:
+        - '**'
+      include:
+        - authorizer/index.js
+        - authorizer/node_modules/**
+    environment:
+      jwtsecret: ${ssm:/common/hackney-jwt-secret}
+      allowedGroups: 'housingneeds-singleview-beta'
+
+custom:
+  stage: production
+  authorizer:
+    hn-single-view-api-authorizer:
+      name: hn-single-view-api-authorizer
+      type: request
+      resultTtlInSeconds: 0

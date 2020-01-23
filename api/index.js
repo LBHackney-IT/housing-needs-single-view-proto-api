@@ -1,4 +1,5 @@
 require('dotenv').config();
+const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
 const host = '0.0.0.0';
@@ -111,4 +112,6 @@ app.get('/customers/:id/documents', async (req, res) => {
   res.send(results);
 });
 
-app.listen(port, host, () => console.log(`Listening on ${host}:${port}!`));
+// app.listen(port, host, () => console.log(`Listening on ${host}:${port}!`));
+
+module.exports.handler = serverless(app);
