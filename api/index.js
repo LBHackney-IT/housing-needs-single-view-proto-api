@@ -2,13 +2,7 @@ require('dotenv').config();
 const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
-const host = '0.0.0.0';
-const port = process.env.PORT || 3000;
 const QueryHandler = require('./lib/QueryHandler');
-const cors = require('cors');
-
-app.use(cors());
-app.use(express.json());
 
 if (process.env.ENABLE_CACHING === 'true') {
   console.log('Enabling Cache');

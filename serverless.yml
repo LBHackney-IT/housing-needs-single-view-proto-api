@@ -35,6 +35,7 @@ functions:
           path: '{proxy+}'
           method: ANY
           authorizer: ${self:custom.authorizer.hn-single-view-api-authorizer}
+          cors: true
     environment:
       Jigsaw_email: ${ssm:/hn-single-view-api/production/Jigsaw_email}
       Jigsaw_password: ${ssm:/hn-single-view-api/production/Jigsaw_password}
