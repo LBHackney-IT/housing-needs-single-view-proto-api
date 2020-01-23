@@ -3,7 +3,6 @@ let dbConfig = {
 };
 
 const SqlServerConnection = require('../../SqlServerConnection');
-console.log(dbConfig);
 const db = new SqlServerConnection(dbConfig);
 const options = { db };
 

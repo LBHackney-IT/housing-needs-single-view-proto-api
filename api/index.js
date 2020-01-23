@@ -112,6 +112,4 @@ app.get('/customers/:id/documents', async (req, res) => {
   res.send(results);
 });
 
-// app.listen(port, host, () => console.log(`Listening on ${host}:${port}!`));
-
 module.exports.handler = serverless(app);
