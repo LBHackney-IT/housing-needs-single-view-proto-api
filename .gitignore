@@ -1,9 +1,8 @@
-/node_modules
+*node_modules
 secrets*
-.env*
+*.env
 *.db
 .vscode
-
+/authorizer/event.json
 lib/.DS_Store
-
 .DS_Store

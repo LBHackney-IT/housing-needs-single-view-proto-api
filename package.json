@@ -1,36 +1,13 @@
 {
-  "name": "single-view-api-proto",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@brikcss/merge": "^1.2.1",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "jsdom": "^15.1.1",
-    "moment": "^2.24.0",
-    "mssql": "^5.1.0",
-    "pg-promise": "^9.3.3",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4"
-  },
-  "scripts": {
-    "lint": "eslint --fix --ext js lib && echo 'Lint complete.'",
-    "watch": "watch 'clear && npm run -s lint' lib",
-    "test": "jest",
-    "test-coverage": "jest --coverage"
-  },
+  "name": "hn-single-view-api",
+  "version": "1.0.0",
   "devDependencies": {
-    "cache-manager": "^2.10.1",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
-    "express-cache-middleware": "^1.0.1",
-    "jest": "^24.9.0",
     "prettier": "^1.18.2",
-    "watch": "^1.0.2"
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "serverless": "^1.60.5",
+    "serverless-offline": "^5.12.1",
+    "serverless-offline-ssm": "^4.1.2"
   }
 }
