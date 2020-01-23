@@ -1,3 +1,5 @@
+const url = require('url');
+
 const pgp = require('pg-promise')({
   // global db error handler
   error(err, e) {
@@ -7,12 +9,15 @@ const pgp = require('pg-promise')({
   }
 });
 
+const dbUrl = url.parse(process.env.SINGLEVIEW_DB);
+const [user, password] = dbUrl.auth.split(':');
+
 const PostgresDb = pgp({
-  host: process.env.SINGLEVIEW_HOST,
-  port: process.env.SINGLEVIEW_PORT,
-  database: process.env.SINGLEVIEW_DB,
-  user: process.env.SINGLEVIEW_USER,
-  password: process.env.SINGLEVIEW_PASSWORD
+  host: dbUrl.host.split(':')[0],
+  port: dbUrl.port,
+  database: dbUrl.path.replace('/', ''),
+  user,
+  password
 });
 
 module.exports = PostgresDb;

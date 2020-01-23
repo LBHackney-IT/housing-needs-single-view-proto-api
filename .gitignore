@@ -6,3 +6,4 @@ secrets*
 /authorizer/event.json
 lib/.DS_Store
 .DS_Store
+.serverless
