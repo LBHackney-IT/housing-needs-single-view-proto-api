@@ -15,10 +15,7 @@ const {
 } = loadSQL(path.join(__dirname, 'sql'));
 
 let dbConfig = {
-  user: process.env.UHW_user,
-  password: process.env.UHW_password,
-  server: process.env.UHW_server,
-  database: process.env.UHW_database
+  dbUrl: process.env.UHW_DB
 };
 
 const SqlServerConnection = require('../../SqlServerConnection');
@@ -57,9 +54,9 @@ async function runSearchQuery(queryParams) {
 }
 
 async function fetchCustomer(id) {
-  return (await db.request(fetchCustomerSQL, [
-    { id: 'id', type: 'Int', value: id }
-  ]))[0];
+  return (
+    await db.request(fetchCustomerSQL, [{ id: 'id', type: 'Int', value: id }])
+  )[0];
 }
 
 async function fetchCustomerNotesQuery(id) {

@@ -1,8 +1,5 @@
 let dbConfig = {
-  user: process.env.UHT_user,
-  password: process.env.UHT_password,
-  server: process.env.UHT_server,
-  database: process.env.UHT_database
+  dbUrl: process.env.UHT_DB
 };
 
 const SqlServerConnection = require('../../SqlServerConnection');

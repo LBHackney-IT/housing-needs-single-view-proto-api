@@ -1,12 +1,9 @@
 let dbConfig = {
-  user: process.env.Academy_user,
-  password: process.env.Academy_password,
-  server: process.env.Academy_server,
-  database: process.env.Academy_database,
-  requestTimeout: 60000
+  dbUrl: process.env.ACADEMY_DB
 };
 
 const SqlServerConnection = require('../../SqlServerConnection');
+console.log(dbConfig);
 const db = new SqlServerConnection(dbConfig);
 const options = { db };
 
