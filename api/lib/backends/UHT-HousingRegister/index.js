@@ -17,10 +17,7 @@ const {
 } = loadSQL(path.join(__dirname, 'sql'));
 
 let dbConfig = {
-  user: process.env.UHT_user,
-  password: process.env.UHT_password,
-  server: process.env.UHT_server,
-  database: process.env.UHT_database
+  dbUrl: process.env.UHT_DB
 };
 
 const SqlServerConnection = require('../../SqlServerConnection');
@@ -61,10 +58,12 @@ async function runSearchQuery(queryParams) {
 async function fetchCustomer(id) {
   const [app_ref, person_no] = id.split('/');
 
-  return (await db.request(fetchCustomerSQL, [
-    { id: 'app_ref', type: 'NVarChar', value: app_ref },
-    { id: 'person_no', type: 'Int', value: person_no }
-  ]))[0];
+  return (
+    await db.request(fetchCustomerSQL, [
+      { id: 'app_ref', type: 'NVarChar', value: app_ref },
+      { id: 'person_no', type: 'Int', value: person_no }
+    ])
+  )[0];
 }
 
 async function fetchCustomerNotesQuery(id) {

@@ -12,11 +12,7 @@ const Comino = require('../Comino');
 const { Systems } = require('../../Constants');
 
 let dbConfig = {
-  user: process.env.Academy_user,
-  password: process.env.Academy_password,
-  server: process.env.Academy_server,
-  database: process.env.Academy_database,
-  requestTimeout: 60000
+  dbUrl: process.env.ACADEMY_DB
 };
 const {
   fetchCustomerSQL,
@@ -39,9 +35,11 @@ async function runSearchQuery(queryParams) {
 }
 
 async function fetchCustomer(id) {
-  return (await db.request(fetchCustomerSQL, [
-    { id: 'account_ref', type: 'NVarChar', value: id.slice(0, 8) }
-  ]))[0];
+  return (
+    await db.request(fetchCustomerSQL, [
+      { id: 'account_ref', type: 'NVarChar', value: id.slice(0, 8) }
+    ])
+  )[0];
 }
 
 async function fetchCustomerTransactions(id) {

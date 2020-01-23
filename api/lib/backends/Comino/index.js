@@ -1,17 +1,9 @@
 const path = require('path');
 const { formatRecordDate, loadSQL } = require('../../Utils');
 const { Systems } = require('../../Constants');
-const url = require('url');
-
-let dbUrl = url.parse(process.env.HN_COMINO_URL);
-let [user, pass] = dbUrl.auth.split(':');
 
 let dbConfig = {
-  user: user,
-  password: pass,
-  server: dbUrl.host,
-  database: dbUrl.path.replace('/', ''),
-  requestTimeout: 60000
+  dbUrl: process.env.HN_COMINO_URL
 };
 
 const {

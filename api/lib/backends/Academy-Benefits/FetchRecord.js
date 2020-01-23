@@ -14,24 +14,15 @@ const {
   fetchCustomerHouseholdSQL
 } = loadSQL(path.join(__dirname, 'sql'));
 
-let dbConfig = {
-  user: process.env.Academy_user,
-  password: process.env.Academy_password,
-  server: process.env.Academy_server,
-  database: process.env.Academy_database,
-  requestTimeout: 60000
-};
-
-const SqlServerConnection = require('../../SqlServerConnection');
-const db = new SqlServerConnection(dbConfig);
-
 async function fetchCustomer(id, db) {
   const [claim_id, person_ref] = id.split('/');
 
-  return (await db.request(fetchCustomerSQL, [
-    { id: 'claim_id', type: 'NVarChar', value: claim_id.slice(0, 7) },
-    { id: 'person_ref', type: 'Int', value: person_ref }
-  ]))[0];
+  return (
+    await db.request(fetchCustomerSQL, [
+      { id: 'claim_id', type: 'NVarChar', value: claim_id.slice(0, 7) },
+      { id: 'person_ref', type: 'Int', value: person_ref }
+    ])
+  )[0];
 }
 
 async function fetchBenefits(id, db) {

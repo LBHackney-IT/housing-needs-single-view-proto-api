@@ -35,10 +35,19 @@ functions:
           path: '{proxy+}'
           method: ANY
           authorizer: ${self:custom.authorizer.hn-single-view-api-authorizer}
-    # environment:
-    # W2_DB_URL: ${ssm:/uhw-document-api/production/W2_DB_URL}
-    # W2_IMAGE_SERVER_URL: ${ssm:/uhw-document-api/production/W2_IMAGE_SERVER_URL}
-    # NODE_ENV: production
+    environment:
+      UHT_user: ${ssm:/hn-single-view-api/production/UHT_user}
+      UHT_password: ${ssm:/hn-single-view-api/production/UHT_password}
+      UHT_server: ${ssm:/hn-single-view-api/production/UHT_server}
+      UHT_database: ${ssm:/hn-single-view-api/production/UHT_database}
+      UHW_user: ${ssm:/hn-single-view-api/production/UHW_user}
+      UHW_password: ${ssm:/hn-single-view-api/production/UHW_password}
+      UHW_server: ${ssm:/hn-single-view-api/production/UHW_server}
+      UHW_database: ${ssm:/hn-single-view-api/production/UHW_database}
+      Academy_user: ${ssm:/hn-single-view-api/production/Academy_user}
+      Academy_password: ${ssm:/hn-single-view-api/production/Academy_password}
+      Academy_server: ${ssm:/hn-single-view-api/production/Academy_server}
+      Academy_database: ${ssm:/hn-single-view-api/production/Academy_database}
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
     role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
