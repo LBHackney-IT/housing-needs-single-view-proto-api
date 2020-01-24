@@ -1,20 +1,76 @@
 version: 2.1
-orbs:
-  aws-ecr: circleci/aws-ecr@0.0.2
-  aws-ecs: circleci/aws-ecs@0.0.8
+
+executors:
+  my-executor:
+    docker:
+      - image: circleci/node:12.13
+
+    working_directory: ~/repo
+
+jobs:
+  build:
+    executor: my-executor
+
+    steps:
+      - checkout
+
+      - run:
+          name: Concatenate all package-lock.json files into single file for checksum
+          command: cat package.json api/package.json authorizer/package.json > combined-package-lock.txt
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "combined-package-lock.txt" }}
+            - v1-dependencies-
+
+      - run:
+          name: Install dependencies
+          command: |
+            sudo npm i && pushd api && npm install && popd && pushd authorizer && npm install && popd
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "combined-package-lock.txt" }}
+
+      - run:
+          name: Run tests with coverage
+          command: pushd api && npm run test-coverage && popd
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+
+  deploy:
+    executor: my-executor
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Install Serverless CLI
+          command: |
+            sudo npm i -g serverless
+
+      - run:
+          name: Set AWS credentials
+          command: |
+            pushd ~ && serverless config credentials -p aws -k ${AWS_ACCESS_KEY_ID} -s ${AWS_SECRET_ACCESS_KEY} -n hackney && popd
+
+      - run:
+          name: Deploy application
+          command: sls deploy
+
 workflows:
-  build-and-deploy:
+  version: 2
+  build-deploy:
     jobs:
-      - aws-ecr/build_and_push_image:
-          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
-          repo: "hackney/apps/${AWS_SERVICE_PREFIX}"
-          region: ${AWS_DEFAULT_REGION}
-          tag: "latest"
-      - aws-ecs/deploy-service-update:
+      - build
+      - deploy:
           requires:
-            - aws-ecr/build_and_push_image
-          aws-region: ${AWS_DEFAULT_REGION}
-          family: "task-${AWS_SERVICE_PREFIX}-${ENVIRONMENT}"
-          cluster-name: "${AWS_CLUSTER_NAME}"
-          service-name: "${AWS_SERVICE_PREFIX}-${ENVIRONMENT}"
-          container-image-name-updates: "container=${AWS_SERVICE_PREFIX}-${ENVIRONMENT},tag=latest"
+            - build
+          filters:
+            branches:
+              only:
+                - master
