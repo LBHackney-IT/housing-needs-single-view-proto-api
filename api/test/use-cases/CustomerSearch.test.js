@@ -3,11 +3,15 @@ describe('CustomerSearch', () => {
   const recordsFromB = [{ id: 5 }];
 
   let gateways;
-  let groupRecords;
-  let validateRecords;
+  let groupSearchRecords;
+  let cleanRecord;
   let customerSearch;
 
   beforeEach(() => {
+    cleanRecord = (() => {
+      return jest.fn(record => record);
+    })();
+
     gateways = [
       {
         execute: jest.fn(() => recordsFromA)
@@ -17,18 +21,14 @@ describe('CustomerSearch', () => {
       }
     ];
 
-    groupRecords = (() => {
-      return jest.fn(records => records);
-    })();
-
-    validateRecords = (() => {
+    groupSearchRecords = (() => {
       return jest.fn(records => records);
     })();
 
     customerSearch = require('../../lib/use-cases/CustomerSearch')({
+      cleanRecord,
       gateways,
-      groupRecords,
-      validateRecords
+      groupSearchRecords
     });
   });
 
@@ -54,15 +54,15 @@ describe('CustomerSearch', () => {
     expect(records.length).toEqual(expectedRecords.length);
   });
 
-  it('can validate the records', async () => {
+  it('can clean the records', async () => {
     const records = await customerSearch();
 
-    expect(validateRecords).toHaveBeenCalledWith(records);
+    expect(cleanRecord).toHaveBeenCalledTimes(records.length);
   });
 
   it('can group the records', async () => {
     const records = await customerSearch();
 
-    expect(groupRecords).toHaveBeenCalledWith(validateRecords(records));
+    expect(groupSearchRecords).toHaveBeenCalledWith(records.map(cleanRecord));
   });
 });

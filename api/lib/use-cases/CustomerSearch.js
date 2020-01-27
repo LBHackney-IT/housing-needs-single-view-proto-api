@@ -1,13 +1,11 @@
 module.exports = options => {
+  const cleanRecord = options.cleanRecord;
   const gateways = options.gateways;
-  const groupRecords = options.groupRecords;
-  const validateRecords = options.validateRecords;
+  const groupSearchRecords = options.groupSearchRecords;
 
   return async query => {
     const requests = gateways.map(async gateway => gateway.execute(query));
     const records = [].concat.apply([], await Promise.all(requests));
-
-    const validatedRecords = validateRecords(records);
-    return groupRecords(validatedRecords);
+    return groupSearchRecords(records.map(cleanRecord));
   };
 };

@@ -1,4 +1,4 @@
-const groupRecords = require('../../lib/use-cases/GroupRecords')(
+const groupSearchRecords = require('../../lib/use-cases/GroupSearchRecords')(
   ({ Systems } = require('../../lib/Constants'))
 );
 
@@ -14,13 +14,13 @@ const expectRecordsToHaveBeenGrouped = results => {
   expect(results.ungrouped.length).toBe(0);
 };
 
-describe('GroupRecords', () => {
+describe('GroupSearchRecords', () => {
   it(`groups records where uhContact id's are equal`, () => {
     const records = createTwoRecordsWithMatchingProps('links', {
       uhContact: 11026
     });
 
-    const results = groupRecords(records);
+    const results = groupSearchRecords(records);
 
     expectRecordsToHaveBeenGrouped(results);
   });
@@ -30,7 +30,7 @@ describe('GroupRecords', () => {
       hbClaimId: 500512
     });
 
-    const results = groupRecords(records);
+    const results = groupSearchRecords(records);
 
     expectRecordsToHaveBeenGrouped(results);
   });
@@ -38,7 +38,7 @@ describe('GroupRecords', () => {
   it(`groups records where national insurance numbers are equal`, () => {
     const records = createTwoRecordsWithMatchingProps('nino', 'XPD123');
 
-    const results = groupRecords(records);
+    const results = groupSearchRecords(records);
 
     expectRecordsToHaveBeenGrouped(results);
   });
@@ -46,7 +46,7 @@ describe('GroupRecords', () => {
   it(`groups records where dob's are equal`, () => {
     const records = createTwoRecordsWithMatchingProps('dob', '10/10/1990');
 
-    const results = groupRecords(records);
+    const results = groupSearchRecords(records);
 
     expectRecordsToHaveBeenGrouped(results);
   });
@@ -55,7 +55,7 @@ describe('GroupRecords', () => {
     const records = createTwoRecordsWithMatchingProps('dob', '10/10/1990');
     records.push({ dob: '11/11/1990' });
 
-    const results = groupRecords(records);
+    const results = groupSearchRecords(records);
 
     expect(results.grouped.length).toBe(1);
     expect(results.ungrouped.length).toBe(1);
@@ -89,7 +89,7 @@ describe('GroupRecords', () => {
       }
     ];
 
-    const results = groupRecords(records);
+    const results = groupSearchRecords(records);
 
     expect(results.grouped.length).toBe(0);
     expect(results.ungrouped.length).toBe(0);

@@ -13,10 +13,10 @@ module.exports = options => {
         record.address = null;
       }
     } else if (typeof record.address.length !== 'undefined') {
-      record.address = record.address.filter(addr => {
+      record.address = record.address.filter(a => {
         return (
-          addr.address.length > 0 &&
-          badData.address.includes(addr.address.join(', '))
+          a.address.length > 0 &&
+          !badData.address.includes(a.address.join(', '))
         );
       });
     }

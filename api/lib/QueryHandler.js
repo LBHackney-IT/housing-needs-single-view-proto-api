@@ -20,9 +20,9 @@ const badData = {
 };
 
 const {
-  cleanCustomerRecord,
+  cleanRecord,
   searchCustomers,
-  groupRecords
+  groupSearchRecords
 } = require('./use-cases')({
   backends,
   badData,
@@ -94,8 +94,8 @@ let mergeResponses = function(responses) {
 const QueryHandler = {
   searchCustomers: async query => {
     const records = await searchCustomers(query);
-    const cleanedRecords = records.map(cleanCustomerRecord);
-    return groupRecords(cleanedRecords);
+    const cleanedRecords = records.map(cleanRecord);
+    return groupSearchRecords(cleanedRecords);
   },
 
   saveCustomer: async input => {
@@ -161,7 +161,7 @@ const QueryHandler = {
       customer.housingNeeds = {};
     }
 
-    return cleanCustomerRecord(customer);
+    return cleanRecord(customer);
   },
 
   fetchCustomerNotes: async (id, hackneyToken) => {
