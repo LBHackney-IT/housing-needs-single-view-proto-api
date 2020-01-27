@@ -1,19 +1,20 @@
-describe('Academy Benefits Search Gateway', () => {
+const academyBenefitsSearchGateway = require('../../../lib/gateways/Academy-Benefits/AcademyBenefitsSearchGateway');
+
+describe('AcademyBenefitsSearchGateway', () => {
+  let buildSearchRecord;
   let db;
 
-  // const buildSearchRecord = jest.spyOn(
-  //   require('../../lib/models/BuildSearchRecord')
-  // );
-
   const createGateway = records => {
+    buildSearchRecord = jest.fn(({ id }) => {
+      return { id };
+    });
+
     db = {
-      request: jest.fn(async () => {
-        return Promise.resolve(records);
-      })
+      request: jest.fn(async () => records)
     };
 
-    return require('../../lib/gateways/AcademyBenefitsSearchGateway')({
-      // buildSearchRecord,
+    return academyBenefitsSearchGateway({
+      buildSearchRecord,
       db
     });
   };
@@ -25,14 +26,18 @@ describe('Academy Benefits Search Gateway', () => {
     const paramMatcher = expect.arrayContaining([
       expect.objectContaining({ value: `%${firstName.toUpperCase()}%` })
     ]);
+
     await gateway.execute({ firstName });
+
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
 
   it('if the query does not have a firstname then the db is not queried for the forename', async () => {
     const gateway = createGateway([]);
     const queryMatcher = expect.not.stringMatching(/forename LIKE @forename/);
+
     await gateway.execute({});
+
     expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
   });
 
@@ -43,41 +48,39 @@ describe('Academy Benefits Search Gateway', () => {
     const paramMatcher = expect.arrayContaining([
       expect.objectContaining({ value: `%${lastName.toUpperCase()}%` })
     ]);
+
     await gateway.execute({ lastName });
+
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
 
-  it('if the query does not have a firstname then the db is not queried for the forename', async () => {
+  it('if the query does not have a lastname then the db is not queried for the lastname', async () => {
     const gateway = createGateway([]);
     const queryMatcher = expect.not.stringMatching(/surname LIKE @surname/);
+
     await gateway.execute({});
+
     expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
   });
 
-  // it('returns record if all IDs are valid', async () => {
-  //   const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
-  //   const gateway = createGateway([record]);
+  it('returns record if all id components exist', async () => {
+    const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
+    const gateway = createGateway([record]);
 
-  //   const records = await gateway.execute({});
-  //   expect(buildSearchRecord).toHaveBeenCalledTimes(1);
-  //   expect(records[0].id).toBe('123d/1');
-  // });
+    const records = await gateway.execute({});
 
-  // it("doesn't return a record if any of the IDs are missing", async () => {
-  //   const gateway = createGateway([
-  //     { check_digit: 'd', person_ref: '1' },
-  //     { claim_id: '111', check_digit: 'x', person_ref: '2' }
-  //   ]);
+    expect(buildSearchRecord).toHaveBeenCalledTimes(1);
+    expect(records.length).toBe(1);
+    expect(records[0].id).toBe('123d/1');
+  });
 
-  //   const records = await gateway.execute({});
-  //   expect(buildSearchRecord).toHaveBeenCalledTimes(1);
-  //   expect(records.length).toBe(1);
-  //   expect(records[0].id).toBe('111x/2');
-  // });
+  it("doesn't return a record if any of the id components are missing", async () => {
+    const record = { claim_id: '123', check_digit: 'd' };
+    const gateway = createGateway([record]);
 
-  // it('formats record data', async () => {
-  //   const gateway = createGateway([]);
-  //   const records = await gateway.execute();
-  //   expect(buildSearchRecord).toHaveBeenCalled();
-  // });
+    const records = await gateway.execute({});
+
+    expect(buildSearchRecord).toHaveBeenCalledTimes(0);
+    expect(records.length).toBe(0);
+  });
 });

@@ -1,9 +1,7 @@
 const path = require('path');
-const { loadSQL } = require('../Utils');
-const { Systems } = require('../Constants');
-const { searchCustomersBaseSQL } = loadSQL(
-  path.join(__dirname, '../sql/AcademyBenefits')
-);
+const { loadSQL } = require('../../Utils');
+const { Systems } = require('../../Constants');
+const { searchCustomersSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 module.exports = options => {
   const db = options.db;
@@ -28,7 +26,7 @@ module.exports = options => {
       });
       whereClause.push('surname LIKE @surname');
     }
-    const query = `${searchCustomersBaseSQL} AND(${whereClause.join(' AND ')})`;
+    const query = `${searchCustomersSQL} AND(${whereClause.join(' AND ')})`;
     return await db.request(query, params);
   };
 
@@ -46,10 +44,13 @@ module.exports = options => {
           lastName: record.surname,
           dob: record.birth_date,
           nino: record.nino,
-          addr1: record.addr1,
-          addr2: record.addr2,
-          addr3: record.addr3,
-          addr4: record.addr4,
+          address: [
+            record.addr1,
+            record.addr2,
+            record.addr3,
+            record.addr4,
+            record.post_code
+          ],
           postcode: record.post_code,
           source: Systems.ACADEMY_BENEFITS,
           links: {

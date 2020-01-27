@@ -56,11 +56,13 @@ describe('CustomerSearch', () => {
 
   it('can validate the records', async () => {
     const records = await customerSearch();
+
     expect(validateRecords).toHaveBeenCalledWith(records);
   });
 
   it('can group the records', async () => {
     const records = await customerSearch();
+
     expect(groupRecords).toHaveBeenCalledWith(validateRecords(records));
   });
 });
