@@ -25,7 +25,7 @@ if (process.env.ENABLE_CACHING === 'true') {
   cacheMiddleware.attach(app);
 }
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   if (req.headers.authorization) {
     res.locals.hackneyToken = req.headers.authorization.replace('Bearer ', '');
   }
@@ -40,8 +40,34 @@ app.get('/customers', async (req, res) => {
     .join(',');
   console.log(`CUSTOMER SEARCH "${q}"`);
   console.time(`CUSTOMER SEARCH "${q}"`);
+  const SqlServerConnection = require('./lib/SqlServerConnection');
+
+  const customerSearch = require('./lib/use-cases/CustomerSearch')({
+    cleanRecord: require('./lib/use-cases/CleanRecord')({
+      badData: {
+        address: ['10 Elmbridge Walk, Blackstone Estate, London, E8 3HA'],
+        dob: ['01/01/1900']
+      }
+    }),
+    gateways: [
+      require('./lib/gateways/Academy-Benefits/AcademyBenefitsSearchGateway')({
+        db: new SqlServerConnection({
+          dbUrl: process.env.ACADEMY_DB
+        }),
+        buildSearchRecord: require('./lib/entities/SearchRecord')()
+      }),
+      require('./lib/gateways/UHT-Contacts/UHTContactsSearchGateway')({
+        db: new SqlServerConnection({
+          dbUrl: process.env.UHT_DB
+        }),
+        buildSearchRecord: require('./lib/entities/SearchRecord')()
+      })
+    ],
+    groupSearchRecords: require('./lib/use-cases/GroupSearchRecords')()
+  });
   try {
-    const results = await QueryHandler.searchCustomers(req.query);
+    // const results = await QueryHandler.searchCustomers(req.query);
+    const results = await customerSearch(req.query);
     res.send(results);
   } catch (err) {
     console.log(err);
