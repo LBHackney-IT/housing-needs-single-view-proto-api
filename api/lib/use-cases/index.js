@@ -1,7 +1,7 @@
 module.exports = options => {
   return {
-    cleanCustomerRecord: require('./CleanCustomerRecord')(options),
-    groupRecords: require('./GroupRecords')(options),
+    cleanRecord: require('./CleanRecord')(options),
+    groupSearchRecords: require('./GroupSearchRecords')(options),
     searchCustomers: require('./SearchCustomers')(options)
   };
 };
