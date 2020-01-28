@@ -26,6 +26,8 @@ module.exports = options => {
       });
       whereClause.push('surname LIKE @surname');
     }
+
+    whereClause = whereClause.map(clause => `(${clause})`);
     const query = `${searchCustomersSQL} AND(${whereClause.join(' AND ')})`;
     return await db.request(query, params);
   };
