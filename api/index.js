@@ -25,7 +25,7 @@ if (process.env.ENABLE_CACHING === 'true') {
   cacheMiddleware.attach(app);
 }
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   if (req.headers.authorization) {
     res.locals.hackneyToken = req.headers.authorization.replace('Bearer ', '');
   }

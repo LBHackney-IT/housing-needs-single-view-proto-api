@@ -1,11 +1,35 @@
+const UHWSearchGateway = require('../../../lib/gateways/UHW/UHWSearchGateway');
+
 describe('UHWSearchGateway', () => {
+  let buildSearchRecord;
+  let db;
+
+  const createGateway = (records, throwsError) => {
+    buildSearchRecord = jest.fn(({ id }) => {
+      return { id };
+    });
+
+    db = {
+      request: jest.fn(async () => {
+        if (throwsError) {
+          return new Error("Database error")
+        }
+        return records;
+      })
+    };
+
+    return UHWSearchGateway({
+      buildSearchRecord,
+      db
+    });
+  };
 
   it('queries the db for forename if the query contains firstname', async () => {
     const gateway = createGateway([]);
     const firstName = 'maria';
     const queryMatcher = expect.stringMatching(/LIKE @forename/);
     const paramMatcher = expect.arrayContaining([
-      expect.objectContaining({ value: `%${firstName.toUpperCase()}%` })
+      expect.objectContaining({ value: `%${firstName.toLowerCase()}%` })
     ]);
 
     await gateway.execute({ firstName });
@@ -25,9 +49,9 @@ describe('UHWSearchGateway', () => {
   it('queries the db for surname if the query contains lastname', async () => {
     const gateway = createGateway([]);
     const lastName = 'smith';
-    queryMatcher = expect.stringMatching(/surname LIKE/);
+    queryMatcher = expect.stringMatching(/LIKE @surname/);
     const paramMatcher = expect.arrayContaining([
-      expect.objectContaining({ value: `%${lastName.toUpperCase()}%` })
+      expect.objectContaining({ value: `%${lastName.toLowerCase()}%` })
     ]);
 
     await gateway.execute({ lastName });
@@ -42,5 +66,35 @@ describe('UHWSearchGateway', () => {
     await gateway.execute({});
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
+  });
+
+  it('returns a record if id exists', async () => {
+    const record = { ContactNo: 1231 };
+    const gateway = createGateway([record]);
+
+    const records = await gateway.execute({});
+
+    expect(buildSearchRecord).toHaveBeenCalledTimes(1);
+    expect(records.length).toBe(1);
+    expect(records[0].id).toBe('1231');
+  });
+
+  it("doesn't return a record if the id is missing", async () => {
+    const record = {};
+    const gateway = createGateway([record]);
+
+    const records = await gateway.execute({});
+
+    expect(buildSearchRecord).toHaveBeenCalledTimes(0);
+    expect(records.length).toBe(0);
+  });
+
+  it("returns empty records if the db connection experiences an error", async () => {
+    const record = { ContactNo: 1231 };
+    const gateway = createGateway([record], true);
+
+    const records = await gateway.execute({});
+
+    expect(records.length).toBe(0);
   });
 })
