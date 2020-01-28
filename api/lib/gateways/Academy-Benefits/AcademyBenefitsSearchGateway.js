@@ -64,8 +64,13 @@ module.exports = options => {
 
   return {
     execute: async queryParams => {
-      const records = await search(queryParams);
-      return processRecords(records);
+      try {
+        const records = await search(queryParams);
+        return processRecords(records);
+      } catch (err) {
+        console.log(`Error searching customers in Academy-Benefits: ${err}`);
+        return [];
+      }
     }
   };
 };
