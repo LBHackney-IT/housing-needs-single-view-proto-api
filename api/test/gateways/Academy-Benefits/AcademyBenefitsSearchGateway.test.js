@@ -4,13 +4,18 @@ describe('AcademyBenefitsSearchGateway', () => {
   let buildSearchRecord;
   let db;
 
-  const createGateway = records => {
+  const createGateway = (records, throwsError) => {
     buildSearchRecord = jest.fn(({ id }) => {
       return { id };
     });
 
     db = {
-      request: jest.fn(async () => records)
+      request: jest.fn(async () => {
+        if (throwsError) {
+          return new Error("Database error")
+        }
+        return records;
+      })
     };
 
     return academyBenefitsSearchGateway({
@@ -81,6 +86,15 @@ describe('AcademyBenefitsSearchGateway', () => {
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(0);
+    expect(records.length).toBe(0);
+  });
+
+  it("doesn't return a record if any of the id components are missing", async () => {
+    const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
+    const gateway = createGateway([record], true);
+
+    const records = await gateway.execute({});
+
     expect(records.length).toBe(0);
   });
 });
