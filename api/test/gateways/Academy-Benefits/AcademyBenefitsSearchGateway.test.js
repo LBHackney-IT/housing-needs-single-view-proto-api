@@ -12,7 +12,7 @@ describe('AcademyBenefitsSearchGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          return new Error("Database error")
+          return new Error('Database error');
         }
         return records;
       })

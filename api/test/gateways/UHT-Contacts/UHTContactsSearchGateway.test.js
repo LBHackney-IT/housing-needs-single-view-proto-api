@@ -1,6 +1,5 @@
 const UHTContactsSearchGateway = require('../../../lib/gateways/UHT-Contacts/UHTContactsSearchGateway');
 
-
 describe('UHTContactsSearchGateway', () => {
   let buildSearchRecord;
   let db;
@@ -13,7 +12,7 @@ describe('UHTContactsSearchGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          return new Error("Database error")
+          return new Error('Database error');
         }
         return records;
       })
