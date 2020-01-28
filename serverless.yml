@@ -35,7 +35,9 @@ functions:
           path: '{proxy+}'
           method: ANY
           authorizer: ${self:custom.authorizer.hn-single-view-api-authorizer}
-          cors: true
+          cors:
+            origins:
+              - '*'
     environment:
       Jigsaw_email: ${ssm:/hn-single-view-api/production/Jigsaw_email}
       Jigsaw_password: ${ssm:/hn-single-view-api/production/Jigsaw_password}
@@ -60,6 +62,18 @@ functions:
     environment:
       jwtsecret: ${ssm:/common/hackney-jwt-secret}
       allowedGroups: 'housingneeds-singleview-beta'
+
+resources:
+  Resources:
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
 
 custom:
   stage: production

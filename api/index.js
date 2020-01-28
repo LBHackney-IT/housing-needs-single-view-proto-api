@@ -32,6 +32,13 @@ app.use(function(req, res, next) {
   next();
 });
 
+// CORS
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
+
 app.get('/customers', async (req, res) => {
   const q = Object.entries(req.query)
     .map(([k, v]) => {
