@@ -1,6 +1,6 @@
-module.exports = options => {
-  const Systems = options.Systems;
+const { Systems } = require('../Constants');
 
+module.exports = () => {
   const extractConnectedRecords = function(records) {
     records.connected = records.ungrouped.filter(record => {
       return record.source === Systems.SINGLEVIEW;
