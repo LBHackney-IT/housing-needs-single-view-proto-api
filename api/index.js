@@ -3,10 +3,6 @@ const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
 const QueryHandler = require('./lib/QueryHandler');
-const cors = require('cors');
-
-app.use(cors());
-app.use(express.json());
 
 if (process.env.ENABLE_CACHING === 'true') {
   console.log('Enabling Cache');
