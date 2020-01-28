@@ -89,7 +89,7 @@ describe('UHTContactsSearchGateway', () => {
     expect(records.length).toBe(0);
   });
 
-  it("doesn't return a record if any of the id components are missing", async () => {
+  it('returns an empty set of records if error is thrown', async () => {
     const record = { account_ref: '123', account_cd: '1' };
     const gateway = createGateway([record], true);
 
