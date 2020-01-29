@@ -1,8 +1,5 @@
 const path = require('path');
-const {
-  dedupe,
-  loadSQL
-} = require('../../Utils');
+const { dedupe, loadSQL } = require('../../Utils');
 const { Systems } = require('../../Constants');
 const { searchCustomersSQL } = loadSQL(path.join(__dirname, 'sql'));
 
@@ -11,7 +8,7 @@ module.exports = options => {
   const buildSearchRecord = options.buildSearchRecord;
 
   const validateIds = record => {
-    return record.account_ref && record.account_cd
+    return record.account_ref && record.account_cd;
   };
 
   const processRecords = records => {
@@ -36,10 +33,9 @@ module.exports = options => {
             hbClaimId: record.hb_claim_id
           },
           source: Systems.ACADEMY_COUNCIL_TAX
-        }
-        )
-      })
-  }
+        });
+      });
+  };
   const search = async queryParams => {
     let fullName = [queryParams.lastName, queryParams.firstName]
       .filter(i => i && i !== '')
@@ -49,11 +45,10 @@ module.exports = options => {
     return await db.request(searchCustomersSQL, [
       { id: 'full_name', type: 'NVarChar', value: fullName }
     ]);
-  }
+  };
 
   return {
     execute: async queryParams => {
-
       try {
         const records = await search(queryParams);
         return processRecords(records);
@@ -62,5 +57,5 @@ module.exports = options => {
         return [];
       }
     }
-  }
-}
+  };
+};
