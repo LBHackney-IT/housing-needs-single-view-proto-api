@@ -1,8 +1,11 @@
 require('dotenv').config();
 const serverless = require('serverless-http');
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const QueryHandler = require('./lib/QueryHandler');
+
+app.use(bodyParser.json());
 
 if (process.env.ENABLE_CACHING === 'true') {
   console.log('Enabling Cache');
