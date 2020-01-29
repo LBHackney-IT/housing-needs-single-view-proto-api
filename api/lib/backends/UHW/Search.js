@@ -47,7 +47,7 @@ const processSearchResults = results => {
       firstName: record.Forenames ? nameCase(record.Forenames) : null,
       lastName: record.Surname ? nameCase(record.Surname) : null,
       dob: record.DOB ? formatDisplayDate(record.DOB) : null,
-      nino: null,
+      nino: record.Nino,
       address: null,
       postcode: checkString(record.PostCode),
       source: Systems.UHW,

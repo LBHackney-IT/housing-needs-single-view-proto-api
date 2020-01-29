@@ -35,7 +35,9 @@ module.exports = options => {
 
     whereClause = whereClause.map(clause => `(${clause})`);
 
-    let query = `${searchCustomersBaseSQL} WHERE (${whereClause.join(' AND ')})`;
+    let query = `${searchCustomersBaseSQL} WHERE (${whereClause.join(
+      ' AND '
+    )})`;
 
     return await db.request(query, params);
   };
@@ -53,7 +55,7 @@ module.exports = options => {
           firstName: record.Forenames,
           lastName: record.Surname,
           dob: record.DOB,
-          nino: null,
+          nino: record.Nino,
           address: null,
           postcode: record.PostCode,
           source: Systems.UHW,
@@ -62,7 +64,7 @@ module.exports = options => {
           }
         });
       });
-  }
+  };
 
   return {
     execute: async queryParams => {
@@ -75,4 +77,4 @@ module.exports = options => {
       }
     }
   };
-}
+};
