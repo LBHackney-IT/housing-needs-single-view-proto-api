@@ -1,6 +1,5 @@
 const UHTContactsSearchGateway = require('../../../lib/gateways/UHT-Contacts/UHTContactsSearchGateway');
 
-
 describe('UHTContactsSearchGateway', () => {
   let buildSearchRecord;
   let db;
@@ -13,7 +12,7 @@ describe('UHTContactsSearchGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          return new Error("Database error")
+          return new Error('Database error');
         }
         return records;
       })
@@ -90,7 +89,7 @@ describe('UHTContactsSearchGateway', () => {
     expect(records.length).toBe(0);
   });
 
-  it("returns empty records if the db connection experiences an error", async () => {
+  it('returns an empty set of records if error is thrown', async () => {
     const record = { account_ref: '123', account_cd: '1' };
     const gateway = createGateway([record], true);
 
