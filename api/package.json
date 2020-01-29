@@ -28,6 +28,15 @@
     "watch": "^1.0.2"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/",
+      "/coverage/",
+      "jest.config.js"
+    ]
   }
 }

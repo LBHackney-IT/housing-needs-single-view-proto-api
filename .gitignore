@@ -7,3 +7,4 @@ secrets*
 lib/.DS_Store
 .DS_Store
 .serverless
+*coverage*
