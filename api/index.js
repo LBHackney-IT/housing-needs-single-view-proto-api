@@ -1,4 +1,13 @@
 require('dotenv').config();
+const {
+  jigsawSearchGateway,
+  academyBenefitsSearchGateway,
+  UHTContactsSearchGateway,
+  UHTHousingRegisterSearchGateway,
+  AcademyCouncilTaxSearchGateway,
+  UHWSearchGateway,
+  singleViewSearchGateway
+} = require('./lib/libDependencies');
 const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
@@ -40,8 +49,28 @@ app.get('/customers', async (req, res) => {
     .join(',');
   console.log(`CUSTOMER SEARCH "${q}"`);
   console.time(`CUSTOMER SEARCH "${q}"`);
+
+  const customerSearch = require('./lib/use-cases/CustomerSearch')({
+    cleanRecord: require('./lib/use-cases/CleanRecord')({
+      badData: {
+        address: ['10 Elmbridge Walk, Blackstone Estate, London, E8 3HA'],
+        dob: ['01/01/1900']
+      }
+    }),
+    gateways: [
+      jigsawSearchGateway,
+      academyBenefitsSearchGateway,
+      UHTContactsSearchGateway,
+      UHTHousingRegisterSearchGateway,
+      AcademyCouncilTaxSearchGateway,
+      UHWSearchGateway,
+      singleViewSearchGateway
+    ],
+    groupSearchRecords: require('./lib/use-cases/GroupSearchRecords')()
+  });
   try {
-    const results = await QueryHandler.searchCustomers(req.query);
+    // const results = await QueryHandler.searchCustomers(req.query);
+    const results = await customerSearch(req.query);
     res.send(results);
   } catch (err) {
     console.log(err);
@@ -54,9 +83,13 @@ app.post('/customers', async (req, res) => {
   console.log('SAVING CUSTOMER');
   console.time('SAVING CUSTOMER');
   // Save the selected customer records
-  const customer = await QueryHandler.saveCustomer(req.body.customers);
+  const id = await QueryHandler.saveCustomer(req.body);
   console.timeEnd('SAVING CUSTOMER');
-  res.send({ customer });
+  res.send({
+    customer: {
+      id: id
+    }
+  });
 });
 
 app.get('/customers/:id', async (req, res) => {
