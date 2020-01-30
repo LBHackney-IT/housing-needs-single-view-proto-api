@@ -128,7 +128,7 @@ const QueryHandler = {
 
     let results = [].concat.apply([], await Promise.all(requests));
     results = dedupeNotes(results);
-    results = results.filter(x => x).sort((a, b) => b.date - a.date);
+    results = results.sort((a, b) => b.date - a.date);
 
     return { notes: results };
   },
@@ -141,7 +141,7 @@ const QueryHandler = {
 
     let results = [].concat.apply([], await Promise.all(requests));
     results = dedupe(results, doc => JSON.stringify(doc));
-    results = results.filter(x => x).sort((a, b) => b.date - a.date);
+    results = results.sort((a, b) => b.date - a.date);
     return { documents: results };
   }
 };

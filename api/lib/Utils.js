@@ -88,7 +88,7 @@ let Utils = {
         acc[key_lambda(item)] = item;
         return acc;
       }, {})
-    );
+    ).filter(x => x);
   },
 
   dedupeNotes(notes) {
@@ -104,7 +104,7 @@ let Utils = {
         }
         return acc;
       }, {})
-    );
+    ).filter(x => x);
   },
 
   loadSQL(directory) {
