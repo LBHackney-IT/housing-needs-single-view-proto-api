@@ -25,10 +25,6 @@ module.exports = options => {
     return await db.any(query, params);
   };
 
-  const validateIds = record => {
-    return record[0].customer_id;
-  };
-
   const processRecords = records => {
     let grouped = records.reduce((acc, record) => {
       if (!acc[record.customer_id]) acc[record.customer_id] = [];
@@ -37,17 +33,15 @@ module.exports = options => {
     }, {});
     let groups = Object.values(grouped);
 
-    return groups
-      .filter(group => validateIds(group))
-      .map(group => {
-        return buildSearchRecord({
-          id: group[0].customer_id,
-          firstName: group[0].first_name,
-          lastName: group[0].last_name,
-          source: Systems.SINGLEVIEW,
-          links: group
-        });
+    return groups.map(group => {
+      return buildSearchRecord({
+        id: group[0].customer_id,
+        firstName: group[0].first_name,
+        lastName: group[0].last_name,
+        source: Systems.SINGLEVIEW,
+        links: group
       });
+    });
   };
 
   return {

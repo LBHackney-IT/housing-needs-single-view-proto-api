@@ -63,25 +63,16 @@ describe('SingleViewSearchGateway', () => {
     expect(db.any).toHaveBeenCalledWith(queryMatcher, expect.anything());
   });
 
-  it('returns record if id exists', async () => {
+  it('returns a record', async () => {
     const record = { customer_id: '123' };
     const gateway = createGateway([record]);
+    const recordMatcher = expect.objectContaining({ id: '123' });
 
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
     expect(records.length).toBe(1);
-    expect(records[0].id).toBe('123');
-  });
-
-  it("doesn't return a record if the id is missing", async () => {
-    const record = {};
-    const gateway = createGateway([record]);
-
-    const records = await gateway.execute({});
-
-    expect(buildSearchRecord).toHaveBeenCalledTimes(0);
-    expect(records.length).toBe(0);
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
   });
 
   it('returns an empty set of records if error is thrown', async () => {
