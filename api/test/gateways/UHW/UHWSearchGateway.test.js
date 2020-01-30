@@ -12,7 +12,7 @@ describe('UHWSearchGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          return new Error("Database error")
+          return new Error('Database error');
         }
         return records;
       })
@@ -35,7 +35,7 @@ describe('UHWSearchGateway', () => {
     await gateway.execute({ firstName });
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
-  })
+  });
 
   it('does not query the db for forename if the query does not contain firstname', async () => {
     const gateway = createGateway([]);
@@ -68,7 +68,7 @@ describe('UHWSearchGateway', () => {
     expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
   });
 
-  it('returns a record if id exists', async () => {
+  it('builds a record', async () => {
     const record = { ContactNo: 1231 };
     const gateway = createGateway([record]);
 
@@ -76,20 +76,9 @@ describe('UHWSearchGateway', () => {
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
     expect(records.length).toBe(1);
-    expect(records[0].id).toBe('1231');
   });
 
-  it("doesn't return a record if the id is missing", async () => {
-    const record = {};
-    const gateway = createGateway([record]);
-
-    const records = await gateway.execute({});
-
-    expect(buildSearchRecord).toHaveBeenCalledTimes(0);
-    expect(records.length).toBe(0);
-  });
-
-  it("returns empty records if the db connection experiences an error", async () => {
+  it('returns empty records if the db connection experiences an error', async () => {
     const record = { ContactNo: 1231 };
     const gateway = createGateway([record], true);
 
@@ -97,4 +86,4 @@ describe('UHWSearchGateway', () => {
 
     expect(records.length).toBe(0);
   });
-})
+});

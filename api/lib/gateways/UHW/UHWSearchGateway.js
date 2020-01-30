@@ -35,35 +35,29 @@ module.exports = options => {
 
     whereClause = whereClause.map(clause => `(${clause})`);
 
-    let query = `${searchCustomersBaseSQL} WHERE (${whereClause.join(
+    const query = `${searchCustomersBaseSQL} WHERE (${whereClause.join(
       ' AND '
     )})`;
 
     return await db.request(query, params);
   };
 
-  const validateIds = record => {
-    return record.ContactNo;
-  };
-
   const processRecords = records => {
-    return records
-      .filter(record => validateIds(record))
-      .map(record => {
-        return buildSearchRecord({
-          id: record.ContactNo.toString(),
-          firstName: record.Forenames,
-          lastName: record.Surname,
-          dob: record.DOB,
-          nino: record.Nino,
-          address: null,
-          postcode: record.PostCode,
-          source: Systems.UHW,
-          links: {
-            uhContact: record.UHContact
-          }
-        });
+    return records.map(record => {
+      return buildSearchRecord({
+        id: record.ContactNo.toString(),
+        firstName: record.Forenames,
+        lastName: record.Surname,
+        dob: record.DOB,
+        nino: record.Nino,
+        address: null,
+        postcode: record.PostCode,
+        source: Systems.UHW,
+        links: {
+          uhContact: record.UHContact
+        }
       });
+    });
   };
 
   return {
