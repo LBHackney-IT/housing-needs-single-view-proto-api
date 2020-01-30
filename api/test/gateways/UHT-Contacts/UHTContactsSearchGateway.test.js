@@ -1,6 +1,5 @@
 const UHTContactsSearchGateway = require('../../../lib/gateways/UHT-Contacts/UHTContactsSearchGateway');
 
-
 describe('UHTContactsSearchGateway', () => {
   let buildSearchRecord;
   let db;
@@ -13,7 +12,7 @@ describe('UHTContactsSearchGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          return new Error("Database error")
+          return new Error('Database error');
         }
         return records;
       })
@@ -72,12 +71,13 @@ describe('UHTContactsSearchGateway', () => {
   it('returns record if all id components exist', async () => {
     const record = { house_ref: '123 ', person_no: 'd' };
     const gateway = createGateway([record]);
+    const recordMatcher = expect.objectContaining({ id: '123/d' });
 
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
     expect(records.length).toBe(1);
-    expect(records[0].id).toBe('123/d');
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
   });
 
   it("doesn't return a record if any of the id components are missing", async () => {

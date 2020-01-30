@@ -1,8 +1,6 @@
 const academyCouncilTaxSearchGateway = require('../../../lib/gateways/Academy-CouncilTax/AcademyCouncilTaxSearchGateway');
 
-
 describe('AcademyCouncilTaxSearchGateway', () => {
-
   let buildSearchRecord;
   let db;
 
@@ -14,7 +12,7 @@ describe('AcademyCouncilTaxSearchGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          return new Error("Database error")
+          return new Error('Database error');
         }
         return records;
       })
@@ -25,7 +23,6 @@ describe('AcademyCouncilTaxSearchGateway', () => {
       db
     });
   };
-
 
   it('if the query contains firstname then the db is queried for full name', async () => {
     const gateway = createGateway([]);
@@ -38,7 +35,7 @@ describe('AcademyCouncilTaxSearchGateway', () => {
     await gateway.execute({ firstName });
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
-  })
+  });
 
   it('if the query contains firstname and lastname then the db is queried for full name', async () => {
     const gateway = createGateway([]);
@@ -46,13 +43,15 @@ describe('AcademyCouncilTaxSearchGateway', () => {
     const lastName = 'dawg';
     const queryMatcher = expect.stringMatching(/LIKE @full_name/);
     const paramMatcher = expect.arrayContaining([
-      expect.objectContaining({ value: `${lastName.toUpperCase()}%${firstName.toUpperCase()}` })
+      expect.objectContaining({
+        value: `${lastName.toUpperCase()}%${firstName.toUpperCase()}`
+      })
     ]);
 
     await gateway.execute({ firstName, lastName });
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
-  })
+  });
 
   it('if the query contains lastname then the db is queried for full name', async () => {
     const gateway = createGateway([]);
@@ -65,17 +64,18 @@ describe('AcademyCouncilTaxSearchGateway', () => {
     await gateway.execute({ lastName });
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
-  })
+  });
 
   it('returns record if all id components exist', async () => {
     const record = { account_ref: '123', account_cd: '1' };
     const gateway = createGateway([record]);
+    const recordMatcher = expect.objectContaining({ id: '1231' });
 
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
     expect(records.length).toBe(1);
-    expect(records[0].id).toBe('1231');
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
   });
 
   it('Does not return record if part of id is missing', async () => {
@@ -96,5 +96,4 @@ describe('AcademyCouncilTaxSearchGateway', () => {
 
     expect(records.length).toBe(0);
   });
-
-})
+});
