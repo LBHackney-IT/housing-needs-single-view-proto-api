@@ -1,6 +1,6 @@
-const academyBenefitsSearchGateway = require('../../../lib/gateways/Academy-Benefits/AcademyBenefitsSearchGateway');
+const UHTHousingRegisterSearch = require('../../../lib/gateways/UHT-HousingRegister/UHTHousingRegisterSearch');
 
-describe('AcademyBenefitsSearchGateway', () => {
+describe('UHTHousingRegisterSearchGateway', () => {
   let buildSearchRecord;
   let db;
 
@@ -18,7 +18,7 @@ describe('AcademyBenefitsSearchGateway', () => {
       })
     };
 
-    return academyBenefitsSearchGateway({
+    return UHTHousingRegisterSearch({
       buildSearchRecord,
       db
     });
@@ -27,9 +27,9 @@ describe('AcademyBenefitsSearchGateway', () => {
   it('if the query contains firstname then the db is queried for forename', async () => {
     const gateway = createGateway([]);
     const firstName = 'maria';
-    const queryMatcher = expect.stringMatching(/forename LIKE @forename/);
+    const queryMatcher = expect.stringMatching(/LIKE @forename/);
     const paramMatcher = expect.arrayContaining([
-      expect.objectContaining({ value: `%${firstName.toUpperCase()}%` })
+      expect.objectContaining({ value: `%${firstName.toLowerCase()}%` })
     ]);
 
     await gateway.execute({ firstName });
@@ -39,19 +39,19 @@ describe('AcademyBenefitsSearchGateway', () => {
 
   it('if the query does not have a firstname then the db is not queried for the forename', async () => {
     const gateway = createGateway([]);
-    const queryMatcher = expect.not.stringMatching(/forename LIKE @forename/);
+    const queryMatcher = expect.not.stringMatching(/LIKE @forename/);
 
     await gateway.execute({});
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
   });
 
-  it('if the query contains lastname then the db is queried for lastname', async () => {
+  it('if the query contains lastname then the db is queried for surname', async () => {
     const gateway = createGateway([]);
     const lastName = 'smith';
-    queryMatcher = expect.stringMatching(/surname LIKE/);
+    queryMatcher = expect.stringMatching(/LIKE @surname/);
     const paramMatcher = expect.arrayContaining([
-      expect.objectContaining({ value: `%${lastName.toUpperCase()}%` })
+      expect.objectContaining({ value: `%${lastName.toLowerCase()}%` })
     ]);
 
     await gateway.execute({ lastName });
@@ -61,7 +61,7 @@ describe('AcademyBenefitsSearchGateway', () => {
 
   it('if the query does not have a lastname then the db is not queried for the lastname', async () => {
     const gateway = createGateway([]);
-    const queryMatcher = expect.not.stringMatching(/surname LIKE @surname/);
+    const queryMatcher = expect.not.stringMatching(/LIKE @surname/);
 
     await gateway.execute({});
 
@@ -69,28 +69,27 @@ describe('AcademyBenefitsSearchGateway', () => {
   });
 
   it('returns record if all id components exist', async () => {
-    const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
+    const record = { app_ref: '123', person_no: 'd' };
     const gateway = createGateway([record]);
-    const recordMatcher = expect.objectContaining({ id: '123d/1' });
+    const recordMatcher = expect.objectContaining({ id: '123/d' });
 
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
-    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
     expect(records.length).toBe(1);
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
   });
 
   it("doesn't return a record if any of the id components are missing", async () => {
-    const record = { claim_id: '123', check_digit: 'd' };
+    const record = { app_ref: '123' };
     const gateway = createGateway([record]);
 
     const records = await gateway.execute({});
 
-    expect(buildSearchRecord).toHaveBeenCalledTimes(0);
     expect(records.length).toBe(0);
   });
 
-  it('returns an empty set of records if error is thrown', async () => {
+  it('returns an empty set of records if there is an error', async () => {
     const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
     const gateway = createGateway([record], true);
 
