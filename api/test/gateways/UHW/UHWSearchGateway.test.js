@@ -78,7 +78,7 @@ describe('UHWSearchGateway', () => {
     expect(records.length).toBe(1);
   });
 
-  it('returns empty records if the db connection experiences an error', async () => {
+  it('returns an empty set of records if there is an error', async () => {
     const record = { ContactNo: 1231 };
     const gateway = createGateway([record], true);
 
