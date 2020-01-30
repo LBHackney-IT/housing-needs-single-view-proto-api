@@ -1,4 +1,5 @@
 const path = require('path');
+const moment = require('moment');
 const { loadSQL } = require('../../Utils');
 const { createCustomerSQL, createCustomerLinksSQL } = loadSQL(
   path.join(__dirname, 'sql')
@@ -14,18 +15,16 @@ module.exports = options => {
       const tp = records
         .filter(r => r !== null)
         .map(r => {
-          return t.none(createCustomerLinksSQL, {
-            customer_id: customer.id,
-            system_name: r.source,
-            remote_id: r.id.toString(),
-            first_name: r.firstName,
-            last_name: r.lastName,
-            address: r.address,
-            dob: r.dob
-              ? moment(r.dob, 'DD/MM/YYYY').format('YYYY-MM-DD')
-              : null,
-            nino: r.nino
-          });
+          return t.none(createCustomerLinksSQL, [
+            customer.id,
+            r.source,
+            r.id.toString(),
+            r.firstName,
+            r.lastName,
+            r.address,
+            r.dob ? moment(r.dob, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
+            r.nino
+          ]);
         });
 
       return Promise.all(tp);
