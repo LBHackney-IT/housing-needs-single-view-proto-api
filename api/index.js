@@ -13,7 +13,10 @@ const {
 const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const QueryHandler = require('./lib/QueryHandler');
+
+app.use(bodyParser.json());
 
 if (process.env.ENABLE_CACHING === 'true') {
   console.log('Enabling Cache');
@@ -79,7 +82,7 @@ app.post('/customers', async (req, res) => {
   console.log('SAVING CUSTOMER');
   console.time('SAVING CUSTOMER');
   // Save the selected customer records
-  const customer = await QueryHandler.saveCustomer(req.body.Customers);
+  const customer = await QueryHanlder.saveCustomer(req.body.customers);
   console.timeEnd('SAVING CUSTOMER');
   res.send({ customer });
 });

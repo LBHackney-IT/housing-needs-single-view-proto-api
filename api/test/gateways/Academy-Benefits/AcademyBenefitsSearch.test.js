@@ -1,6 +1,6 @@
-const UHTContactsSearchGateway = require('../../../lib/gateways/UHT-Contacts/UHTContactsSearchGateway');
+const academyBenefitsSearch = require('../../../lib/gateways/Academy-Benefits/AcademyBenefitsSearch');
 
-describe('UHTContactsSearchGateway', () => {
+describe('AcademyBenefitsSearchGateway', () => {
   let buildSearchRecord;
   let db;
 
@@ -18,7 +18,7 @@ describe('UHTContactsSearchGateway', () => {
       })
     };
 
-    return UHTContactsSearchGateway({
+    return academyBenefitsSearch({
       buildSearchRecord,
       db
     });
@@ -27,7 +27,7 @@ describe('UHTContactsSearchGateway', () => {
   it('if the query contains firstname then the db is queried for forename', async () => {
     const gateway = createGateway([]);
     const firstName = 'maria';
-    const queryMatcher = expect.stringMatching(/LIKE @forename/);
+    const queryMatcher = expect.stringMatching(/forename LIKE @forename/);
     const paramMatcher = expect.arrayContaining([
       expect.objectContaining({ value: `%${firstName.toUpperCase()}%` })
     ]);
@@ -39,17 +39,17 @@ describe('UHTContactsSearchGateway', () => {
 
   it('if the query does not have a firstname then the db is not queried for the forename', async () => {
     const gateway = createGateway([]);
-    const queryMatcher = expect.not.stringMatching(/LIKE @forename/);
+    const queryMatcher = expect.not.stringMatching(/forename LIKE @forename/);
 
     await gateway.execute({});
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
   });
 
-  it('if the query contains surname then the db is queried for surname', async () => {
+  it('if the query contains lastname then the db is queried for lastname', async () => {
     const gateway = createGateway([]);
     const lastName = 'smith';
-    const queryMatcher = expect.stringMatching(/LIKE @surname/);
+    queryMatcher = expect.stringMatching(/surname LIKE/);
     const paramMatcher = expect.arrayContaining([
       expect.objectContaining({ value: `%${lastName.toUpperCase()}%` })
     ]);
@@ -59,9 +59,9 @@ describe('UHTContactsSearchGateway', () => {
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
 
-  it('if the query does not have a lastname then the db is not queried for the surname', async () => {
+  it('if the query does not have a lastname then the db is not queried for the lastname', async () => {
     const gateway = createGateway([]);
-    const queryMatcher = expect.not.stringMatching(/LIKE @surname/);
+    const queryMatcher = expect.not.stringMatching(/surname LIKE @surname/);
 
     await gateway.execute({});
 
@@ -69,18 +69,19 @@ describe('UHTContactsSearchGateway', () => {
   });
 
   it('returns record if all id components exist', async () => {
-    const record = { house_ref: '123 ', person_no: 'd' };
+    const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
     const gateway = createGateway([record]);
+    const recordMatcher = expect.objectContaining({ id: '123d/1' });
 
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
     expect(records.length).toBe(1);
-    expect(records[0].id).toBe('123/d');
   });
 
   it("doesn't return a record if any of the id components are missing", async () => {
-    const record = { house_ref: '123 ' };
+    const record = { claim_id: '123', check_digit: 'd' };
     const gateway = createGateway([record]);
 
     const records = await gateway.execute({});
@@ -89,8 +90,8 @@ describe('UHTContactsSearchGateway', () => {
     expect(records.length).toBe(0);
   });
 
-  it('returns an empty set of records if error is thrown', async () => {
-    const record = { account_ref: '123', account_cd: '1' };
+  it('returns an empty set of records if there is an error', async () => {
+    const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
     const gateway = createGateway([record], true);
 
     const records = await gateway.execute({});

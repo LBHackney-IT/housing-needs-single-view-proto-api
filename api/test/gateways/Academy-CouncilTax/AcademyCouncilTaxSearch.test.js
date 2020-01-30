@@ -1,4 +1,4 @@
-const academyCouncilTaxSearchGateway = require('../../../lib/gateways/Academy-CouncilTax/AcademyCouncilTaxSearchGateway');
+const academyCouncilTaxSearch = require('../../../lib/gateways/Academy-CouncilTax/AcademyCouncilTaxSearch');
 
 describe('AcademyCouncilTaxSearchGateway', () => {
   let buildSearchRecord;
@@ -18,7 +18,7 @@ describe('AcademyCouncilTaxSearchGateway', () => {
       })
     };
 
-    return academyCouncilTaxSearchGateway({
+    return academyCouncilTaxSearch({
       buildSearchRecord,
       db
     });
@@ -69,12 +69,13 @@ describe('AcademyCouncilTaxSearchGateway', () => {
   it('returns record if all id components exist', async () => {
     const record = { account_ref: '123', account_cd: '1' };
     const gateway = createGateway([record]);
+    const recordMatcher = expect.objectContaining({ id: '1231' });
 
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
     expect(records.length).toBe(1);
-    expect(records[0].id).toBe('1231');
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
   });
 
   it('Does not return record if part of id is missing', async () => {
@@ -87,7 +88,7 @@ describe('AcademyCouncilTaxSearchGateway', () => {
     expect(records.length).toBe(0);
   });
 
-  it('returns an empty set of records if error is thrown', async () => {
+  it('returns an empty set of records if there is an error', async () => {
     const record = { account_ref: '123', account_cd: '1' };
     const gateway = createGateway([record], true);
 
