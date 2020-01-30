@@ -71,12 +71,13 @@ describe('AcademyBenefitsSearchGateway', () => {
   it('returns record if all id components exist', async () => {
     const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
     const gateway = createGateway([record]);
+    const recordMatcher = expect.objectContaining({ id: '123d/1' });
 
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
     expect(records.length).toBe(1);
-    expect(records[0].id).toBe('123d/1');
   });
 
   it("doesn't return a record if any of the id components are missing", async () => {
