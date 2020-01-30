@@ -1,4 +1,4 @@
-let dbConfig = {
+const dbConfig = {
   dbUrl: process.env.ACADEMY_DB
 };
 
@@ -6,7 +6,7 @@ const SqlServerConnection = require('../../SqlServerConnection');
 const db = new SqlServerConnection(dbConfig);
 const options = { db };
 
-let Backend = {
+const Backend = {
   customerSearch: require('./Search')(options),
   fetchCustomerRecord: require('./FetchRecord')(options),
   fetchCustomerNotes: require('./FetchNotes')(options),

@@ -98,37 +98,8 @@ const QueryHandler = {
     return groupSearchRecords(cleanedRecords);
   },
 
-  saveCustomer: async input => {
-    // insert into customers table
-    const insertCustQuery = 'INSERT INTO customers DEFAULT VALUES RETURNING id';
-
-    // insert into customer_links table
-    const insertLinkQuery = `INSERT INTO customer_links (customer_id, system_id, remote_id, first_name, last_name, address, dob, nino) 
-      VALUES ($(customer_id), (SELECT id FROM systems WHERE name = $(system_name)), $(remote_id), $(first_name), $(last_name), $(address), $(dob), $(nino))`;
-
-    const customer = await PostgresDb.one(insertCustQuery);
-
-    await PostgresDb.task(t => {
-      const tp = input.customers
-        .filter(x => x !== null)
-        .map(c => {
-          return t.none(insertLinkQuery, {
-            customer_id: customer.id,
-            system_name: c.source,
-            remote_id: c.id.toString(),
-            first_name: c.firstName,
-            last_name: c.lastName,
-            address: c.address,
-            dob: c.dob
-              ? moment(c.dob, 'DD/MM/YYYY').format('YYYY-MM-DD')
-              : null,
-            nino: c.nino
-          });
-        });
-
-      return Promise.all(tp);
-    });
-    return customer.id;
+  saveCustomer: async records => {
+    return await backends[Systems.SINGLEVIEW].createRecord(records);
   },
 
   deleteCustomer: async id => {

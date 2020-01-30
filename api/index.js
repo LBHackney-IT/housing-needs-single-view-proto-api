@@ -3,6 +3,7 @@ const serverless = require('serverless-http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const bodyParser = require('body-parser');
 const QueryHandler = require('./lib/QueryHandler');
 
 app.use(bodyParser.json());
@@ -64,13 +65,9 @@ app.post('/customers', async (req, res) => {
   console.log('SAVING CUSTOMER');
   console.time('SAVING CUSTOMER');
   // Save the selected customer records
-  const id = await QueryHandler.saveCustomer(req.body);
+  const customer = await QueryHandler.saveCustomer(req.body.customers);
   console.timeEnd('SAVING CUSTOMER');
-  res.send({
-    customer: {
-      id: id
-    }
-  });
+  res.send({ customer });
 });
 
 app.get('/customers/:id', async (req, res) => {
