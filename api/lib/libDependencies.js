@@ -1,4 +1,4 @@
-const { doJigsawGetRequest, jigsawEnv } = require('../lib/JigsawUtils');
+const { doJigsawGetRequest, jigsawEnv } = require('./JigsawUtils');
 const SqlServerConnection = require('./SqlServerConnection');
 const jigsawSearchGateway = require('./gateways/Jigsaw/JigsawSearchGateway')({
   doJigsawGetRequest,
@@ -49,6 +49,16 @@ const singleViewSearchGateway = require('./gateways/SingleView/SingleViewSearchG
     buildSearchRecord: require('./entities/SearchRecord')()
   }
 );
+
+const customerSearch = require('./use-cases/CustomerSearch');
+
+const cleanRecord = require('./use-cases/CleanRecord')({
+  badData: {
+    address: ['10 Elmbridge Walk, Blackstone Estate, London, E8 3HA'],
+    dob: ['01/01/1900']
+  }
+});
+
 module.exports = {
   jigsawSearchGateway,
   academyBenefitsSearchGateway,
@@ -56,5 +66,7 @@ module.exports = {
   UHTHousingRegisterSearchGateway,
   AcademyCouncilTaxSearchGateway,
   UHWSearchGateway,
-  singleViewSearchGateway
+  singleViewSearchGateway,
+  customerSearch,
+  cleanRecord
 };

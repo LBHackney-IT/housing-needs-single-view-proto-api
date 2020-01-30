@@ -6,7 +6,9 @@ const {
   UHTHousingRegisterSearchGateway,
   AcademyCouncilTaxSearchGateway,
   UHWSearchGateway,
-  singleViewSearchGateway
+  singleViewSearchGateway,
+  customerSearch,
+  cleanRecord
 } = require('./lib/libDependencies');
 const serverless = require('serverless-http');
 const express = require('express');
@@ -50,13 +52,8 @@ app.get('/customers', async (req, res) => {
   console.log(`CUSTOMER SEARCH "${q}"`);
   console.time(`CUSTOMER SEARCH "${q}"`);
 
-  const customerSearch = require('./lib/use-cases/CustomerSearch')({
-    cleanRecord: require('./lib/use-cases/CleanRecord')({
-      badData: {
-        address: ['10 Elmbridge Walk, Blackstone Estate, London, E8 3HA'],
-        dob: ['01/01/1900']
-      }
-    }),
+  customerSearch({
+    cleanRecord,
     gateways: [
       jigsawSearchGateway,
       academyBenefitsSearchGateway,
@@ -69,7 +66,6 @@ app.get('/customers', async (req, res) => {
     groupSearchRecords: require('./lib/use-cases/GroupSearchRecords')()
   });
   try {
-    // const results = await QueryHandler.searchCustomers(req.query);
     const results = await customerSearch(req.query);
     res.send(results);
   } catch (err) {
@@ -83,13 +79,9 @@ app.post('/customers', async (req, res) => {
   console.log('SAVING CUSTOMER');
   console.time('SAVING CUSTOMER');
   // Save the selected customer records
-  const id = await QueryHandler.saveCustomer(req.body);
+  const customer = await QueryHandler.saveCustomer(req.body.Customers);
   console.timeEnd('SAVING CUSTOMER');
-  res.send({
-    customer: {
-      id: id
-    }
-  });
+  res.send({ customer });
 });
 
 app.get('/customers/:id', async (req, res) => {
