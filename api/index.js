@@ -54,9 +54,13 @@ app.post('/customers', async (req, res) => {
   console.log('SAVING CUSTOMER');
   console.time('SAVING CUSTOMER');
   // Save the selected customer records
-  const customer = await QueryHandler.saveCustomer(req.body.customers);
+  const id = await QueryHandler.saveCustomer(req.body);
   console.timeEnd('SAVING CUSTOMER');
-  res.send({ customer });
+  res.send({
+    customer: {
+      id: id
+    }
+  });
 });
 
 app.get('/customers/:id', async (req, res) => {
