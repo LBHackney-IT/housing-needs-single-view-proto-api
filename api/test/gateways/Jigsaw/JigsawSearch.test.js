@@ -1,4 +1,4 @@
-const jigsawSearchGateway = require('../../../lib/gateways/Jigsaw/JigsawSearchGateway');
+const jigsawSearch = require('../../../lib/gateways/Jigsaw/JigsawSearch');
 
 describe('JigsawSearchGateway', () => {
   let buildSearchRecord;
@@ -17,7 +17,7 @@ describe('JigsawSearchGateway', () => {
       return records;
     });
 
-    return jigsawSearchGateway({
+    return jigsawSearch({
       buildSearchRecord,
       doJigsawGetRequest,
       jigsawEnv

@@ -1,4 +1,4 @@
-const singleViewSearchGateway = require('../../../lib/gateways/SingleView/SingleViewSearchGateway');
+const singleViewSearch = require('../../../lib/gateways/SingleView/SingleViewSearch');
 let db;
 let buildSearchRecord;
 
@@ -17,7 +17,7 @@ describe('SingleViewSearchGateway', () => {
       })
     };
 
-    return singleViewSearchGateway({
+    return singleViewSearch({
       buildSearchRecord,
       db
     });

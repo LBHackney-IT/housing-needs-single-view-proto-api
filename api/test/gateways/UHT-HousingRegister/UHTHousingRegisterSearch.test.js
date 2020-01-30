@@ -1,4 +1,4 @@
-const UHTHousingRegisterSearchGateway = require('../../../lib/gateways/UHT-HousingRegister/UHTHousingRegisterSearchGateway');
+const UHTHousingRegisterSearch = require('../../../lib/gateways/UHT-HousingRegister/UHTHousingRegisterSearch');
 
 describe('UHTHousingRegisterSearchGateway', () => {
   let buildSearchRecord;
@@ -18,7 +18,7 @@ describe('UHTHousingRegisterSearchGateway', () => {
       })
     };
 
-    return UHTHousingRegisterSearchGateway({
+    return UHTHousingRegisterSearch({
       buildSearchRecord,
       db
     });

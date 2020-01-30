@@ -1,4 +1,4 @@
-const academyCouncilTaxSearchGateway = require('../../../lib/gateways/Academy-CouncilTax/AcademyCouncilTaxSearchGateway');
+const academyCouncilTaxSearch = require('../../../lib/gateways/Academy-CouncilTax/AcademyCouncilTaxSearch');
 
 describe('AcademyCouncilTaxSearchGateway', () => {
   let buildSearchRecord;
@@ -18,7 +18,7 @@ describe('AcademyCouncilTaxSearchGateway', () => {
       })
     };
 
-    return academyCouncilTaxSearchGateway({
+    return academyCouncilTaxSearch({
       buildSearchRecord,
       db
     });
