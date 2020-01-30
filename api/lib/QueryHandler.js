@@ -1,7 +1,6 @@
 const PostgresDb = require('./PostgresDb');
 const { Systems } = require('./Constants');
 const merge = require('@brikcss/merge');
-const moment = require('moment');
 const { dedupeNotes, dedupe, filterArray } = require('./Utils');
 
 const backends = {
@@ -19,15 +18,7 @@ const badData = {
   dob: ['01/01/1900']
 };
 
-const {
-  cleanRecord,
-  searchCustomers,
-  groupSearchRecords
-} = require('./use-cases')({
-  backends,
-  badData,
-  Systems
-});
+const { cleanRecord } = require('./use-cases')({ badData });
 
 let getCustomerLinks = async function(id) {
   const query = `
@@ -92,12 +83,6 @@ let mergeResponses = function(responses) {
 };
 
 const QueryHandler = {
-  searchCustomers: async query => {
-    const records = await searchCustomers(query);
-    const cleanedRecords = records.map(cleanRecord);
-    return groupSearchRecords(cleanedRecords);
-  },
-
   saveCustomer: async records => {
     return await backends[Systems.SINGLEVIEW].createRecord(records);
   },

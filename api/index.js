@@ -1,10 +1,10 @@
 require('dotenv').config();
 const serverless = require('serverless-http');
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
 const bodyParser = require('body-parser');
 const QueryHandler = require('./lib/QueryHandler');
+const { customerSearch } = require('./lib/libDependencies');
 
 app.use(bodyParser.json());
 
@@ -51,8 +51,9 @@ app.get('/customers', async (req, res) => {
     .join(',');
   console.log(`CUSTOMER SEARCH "${q}"`);
   console.time(`CUSTOMER SEARCH "${q}"`);
+
   try {
-    const results = await QueryHandler.searchCustomers(req.query);
+    const results = await customerSearch(req.query);
     res.send(results);
   } catch (err) {
     console.log(err);
@@ -65,7 +66,7 @@ app.post('/customers', async (req, res) => {
   console.log('SAVING CUSTOMER');
   console.time('SAVING CUSTOMER');
   // Save the selected customer records
-  const customer = await QueryHanlder.saveCustomer(req.body.customers);
+  const customer = await QueryHandler.saveCustomer(req.body.customers);
   console.timeEnd('SAVING CUSTOMER');
   res.send({ customer });
 });
