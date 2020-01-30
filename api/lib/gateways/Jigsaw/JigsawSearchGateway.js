@@ -18,7 +18,7 @@ module.exports = options => {
   };
 
   const processRecords = records => {
-    if (records.length == 1 && records[0].id == 0) {
+    if (records.length === 1 && records[0].id === 0) {
       return [];
     } else {
       return dedupe(records, x => x.id)

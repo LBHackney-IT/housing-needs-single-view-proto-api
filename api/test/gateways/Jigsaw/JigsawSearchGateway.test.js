@@ -65,12 +65,13 @@ describe('JigsawSearchGateway', () => {
   it('returns record if id exists', async () => {
     const record = { id: 123 };
     const gateway = createGateway([record]);
+    const recordMatcher = expect.objectContaining({ id: '123' });
 
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
     expect(records.length).toBe(1);
-    expect(records[0].id).toBe('123');
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
   });
 
   it('Does not return record if id is missing', async () => {
