@@ -69,12 +69,13 @@ describe('AcademyCouncilTaxSearchGateway', () => {
   it('returns record if all id components exist', async () => {
     const record = { account_ref: '123', account_cd: '1' };
     const gateway = createGateway([record]);
+    const recordMatcher = expect.objectContaining({ id: '1231' });
 
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
     expect(records.length).toBe(1);
-    expect(records[0].id).toBe('1231');
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
   });
 
   it('Does not return record if part of id is missing', async () => {
