@@ -89,7 +89,7 @@ describe('UHTHousingRegisterSearchGateway', () => {
     expect(records.length).toBe(0);
   });
 
-  it('returns an empty array in case of an error', async () => {
+  it('returns an empty set of records if there is an error', async () => {
     const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
     const gateway = createGateway([record], true);
 

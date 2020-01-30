@@ -75,7 +75,7 @@ describe('SingleViewSearchGateway', () => {
     expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
   });
 
-  it('returns an empty set of records if error is thrown', async () => {
+  it('returns an empty set of records if there is an error', async () => {
     const record = { customer_id: '123' };
     const gateway = createGateway([record], true);
 

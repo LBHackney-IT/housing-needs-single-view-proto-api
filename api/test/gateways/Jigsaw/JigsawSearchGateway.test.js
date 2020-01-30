@@ -84,7 +84,7 @@ describe('JigsawSearchGateway', () => {
     expect(records.length).toBe(0);
   });
 
-  it('returns an empty set of records if error is thrown', async () => {
+  it('returns an empty set of records if there is an error', async () => {
     const record = { id: 123 };
     const gateway = createGateway([record], true);
 
