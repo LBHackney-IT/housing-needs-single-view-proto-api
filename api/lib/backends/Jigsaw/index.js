@@ -102,7 +102,6 @@ const options = {
 };
 
 const Backend = {
-  customerSearch: require('./Search')(options),
   fetchCustomerRecord: require('./FetchRecord')(options),
   fetchCustomerNotes: require('./FetchNotes')(options),
   fetchCustomerDocuments: require('./FetchDocuments')(options)
