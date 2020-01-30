@@ -1,21 +1,10 @@
 require('dotenv').config();
-const {
-  jigsawSearchGateway,
-  academyBenefitsSearchGateway,
-  UHTContactsSearchGateway,
-  UHTHousingRegisterSearchGateway,
-  AcademyCouncilTaxSearchGateway,
-  UHWSearchGateway,
-  singleViewSearchGateway,
-  customerSearch,
-  cleanRecord
-} = require('./lib/libDependencies');
 const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const QueryHandler = require('./lib/QueryHandler');
-
+const { customerSearch } = require('./lib/libDependencies');
 app.use(bodyParser.json());
 
 if (process.env.ENABLE_CACHING === 'true') {
@@ -55,19 +44,6 @@ app.get('/customers', async (req, res) => {
   console.log(`CUSTOMER SEARCH "${q}"`);
   console.time(`CUSTOMER SEARCH "${q}"`);
 
-  customerSearch({
-    cleanRecord,
-    gateways: [
-      jigsawSearchGateway,
-      academyBenefitsSearchGateway,
-      UHTContactsSearchGateway,
-      UHTHousingRegisterSearchGateway,
-      AcademyCouncilTaxSearchGateway,
-      UHWSearchGateway,
-      singleViewSearchGateway
-    ],
-    groupSearchRecords: require('./lib/use-cases/GroupSearchRecords')()
-  });
   try {
     const results = await customerSearch(req.query);
     res.send(results);
