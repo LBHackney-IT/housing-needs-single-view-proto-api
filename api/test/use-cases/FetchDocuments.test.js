@@ -34,10 +34,11 @@ describe('FetchDocuments', () => {
 
   it('concatenates the results', async () => {
     const expectedDocuments = { documents: [].concat(docsFromA, docsFromB) };
-
     const documents = await fetchDocuments();
 
-    expect(documents).toEqual(expect.objectContaining(expectedDocuments));
+    expect(documents).toEqual(expect.objectContaining(docsFromA.values()));
+    expect(documents).toEqual(expect.objectContaining(docsFromB.values()));
+
     expect(documents.length).toEqual(expectedDocuments.length);
   });
 
