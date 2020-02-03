@@ -12,7 +12,7 @@ describe('JigsawFetchDocumentsGateway', () => {
 
     doJigsawGetRequest = jest.fn(async (searchURL, search) => {
       if (throwsError) {
-        return new Error('Database error');
+        throw new Error('Database error');
       }
       return { cases: records };
     });
