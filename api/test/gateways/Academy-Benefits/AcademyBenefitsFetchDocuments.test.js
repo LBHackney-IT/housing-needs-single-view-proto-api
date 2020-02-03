@@ -13,7 +13,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          return new Error('Database error');
+          throw new Error('Database error');
         }
         return records;
       })

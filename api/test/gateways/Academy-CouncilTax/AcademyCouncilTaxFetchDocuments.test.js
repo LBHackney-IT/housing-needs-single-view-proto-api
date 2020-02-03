@@ -5,9 +5,9 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
 
   const createGateway = (records, throwsError) => {
     Comino = {
-      fetchCustomerDocuments: jest.fn(async () => {
+      fetchCustomerDocuments: jest.fn(async account_ref => {
         if (throwsError) {
-          return new Error('Database error');
+          throw new Error('Database error');
         }
         return records;
       })
@@ -30,7 +30,8 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
   });
 
   it('returns an empty set of records if there is an error', async () => {
-    const gateway = createGateway([]);
+    const record = { account_ref: '123' };
+    const gateway = createGateway([record], true);
 
     const documents = await gateway.execute();
 
