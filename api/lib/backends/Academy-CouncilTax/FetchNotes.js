@@ -1,4 +1,4 @@
-const Comino = require('@lib/backends/Comino');
+const Comino = require('../Comino');
 
 module.exports = () => {
   return async account_ref => {

@@ -1,4 +1,4 @@
-const { Systems } = require('@lib/Constants');
+const { Systems } = require('../Constants');
 
 module.exports = () => {
   const extractConnectedRecords = function(records) {

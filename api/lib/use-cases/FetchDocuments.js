@@ -1,4 +1,4 @@
-const { dedupe } = require('@lib/Utils');
+const { dedupe } = require('../Utils');
 
 module.exports = options => {
   const gateways = options.gateways;

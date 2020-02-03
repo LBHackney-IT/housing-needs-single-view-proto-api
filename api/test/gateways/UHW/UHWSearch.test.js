@@ -1,4 +1,4 @@
-const UHWSearch = require('@lib/gateways/UHW/UHWSearch');
+const UHWSearch = require('../../../lib/gateways/UHW/UHWSearch');
 
 describe('UHWSearchGateway', () => {
   let buildSearchRecord;

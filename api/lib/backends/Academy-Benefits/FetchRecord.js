@@ -6,8 +6,8 @@ const {
   formatRecordDate,
   upperCase,
   loadSQL
-} = require('@lib/Utils');
-const { Systems, IncomeFrequency } = require('@lib/Constants');
+} = require('../../Utils');
+const { Systems, IncomeFrequency } = require('../../Constants');
 const {
   fetchCustomerSQL,
   fetchCustomerBenefitsSQL,

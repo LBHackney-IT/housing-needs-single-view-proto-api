@@ -1,4 +1,4 @@
-const db = require('@lib/PostgresDb');
+const db = require('../../PostgresDb');
 const options = { db };
 
 const Backend = {

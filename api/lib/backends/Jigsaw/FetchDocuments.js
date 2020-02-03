@@ -1,5 +1,5 @@
-const { Systems } = require('@lib/Constants');
-const { formatRecordDate } = require('@lib/Utils');
+const { Systems } = require('../../Constants');
+const { formatRecordDate } = require('../../Utils');
 
 module.exports = options => {
   const doJigsawGetRequest = options.doJigsawGetRequest;

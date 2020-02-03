@@ -1,4 +1,4 @@
-const academyBenefitsSearch = require('@lib/gateways/Academy-Benefits/AcademyBenefitsSearch');
+const academyBenefitsSearch = require('../../../lib/gateways/Academy-Benefits/AcademyBenefitsSearch');
 
 describe('AcademyBenefitsSearchGateway', () => {
   let buildSearchRecord;

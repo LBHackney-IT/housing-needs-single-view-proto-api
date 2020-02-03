@@ -1,6 +1,6 @@
 const path = require('path');
-const { formatRecordDate, loadSQL } = require('@lib/Utils');
-const { Systems } = require('@lib/Constants');
+const { formatRecordDate, loadSQL } = require('../../Utils');
+const { Systems } = require('../../Constants');
 const { fetchCustomerDocumentsSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 const fetchCustomerDocumentsQuery = async (id, db) => {

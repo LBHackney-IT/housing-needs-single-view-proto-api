@@ -1,4 +1,4 @@
-const UHTContactsSearch = require('@lib/gateways/UHT-Contacts/UHTContactsSearch');
+const UHTContactsSearch = require('../../../lib/gateways/UHT-Contacts/UHTContactsSearch');
 
 describe('UHTContactsSearchGateway', () => {
   let buildSearchRecord;

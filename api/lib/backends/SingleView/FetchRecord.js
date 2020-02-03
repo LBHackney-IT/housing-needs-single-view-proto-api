@@ -1,6 +1,6 @@
 const path = require('path');
-const { Systems } = require('@lib/Constants');
-const { loadSQL } = require('@lib/Utils');
+const { Systems } = require('../../Constants');
+const { loadSQL } = require('../../Utils');
 
 const { fetchCustomerSQL } = loadSQL(path.join(__dirname, 'sql'));
 

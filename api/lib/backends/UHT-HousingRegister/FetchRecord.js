@@ -6,8 +6,8 @@ const {
   nameCase,
   formatRecordDate,
   loadSQL
-} = require('@lib/Utils');
-const { Systems, HousingBands } = require('@lib/Constants');
+} = require('../../Utils');
+const { Systems, HousingBands } = require('../../Constants');
 const { fetchCustomerSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 const fetchCustomer = async (id, db) => {

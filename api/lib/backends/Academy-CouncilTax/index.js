@@ -2,7 +2,7 @@ const dbConfig = {
   dbUrl: process.env.ACADEMY_DB
 };
 
-const SqlServerConnection = require('@lib/SqlServerConnection');
+const SqlServerConnection = require('../../SqlServerConnection');
 const db = new SqlServerConnection(dbConfig);
 const options = { db };
 

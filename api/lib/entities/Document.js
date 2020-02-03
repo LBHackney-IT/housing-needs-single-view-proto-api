@@ -1,4 +1,4 @@
-const { formatRecordDate } = require('@lib/Utils');
+const { formatRecordDate } = require('../Utils');
 
 module.exports = () => {
   return ({ title, text, date, user, system }) => {

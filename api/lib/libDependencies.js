@@ -1,21 +1,21 @@
-const { doJigsawGetRequest, jigsawEnv } = require('@lib/JigsawUtils');
-const SqlServerConnection = require('@lib/SqlServerConnection');
-const buildSearchRecord = require('@lib/entities/SearchRecord')();
+const { doJigsawGetRequest, jigsawEnv } = require('./JigsawUtils');
+const SqlServerConnection = require('./SqlServerConnection');
+const buildSearchRecord = require('./entities/SearchRecord')();
 
-const cleanRecord = require('@lib/use-cases/CleanRecord')({
+const cleanRecord = require('./use-cases/CleanRecord')({
   badData: {
     address: ['10 Elmbridge Walk, Blackstone Estate, London, E8 3HA'],
     dob: ['01/01/1900']
   }
 });
 
-const jigsawSearchGateway = require('@lib/gateways/Jigsaw/JigsawSearch')({
+const jigsawSearchGateway = require('./gateways/Jigsaw/JigsawSearch')({
   doJigsawGetRequest,
   jigsawEnv,
   buildSearchRecord
 });
 
-const academyBenefitsSearchGateway = require('@lib/gateways/Academy-Benefits/AcademyBenefitsSearch')(
+const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/AcademyBenefitsSearch')(
   {
     db: new SqlServerConnection({
       dbUrl: process.env.ACADEMY_DB
@@ -23,7 +23,7 @@ const academyBenefitsSearchGateway = require('@lib/gateways/Academy-Benefits/Aca
     buildSearchRecord
   }
 );
-const UHTContactsSearchGateway = require('@lib/gateways/UHT-Contacts/UHTContactsSearch')(
+const UHTContactsSearchGateway = require('./gateways/UHT-Contacts/UHTContactsSearch')(
   {
     db: new SqlServerConnection({
       dbUrl: process.env.UHT_DB
@@ -31,7 +31,7 @@ const UHTContactsSearchGateway = require('@lib/gateways/UHT-Contacts/UHTContacts
     buildSearchRecord
   }
 );
-const UHTHousingRegisterSearchGateway = require('@lib/gateways/UHT-HousingRegister/UHTHousingRegisterSearch')(
+const UHTHousingRegisterSearchGateway = require('./gateways/UHT-HousingRegister/UHTHousingRegisterSearch')(
   {
     db: new SqlServerConnection({
       dbUrl: process.env.UHT_DB
@@ -39,7 +39,7 @@ const UHTHousingRegisterSearchGateway = require('@lib/gateways/UHT-HousingRegist
     buildSearchRecord
   }
 );
-const AcademyCouncilTaxSearchGateway = require('@lib/gateways/Academy-CouncilTax/AcademyCouncilTaxSearch')(
+const AcademyCouncilTaxSearchGateway = require('./gateways/Academy-CouncilTax/AcademyCouncilTaxSearch')(
   {
     db: new SqlServerConnection({
       dbUrl: process.env.ACADEMY_DB
@@ -47,20 +47,20 @@ const AcademyCouncilTaxSearchGateway = require('@lib/gateways/Academy-CouncilTax
     buildSearchRecord
   }
 );
-const UHWSearchGateway = require('@lib/gateways/UHW/UHWSearch')({
+const UHWSearchGateway = require('./gateways/UHW/UHWSearch')({
   db: new SqlServerConnection({
     dbUrl: process.env.UHW_DB
   }),
   buildSearchRecord
 });
-const singleViewSearchGateway = require('@lib/gateways/SingleView/SingleViewSearch')(
+const singleViewSearchGateway = require('./gateways/SingleView/SingleViewSearch')(
   {
-    db: require('@lib/PostgresDb'),
+    db: require('./PostgresDb'),
     buildSearchRecord
   }
 );
 
-const customerSearch = require('@lib/use-cases/CustomerSearch')({
+const customerSearch = require('./use-cases/CustomerSearch')({
   cleanRecord,
   gateways: [
     jigsawSearchGateway,
@@ -71,7 +71,7 @@ const customerSearch = require('@lib/use-cases/CustomerSearch')({
     UHWSearchGateway,
     singleViewSearchGateway
   ],
-  groupSearchRecords: require('@lib/use-cases/GroupSearchRecords')()
+  groupSearchRecords: require('./use-cases/GroupSearchRecords')()
 });
 
 module.exports = {

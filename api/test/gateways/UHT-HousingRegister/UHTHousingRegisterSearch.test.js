@@ -1,4 +1,4 @@
-const UHTHousingRegisterSearch = require('@lib/gateways/UHT-HousingRegister/UHTHousingRegisterSearch');
+const UHTHousingRegisterSearch = require('../../../lib/gateways/UHT-HousingRegister/UHTHousingRegisterSearch');
 
 describe('UHTHousingRegisterSearchGateway', () => {
   let buildSearchRecord;
