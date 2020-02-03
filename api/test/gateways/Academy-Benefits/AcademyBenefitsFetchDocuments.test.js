@@ -64,7 +64,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     expect(buildDocument).toHaveBeenCalledWith(recordMatcher);
   });
 
-  it('returns an empty object if an error is thrown', async () => {
+  it('returns an empty set of records if there is an error', async () => {
     const id = '123';
     const record = { id: '123' };
     const gateway = createGateway([record], true);

@@ -29,7 +29,7 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
     );
   });
 
-  it('returns an empty object if an error is thrown', async () => {
+  it('returns an empty set of records if there is an error', async () => {
     const gateway = createGateway([]);
 
     const documents = await gateway.execute();
