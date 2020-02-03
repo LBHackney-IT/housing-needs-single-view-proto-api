@@ -1,8 +1,7 @@
 const path = require('path');
-const { loadSQL } = require('../../Utils');
-const { Systems } = require('../../Constants');
+const { loadSQL } = require('@lib/Utils');
+const { Systems } = require('@lib/Constants');
 const { fetchCustomerDocumentsSQL } = loadSQL(path.join(__dirname, 'sql'));
-//const Comino = require('../../backends/Comino');
 
 module.exports = options => {
   const db = options.db;

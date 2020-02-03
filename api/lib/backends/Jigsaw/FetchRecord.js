@@ -1,10 +1,10 @@
-const { Systems } = require('../../Constants');
+const { Systems } = require('@lib/Constants');
 const {
   nameCase,
   formatAddress,
   formatRecordDate,
   upperCase
-} = require('../../Utils');
+} = require('@lib/Utils');
 const merge = require('@brikcss/merge');
 const moment = require('moment');
 

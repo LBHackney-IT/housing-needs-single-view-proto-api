@@ -4,7 +4,7 @@ const {
   nameCase,
   formatRecordDate,
   loadSQL
-} = require('../../Utils');
+} = require('@lib/Utils');
 const { fetchCustomerSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 const fetchCustomer = async (id, db) => {

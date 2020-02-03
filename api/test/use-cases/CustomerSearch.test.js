@@ -25,7 +25,7 @@ describe('CustomerSearch', () => {
       return jest.fn(records => records);
     })();
 
-    customerSearch = require('../../lib/use-cases/CustomerSearch')({
+    customerSearch = require('@lib/use-cases/CustomerSearch')({
       cleanRecord,
       gateways,
       groupSearchRecords

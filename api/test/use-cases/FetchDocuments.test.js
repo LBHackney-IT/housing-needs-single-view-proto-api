@@ -17,7 +17,7 @@ describe('FetchDocuments', () => {
         execute: jest.fn(() => docsFromB)
       }
     ];
-    fetchDocuments = require('../../lib/use-cases/FetchDocuments')({
+    fetchDocuments = require('@lib/use-cases/FetchDocuments')({
       gateways
     });
   });

@@ -1,7 +1,7 @@
 const path = require('path');
-const { formatRecordDate, loadSQL } = require('../../Utils');
-const Comino = require('../Comino');
-const { Systems } = require('../../Constants');
+const { formatRecordDate, loadSQL } = require('@lib/Utils');
+const Comino = require('@lib/backends/Comino');
+const { Systems } = require('@lib/Constants');
 const { fetchCustomerNotesSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 async function fetchCustomerNotes(id, db) {

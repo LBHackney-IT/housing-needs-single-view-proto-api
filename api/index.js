@@ -1,10 +1,11 @@
+require('module-alias/register');
 require('dotenv').config();
 const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const QueryHandler = require('./lib/QueryHandler');
-const { customerSearch } = require('./lib/libDependencies');
+const QueryHandler = require('@lib/QueryHandler');
+const { customerSearch } = require('@lib/LibDependencies');
 
 app.use(bodyParser.json());
 

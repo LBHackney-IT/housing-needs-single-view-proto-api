@@ -1,4 +1,4 @@
-const singleViewSearch = require('../../../lib/gateways/SingleView/SingleViewSearch');
+const singleViewSearch = require('@lib/gateways/SingleView/SingleViewSearch');
 let db;
 let buildSearchRecord;
 

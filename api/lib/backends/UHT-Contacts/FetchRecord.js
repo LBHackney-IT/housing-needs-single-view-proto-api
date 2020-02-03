@@ -7,17 +7,19 @@ const {
   formatRecordDate,
   upperCase,
   loadSQL
-} = require('../../Utils');
-const { Systems } = require('../../Constants');
+} = require('@lib/Utils');
+const { Systems } = require('@lib/Constants');
 const { fetchCustomerSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 async function fetchCustomer(id, db) {
   const [house_ref, person_no] = id.split('/');
 
-  return (await db.request(fetchCustomerSQL, [
-    { id: 'house_ref', type: 'NVarChar', value: house_ref },
-    { id: 'person_no', type: 'Int', value: person_no }
-  ]))[0];
+  return (
+    await db.request(fetchCustomerSQL, [
+      { id: 'house_ref', type: 'NVarChar', value: house_ref },
+      { id: 'person_no', type: 'Int', value: person_no }
+    ])
+  )[0];
 }
 
 let processCustomer = function(result) {
