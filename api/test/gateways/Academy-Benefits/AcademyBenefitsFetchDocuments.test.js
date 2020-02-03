@@ -1,4 +1,4 @@
-const academyBenefitsFetchDocuments = require('../../../lib/gateways/Academy-Benefits/AcademyBenefitsFetchDocuments');
+const academyBenefitsFetchDocuments = require('@lib/gateways/Academy-Benefits/AcademyBenefitsFetchDocuments');
 
 describe('AcademyBenefitsFetchDocumentsGateway', () => {
   let buildDocument;
@@ -13,7 +13,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          return new Error('Database error');
+          throw new Error('Database error');
         }
         return records;
       })
@@ -64,7 +64,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     expect(buildDocument).toHaveBeenCalledWith(recordMatcher);
   });
 
-  it('returns an empty object if an error is thrown', async () => {
+  it('returns an empty set of records if there is an error', async () => {
     const id = '123';
     const record = { id: '123' };
     const gateway = createGateway([record], true);

@@ -2,7 +2,7 @@ let dbConfig = {
   dbUrl: process.env.UHT_DB
 };
 
-const SqlServerConnection = require('../../SqlServerConnection');
+const SqlServerConnection = require('@lib/SqlServerConnection');
 const db = new SqlServerConnection(dbConfig);
 
 const options = { db };

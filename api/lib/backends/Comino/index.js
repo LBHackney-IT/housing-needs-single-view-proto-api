@@ -2,7 +2,7 @@ const dbConfig = {
   dbUrl: process.env.HN_COMINO_URL
 };
 
-const SqlServerConnection = require('../../SqlServerConnection');
+const SqlServerConnection = require('@lib/SqlServerConnection');
 const db = new SqlServerConnection(dbConfig);
 const options = { db };
 

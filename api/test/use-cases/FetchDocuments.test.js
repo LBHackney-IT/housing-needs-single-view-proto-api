@@ -1,7 +1,7 @@
 describe('FetchDocuments', () => {
   const docsFromA = [
-    { id: 1, date: new Date(2010, 5, 12) },
-    { id: 2, date: new Date(2012, 8, 4) }
+    { id: 2, date: new Date(2012, 8, 4) },
+    { id: 1, date: new Date(2010, 5, 12) }
   ];
   const docsFromB = [{ id: 5, date: new Date(2014, 2, 2) }];
 
@@ -17,7 +17,7 @@ describe('FetchDocuments', () => {
         execute: jest.fn(() => docsFromB)
       }
     ];
-    fetchDocuments = require('../../lib/use-cases/FetchDocuments')({
+    fetchDocuments = require('@lib/use-cases/FetchDocuments')({
       gateways
     });
   });
@@ -33,12 +33,10 @@ describe('FetchDocuments', () => {
   });
 
   it('concatenates the results', async () => {
-    const expectedDocuments = { documents: [].concat(docsFromA, docsFromB) };
+    const expectedDocuments = { documents: [].concat(docsFromB, docsFromA) };
     const documents = await fetchDocuments();
 
-    expect(documents).toEqual(expect.objectContaining(docsFromA.values()));
-    expect(documents).toEqual(expect.objectContaining(docsFromB.values()));
-
+    expect(documents).toEqual(expectedDocuments);
     expect(documents.length).toEqual(expectedDocuments.length);
   });
 

@@ -8,6 +8,7 @@
     "express": "^4.17.1",
     "jsdom": "^15.1.1",
     "middy": "^0.33.2",
+    "module-alias": "^2.2.2",
     "moment": "^2.24.0",
     "mssql": "^5.1.0",
     "pg-promise": "^9.3.3",
@@ -37,6 +38,12 @@
       "/test/",
       "/coverage/",
       "jest.config.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^@lib/(.*)$": "<rootDir>/lib/$1"
+    }
+  },
+  "_moduleAliases": {
+    "@lib": "lib"
   }
 }

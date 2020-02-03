@@ -1,5 +1,5 @@
-const groupSearchRecords = require('../../lib/use-cases/GroupSearchRecords')(
-  ({ Systems } = require('../../lib/Constants'))
+const groupSearchRecords = require('@lib/use-cases/GroupSearchRecords')(
+  ({ Systems } = require('@lib/Constants'))
 );
 
 const createTwoRecordsWithMatchingProps = (prop, value) => {

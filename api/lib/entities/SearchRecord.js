@@ -4,7 +4,7 @@ const {
   formatAddress,
   formatDisplayDate,
   upperCase
-} = require('../Utils');
+} = require('@lib/Utils');
 
 module.exports = () => {
   return ({

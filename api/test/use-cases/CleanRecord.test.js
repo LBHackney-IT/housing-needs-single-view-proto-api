@@ -2,7 +2,7 @@ describe('CleanRecord', () => {
   const badAddress = '22 Barretts Grove, London, E5 0EY';
   const badDob = '01/11/1920';
 
-  const cleanRecord = require('../../lib/use-cases/CleanRecord')({
+  const cleanRecord = require('@lib/use-cases/CleanRecord')({
     badData: {
       address: [badAddress],
       dob: [badDob]

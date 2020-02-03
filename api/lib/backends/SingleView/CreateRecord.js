@@ -1,6 +1,6 @@
 const path = require('path');
 const moment = require('moment');
-const { loadSQL } = require('../../Utils');
+const { loadSQL } = require('@lib/Utils');
 const { createCustomerSQL, createCustomerLinksSQL } = loadSQL(
   path.join(__dirname, 'sql')
 );

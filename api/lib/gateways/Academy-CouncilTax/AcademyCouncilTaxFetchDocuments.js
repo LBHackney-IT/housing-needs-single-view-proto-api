@@ -3,7 +3,12 @@ module.exports = options => {
 
   return {
     execute: async account_ref => {
-      return await Comino.fetchCustomerDocuments({ account_ref });
+      try {
+        return await Comino.fetchCustomerDocuments({ account_ref });
+      } catch (err) {
+        console.log(`Error fetching customer notes in Comino: ${err}`);
+        return [];
+      }
     }
   };
 };

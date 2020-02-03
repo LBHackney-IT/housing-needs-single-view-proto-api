@@ -1,5 +1,5 @@
-const { dedupe } = require('../../Utils');
-const { Systems } = require('../../Constants');
+const { dedupe } = require('@lib/Utils');
+const { Systems } = require('@lib/Constants');
 
 module.exports = options => {
   const buildSearchRecord = options.buildSearchRecord;
