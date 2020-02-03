@@ -36,48 +36,43 @@ describe('JigsawFetchDocumentsGateway', () => {
     const id = '123';
     const gateway = createGateway([]);
 
-    const searchUrlMatcher = expect.stringMatching(
-      /zebrahomelessness_test.azurewebsites.net/
+    const searchUrlMatcher = expect.stringContaining(
+      'zebrahomelessness_test.azurewebsites.net/api/casecheck/123'
     );
 
-    const searchUrlQueryMatcher = expect.stringMatching(/123/);
     await gateway.execute(id);
 
     expect(doJigsawGetRequest).toHaveBeenCalledWith(searchUrlMatcher);
-    expect(doJigsawGetRequest).toHaveBeenCalledWith(searchUrlQueryMatcher);
   });
 
   it('calls doJigsawPostRequest with id and correct `url', async () => {
     const id = '123';
     const gateway = createGateway([{ id }]);
-
-    const searchUrlMatcher = expect.stringMatching(
-      /zebrahomelessness_test.azurewebsites.net/
+    const searchUrlMatcher = expect.stringContaining(
+      'zebrahomelessness_test.azurewebsites.net/api/cases/getcasedocs/123'
     );
 
-    const searchUrlQueryMatcher = expect.stringMatching(/123/);
     await gateway.execute(id);
 
     expect(doJigsawPostRequest).toHaveBeenCalledWith(searchUrlMatcher, {});
-    expect(doJigsawPostRequest).toHaveBeenCalledWith(searchUrlQueryMatcher, {});
   });
 
-  it('returns a single document', async () => {
+  it('builds a single document', async () => {
     const id = '123';
     const record = { id: '123', name: 'test' };
     const gateway = createGateway([record]);
 
-    const records = await gateway.execute(id);
+    await gateway.execute(id);
 
     const recordMatcher = expect.objectContaining({
       text: 'test'
     });
+
     expect(buildDocument).toHaveBeenCalledTimes(1);
-    expect(records.length).toBe(1);
     expect(buildDocument).toHaveBeenCalledWith(recordMatcher);
   });
 
-  it('returns an empty object if an error is thrown', async () => {
+  it('returns an empty array if an error is thrown', async () => {
     const id = '123';
     const record = { id: '123' };
     const gateway = createGateway([record], true);
