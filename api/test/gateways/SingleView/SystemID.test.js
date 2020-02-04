@@ -4,7 +4,7 @@ describe('SystemIDGateway', () => {
   let db;
   const createGateway = (records, throwsError) => {
     db = {
-      any: jest.fn(async () => {
+      one: jest.fn(async () => {
         if (throwsError) {
           return new Error('Database error');
         }
@@ -23,8 +23,8 @@ describe('SystemIDGateway', () => {
     const id = '123';
     const paramMatcher = expect.arrayContaining([name, id]);
 
-    await gateway.getSystemId(name, id);
+    await gateway.execute(name, id);
 
-    expect(db.any).toHaveBeenCalledWith(expect.anything(), paramMatcher);
+    expect(db.one).toHaveBeenCalledWith(expect.anything(), paramMatcher);
   });
 });

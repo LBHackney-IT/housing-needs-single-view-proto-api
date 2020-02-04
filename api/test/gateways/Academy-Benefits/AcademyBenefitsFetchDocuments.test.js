@@ -1,14 +1,10 @@
-<<<<<<< HEAD
 const academyBenefitsFetchDocuments = require('../../../lib/gateways/Academy-Benefits/AcademyBenefitsFetchDocuments');
-=======
-const academyBenefitsFetchDocuments = require('@lib/gateways/Academy-Benefits/AcademyBenefitsFetchDocuments');
-const { Systems } = require('@lib/Constants');
->>>>>>> 6f8ca56... Add comino document gateway and tests, add a field to document entity. Add fetchSystemId gateway to get system ids from singleview. Some tests still fail
+const { Systems } = require('../../../lib/Constants');
 
 describe('AcademyBenefitsFetchDocumentsGateway', () => {
   let buildDocument;
   let db;
-  let Comino;
+  let cominoGateway;
   let getSystemId;
 
   const createGateway = (records, existsInSystem, throwsError) => {
@@ -25,20 +21,22 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
       })
     };
 
-    Comino = {
+    cominoGateway = {
       execute: jest.fn(async () => {
         return [];
       })
     };
 
-    getSystemId = jest.fn(async (name, id) => {
-      if (existsInSystem) return id;
-    });
+    getSystemId = {
+      execute: jest.fn(async (name, id) => {
+        if (existsInSystem) return id;
+      })
+    };
 
     return academyBenefitsFetchDocuments({
       buildDocument,
       db,
-      Comino,
+      cominoGateway,
       getSystemId
     });
   };
@@ -46,9 +44,13 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
   it('gets the system ID', async () => {
     const gateway = createGateway([], true);
     id = '123';
+
     await gateway.execute(id);
 
-    expect(getSystemId).toHaveBeenCalledWith(Systems.ACADEMY_BENEFITS, '123');
+    expect(getSystemId.execute).toHaveBeenCalledWith(
+      Systems.ACADEMY_BENEFITS,
+      '123'
+    );
   });
 
   it('if customer has a system id we get the docs', async () => {
@@ -63,7 +65,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     await gateway.execute(id);
 
     expect(db.request).toHaveBeenCalledWith(expect.anything(), paramMatcher);
-    expect(Comino.execute).toHaveBeenCalledWith(cominoParamMatcher);
+    expect(cominoGateway.execute).toHaveBeenCalledWith(cominoParamMatcher);
   });
 
   it('if customer does not have a system id we do not get the docs', async () => {
@@ -72,7 +74,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     await gateway.execute(id);
 
     expect(db.request).toHaveBeenCalledTimes(0);
-    expect(Comino.execute).toHaveBeenCalledTimes(0);
+    expect(cominoGateway.execute).toHaveBeenCalledTimes(0);
   });
 
   it('builds a document', async () => {
