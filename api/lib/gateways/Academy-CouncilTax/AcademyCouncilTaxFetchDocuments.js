@@ -1,10 +1,25 @@
+const { Systems } = require('../../Constants');
+
 module.exports = options => {
-  Comino = options.Comino;
+  const cominoFetchDocumentsGateway = options.cominoFetchDocumentsGateway;
+  const getSystemId = options.getSystemId;
+
+  const fetchSystemId = async id => {
+    const systemId = await getSystemId.execute(Systems.ACADEMY_COUNCIL_TAX, id);
+    if (systemId) return systemId;
+  };
 
   return {
-    execute: async account_ref => {
+    execute: async id => {
       try {
-        return await Comino.fetchCustomerDocuments({ account_ref });
+        const account_ref = await fetchSystemId(id);
+        if (account_ref) {
+          const comino_results = await cominoFetchDocumentsGateway.execute({
+            account_ref
+          });
+          return comino_results;
+        }
+        return [];
       } catch (err) {
         console.log(`Error fetching customer notes in Comino: ${err}`);
         return [];

@@ -145,12 +145,14 @@ app.get('/customers/:id/documents', async (req, res) => {
       jigsawEnv
     }
   );
+
   const academyCouncilTaxFetchDocumentsGateway = require('./lib/gateways/Academy-CouncilTax/AcademyCouncilTaxFetchDocuments')(
     {
       cominoFetchDocumentsGateway,
       getSystemId
     }
   );
+
   const fetchDocuments = require('./lib/use-cases/FetchDocuments')({
     gateways: [
       academyCouncilTaxFetchDocumentsGateway,
