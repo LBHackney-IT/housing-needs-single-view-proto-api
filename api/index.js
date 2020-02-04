@@ -107,6 +107,11 @@ app.get('/customers/:id/notes', async (req, res) => {
 });
 
 app.get('/customers/:id/documents', async (req, res) => {
+  const {
+    doJigsawGetRequest,
+    doJigsawPostRequest,
+    jigsawEnv
+  } = require('./lib/JigsawUtils');
   const SqlServerConnection = require('./lib/SqlServerConnection');
   const buildDocument = require('./lib/entities/Document')();
   const postgresDb = require('./lib/PostgresDb');
@@ -130,8 +135,17 @@ app.get('/customers/:id/documents', async (req, res) => {
       getSystemId
     }
   );
+  const jigsawFetchDocumentsGateway = require('./lib/gateways/Jigsaw/JigsawFetchDocuments')(
+    {
+      buildDocument,
+      doJigsawGetRequest,
+      doJigsawPostRequest,
+      getSystemId,
+      jigsawEnv
+    }
+  );
   const fetchDocuments = require('./lib/use-cases/FetchDocuments')({
-    gateways: [academyFetchDocumentsGateway]
+    gateways: [academyFetchDocumentsGateway, jigsawFetchDocumentsGateway]
   });
 
   console.log(`GET CUSTOMER DOCS id="${req.params.id}"`);

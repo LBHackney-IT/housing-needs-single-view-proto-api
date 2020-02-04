@@ -37,14 +37,17 @@ module.exports = options => {
 
   return {
     execute: async queryParams => {
-      let documents;
       try {
         if (queryParams.claim_id) {
-          documents = await fetchHBCustomerDocuments(queryParams.claim_id);
+          return processDocuments(
+            await fetchHBCustomerDocuments(queryParams.claim_id)
+          );
         } else if (queryParams.account_ref) {
-          documents = await fetchCTCustomerDocuments(queryParams.account_ref);
+          return processDocuments(
+            await fetchCTCustomerDocuments(queryParams.account_ref)
+          );
         }
-        return processDocuments(documents);
+        return [];
       } catch (err) {
         console.log(`Error fetching customer documents in Comino: ${err}`);
         return [];
