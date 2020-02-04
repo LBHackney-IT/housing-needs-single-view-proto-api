@@ -26,12 +26,13 @@ module.exports = options => {
       return doJigsawPostRequest(docsUrl + c.id, {});
     });
 
-    return [].concat.apply([], await Promise.all(requests));
+    return [].concat
+      .apply([], await Promise.all(requests))
+      .map(x => x.caseDocuments)
+      .flat();
   };
 
-  const processDocuments = results => {
-    const documents = results.map(x => x.caseDocuments).flat();
-
+  const processDocuments = documents => {
     return documents.map(doc => {
       return buildDocument({
         id: doc.id,

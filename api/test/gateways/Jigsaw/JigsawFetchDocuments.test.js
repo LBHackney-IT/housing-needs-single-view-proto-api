@@ -23,7 +23,7 @@ describe('JigsawFetchDocumentsGateway', () => {
       if (throwsError) {
         throw new Error('error');
       }
-      return records;
+      return [{ caseDocuments: records }];
     });
 
     getSystemId = {
