@@ -113,25 +113,34 @@ app.get('/customers/:id/documents', async (req, res) => {
   const getSystemId = require('./lib/gateways/SingleView/SystemID')({
     db: postgresDb
   });
-  const academyFetchDocumentsGateway = require('./lib/gateways/Academy-Benefits/AcademyBenefitsFetchDocuments')(
+  const cominoFetchDocumentsGateway = require('./lib/gateways/Comino/CominoFetchDocuments')(
+    {
+      buildDocument,
+      db: new SqlServerConnection({
+        dbUrl: process.env.HN_COMINO_URL
+      })
+    }
+  );
+  const academyBenefitsFetchDocumentsGateway = require('./lib/gateways/Academy-Benefits/AcademyBenefitsFetchDocuments')(
     {
       db: new SqlServerConnection({
         dbUrl: process.env.ACADEMY_DB
       }),
       buildDocument,
-      cominoFetchDocumentsGateway: require('./lib/gateways/Comino/CominoFetchDocuments')(
-        {
-          buildDocument,
-          db: new SqlServerConnection({
-            dbUrl: process.env.HN_COMINO_URL
-          })
-        }
-      ),
+      cominoFetchDocumentsGateway,
       getSystemId
     }
   );
+
+  const academyCouncilTaxFetchDocumentsGateway = require('./lib/gateways/Academy-CouncilTax/AcademyCouncilTaxFetchDocuments')(
+    {
+      cominoFetchDocumentsGateway,
+      getSystemId
+    }
+  );
+
   const fetchDocuments = require('./lib/use-cases/FetchDocuments')({
-    gateways: [academyFetchDocumentsGateway]
+    gateways: [academyCouncilTaxFetchDocumentsGateway]
   });
 
   console.log(`GET CUSTOMER DOCS id="${req.params.id}"`);
