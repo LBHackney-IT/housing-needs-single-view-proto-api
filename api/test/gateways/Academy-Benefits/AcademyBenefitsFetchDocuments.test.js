@@ -4,7 +4,7 @@ const { Systems } = require('../../../lib/Constants');
 describe('AcademyBenefitsFetchDocumentsGateway', () => {
   let buildDocument;
   let db;
-  let cominoGateway;
+  let cominoFetchDocumentsGateway;
   let getSystemId;
 
   const createGateway = (records, existsInSystem, throwsError) => {
@@ -21,7 +21,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
       })
     };
 
-    cominoGateway = {
+    cominoFetchDocumentsGateway = {
       execute: jest.fn(async () => {
         return [];
       })
@@ -36,7 +36,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     return academyBenefitsFetchDocuments({
       buildDocument,
       db,
-      cominoGateway,
+      cominoFetchDocumentsGateway,
       getSystemId
     });
   };
@@ -65,7 +65,9 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     await gateway.execute(id);
 
     expect(db.request).toHaveBeenCalledWith(expect.anything(), paramMatcher);
-    expect(cominoGateway.execute).toHaveBeenCalledWith(cominoParamMatcher);
+    expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledWith(
+      cominoParamMatcher
+    );
   });
 
   it('if customer does not have a system id we do not get the docs', async () => {
@@ -74,7 +76,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     await gateway.execute(id);
 
     expect(db.request).toHaveBeenCalledTimes(0);
-    expect(cominoGateway.execute).toHaveBeenCalledTimes(0);
+    expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledTimes(0);
   });
 
   it('builds a document', async () => {

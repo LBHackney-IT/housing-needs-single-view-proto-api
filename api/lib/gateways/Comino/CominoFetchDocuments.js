@@ -1,5 +1,5 @@
 const path = require('path');
-const { formatRecordDate, loadSQL } = require('../../Utils');
+const { loadSQL } = require('../../Utils');
 const { Systems } = require('../../Constants');
 
 const { fetchCTCustomerDocumentsSQL, fetchHBCustomerDocumentsSQL } = loadSQL(
@@ -7,16 +7,16 @@ const { fetchCTCustomerDocumentsSQL, fetchHBCustomerDocumentsSQL } = loadSQL(
 );
 
 module.exports = options => {
-  db = options.db;
-  buildDocument = options.buildDocument;
+  const db = options.db;
+  const buildDocument = options.buildDocument;
 
-  const fetchHBCustomerDocuments = async (id, db) => {
+  const fetchHBCustomerDocuments = async id => {
     return await db.request(fetchHBCustomerDocumentsSQL, [
       { id: 'claim_id', type: 'NVarChar', value: id }
     ]);
   };
 
-  const fetchCTCustomerDocuments = async (id, db) => {
+  const fetchCTCustomerDocuments = async id => {
     return await db.request(fetchCTCustomerDocumentsSQL, [
       { id: 'account_ref', type: 'NVarChar', value: id }
     ]);
@@ -40,16 +40,14 @@ module.exports = options => {
       let documents;
       try {
         if (queryParams.claim_id) {
-          documents = await fetchHBCustomerDocuments(queryParams.claim_id, db);
+          documents = await fetchHBCustomerDocuments(queryParams.claim_id);
         } else if (queryParams.account_ref) {
-          documents = await fetchCTCustomerDocuments(
-            queryParams.account_ref,
-            db
-          );
+          documents = await fetchCTCustomerDocuments(queryParams.account_ref);
         }
         return processDocuments(documents);
       } catch (err) {
-        console.log('tis error');
+        console.log(`Error fetching customer documents in Comino: ${err}`);
+        return [];
       }
     }
   };
