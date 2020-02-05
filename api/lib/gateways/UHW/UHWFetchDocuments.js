@@ -18,7 +18,7 @@ module.exports = options => {
       return buildDocument({
         id: doc.DocNo,
         title: 'Document',
-        text: `${doc.DocDesc + doc.title ? ' - ' + doc.title : ''}`,
+        text: doc.DocDesc + `${doc.title ? ' - ' + doc.title : ''}`,
         date: doc.DocDate,
         user: doc.UserID,
         system: Systems.UHW
