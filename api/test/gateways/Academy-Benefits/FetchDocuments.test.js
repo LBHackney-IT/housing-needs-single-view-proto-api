@@ -8,7 +8,9 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
   let getSystemId;
 
   const createGateway = (records, existsInSystem, throwsError) => {
-    buildDocument = jest.fn();
+    buildDocument = jest.fn(({}) => {
+      return {};
+    });
 
     db = {
       request: jest.fn(async () => {
