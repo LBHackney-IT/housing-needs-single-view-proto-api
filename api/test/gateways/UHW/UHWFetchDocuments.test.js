@@ -5,9 +5,7 @@ describe('UHWFetchDocumentsGateway', () => {
   let db;
 
   const createGateway = (records, throwsError) => {
-    buildDocument = jest.fn(({}) => {
-      return {};
-    });
+    buildDocument = jest.fn();
 
     db = {
       request: jest.fn(async () => {
@@ -61,6 +59,7 @@ describe('UHWFetchDocumentsGateway', () => {
 
     const documents = await gateway.execute('1');
 
+    expect(buildDocument).not.toHaveBeenCalled();
     expect(documents.length).toBe(0);
   });
 });
