@@ -8,9 +8,7 @@ describe('JigsawFetchDocumentsGateway', () => {
   let getSystemId;
 
   const createGateway = (records, existsInSystem, throwsError) => {
-    buildDocument = jest.fn(({}) => {
-      return {};
-    });
+    buildDocument = jest.fn();
 
     doJigsawGetRequest = jest.fn(async () => {
       if (throwsError) {
