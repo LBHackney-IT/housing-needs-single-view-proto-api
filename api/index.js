@@ -136,6 +136,16 @@ app.get('/customers/:id/documents', async (req, res) => {
       getSystemId
     }
   );
+
+  const UHWFetchDocumentsGateway = require('./lib/gateways/UHW/UHWFetchDocuments')(
+    {
+      db: new SqlServerConnection({
+        dbUrl: process.env.UHW_DB
+      }),
+      buildDocument
+    }
+  );
+
   const jigsawFetchDocumentsGateway = require('./lib/gateways/Jigsaw/JigsawFetchDocuments')(
     {
       buildDocument,
@@ -157,9 +167,11 @@ app.get('/customers/:id/documents', async (req, res) => {
     gateways: [
       academyCouncilTaxFetchDocumentsGateway,
       academyBenefitsFetchDocumentsGateway,
-      jigsawFetchDocumentsGateway
+      jigsawFetchDocumentsGateway,
+      UHWFetchDocumentsGateway
     ]
   });
+
   console.log(`GET CUSTOMER DOCS id="${req.params.id}"`);
   console.time(`GET CUSTOMER DOCS id="${req.params.id}"`);
   const results = await fetchDocuments(req.params.id);
