@@ -7,8 +7,7 @@ const db = new SqlServerConnection(dbConfig);
 const options = { db };
 
 const Backend = {
-  fetchCustomerNotes: require('./FetchNotes')(options),
-  fetchCustomerDocuments: require('./FetchDocuments')(options)
+  fetchCustomerNotes: require('./FetchNotes')(options)
 };
 
 module.exports = Backend;

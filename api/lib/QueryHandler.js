@@ -1,7 +1,7 @@
 const PostgresDb = require('./PostgresDb');
 const { Systems } = require('./Constants');
 const merge = require('@brikcss/merge');
-const { dedupeNotes, dedupe, filterArray } = require('./Utils');
+const { dedupeNotes, filterArray } = require('./Utils');
 
 const backends = {
   [Systems.UHT_CONTACTS]: require('./backends/UHT-Contacts'),
@@ -131,18 +131,6 @@ const QueryHandler = {
     results = results.sort((a, b) => b.date - a.date);
 
     return { notes: results };
-  },
-
-  fetchCustomerDocuments: async id => {
-    const links = await getCustomerLinks(id);
-    let requests = links.map(async link =>
-      backends[link.name].fetchCustomerDocuments(link.remote_id)
-    );
-
-    let results = [].concat.apply([], await Promise.all(requests));
-    results = dedupe(results, doc => JSON.stringify(doc));
-    results = results.sort((a, b) => b.date - a.date);
-    return { documents: results };
   }
 };
 
