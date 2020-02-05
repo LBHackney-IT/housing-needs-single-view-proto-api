@@ -1,4 +1,4 @@
-const academyBenefitsFetchDocuments = require('../../../lib/gateways/Academy-Benefits/AcademyBenefitsFetchDocuments');
+const academyBenefitsFetchDocuments = require('../../../lib/gateways/Academy-Benefits/FetchDocuments');
 const { Systems } = require('../../../lib/Constants');
 
 describe('AcademyBenefitsFetchDocumentsGateway', () => {

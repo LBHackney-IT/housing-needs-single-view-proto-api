@@ -1,4 +1,4 @@
-const cominoFetchDocuments = require('../../../lib/gateways/Comino/CominoFetchDocuments');
+const cominoFetchDocuments = require('../../../lib/gateways/Comino/FetchDocuments');
 
 describe('CominoFetchDocumentsGateway', () => {
   let db;

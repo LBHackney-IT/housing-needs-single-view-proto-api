@@ -1,6 +1,14 @@
-const { doJigsawGetRequest, jigsawEnv } = require('./JigsawUtils');
+const {
+  doJigsawGetRequest,
+  jigsawEnv,
+  doJigsawPostRequest
+} = require('./JigsawUtils');
 const SqlServerConnection = require('./SqlServerConnection');
 const buildSearchRecord = require('./entities/SearchRecord')();
+const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB });
+const uhtDb = new SqlServerConnection({ dbUrl: process.env.UHT_DB });
+const uhwDb = new SqlServerConnection({ dbUrl: process.env.UHW_DB });
+const cominoDb = new SqlServerConnection({ dbUrl: process.env.HN_COMINO_URL });
 
 const cleanRecord = require('./use-cases/CleanRecord')({
   badData: {
@@ -9,71 +17,110 @@ const cleanRecord = require('./use-cases/CleanRecord')({
   }
 });
 
-const jigsawSearchGateway = require('./gateways/Jigsaw/JigsawSearch')({
+const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
   doJigsawGetRequest,
   jigsawEnv,
   buildSearchRecord
 });
 
-const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/AcademyBenefitsSearch')(
+const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
   {
-    db: new SqlServerConnection({
-      dbUrl: process.env.ACADEMY_DB
-    }),
+    db: academyDb,
     buildSearchRecord
   }
 );
-const UHTContactsSearchGateway = require('./gateways/UHT-Contacts/UHTContactsSearch')(
-  {
-    db: new SqlServerConnection({
-      dbUrl: process.env.UHT_DB
-    }),
-    buildSearchRecord
-  }
-);
-const UHTHousingRegisterSearchGateway = require('./gateways/UHT-HousingRegister/UHTHousingRegisterSearch')(
-  {
-    db: new SqlServerConnection({
-      dbUrl: process.env.UHT_DB
-    }),
-    buildSearchRecord
-  }
-);
-const AcademyCouncilTaxSearchGateway = require('./gateways/Academy-CouncilTax/AcademyCouncilTaxSearch')(
-  {
-    db: new SqlServerConnection({
-      dbUrl: process.env.ACADEMY_DB
-    }),
-    buildSearchRecord
-  }
-);
-const UHWSearchGateway = require('./gateways/UHW/UHWSearch')({
-  db: new SqlServerConnection({
-    dbUrl: process.env.UHW_DB
-  }),
+const uhtContactsSearchGateway = require('./gateways/UHT-Contacts/Search')({
+  db: uhtDb,
   buildSearchRecord
 });
-const singleViewSearchGateway = require('./gateways/SingleView/SingleViewSearch')(
+const uhtHousingRegisterSearchGateway = require('./gateways/UHT-HousingRegister/Search')(
   {
-    db: require('./PostgresDb'),
+    db: uhtDb,
     buildSearchRecord
   }
 );
+const academyCouncilTaxSearchGateway = require('./gateways/Academy-CouncilTax/Search')(
+  {
+    db: academyDb,
+    buildSearchRecord
+  }
+);
+const uhwSearchGateway = require('./gateways/UHW/Search')({
+  db: uhwDb,
+  buildSearchRecord
+});
+const singleViewSearchGateway = require('./gateways/SingleView/Search')({
+  db: require('./PostgresDb'),
+  buildSearchRecord
+});
 
 const customerSearch = require('./use-cases/CustomerSearch')({
   cleanRecord,
   gateways: [
     jigsawSearchGateway,
     academyBenefitsSearchGateway,
-    UHTContactsSearchGateway,
-    UHTHousingRegisterSearchGateway,
-    AcademyCouncilTaxSearchGateway,
-    UHWSearchGateway,
+    uhtContactsSearchGateway,
+    uhtHousingRegisterSearchGateway,
+    academyCouncilTaxSearchGateway,
+    uhwSearchGateway,
     singleViewSearchGateway
   ],
   groupSearchRecords: require('./use-cases/GroupSearchRecords')()
 });
 
+//FetchDocuments
+const buildDocument = require('./entities/Document')();
+const postgresDb = require('./PostgresDb');
+const getSystemId = require('./gateways/SingleView/SystemID')({
+  db: postgresDb
+});
+const cominoFetchDocumentsGateway = require('./gateways/Comino/FetchDocuments')(
+  {
+    buildDocument,
+    db: cominoDb
+  }
+);
+const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefits/FetchDocuments')(
+  {
+    db: academyDb,
+    buildDocument,
+    cominoFetchDocumentsGateway,
+    getSystemId
+  }
+);
+
+const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
+  db: uhwDb,
+  buildDocument
+});
+
+const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
+  {
+    buildDocument,
+    doJigsawGetRequest,
+    doJigsawPostRequest,
+    getSystemId,
+    jigsawEnv
+  }
+);
+
+const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
+  {
+    cominoFetchDocumentsGateway,
+    getSystemId
+  }
+);
+
+const fetchDocuments = require('./use-cases/FetchDocuments')({
+  gateways: [
+    academyCouncilTaxFetchDocumentsGateway,
+    academyBenefitsFetchDocumentsGateway,
+    jigsawFetchDocumentsGateway,
+    uhwFetchDocumentsGateway
+  ]
+});
+
 module.exports = {
-  customerSearch
+  customerSearch,
+  fetchDocuments
 };

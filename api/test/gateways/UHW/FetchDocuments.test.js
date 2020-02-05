@@ -1,4 +1,4 @@
-const UHWFetchDocuments = require('../../../lib/gateways/UHW/UHWFetchDocuments');
+const UHWFetchDocuments = require('../../../lib/gateways/UHW/FetchDocuments');
 
 describe('UHWFetchDocumentsGateway', () => {
   let buildDocument;
