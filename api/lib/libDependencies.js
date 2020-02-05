@@ -3,8 +3,12 @@ const {
   jigsawEnv,
   doJigsawPostRequest
 } = require('./JigsawUtils');
-const sqlServerConnection = require('./SqlServerConnection');
+const SqlServerConnection = require('./SqlServerConnection');
 const buildSearchRecord = require('./entities/SearchRecord')();
+const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB });
+const uhtDb = new SqlServerConnection({ dbUrl: process.env.UHT_DB });
+const uhwDb = new SqlServerConnection({ dbUrl: process.env.UHW_DB });
+const cominoDb = new SqlServerConnection({ dbUrl: process.env.HN_COMINO_URL });
 
 const cleanRecord = require('./use-cases/CleanRecord')({
   badData: {
@@ -21,38 +25,28 @@ const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
 
 const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
   {
-    db: new sqlServerConnection({
-      dbUrl: process.env.ACADEMY_DB
-    }),
+    db: academyDb,
     buildSearchRecord
   }
 );
 const uhtContactsSearchGateway = require('./gateways/UHT-Contacts/Search')({
-  db: new sqlServerConnection({
-    dbUrl: process.env.UHT_DB
-  }),
+  db: uhtDb,
   buildSearchRecord
 });
 const uhtHousingRegisterSearchGateway = require('./gateways/UHT-HousingRegister/Search')(
   {
-    db: new sqlServerConnection({
-      dbUrl: process.env.UHT_DB
-    }),
+    db: uhtDb,
     buildSearchRecord
   }
 );
 const academyCouncilTaxSearchGateway = require('./gateways/Academy-CouncilTax/Search')(
   {
-    db: new sqlServerConnection({
-      dbUrl: process.env.ACADEMY_DB
-    }),
+    db: academyDb,
     buildSearchRecord
   }
 );
 const uhwSearchGateway = require('./gateways/UHW/Search')({
-  db: new sqlServerConnection({
-    dbUrl: process.env.UHW_DB
-  }),
+  db: uhwDb,
   buildSearchRecord
 });
 const singleViewSearchGateway = require('./gateways/SingleView/Search')({
@@ -83,16 +77,12 @@ const getSystemId = require('./gateways/SingleView/SystemID')({
 const cominoFetchDocumentsGateway = require('./gateways/Comino/FetchDocuments')(
   {
     buildDocument,
-    db: new sqlServerConnection({
-      dbUrl: process.env.HN_COMINO_URL
-    })
+    db: cominoDb
   }
 );
 const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefits/FetchDocuments')(
   {
-    db: new sqlServerConnection({
-      dbUrl: process.env.ACADEMY_DB
-    }),
+    db: academyDb,
     buildDocument,
     cominoFetchDocumentsGateway,
     getSystemId
@@ -100,9 +90,7 @@ const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefit
 );
 
 const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
-  db: new sqlServerConnection({
-    dbUrl: process.env.UHW_DB
-  }),
+  db: uhwDb,
   buildDocument
 });
 
