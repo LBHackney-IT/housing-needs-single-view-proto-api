@@ -47,10 +47,9 @@ describe('UHWFetchDocumentsGateway', () => {
     const document = { DocNo: '1231' };
     const gateway = createGateway([document]);
 
-    const documents = await gateway.execute({});
+    await gateway.execute({});
     const paramMatcher = expect.objectContaining({ id: '1231' });
     expect(buildDocument).toHaveBeenCalledWith(paramMatcher);
-    expect(documents.length).toBe(1);
   });
 
   it('returns an empty set of records if there is an error', async () => {
