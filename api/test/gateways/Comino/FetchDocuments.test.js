@@ -4,7 +4,7 @@ describe('CominoFetchDocumentsGateway', () => {
   let db;
   let buildDocument;
   const createGateway = (records, throwsError) => {
-    buildDocument = jest.fn(({ id }) => {});
+    buildDocument = jest.fn();
 
     db = {
       request: jest.fn(async claim_id => {
