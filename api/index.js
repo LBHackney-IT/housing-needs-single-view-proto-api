@@ -118,7 +118,7 @@ app.get('/customers/:id/documents', async (req, res) => {
   const getSystemId = require('./lib/gateways/SingleView/SystemID')({
     db: postgresDb
   });
-  const cominoFetchDocumentsGateway = require('./lib/gateways/Comino/CominoFetchDocuments')(
+  const cominoFetchDocumentsGateway = require('./lib/gateways/Comino/FetchDocuments')(
     {
       buildDocument,
       db: new SqlServerConnection({
@@ -126,7 +126,7 @@ app.get('/customers/:id/documents', async (req, res) => {
       })
     }
   );
-  const academyBenefitsFetchDocumentsGateway = require('./lib/gateways/Academy-Benefits/AcademyBenefitsFetchDocuments')(
+  const academyBenefitsFetchDocumentsGateway = require('./lib/gateways/Academy-Benefits/FetchDocuments')(
     {
       db: new SqlServerConnection({
         dbUrl: process.env.ACADEMY_DB
@@ -137,7 +137,7 @@ app.get('/customers/:id/documents', async (req, res) => {
     }
   );
 
-  const UHWFetchDocumentsGateway = require('./lib/gateways/UHW/UHWFetchDocuments')(
+  const UHWFetchDocumentsGateway = require('./lib/gateways/UHW/FetchDocuments')(
     {
       db: new SqlServerConnection({
         dbUrl: process.env.UHW_DB
@@ -146,7 +146,7 @@ app.get('/customers/:id/documents', async (req, res) => {
     }
   );
 
-  const jigsawFetchDocumentsGateway = require('./lib/gateways/Jigsaw/JigsawFetchDocuments')(
+  const jigsawFetchDocumentsGateway = require('./lib/gateways/Jigsaw/FetchDocuments')(
     {
       buildDocument,
       doJigsawGetRequest,
@@ -156,7 +156,7 @@ app.get('/customers/:id/documents', async (req, res) => {
     }
   );
 
-  const academyCouncilTaxFetchDocumentsGateway = require('./lib/gateways/Academy-CouncilTax/AcademyCouncilTaxFetchDocuments')(
+  const academyCouncilTaxFetchDocumentsGateway = require('./lib/gateways/Academy-CouncilTax/FetchDocuments')(
     {
       cominoFetchDocumentsGateway,
       getSystemId

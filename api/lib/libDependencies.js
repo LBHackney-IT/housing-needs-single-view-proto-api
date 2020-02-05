@@ -9,13 +9,13 @@ const cleanRecord = require('./use-cases/CleanRecord')({
   }
 });
 
-const jigsawSearchGateway = require('./gateways/Jigsaw/JigsawSearch')({
+const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
   doJigsawGetRequest,
   jigsawEnv,
   buildSearchRecord
 });
 
-const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/AcademyBenefitsSearch')(
+const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
   {
     db: new SqlServerConnection({
       dbUrl: process.env.ACADEMY_DB
@@ -23,7 +23,13 @@ const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Academ
     buildSearchRecord
   }
 );
-const UHTContactsSearchGateway = require('./gateways/UHT-Contacts/UHTContactsSearch')(
+const UHTContactsSearchGateway = require('./gateways/UHT-Contacts/Search')({
+  db: new SqlServerConnection({
+    dbUrl: process.env.UHT_DB
+  }),
+  buildSearchRecord
+});
+const UHTHousingRegisterSearchGateway = require('./gateways/UHT-HousingRegister/Search')(
   {
     db: new SqlServerConnection({
       dbUrl: process.env.UHT_DB
@@ -31,15 +37,7 @@ const UHTContactsSearchGateway = require('./gateways/UHT-Contacts/UHTContactsSea
     buildSearchRecord
   }
 );
-const UHTHousingRegisterSearchGateway = require('./gateways/UHT-HousingRegister/UHTHousingRegisterSearch')(
-  {
-    db: new SqlServerConnection({
-      dbUrl: process.env.UHT_DB
-    }),
-    buildSearchRecord
-  }
-);
-const AcademyCouncilTaxSearchGateway = require('./gateways/Academy-CouncilTax/AcademyCouncilTaxSearch')(
+const AcademyCouncilTaxSearchGateway = require('./gateways/Academy-CouncilTax/Search')(
   {
     db: new SqlServerConnection({
       dbUrl: process.env.ACADEMY_DB
@@ -47,18 +45,16 @@ const AcademyCouncilTaxSearchGateway = require('./gateways/Academy-CouncilTax/Ac
     buildSearchRecord
   }
 );
-const UHWSearchGateway = require('./gateways/UHW/UHWSearch')({
+const UHWSearchGateway = require('./gateways/UHW/Search')({
   db: new SqlServerConnection({
     dbUrl: process.env.UHW_DB
   }),
   buildSearchRecord
 });
-const singleViewSearchGateway = require('./gateways/SingleView/SingleViewSearch')(
-  {
-    db: require('./PostgresDb'),
-    buildSearchRecord
-  }
-);
+const singleViewSearchGateway = require('./gateways/SingleView/Search')({
+  db: require('./PostgresDb'),
+  buildSearchRecord
+});
 
 const customerSearch = require('./use-cases/CustomerSearch')({
   cleanRecord,

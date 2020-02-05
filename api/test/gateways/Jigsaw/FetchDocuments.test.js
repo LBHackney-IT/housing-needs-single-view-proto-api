@@ -1,4 +1,4 @@
-const jigsawFetchDocuments = require('../../../lib/gateways/Jigsaw/JigsawFetchDocuments');
+const jigsawFetchDocuments = require('../../../lib/gateways/Jigsaw/FetchDocuments');
 const { Systems } = require('../../../lib/Constants');
 
 describe('JigsawFetchDocumentsGateway', () => {

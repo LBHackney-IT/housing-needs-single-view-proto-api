@@ -1,4 +1,4 @@
-const academyCouncilTaxFetchDocuments = require('../../../lib/gateways/Academy-CouncilTax/AcademyCouncilTaxFetchDocuments');
+const academyCouncilTaxFetchDocuments = require('../../../lib/gateways/Academy-CouncilTax/FetchDocuments');
 
 describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
   let cominoFetchDocumentsGateway;
