@@ -41,7 +41,7 @@ jobs:
           root: ~/repo
           paths: .
 
-  deploy:
+  deploy-staging:
     executor: my-executor
 
     steps:
@@ -60,17 +60,45 @@ jobs:
 
       - run:
           name: Deploy application
-          command: sls deploy
+          command: sls deploy -s staging
+
+  deploy-production:
+    executor: my-executor
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Install Serverless CLI
+          command: |
+            sudo npm i -g serverless
+
+      - run:
+          name: Set AWS credentials
+          command: |
+            pushd ~ && serverless config credentials -p aws -k ${AWS_ACCESS_KEY_ID} -s ${AWS_SECRET_ACCESS_KEY} -n hackney && popd
+
+      - run:
+          name: Deploy application
+          command: sls deploy -s production
 
 workflows:
   version: 2
   build-deploy:
     jobs:
       - build
-      - deploy:
+      - deploy-staging:
           requires:
             - build
           filters:
             branches:
               only:
                 - master
+      - deploy-production:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - production

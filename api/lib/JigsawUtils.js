@@ -94,4 +94,4 @@ const doJigsawPostRequest = async function(url, json) {
   return doPostRequest(url, json, { Authorization: `Bearer ${token}` });
 };
 
-module.exports = { doJigsawGetRequest, jigsawEnv };
+module.exports = { doJigsawGetRequest, doJigsawPostRequest, jigsawEnv };

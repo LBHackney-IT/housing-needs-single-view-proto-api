@@ -107,9 +107,62 @@ app.get('/customers/:id/notes', async (req, res) => {
 });
 
 app.get('/customers/:id/documents', async (req, res) => {
+  const {
+    doJigsawGetRequest,
+    doJigsawPostRequest,
+    jigsawEnv
+  } = require('./lib/JigsawUtils');
+  const SqlServerConnection = require('./lib/SqlServerConnection');
+  const buildDocument = require('./lib/entities/Document')();
+  const postgresDb = require('./lib/PostgresDb');
+  const getSystemId = require('./lib/gateways/SingleView/SystemID')({
+    db: postgresDb
+  });
+  const cominoFetchDocumentsGateway = require('./lib/gateways/Comino/CominoFetchDocuments')(
+    {
+      buildDocument,
+      db: new SqlServerConnection({
+        dbUrl: process.env.HN_COMINO_URL
+      })
+    }
+  );
+  const academyBenefitsFetchDocumentsGateway = require('./lib/gateways/Academy-Benefits/AcademyBenefitsFetchDocuments')(
+    {
+      db: new SqlServerConnection({
+        dbUrl: process.env.ACADEMY_DB
+      }),
+      buildDocument,
+      cominoFetchDocumentsGateway,
+      getSystemId
+    }
+  );
+  const jigsawFetchDocumentsGateway = require('./lib/gateways/Jigsaw/JigsawFetchDocuments')(
+    {
+      buildDocument,
+      doJigsawGetRequest,
+      doJigsawPostRequest,
+      getSystemId,
+      jigsawEnv
+    }
+  );
+
+  const academyCouncilTaxFetchDocumentsGateway = require('./lib/gateways/Academy-CouncilTax/AcademyCouncilTaxFetchDocuments')(
+    {
+      cominoFetchDocumentsGateway,
+      getSystemId
+    }
+  );
+
+  const fetchDocuments = require('./lib/use-cases/FetchDocuments')({
+    gateways: [
+      academyCouncilTaxFetchDocumentsGateway,
+      academyBenefitsFetchDocumentsGateway,
+      jigsawFetchDocumentsGateway
+    ]
+  });
   console.log(`GET CUSTOMER DOCS id="${req.params.id}"`);
   console.time(`GET CUSTOMER DOCS id="${req.params.id}"`);
-  const results = await QueryHandler.fetchCustomerDocuments(req.params.id);
+  const results = await fetchDocuments(req.params.id);
   console.timeEnd(`GET CUSTOMER DOCS id="${req.params.id}"`);
   res.send(results);
 });

@@ -4,7 +4,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   region: eu-west-2
-  stage: production
+  stage: ${opt:stage}
   profile: hackney
   timeout: 15
   vpc:
@@ -45,7 +45,7 @@ functions:
       UHT_DB: ${ssm:/hn-single-view-api/production/UHT_DB}
       ACADEMY_DB: ${ssm:/hn-single-view-api/production/ACADEMY_DB}
       COLLAB_CASEWORK_API: https://hn-collab-tools-proto.herokuapp.com
-      SINGLEVIEW_DB: ${ssm:/hn-single-view-api/production/SINGLEVIEW_DB}
+      SINGLEVIEW_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/SINGLEVIEW_DB}
       HN_COMINO_URL: ${ssm:/hn-single-view-api/production/HN_COMINO_URL}
       ENV: production
       ENABLE_CACHING: false
@@ -76,7 +76,7 @@ resources:
           Ref: 'ApiGatewayRestApi'
 
 custom:
-  stage: production
+  stage: ${self:provider.stage}
   authorizer:
     hn-single-view-api-authorizer:
       name: hn-single-view-api-authorizer

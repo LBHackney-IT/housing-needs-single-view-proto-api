@@ -1,11 +1,13 @@
 const academyBenefitsFetchDocuments = require('../../../lib/gateways/Academy-Benefits/AcademyBenefitsFetchDocuments');
+const { Systems } = require('../../../lib/Constants');
 
 describe('AcademyBenefitsFetchDocumentsGateway', () => {
   let buildDocument;
   let db;
-  let Comino;
+  let cominoFetchDocumentsGateway;
+  let getSystemId;
 
-  const createGateway = (records, throwsError) => {
+  const createGateway = (records, existsInSystem, throwsError) => {
     buildDocument = jest.fn(({}) => {
       return {};
     });
@@ -19,21 +21,40 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
       })
     };
 
-    Comino = {
-      fetchCustomerDocuments: jest.fn(async () => {
+    cominoFetchDocumentsGateway = {
+      execute: jest.fn(async () => {
         return [];
+      })
+    };
+
+    getSystemId = {
+      execute: jest.fn(async (name, id) => {
+        if (existsInSystem) return id;
       })
     };
 
     return academyBenefitsFetchDocuments({
       buildDocument,
       db,
-      Comino
+      cominoFetchDocumentsGateway,
+      getSystemId
     });
   };
 
-  it('if the query contains ID then the database gets queried with the id', async () => {
-    const gateway = createGateway([]);
+  it('gets the system ID', async () => {
+    const gateway = createGateway([], true);
+    id = '123';
+
+    await gateway.execute(id);
+
+    expect(getSystemId.execute).toHaveBeenCalledWith(
+      Systems.ACADEMY_BENEFITS,
+      '123'
+    );
+  });
+
+  it('if customer has a system id we get the docs', async () => {
+    const gateway = createGateway([], true, false);
     const id = '123/1';
     const paramMatcher = expect.arrayContaining([
       expect.objectContaining({ value: '123' })
@@ -44,30 +65,38 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     await gateway.execute(id);
 
     expect(db.request).toHaveBeenCalledWith(expect.anything(), paramMatcher);
-    expect(Comino.fetchCustomerDocuments).toHaveBeenCalledWith(
+    expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledWith(
       cominoParamMatcher
     );
   });
 
-  it('returns a single record', async () => {
+  it('if customer does not have a system id we do not get the docs', async () => {
+    const gateway = createGateway([], false, false);
+    const id = '123/1';
+    await gateway.execute(id);
+
+    expect(db.request).toHaveBeenCalledTimes(0);
+    expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledTimes(0);
+  });
+
+  it('builds a document', async () => {
     const id = '123';
     const record = { id: '123', correspondence_code: 'code' };
-    const gateway = createGateway([record]);
+    const gateway = createGateway([record], true, false);
 
-    const records = await gateway.execute(id);
+    await gateway.execute(id);
 
     const recordMatcher = expect.objectContaining({
       text: 'code'
     });
     expect(buildDocument).toHaveBeenCalledTimes(1);
-    expect(records.length).toBe(1);
     expect(buildDocument).toHaveBeenCalledWith(recordMatcher);
   });
 
-  it('returns an empty set of records if there is an error', async () => {
+  it('returns an empty set of documents if there is an error', async () => {
     const id = '123';
     const record = { id: '123' };
-    const gateway = createGateway([record], true);
+    const gateway = createGateway([record], true, true);
 
     const records = await gateway.execute(id);
 

@@ -11,7 +11,7 @@ describe('SingleViewSearchGateway', () => {
     db = {
       any: jest.fn(async () => {
         if (throwsError) {
-          return new Error('Database error');
+          throw new Error('Database error');
         }
         return records;
       })

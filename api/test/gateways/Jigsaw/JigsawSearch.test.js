@@ -10,9 +10,9 @@ describe('JigsawSearchGateway', () => {
       return { id };
     });
 
-    doJigsawGetRequest = jest.fn(async (searchURL, search) => {
+    doJigsawGetRequest = jest.fn(async () => {
       if (throwsError) {
-        return new Error('Database error');
+        throw new Error('Database error');
       }
       return records;
     });
@@ -95,7 +95,7 @@ describe('JigsawSearchGateway', () => {
 
   it('filters out invalid records', async () => {
     const record = { id: 0 };
-    const gateway = createGateway([record], true);
+    const gateway = createGateway([record]);
 
     const records = await gateway.execute({});
 
