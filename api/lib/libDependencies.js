@@ -1,4 +1,8 @@
-const { doJigsawGetRequest, jigsawEnv } = require('./JigsawUtils');
+const {
+  doJigsawGetRequest,
+  jigsawEnv,
+  doJigsawPostRequest
+} = require('./JigsawUtils');
 const SqlServerConnection = require('./SqlServerConnection');
 const buildSearchRecord = require('./entities/SearchRecord')();
 
@@ -70,6 +74,65 @@ const customerSearch = require('./use-cases/CustomerSearch')({
   groupSearchRecords: require('./use-cases/GroupSearchRecords')()
 });
 
+//FetchDocuments
+const buildDocument = require('./entities/Document')();
+const postgresDb = require('./PostgresDb');
+const getSystemId = require('./gateways/SingleView/SystemID')({
+  db: postgresDb
+});
+const cominoFetchDocumentsGateway = require('./gateways/Comino/FetchDocuments')(
+  {
+    buildDocument,
+    db: new SqlServerConnection({
+      dbUrl: process.env.HN_COMINO_URL
+    })
+  }
+);
+const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefits/FetchDocuments')(
+  {
+    db: new SqlServerConnection({
+      dbUrl: process.env.ACADEMY_DB
+    }),
+    buildDocument,
+    cominoFetchDocumentsGateway,
+    getSystemId
+  }
+);
+
+const UHWFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
+  db: new SqlServerConnection({
+    dbUrl: process.env.UHW_DB
+  }),
+  buildDocument
+});
+
+const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
+  {
+    buildDocument,
+    doJigsawGetRequest,
+    doJigsawPostRequest,
+    getSystemId,
+    jigsawEnv
+  }
+);
+
+const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
+  {
+    cominoFetchDocumentsGateway,
+    getSystemId
+  }
+);
+
+const fetchDocuments = require('./use-cases/FetchDocuments')({
+  gateways: [
+    academyCouncilTaxFetchDocumentsGateway,
+    academyBenefitsFetchDocumentsGateway,
+    jigsawFetchDocumentsGateway,
+    UHWFetchDocumentsGateway
+  ]
+});
+
 module.exports = {
-  customerSearch
+  customerSearch,
+  fetchDocuments
 };
