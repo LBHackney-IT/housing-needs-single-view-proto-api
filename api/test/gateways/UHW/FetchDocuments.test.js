@@ -5,9 +5,7 @@ describe('UHWFetchDocumentsGateway', () => {
   let db;
 
   const createGateway = (records, throwsError) => {
-    buildDocument = jest.fn(({}) => {
-      return {};
-    });
+    buildDocument = jest.fn();
 
     db = {
       request: jest.fn(async () => {
@@ -49,10 +47,9 @@ describe('UHWFetchDocumentsGateway', () => {
     const document = { DocNo: '1231' };
     const gateway = createGateway([document]);
 
-    const documents = await gateway.execute({});
+    await gateway.execute({});
     const paramMatcher = expect.objectContaining({ id: '1231' });
     expect(buildDocument).toHaveBeenCalledWith(paramMatcher);
-    expect(documents.length).toBe(1);
   });
 
   it('returns an empty set of records if there is an error', async () => {
@@ -61,6 +58,7 @@ describe('UHWFetchDocumentsGateway', () => {
 
     const documents = await gateway.execute('1');
 
+    expect(buildDocument).not.toHaveBeenCalled();
     expect(documents.length).toBe(0);
   });
 });
