@@ -7,6 +7,32 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
   let cominoFetchNotesGateway;
   let getSystemId;
 
+  const records = [
+    {
+      text_value: `User Id: abc  Date: 31.01.2020 14:10:08  12345
+    some text1  
+    --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    User Id: abc  Date: 10.04.2019 14:50:50  12345
+    some text2
+    ----------------------------------`
+    },
+    {
+      text_value: `----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    User Id: id  Date: 07.02.2019 10:32:33  1357
+    some text3
+    --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    User Id: idtoo  Date: 15.01.2019 16:12:12  4536
+    some text4
+    --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    User Id: theid  Date: 16.08.2018 15:30:07  1111
+    some text`
+    },
+    {
+      text_value: `5
+    --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------`
+    }
+  ];
+
   const createGateway = (notes, existsInSystem, throwsError) => {
     buildNote = jest.fn();
 
@@ -15,7 +41,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
         if (throwsError) {
           throw new Error('Database error');
         }
-        return [{ text_value: notes }];
+        return records;
       })
     };
 
@@ -69,7 +95,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
   });
 
   it('if customer does not have a system id we do not get the notes', async () => {
-    const gateway = createGateway('one', false, false);
+    const gateway = createGateway([], false, false);
     const id = '123/1';
     const results = await gateway.execute(id);
 
@@ -78,25 +104,29 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
     expect(results.length).toBe(0);
   });
 
-  it('builds a note', async () => {
+  it('builds 5 notes', async () => {
     const id = '123';
-
-    const record = 'User Id: abc  Date: 31.01.2013 14:11:08  949327359\ntext';
-    const gateway = createGateway(record, true, false);
+    const gateway = createGateway([], true, false);
 
     await gateway.execute(id);
 
     const recordMatcher = expect.objectContaining({
-      text: 'text'
+      text: 'some text5',
+      system: 'ACADEMY-Benefits',
+      user: 'theid',
+      id: null
     });
-    expect(buildNote).toHaveBeenCalledTimes(1);
+
+    const dashMatcher = expect.objectContaining(expect.stringMatching(/-{50}/));
+
+    expect(buildNote).toHaveBeenCalledTimes(5);
     expect(buildNote).toHaveBeenCalledWith(recordMatcher);
+    expect(buildNote).not.toHaveBeenCalledWith(dashMatcher);
   });
 
   it('returns an empty set of notes if there is an error', async () => {
     const id = '123';
-    const record = { id: '123' };
-    const gateway = createGateway([record], true, true);
+    const gateway = createGateway([], true, true);
 
     const records = await gateway.execute(id);
 

@@ -14,43 +14,62 @@ module.exports = options => {
     if (systemId) return systemId.split('/')[0];
   };
 
-  async function fetchCustomerNotes(id) {
+  const fetchCustomerNotes = async id => {
     return await db.request(fetchCustomerNotesSQL, [
       { id: 'claim_id', type: 'NVarChar', value: id.slice(0, 7) }
     ]);
-  }
+  };
 
-  const processNotesResults = function(notes) {
+  const cleanupNotes = notes => {
     return notes
       .map(x => x.text_value)
       .join('')
       .split(/-{200}/)
       .map(x => x.trim())
-      .filter(x => x !== '')
-      .map(note => {
-        const [meta, ...noteText] = note.trim().split('\n');
-        const parsedMeta = meta
-          .trim()
-          .match(
-            /User Id: ([^ ]+) {2}Date: (\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2})/
-          );
-        return buildNote({
-          id: null,
-          title: 'Note',
-          text: noteText.join('\n').trim(),
-          date: new Date(
-            parseInt(parsedMeta[4]),
-            parseInt(parsedMeta[3]) - 1,
-            parseInt(parsedMeta[2]),
-            parseInt(parsedMeta[5]),
-            parseInt(parsedMeta[6]),
-            parseInt(parsedMeta[7])
-          ),
-          user: parsedMeta[1],
-          system: Systems.ACADEMY_BENEFITS
-        });
-      })
       .filter(x => x);
+  };
+
+  const constructDate = metadata => {
+    return new Date(
+      parseInt(metadata[4]),
+      parseInt(metadata[3]) - 1,
+      parseInt(metadata[2]),
+      parseInt(metadata[5]),
+      parseInt(metadata[6]),
+      parseInt(metadata[7])
+    );
+  };
+
+  const deconstructNote = note => {
+    const [meta, ...text] = note.trim().split('\n');
+
+    const parsedMeta = meta
+      .trim()
+      .match(
+        /User Id: ([^ ]+) {2}Date: (\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2})/
+      );
+    const date = constructDate(parsedMeta);
+    const user = parsedMeta[1];
+
+    return {
+      text: text.join('\n').trim(),
+      date,
+      user
+    };
+  };
+
+  const processNotes = function(notes) {
+    return cleanupNotes(notes).map(note => {
+      const noteData = deconstructNote(note);
+      return buildNote({
+        id: null,
+        title: 'Note',
+        text: noteData.text,
+        date: noteData.date,
+        user: noteData.user,
+        system: Systems.ACADEMY_BENEFITS
+      });
+    });
   };
 
   return {
@@ -59,10 +78,10 @@ module.exports = options => {
       try {
         if (claim_id) {
           const academyNotes = await fetchCustomerNotes(claim_id);
-          const cominoNotes = await cominoFetchNotesGateway.execute({
-            claim_id
-          });
-          return processNotesResults(academyNotes).concat(cominoNotes);
+          // const cominoNotes = await cominoFetchNotesGateway.execute({
+          // claim_id
+          //});
+          return processNotes(academyNotes); //.concat(cominoNotes);
         }
         return [];
       } catch (err) {
