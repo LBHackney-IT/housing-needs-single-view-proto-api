@@ -58,7 +58,7 @@ module.exports = options => {
     };
   };
 
-  const processNotes = function(notes) {
+  const processNotesResults = function(notes) {
     return cleanupNotes(notes).map(note => {
       const noteData = deconstructNote(note);
       return buildNote({
@@ -78,10 +78,10 @@ module.exports = options => {
       try {
         if (claim_id) {
           const academyNotes = await fetchCustomerNotes(claim_id);
-          // const cominoNotes = await cominoFetchNotesGateway.execute({
-          // claim_id
-          //});
-          return processNotes(academyNotes); //.concat(cominoNotes);
+          const cominoNotes = await cominoFetchNotesGateway.execute({
+            claim_id
+          });
+          return processNotesResults(academyNotes).concat(cominoNotes);
         }
         return [];
       } catch (err) {
