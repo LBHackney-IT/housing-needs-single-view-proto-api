@@ -110,18 +110,31 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
 
     await gateway.execute(id);
 
-    const recordMatcher = expect.objectContaining({
-      text: 'some text1',
-      text: 'some text2',
-      text: 'some text3',
-      text: 'some text4',
+    const textMatcher1 = expect.objectContaining({
+      text: 'some text1'
+    });
+    const textMatcher2 = expect.objectContaining({
+      text: 'some text2'
+    });
+    const textMatcher3 = expect.objectContaining({
+      text: 'some text3'
+    });
+    const textMatcher4 = expect.objectContaining({
+      text: 'some text4'
+    });
+    const textMatcher5 = expect.objectContaining({
       text: 'some text5'
     });
 
     const dashMatcher = expect.objectContaining(expect.stringMatching(/-{50}/));
 
     expect(buildNote).toHaveBeenCalledTimes(5);
-    expect(buildNote).toHaveBeenCalledWith(recordMatcher);
+    expect(buildNote).toHaveBeenCalledWith(textMatcher1);
+    expect(buildNote).toHaveBeenCalledWith(textMatcher2);
+    expect(buildNote).toHaveBeenCalledWith(textMatcher3);
+    expect(buildNote).toHaveBeenCalledWith(textMatcher4);
+    expect(buildNote).toHaveBeenCalledWith(textMatcher5);
+
     expect(buildNote).not.toHaveBeenCalledWith(dashMatcher);
   });
 
@@ -131,16 +144,32 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
 
     await gateway.execute(id);
 
-    const recordMatcher = expect.objectContaining({
-      date: new Date('2020-01-31T14:10:08.000Z'),
-      date: new Date('2019-04-10T13:50:50.000Z'),
-      date: new Date('2019-02-07T10:32:33.000Z'),
-      date: new Date('2019-01-15T16:12:12.000Z'),
+    const recordMatcher1 = expect.objectContaining({
+      date: new Date('2020-01-31T14:10:08.000Z')
+    });
+
+    const recordMatcher2 = expect.objectContaining({
+      date: new Date('2019-04-10T13:50:50.000Z')
+    });
+
+    const recordMatcher3 = expect.objectContaining({
+      date: new Date('2019-02-07T10:32:33.000Z')
+    });
+
+    const recordMatcher4 = expect.objectContaining({
+      date: new Date('2019-01-15T16:12:12.000Z')
+    });
+
+    const recordMatcher5 = expect.objectContaining({
       date: new Date('2018-08-16T14:30:07.000Z')
     });
 
     expect(buildNote).toHaveBeenCalledTimes(5);
-    expect(buildNote).toHaveBeenCalledWith(recordMatcher);
+    expect(buildNote).toHaveBeenNthCalledWith(1, recordMatcher1);
+    expect(buildNote).toHaveBeenNthCalledWith(2, recordMatcher2);
+    expect(buildNote).toHaveBeenNthCalledWith(3, recordMatcher3);
+    expect(buildNote).toHaveBeenNthCalledWith(4, recordMatcher4);
+    expect(buildNote).toHaveBeenNthCalledWith(5, recordMatcher5);
   });
 
   it('returns an empty set of notes if there is an error', async () => {
