@@ -95,10 +95,10 @@ workflows:
             branches:
               only:
                 - master
+      - permit-deploy-production:
+          type: approval
+          requires:
+            - deploy-staging
       - deploy-production:
           requires:
-            - build
-          filters:
-            branches:
-              only:
-                - production
+            - permit-deploy-production
