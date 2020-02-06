@@ -2,6 +2,7 @@ const academyBenefitsFetchNotes = require('../../../lib/gateways/Academy-Benefit
 const { Systems } = require('../../../lib/Constants');
 
 describe('AcademyBenefitsFetchNotesGateway', () => {
+  const id = '123/1';
   let buildNote;
   let db;
   let cominoFetchNotesGateway;
@@ -45,11 +46,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
       })
     };
 
-    cominoFetchNotesGateway = {
-      execute: jest.fn(async () => {
-        return [];
-      })
-    };
+    cominoFetchNotesGateway = { execute: jest.fn() };
 
     getSystemId = {
       execute: jest.fn(async (name, id) => {
@@ -67,19 +64,17 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
 
   it('gets the system ID', async () => {
     const gateway = createGateway([], true);
-    id = '123';
 
     await gateway.execute(id);
 
     expect(getSystemId.execute).toHaveBeenCalledWith(
       Systems.ACADEMY_BENEFITS,
-      '123'
+      '123/1'
     );
   });
 
-  it('if customer has a system id we get the notes', async () => {
-    const gateway = createGateway([], true, false);
-    const id = '123/1';
+  it('gets the notes if customer has a system id', async () => {
+    const gateway = createGateway([], true);
     const paramMatcher = expect.arrayContaining([
       expect.objectContaining({ value: '123' })
     ]);
@@ -94,9 +89,8 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
     );
   });
 
-  it('if customer does not have a system id we do not get the notes', async () => {
-    const gateway = createGateway([], false, false);
-    const id = '123/1';
+  it('does not get the notes if customer does not have a system id', async () => {
+    const gateway = createGateway([]);
     const results = await gateway.execute(id);
 
     expect(db.request).toHaveBeenCalledTimes(0);
@@ -105,8 +99,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
   });
 
   it('builds 5 notes with correct text', async () => {
-    const id = '123';
-    const gateway = createGateway([], true, false);
+    const gateway = createGateway([], true);
 
     await gateway.execute(id);
 
@@ -139,8 +132,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
   });
 
   it('builds 5 notes with correct date', async () => {
-    const id = '123';
-    const gateway = createGateway([], true, false);
+    const gateway = createGateway([], true);
 
     await gateway.execute(id);
 
@@ -173,7 +165,6 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
   });
 
   it('returns an empty set of notes if there is an error', async () => {
-    const id = '123';
     const gateway = createGateway([], true, true);
 
     const records = await gateway.execute(id);

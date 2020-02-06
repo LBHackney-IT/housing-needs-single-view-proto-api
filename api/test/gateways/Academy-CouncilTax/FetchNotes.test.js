@@ -1,6 +1,8 @@
 const academyCouncilTaxFetchNotes = require('../../../lib/gateways/Academy-CouncilTax/FetchNotes');
 
 describe('AcademyCouncilTaxFetchNotesGateway', () => {
+  const id = '123';
+
   let cominoFetchNotesGateway;
   let getSystemId;
 
@@ -26,9 +28,8 @@ describe('AcademyCouncilTaxFetchNotesGateway', () => {
     });
   };
 
-  it('if customer has a system id we get the notes', async () => {
+  it('gets the notes if customer has a system id', async () => {
     const gateway = createGateway([], false, true);
-    const id = '123';
 
     const cominoParamMatcher = expect.objectContaining({ account_ref: '123' });
 
@@ -41,7 +42,6 @@ describe('AcademyCouncilTaxFetchNotesGateway', () => {
 
   it('queries the database with the account reference if the query contains an account reference', async () => {
     const gateway = createGateway([], false, true);
-    const id = '123';
 
     const cominoParamMatcher = expect.objectContaining({ account_ref: '123' });
 
@@ -52,9 +52,8 @@ describe('AcademyCouncilTaxFetchNotesGateway', () => {
     );
   });
 
-  it('if customer does not have a system id we do not get the notes', async () => {
-    const gateway = createGateway([], false, false);
-    const id = '123';
+  it('does not get the notes if customer does not have a system id', async () => {
+    const gateway = createGateway([]);
     const result = await gateway.execute(id);
 
     expect(cominoFetchNotesGateway.execute).toHaveBeenCalledTimes(0);
@@ -62,7 +61,6 @@ describe('AcademyCouncilTaxFetchNotesGateway', () => {
   });
 
   it('returns an empty set of notes if there is an error', async () => {
-    const id = '123';
     const record = { account_ref: '123' };
     const gateway = createGateway([record], true);
 
