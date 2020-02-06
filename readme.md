@@ -7,21 +7,7 @@ Run npm install in the following directories:
 - api/
 - authorizer/
 
-Set up the environment variables listed bellow in a `.env` file, the relevant values could be found in the AWS param store
-```
-/common/hackney-jwt-secret=
-/hn-single-view-api/production/UHW_DB=
-/hn-single-view-api/production/UHT_DB=
-/hn-single-view-api/production/ACADEMY_DB=
-/hn-single-view-api/staging/SINGLEVIEW_DB=
-/hn-single-view-api/production/SINGLEVIEW_DB=
-/hn-single-view-api/production/HN_COMINO_URL=
-/hn-single-view-api/production/Jigsaw_email=
-/hn-single-view-api/production/Jigsaw_password=
-COLLAB_CASEWORK_API=
-ENV=
-ENABLE_CACHING=
-```
+Set up the environment variables listed in [.env.sample](https://github.com/LBHackney-IT/housing-needs-single-view-proto-api/blob/master/.env.sample) and save them in a `.env` file, the relevant values could be found in the AWS param store
 
 Add the following to the hosts file
 ```
