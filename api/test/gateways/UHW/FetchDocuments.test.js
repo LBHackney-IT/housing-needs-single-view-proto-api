@@ -4,7 +4,7 @@ describe('UHWFetchDocumentsGateway', () => {
   let buildDocument;
   let db;
 
-  const createGateway = (records, throwsError) => {
+  const createGateway = (records, existsInSystem, throwsError) => {
     buildDocument = jest.fn();
 
     db = {
@@ -16,14 +16,21 @@ describe('UHWFetchDocumentsGateway', () => {
       })
     };
 
+    getSystemId = {
+      execute: jest.fn(async (name, id) => {
+        if (existsInSystem) return id;
+      })
+    };
+
     return UHWFetchDocuments({
       buildDocument,
-      db
+      db,
+      getSystemId
     });
   };
 
-  it('queries the database with the id if the query contains ID', async () => {
-    const gateway = createGateway([]);
+  it('if customer has a system id we get the docs', async () => {
+    const gateway = createGateway([], true);
     const id = '123';
     const paramMatcher = expect.arrayContaining([
       expect.objectContaining({ value: '123' })
@@ -34,18 +41,18 @@ describe('UHWFetchDocumentsGateway', () => {
     expect(db.request).toHaveBeenCalledWith(expect.anything(), paramMatcher);
   });
 
-  it('does not query the db for id if the query does not contain id', async () => {
-    const gateway = createGateway([]);
+  it('if customer does not have a system id we do not get the docs', async () => {
+    const gateway = createGateway([], false);
 
     const documents = await gateway.execute();
 
-    expect(db.request).toHaveBeenCalledTimes(0);
+    expect(db.request).not.toHaveBeenCalled();
     expect(documents.length).toBe(0);
   });
 
   it('builds a document', async () => {
     const document = { DocNo: '1231' };
-    const gateway = createGateway([document]);
+    const gateway = createGateway([document], true);
 
     await gateway.execute({});
     const paramMatcher = expect.objectContaining({ id: '1231' });
@@ -54,7 +61,7 @@ describe('UHWFetchDocumentsGateway', () => {
 
   it('returns an empty set of records if there is an error', async () => {
     const document = { DocNo: 1231 };
-    const gateway = createGateway([document], true);
+    const gateway = createGateway([document], true, true);
 
     const documents = await gateway.execute('1');
 

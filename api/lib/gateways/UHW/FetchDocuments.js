@@ -6,6 +6,12 @@ const { fetchCustomerDocumentsSQL } = loadSQL(path.join(__dirname, 'sql'));
 module.exports = options => {
   const db = options.db;
   const buildDocument = options.buildDocument;
+  const getSystemId = options.getSystemId;
+
+  const fetchSystemId = async id => {
+    const systemId = await getSystemId.execute(Systems.UHW, id);
+    if (systemId) return systemId;
+  };
 
   const fetchCustomerDocumentsQuery = async id => {
     return await db.request(fetchCustomerDocumentsSQL, [
@@ -29,8 +35,9 @@ module.exports = options => {
   return {
     execute: async id => {
       try {
-        if (id) {
-          const results = await fetchCustomerDocumentsQuery(id);
+        const uhw_id = await fetchSystemId(id);
+        if (uhw_id) {
+          const results = await fetchCustomerDocumentsQuery(uhw_id);
           return processDocuments(results);
         }
         return [];
