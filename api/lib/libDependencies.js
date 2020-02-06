@@ -57,11 +57,11 @@ const singleViewSearchGateway = require('./gateways/SingleView/Search')({
 const customerSearch = require('./use-cases/CustomerSearch')({
   cleanRecord,
   gateways: [
-    jigsawSearchGateway,
-    academyBenefitsSearchGateway,
-    uhtContactsSearchGateway,
-    uhtHousingRegisterSearchGateway,
-    academyCouncilTaxSearchGateway,
+    // jigsawSearchGateway,
+    // academyBenefitsSearchGateway,
+    // uhtContactsSearchGateway,
+    // uhtHousingRegisterSearchGateway,
+    // academyCouncilTaxSearchGateway,
     uhwSearchGateway,
     singleViewSearchGateway
   ],
@@ -113,9 +113,9 @@ const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-Counc
 
 const fetchDocuments = require('./use-cases/FetchDocuments')({
   gateways: [
-    academyCouncilTaxFetchDocumentsGateway,
-    academyBenefitsFetchDocumentsGateway,
-    jigsawFetchDocumentsGateway,
+    // academyCouncilTaxFetchDocumentsGateway,
+    // academyBenefitsFetchDocumentsGateway,
+    // jigsawFetchDocumentsGateway,
     uhwFetchDocumentsGateway
   ]
 });

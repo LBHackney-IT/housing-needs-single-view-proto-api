@@ -4,12 +4,12 @@ const merge = require('@brikcss/merge');
 const { dedupeNotes, filterArray } = require('./Utils');
 
 const backends = {
-  [Systems.UHT_CONTACTS]: require('./backends/UHT-Contacts'),
-  [Systems.UHT_HOUSING_REGISTER]: require('./backends/UHT-HousingRegister'),
+  // [Systems.UHT_CONTACTS]: require('./backends/UHT-Contacts'),
+  // [Systems.UHT_HOUSING_REGISTER]: require('./backends/UHT-HousingRegister'),
   [Systems.UHW]: require('./backends/UHW'),
-  [Systems.ACADEMY_BENEFITS]: require('./backends/Academy-Benefits'),
-  [Systems.ACADEMY_COUNCIL_TAX]: require('./backends/Academy-CouncilTax'),
-  [Systems.JIGSAW]: require('./backends/Jigsaw'),
+  // [Systems.ACADEMY_BENEFITS]: require('./backends/Academy-Benefits'),
+  // [Systems.ACADEMY_COUNCIL_TAX]: require('./backends/Academy-CouncilTax'),
+  // [Systems.JIGSAW]: require('./backends/Jigsaw'),
   [Systems.SINGLEVIEW]: require('./backends/SingleView')
 };
 
