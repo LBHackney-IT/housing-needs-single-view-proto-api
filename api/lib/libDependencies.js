@@ -91,7 +91,8 @@ const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefit
 
 const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
   db: uhwDb,
-  buildDocument
+  buildDocument,
+  getSystemId
 });
 
 const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
