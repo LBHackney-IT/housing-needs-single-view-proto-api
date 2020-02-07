@@ -47,7 +47,8 @@ functions:
       COLLAB_CASEWORK_API: https://hn-collab-tools-proto.herokuapp.com
       SINGLEVIEW_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/SINGLEVIEW_DB}
       HN_COMINO_URL: ${ssm:/hn-single-view-api/production/HN_COMINO_URL}
-      ENV: production
+      ENV: ${self:provider.stage}
+      SENTRY_DSN:  ${ssm:/hn-single-view-api/SENTRY_DSN}
       ENABLE_CACHING: false
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
