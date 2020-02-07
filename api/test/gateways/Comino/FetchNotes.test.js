@@ -2,6 +2,8 @@ const cominoFetchNotes = require('../../../lib/gateways/Comino/FetchNotes');
 const { Systems } = require('../../../lib/Constants');
 
 describe('CominoFetchNotesGateway', () => {
+  const claim_id = '123';
+  const account_ref = '123';
   let buildNote;
   let db;
   const createGateway = (notes, throwsError) => {
@@ -42,8 +44,6 @@ describe('CominoFetchNotesGateway', () => {
 
   it('queries the database with the claim id and not account_ref if the query contains a claim id ', async () => {
     const gateway = createGateway([]);
-    const claim_id = '123';
-    const account_ref = '123';
 
     await gateway.execute({ claim_id, account_ref });
 
@@ -60,8 +60,6 @@ describe('CominoFetchNotesGateway', () => {
 
   it('queries the database with with the account_ref if query has account ref and does not have claim id', async () => {
     const gateway = createGateway([]);
-    const claim_id = '123';
-    const account_ref = '123';
 
     await gateway.execute({ account_ref });
 
@@ -85,8 +83,7 @@ describe('CominoFetchNotesGateway', () => {
   });
 
   it('builds a single document', async () => {
-    const claim_id = '123';
-    const record = { claim_id: '123', NoteText: 'texty' };
+    const record = { claim_id, NoteText: 'texty' };
     const gateway = createGateway([record]);
 
     await gateway.execute({ claim_id });
@@ -100,11 +97,10 @@ describe('CominoFetchNotesGateway', () => {
   });
 
   it('returns an empty set of notes if there is an error', async () => {
-    const id = '123';
-    const record = { claim_id: '123', NoteText: 123 };
+    const record = { claim_id, NoteText: 123 };
     const gateway = createGateway([record], true);
 
-    const records = await gateway.execute(id);
+    const records = await gateway.execute(claim_id);
 
     expect(buildNote).toHaveBeenCalledTimes(0);
     expect(records.length).toBe(0);

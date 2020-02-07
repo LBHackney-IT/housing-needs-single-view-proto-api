@@ -3,6 +3,8 @@ const academyCouncilTaxFetchDocuments = require('../../../lib/gateways/Academy-C
 describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
   let cominoFetchDocumentsGateway;
   let getSystemId;
+  const id = '123';
+  const record = { account_ref: '123' };
 
   const createGateway = (records, throwsError, existsInSystem) => {
     cominoFetchDocumentsGateway = {
@@ -26,11 +28,10 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
     });
   };
 
-  it('if customer has a system id we get the docs', async () => {
+  it('gets the docs if customer has a system id', async () => {
     const gateway = createGateway([], false, true);
-    const id = '123';
 
-    const cominoParamMatcher = expect.objectContaining({ account_ref: '123' });
+    const cominoParamMatcher = expect.objectContaining(record);
 
     await gateway.execute(id);
 
@@ -41,9 +42,8 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
 
   it('queries the database with the account reference if the query contains an account reference', async () => {
     const gateway = createGateway([], false, true);
-    const id = '123';
 
-    const cominoParamMatcher = expect.objectContaining({ account_ref: '123' });
+    const cominoParamMatcher = expect.objectContaining(record);
 
     await gateway.execute(id);
 
@@ -52,9 +52,8 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
     );
   });
 
-  it('if customer does not have a system id we do not get the docs', async () => {
-    const gateway = createGateway([], false, false);
-    const id = '123';
+  it('does not get the docs if customer does not have a system id ', async () => {
+    const gateway = createGateway([]);
     const result = await gateway.execute(id);
 
     expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledTimes(0);
@@ -62,7 +61,6 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
   });
 
   it('returns an empty set of records if there is an error', async () => {
-    const record = { account_ref: '123' };
     const gateway = createGateway([record], true);
 
     const documents = await gateway.execute();

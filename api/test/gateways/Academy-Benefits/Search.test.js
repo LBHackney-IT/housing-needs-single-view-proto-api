@@ -24,7 +24,7 @@ describe('AcademyBenefitsSearchGateway', () => {
     });
   };
 
-  it('if the query contains firstname then the db is queried for forename', async () => {
+  it('queries the database for forename if the query contains firstname', async () => {
     const gateway = createGateway([]);
     const firstName = 'maria';
     const queryMatcher = expect.stringMatching(/forename LIKE @forename/);
@@ -37,7 +37,7 @@ describe('AcademyBenefitsSearchGateway', () => {
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
 
-  it('if the query does not have a firstname then the db is not queried for the forename', async () => {
+  it('does not query the database for the forename if the query does not have a firstname', async () => {
     const gateway = createGateway([]);
     const queryMatcher = expect.not.stringMatching(/forename LIKE @forename/);
 
@@ -46,7 +46,7 @@ describe('AcademyBenefitsSearchGateway', () => {
     expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
   });
 
-  it('if the query contains lastname then the db is queried for lastname', async () => {
+  it('queries the database for lastname if the query contains lastname', async () => {
     const gateway = createGateway([]);
     const lastName = 'smith';
     queryMatcher = expect.stringMatching(/surname LIKE/);
@@ -59,7 +59,7 @@ describe('AcademyBenefitsSearchGateway', () => {
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
 
-  it('if the query does not have a lastname then the db is not queried for the lastname', async () => {
+  it('does not query the database for the lastname if the query does not have a lastname', async () => {
     const gateway = createGateway([]);
     const queryMatcher = expect.not.stringMatching(/surname LIKE @surname/);
 
