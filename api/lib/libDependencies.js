@@ -1,8 +1,4 @@
-const {
-  doJigsawGetRequest,
-  jigsawEnv,
-  doJigsawPostRequest
-} = require('./JigsawUtils');
+const { doJigsawGetRequest, doJigsawPostRequest } = require('./JigsawUtils');
 const SqlServerConnection = require('./SqlServerConnection');
 const buildSearchRecord = require('./entities/SearchRecord')();
 const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB });
@@ -19,7 +15,6 @@ const cleanRecord = require('./use-cases/CleanRecord')({
 
 const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
   doJigsawGetRequest,
-  jigsawEnv,
   buildSearchRecord
 });
 
@@ -100,8 +95,7 @@ const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
     buildDocument,
     doJigsawGetRequest,
     doJigsawPostRequest,
-    getSystemId,
-    jigsawEnv
+    getSystemId
   }
 );
 

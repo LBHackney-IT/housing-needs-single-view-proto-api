@@ -5,11 +5,10 @@ module.exports = options => {
   const doJigsawGetRequest = options.doJigsawGetRequest;
   const doJigsawPostRequest = options.doJigsawPostRequest;
   const buildDocument = options.buildDocument;
-  const jigsawEnv = options.jigsawEnv;
   const getSystemId = options.getSystemId;
 
-  const caseUrl = `https://zebrahomelessness${jigsawEnv}.azurewebsites.net/api/casecheck/`;
-  const docsUrl = `https://zebrahomelessness${jigsawEnv}.azurewebsites.net/api/cases/getcasedocs/`;
+  const caseUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/casecheck/`;
+  const docsUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/cases/getcasedocs/`;
 
   const fetchSystemId = async id => {
     return await getSystemId.execute(Systems.JIGSAW, id);

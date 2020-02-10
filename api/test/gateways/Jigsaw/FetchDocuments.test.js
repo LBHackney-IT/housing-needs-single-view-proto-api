@@ -4,7 +4,6 @@ const { Systems } = require('../../../lib/Constants');
 describe('JigsawFetchDocumentsGateway', () => {
   let doJigsawGetRequest;
   let doJigsawPostRequest;
-  const jigsawEnv = '_test';
   let getSystemId;
 
   const createGateway = (records, existsInSystem, throwsError) => {
@@ -33,7 +32,6 @@ describe('JigsawFetchDocumentsGateway', () => {
     return jigsawFetchDocuments({
       doJigsawGetRequest,
       doJigsawPostRequest,
-      jigsawEnv,
       buildDocument,
       getSystemId
     });
@@ -68,7 +66,7 @@ describe('JigsawFetchDocumentsGateway', () => {
 
   it('gets cases with id and url', async () => {
     const id = '123';
-    const expectedUrl = `https://zebrahomelessness${jigsawEnv}.azurewebsites.net/api/casecheck/${id}`;
+    const expectedUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/casecheck/${id}`;
     const gateway = createGateway([{ id }], true);
 
     await gateway.execute(id);
@@ -78,7 +76,7 @@ describe('JigsawFetchDocumentsGateway', () => {
 
   it('gets documents with id and url', async () => {
     const id = '123';
-    const expectedUrl = `https://zebrahomelessness${jigsawEnv}.azurewebsites.net/api/cases/getcasedocs/${id}`;
+    const expectedUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/cases/getcasedocs/${id}`;
     const gateway = createGateway([{ id }], true);
 
     await gateway.execute(id);
