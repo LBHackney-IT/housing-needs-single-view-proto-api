@@ -5,6 +5,7 @@ module.exports = options => {
   const doJigsawGetRequest = options.doJigsawGetRequest;
   const jigsawEnv = options.jigsawEnv;
   const doGetRequest = options.doGetRequest;
+  const buildNote = options.buildNote;
 
   const customerNotesUrl = id =>
     `https://zebracustomers${jigsawEnv}.azurewebsites.net/api/Customer/${id}/Notes`;
@@ -49,12 +50,47 @@ module.exports = options => {
 
     return await doGetRequest(collabCaseworkMessagesUrl(smsContact[0].id));
   };
+
+  const processSMS = sms => {
+    return sms.map(m => {
+      return buildNote({
+        title: `${m.outgoing ? 'Outgoing' : 'Incoming'} SMS`,
+        text: m.message,
+        date: m.time,
+        user: m.username,
+        system: 'SMS'
+      });
+    });
+  };
+
+  const processNotes = (notes, noteType) => {
+    return notes.map(note => {
+      const date = note.interviewDate ? note.interviewDate : note.createdDate;
+      return buildNote({
+        title: noteType,
+        text: note.content,
+        date: date,
+        user: note.officerName,
+        system: Systems.JIGSAW
+      });
+    });
+  };
   return {
     execute: async (id, token) => {
+      try {
       const jigsaw_id = await fetchSystemId(id);
       const custNotes = await fetchCustomerNotes(jigsaw_id);
       const caseNotes = await fetchCaseNotes(id);
       const sms = await fetchCustomerSms(id, token);
+
+      return processNotes(custNotes, 'Customer Note').concat(
+        processNotes(caseNotes, 'Case Note'),
+        processSMS(sms)
+      );
+      } catch (err) {
+        console.log(`Error fetching customer notes in Jigsaw: ${err}`);
+        return [];
+      }
     }
   };
 };
