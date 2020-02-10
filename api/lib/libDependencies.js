@@ -155,9 +155,9 @@ const fetchDocuments = require('./use-cases/FetchDocuments')({
 
 const fetchNotes = require('./use-cases/FetchNotes')({
   gateways: [
-    // academyBenefitsFetchNotesGateway,
-    academyCouncilTaxFetchNotesGateway
-    //jigsawFetchNotesGateway
+    academyBenefitsFetchNotesGateway,
+    academyCouncilTaxFetchNotesGateway,
+    jigsawFetchNotesGateway
   ]
 });
 
