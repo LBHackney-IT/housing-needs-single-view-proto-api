@@ -25,6 +25,7 @@ module.exports = options => {
   const processNotes = notes => {
     return notes.map(note => {
       return buildNote({
+        id: note.NoteID,
         title: 'Note',
         text: note.NoteText.replace(/Â£/g, '£'), // Fixes a common encoding issue
         date: note.NDate,

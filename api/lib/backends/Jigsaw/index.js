@@ -2,12 +2,8 @@ const request = require('request-promise');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-const jigsawEnv = process.env.ENV || 'training';
-const jigsawLoginEnv = {
-  training: 'training',
-  production: 'live'
-}[jigsawEnv];
-
+const jigsawEnv = 'production';
+const jigsawLoginEnv = 'live';
 const loginUrl = `https://${jigsawLoginEnv}.housingjigsaw.co.uk/auth/login`;
 
 let bearerToken = null;
