@@ -4,10 +4,14 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const QueryHandler = require('./lib/QueryHandler');
-const { customerSearch, fetchDocuments } = require('./lib/libDependencies');
+const {
+  customerSearch,
+  fetchDocuments,
+  fetchNotes
+} = require('./lib/libDependencies');
 const Sentry = require('@sentry/node');
 
-if (process.env.SENTRY_DSN) {
+if (process.env.SENTRY_DSN && process.env.ENV === 'production') {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     environment: process.env.ENV
@@ -110,30 +114,10 @@ app.get('/customers/:id/record', async (req, res) => {
 });
 
 app.get('/customers/:id/notes', async (req, res) => {
-  const SqlServerConnection = require('./lib/SqlServerConnection');
-  const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB });
-  const buildNote = require('./lib/entities/Note')();
-  const postgresDb = require('./lib/PostgresDb');
-  const getSystemId = require('./lib/gateways/SingleView/SystemID')({
-    db: postgresDb
-  });
-
-  const academyBenefitsFetchNotesGateway = require('./lib/gateways/Academy-Benefits/FetchNotes')(
-    {
-      db: academyDb,
-      buildNote,
-      //cominoFetchDocumentsGateway,
-      getSystemId
-    }
-  );
-
-  const fetchNotes = require('./lib/use-cases/FetchNotes')({
-    gateways: [academyBenefitsFetchNotesGateway]
-  });
   console.log(`GET CUSTOMER NOTES id="${req.params.id}"`);
   console.time(`GET CUSTOMER NOTES id="${req.params.id}"`);
   const results = await fetchNotes(req.params.id, res.locals.hackneyToken);
-  // console.timeEnd(`GET CUSTOMER NOTES id="${req.params.id}"`);
+  console.timeEnd(`GET CUSTOMER NOTES id="${req.params.id}"`);
   res.send(results);
 });
 
