@@ -82,7 +82,7 @@ describe('CominoFetchNotesGateway', () => {
     expect(result.length).toBe(0);
   });
 
-  it('builds a single document', async () => {
+  it('builds a document', async () => {
     const record = { claim_id, NoteText: 'texty' };
     const gateway = createGateway([record]);
 

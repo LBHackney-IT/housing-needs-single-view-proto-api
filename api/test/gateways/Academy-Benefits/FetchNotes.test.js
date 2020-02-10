@@ -62,20 +62,9 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
     });
   };
 
-  it('gets the system ID', async () => {
-    const gateway = createGateway([], true);
-
-    await gateway.execute(id);
-
-    expect(getSystemId.execute).toHaveBeenCalledWith(
-      Systems.ACADEMY_BENEFITS,
-      '123/1'
-    );
-  });
-
   it('gets the notes if customer has a system id', async () => {
     const gateway = createGateway([], true);
-    const paramMatcher = expect.arrayContaining([
+    const academyParamMatcher = expect.arrayContaining([
       expect.objectContaining({ value: '123' })
     ]);
 
@@ -83,7 +72,14 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
 
     await gateway.execute(id);
 
-    expect(db.request).toHaveBeenCalledWith(expect.anything(), paramMatcher);
+    expect(getSystemId.execute).toHaveBeenCalledWith(
+      Systems.ACADEMY_BENEFITS,
+      id
+    );
+    expect(db.request).toHaveBeenCalledWith(
+      expect.anything(),
+      academyParamMatcher
+    );
     expect(cominoFetchNotesGateway.execute).toHaveBeenCalledWith(
       cominoParamMatcher
     );
@@ -91,10 +87,11 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
 
   it('does not get the notes if customer does not have a system id', async () => {
     const gateway = createGateway([]);
+
     const results = await gateway.execute(id);
 
-    expect(db.request).toHaveBeenCalledTimes(0);
-    expect(cominoFetchNotesGateway.execute).toHaveBeenCalledTimes(0);
+    expect(db.request).not.toHaveBeenCalled;
+    expect(cominoFetchNotesGateway.execute).not.toHaveBeenCalled();
     expect(results.length).toBe(0);
   });
 
@@ -103,32 +100,11 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
 
     await gateway.execute(id);
 
-    const textMatcher1 = expect.objectContaining({
-      text: 'some text1'
-    });
-    const textMatcher2 = expect.objectContaining({
-      text: 'some text2'
-    });
-    const textMatcher3 = expect.objectContaining({
-      text: 'some text3'
-    });
-    const textMatcher4 = expect.objectContaining({
-      text: 'some text4'
-    });
-    const textMatcher5 = expect.objectContaining({
-      text: 'some text5'
-    });
-
-    const dashMatcher = expect.objectContaining(expect.stringMatching(/-{50}/));
-
-    expect(buildNote).toHaveBeenCalledTimes(5);
-    expect(buildNote).toHaveBeenCalledWith(textMatcher1);
-    expect(buildNote).toHaveBeenCalledWith(textMatcher2);
-    expect(buildNote).toHaveBeenCalledWith(textMatcher3);
-    expect(buildNote).toHaveBeenCalledWith(textMatcher4);
-    expect(buildNote).toHaveBeenCalledWith(textMatcher5);
-
-    expect(buildNote).not.toHaveBeenCalledWith(dashMatcher);
+    for (let i = 1; i <= 5; i++) {
+      expect(buildNote).toHaveBeenCalledWith(
+        expect.objectContaining({ text: `some text${i}` })
+      );
+    }
   });
 
   it('builds 5 notes with correct date', async () => {
@@ -136,32 +112,19 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
 
     await gateway.execute(id);
 
-    const recordMatcher1 = expect.objectContaining({
-      date: new Date('2020-01-31T14:10:08.000Z')
-    });
+    const dates = [
+      new Date('2020-01-31T14:10:08.000Z'),
+      new Date('2019-04-10T13:50:50.000Z'),
+      new Date('2019-02-07T10:32:33.000Z'),
+      new Date('2019-01-15T16:12:12.000Z'),
+      new Date('2018-08-16T14:30:07.000Z')
+    ];
 
-    const recordMatcher2 = expect.objectContaining({
-      date: new Date('2019-04-10T13:50:50.000Z')
-    });
-
-    const recordMatcher3 = expect.objectContaining({
-      date: new Date('2019-02-07T10:32:33.000Z')
-    });
-
-    const recordMatcher4 = expect.objectContaining({
-      date: new Date('2019-01-15T16:12:12.000Z')
-    });
-
-    const recordMatcher5 = expect.objectContaining({
-      date: new Date('2018-08-16T14:30:07.000Z')
-    });
-
-    expect(buildNote).toHaveBeenCalledTimes(5);
-    expect(buildNote).toHaveBeenNthCalledWith(1, recordMatcher1);
-    expect(buildNote).toHaveBeenNthCalledWith(2, recordMatcher2);
-    expect(buildNote).toHaveBeenNthCalledWith(3, recordMatcher3);
-    expect(buildNote).toHaveBeenNthCalledWith(4, recordMatcher4);
-    expect(buildNote).toHaveBeenNthCalledWith(5, recordMatcher5);
+    for (let i = 0; i <= 4; i++) {
+      expect(buildNote).toHaveBeenCalledWith(
+        expect.objectContaining({ date: dates[i] })
+      );
+    }
   });
 
   it('returns an empty set of notes if there is an error', async () => {
@@ -169,7 +132,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
 
     const records = await gateway.execute(id);
 
-    expect(buildNote).toHaveBeenCalledTimes(0);
+    expect(buildNote).not.toHaveBeenCalled();
     expect(records.length).toBe(0);
   });
 });

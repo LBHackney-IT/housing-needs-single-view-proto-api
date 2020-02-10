@@ -7,8 +7,8 @@ const { fetchCTCustomerNotesSQL, fetchHBCustomerNotesSQL } = loadSQL(
 );
 
 module.exports = options => {
-  db = options.db;
-  buildNote = options.buildNote;
+  const db = options.db;
+  const buildNote = options.buildNote;
 
   const fetchHBCustomerNotes = async id => {
     return await db.request(fetchHBCustomerNotesSQL, [
@@ -36,14 +36,15 @@ module.exports = options => {
 
   return {
     execute: async queryParams => {
-      let results;
       try {
         if (queryParams.claim_id) {
-          results = await fetchHBCustomerNotes(queryParams.claim_id, db);
+          return processNotes(await fetchHBCustomerNotes(queryParams.claim_id));
         } else if (queryParams.account_ref) {
-          results = await fetchCTCustomerNotes(queryParams.account_ref, db);
+          return processNotes(
+            await fetchCTCustomerNotes(queryParams.account_ref)
+          );
         }
-        return processNotes(results);
+        return [];
       } catch (err) {
         console.log(`Error fetching customer notes in Comino: ${err}`);
         return [];

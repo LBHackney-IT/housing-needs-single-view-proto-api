@@ -74,8 +74,8 @@ module.exports = options => {
 
   return {
     execute: async id => {
-      const claim_id = await fetchSystemId(id);
       try {
+        const claim_id = await fetchSystemId(id);
         if (claim_id) {
           const academyNotes = await fetchCustomerNotes(claim_id);
           const cominoNotes = await cominoFetchNotesGateway.execute({
