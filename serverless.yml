@@ -63,6 +63,8 @@ functions:
     environment:
       jwtsecret: ${ssm:/common/hackney-jwt-secret}
       allowedGroups: 'housingneeds-singleview-beta'
+      ENV: ${self:provider.stage}
+      SENTRY_DSN:  ${ssm:/hn-single-view-api/SENTRY_DSN}
 
 resources:
   Resources:
