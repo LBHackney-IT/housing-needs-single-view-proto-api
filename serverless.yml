@@ -48,7 +48,7 @@ functions:
       SINGLEVIEW_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/SINGLEVIEW_DB}
       HN_COMINO_URL: ${ssm:/hn-single-view-api/production/HN_COMINO_URL}
       ENV: ${self:provider.stage}
-      SENTRY_DSN:  ${ssm:/hn-single-view-api/SENTRY_DSN}
+      SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
       ENABLE_CACHING: false
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
@@ -64,7 +64,7 @@ functions:
       jwtsecret: ${ssm:/common/hackney-jwt-secret}
       allowedGroups: 'housingneeds-singleview-beta'
       ENV: ${self:provider.stage}
-      SENTRY_DSN:  ${ssm:/hn-single-view-api/SENTRY_DSN}
+      SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
 
 resources:
   Resources:
