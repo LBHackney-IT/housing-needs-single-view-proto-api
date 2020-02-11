@@ -5,17 +5,11 @@ describe('JigsawFetchNotesGateway', () => {
   const id = '123';
 
   let doJigsawGetRequest;
-  const jigsawEnv = '_test';
   let getSystemId;
   let doGetRequest;
   let buildNote;
 
-  const createGateway = (
-    records,
-    existsInSystem,
-    throwsError,
-    returnsNotes
-  ) => {
+  const createGateway = (records, existsInSystem, throwsError) => {
     buildNote = jest.fn(input => {
       return input;
     });
@@ -25,7 +19,7 @@ describe('JigsawFetchNotesGateway', () => {
         throw new Error('error');
       }
       if (url.includes('casecheck')) return { cases: records };
-      return records;
+      if (url.includes('Notes')) return records;
     });
 
     doGetRequest = jest.fn(async () => {
@@ -43,7 +37,6 @@ describe('JigsawFetchNotesGateway', () => {
 
     return jigsawFetchNotes({
       doJigsawGetRequest,
-      jigsawEnv,
       buildNote,
       getSystemId,
       doGetRequest
@@ -60,58 +53,49 @@ describe('JigsawFetchNotesGateway', () => {
 
   it('gets customer notes if customer has a system id', async () => {
     const gateway = createGateway([{ id }], true);
+    const urlMatcher = expect.stringContaining(`/api/Customer/${id}/Notes`);
 
     await gateway.execute(id);
-    const urlMatcher = expect.stringContaining(
-      `https://zebracustomers${jigsawEnv}.azurewebsites.net/api/Customer/${id}/Notes`
-    );
 
     expect(doJigsawGetRequest).toHaveBeenCalledWith(urlMatcher);
   });
 
   it('gets case notes if customer has a system id', async () => {
     const gateway = createGateway([{ id }], true);
+    const casesUrlMatcher = expect.stringContaining(`/api/casecheck/`);
+    const caseNotesUrlMatcher = expect.stringContaining(
+      `/api/Cases/${id}/Notes`
+    );
 
     await gateway.execute(id);
-    const urlMatcher = expect.stringContaining(
-      `https://zebrahomelessness${jigsawEnv}.azurewebsites.net/api/casecheck/`
-    );
 
-    const casesUrlMatcher = expect.stringContaining(
-      `https://zebrahomelessness${jigsawEnv}.azurewebsites.net/api/Cases/${id}/Notes`
-    );
-    expect(doJigsawGetRequest).toHaveBeenCalledTimes(3);
-    expect(doJigsawGetRequest).toHaveBeenNthCalledWith(2, urlMatcher);
-    expect(doJigsawGetRequest).toHaveBeenNthCalledWith(3, casesUrlMatcher);
+    expect(doJigsawGetRequest).toHaveBeenCalledWith(casesUrlMatcher);
+    expect(doJigsawGetRequest).toHaveBeenCalledWith(caseNotesUrlMatcher);
   });
 
   it('gets customer sms if customer has a system id', async () => {
     const gateway = createGateway([{ id }], true);
+    const messagesUrlMatcher = expect.stringContaining(
+      `/contacts/${id}/messages`
+    );
 
     await gateway.execute(id, '12345');
-    const urlMatcher = expect.stringContaining(
-      `${process.env.COLLAB_CASEWORK_API}/contacts`
-    );
 
-    const casesUrlMatcher = expect.stringContaining(
-      `${process.env.COLLAB_CASEWORK_API}/contacts/${id}/messages`
-    );
-    expect(doGetRequest).toHaveBeenCalledTimes(2);
-    expect(doGetRequest).toHaveBeenNthCalledWith(
-      1,
-      urlMatcher,
+    expect(doGetRequest).toHaveBeenCalledWith(
+      messagesUrlMatcher,
       expect.anything(),
-      expect.objectContaining({ Authorization: 'Bearer 12345' })
+      expect.anything()
     );
-    expect(doGetRequest).toHaveBeenNthCalledWith(2, casesUrlMatcher);
   });
 
   it('can build a note from an sms', async () => {
     const record = { id, outgoing: false, username: 'Maria' };
     const gateway = createGateway([record], true);
+
     await gateway.execute(id);
 
-    expect(buildNote).toHaveBeenCalledTimes(3);
+    // TODO: this is not totally correct as we dont currently have a way of differentiating between note types
+    // (buildNote will get called 3 times in this test)
     expect(buildNote).toHaveBeenCalledWith(
       expect.objectContaining({ title: 'Incoming SMS' })
     );
@@ -119,10 +103,12 @@ describe('JigsawFetchNotesGateway', () => {
 
   it('can build a note from a customer note', async () => {
     const record = { content: 'text' };
-    const gateway = createGateway([record], true, false, true);
+    const gateway = createGateway([record], true, false);
+
     await gateway.execute(id);
 
-    expect(buildNote).toHaveBeenCalledTimes(3);
+    // TODO: this is not totally correct as we dont currently have a way of differentiating between note types
+    // (buildNote will get called 3 times in this test)
     expect(buildNote).toHaveBeenCalledWith(
       expect.objectContaining({ title: 'Customer Note' })
     );
@@ -133,7 +119,8 @@ describe('JigsawFetchNotesGateway', () => {
     const gateway = createGateway([record], true, false);
     await gateway.execute(id);
 
-    expect(buildNote).toHaveBeenCalledTimes(3);
+    // TODO: this is not totally correct as we dont currently have a way of differentiating between note types
+    // (buildNote will get called 3 times in this test)
     expect(buildNote).toHaveBeenCalledWith(
       expect.objectContaining({ title: 'Case Note' })
     );

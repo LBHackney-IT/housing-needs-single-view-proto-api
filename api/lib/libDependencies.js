@@ -15,7 +15,6 @@ const cleanRecord = require('./use-cases/CleanRecord')({
 });
 const {
   doJigsawGetRequest,
-  jigsawEnv,
   doJigsawPostRequest,
   doGetRequest
 } = require('./JigsawUtils');
@@ -27,7 +26,6 @@ const getSystemId = require('./gateways/SingleView/SystemID')({
 
 const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
   doJigsawGetRequest,
-  jigsawEnv,
   buildSearchRecord
 });
 const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
@@ -87,8 +85,7 @@ const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
     buildDocument,
     doJigsawGetRequest,
     doJigsawPostRequest,
-    getSystemId,
-    jigsawEnv
+    getSystemId
   }
 );
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
@@ -123,7 +120,6 @@ const academyCouncilTaxFetchNotesGateway = require('./gateways/Academy-CouncilTa
 const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
   getSystemId,
   doJigsawGetRequest,
-  jigsawEnv,
   doGetRequest,
   buildNote
 });
