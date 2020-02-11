@@ -110,6 +110,14 @@ const academyBenefitsFetchNotesGateway = require('./gateways/Academy-Benefits/Fe
   }
 );
 
+const uhtHousingRegisterFetchNotesGateway = require('./gateways/UHT-HousingRegister/FetchNotes')(
+  {
+    db: uhtDb,
+    buildNote,
+    getSystemId
+  }
+);
+
 const academyCouncilTaxFetchNotesGateway = require('./gateways/Academy-CouncilTax/FetchNotes')(
   {
     cominoFetchNotesGateway,
@@ -152,6 +160,7 @@ const fetchDocuments = require('./use-cases/FetchDocuments')({
 const fetchNotes = require('./use-cases/FetchNotes')({
   gateways: [
     academyBenefitsFetchNotesGateway,
+    uhtHousingRegisterFetchNotesGateway,
     academyCouncilTaxFetchNotesGateway,
     jigsawFetchNotesGateway
   ]
