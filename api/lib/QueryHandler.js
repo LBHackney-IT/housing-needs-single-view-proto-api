@@ -118,19 +118,6 @@ const QueryHandler = {
     }
 
     return cleanRecord(customer);
-  },
-
-  fetchCustomerNotes: async (id, hackneyToken) => {
-    const links = await getCustomerLinks(id);
-    let requests = links.map(async link =>
-      backends[link.name].fetchCustomerNotes(link.remote_id, hackneyToken)
-    );
-
-    let results = [].concat.apply([], await Promise.all(requests));
-    results = dedupeNotes(results);
-    results = results.sort((a, b) => b.date - a.date);
-
-    return { notes: results };
   }
 };
 
