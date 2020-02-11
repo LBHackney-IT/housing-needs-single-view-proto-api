@@ -8,13 +8,13 @@ module.exports = options => {
   const buildNote = options.buildNote;
   const getSystemId = options.getSystemId;
 
-  const fetchSystemId = async id => {
-    return await getSystemId.execute(Systems.UHT_CONTACTS, id);
+  const fetchHouseRef = async id => {
+    const systemId = await getSystemId.execute(Systems.UHT_CONTACTS, id);
+    const [houseRef, personNo] = systemId.split('/');
+    return houseRef;
   };
 
-  async function fetchActionDiaryNotes(id) {
-    const [house_ref, person_no] = id.split('/');
-
+  async function fetchActionDiaryNotes(house_ref) {
     return await db.request(fetchActionDiaryNotesSQL, [
       { id: 'house_ref', type: 'NVarChar', value: house_ref }
     ]);
@@ -23,7 +23,7 @@ module.exports = options => {
   const processNotes = function(notes) {
     return notes.map(note => {
       return buildNote({
-        id: null,
+        id: note.araction_sid,
         title: 'Action Diary Note',
         text: note.action_comment,
         date: formatRecordDate(note.action_date),
@@ -36,15 +36,15 @@ module.exports = options => {
   return {
     execute: async id => {
       try {
-        const uht_contacts_id = await fetchSystemId(id);
-        if (uht_contacts_id) {
-          const notes = await fetchActionDiaryNotes(uht_contacts_id);
+        const houseRef = await fetchHouseRef(id);
+        if (houseRef) {
+          const notes = await fetchActionDiaryNotes(houseRef);
           return processNotes(notes);
         }
-        return [];
       } catch (err) {
         console.log(`Error fetching customers in UHT-ActionDiary: ${err}`);
-      }
+      };
+      return [];
     }
   };
 };

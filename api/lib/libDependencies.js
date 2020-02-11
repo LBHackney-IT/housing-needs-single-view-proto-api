@@ -1,4 +1,3 @@
-const { doJigsawGetRequest, doJigsawPostRequest } = require('./JigsawUtils');
 const SqlServerConnection = require('./SqlServerConnection');
 const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB });
 const uhtDb = new SqlServerConnection({ dbUrl: process.env.UHT_DB });

@@ -22,7 +22,7 @@ describe('UHTContactsFetchNotes gateway', () => {
     getSystemId = {
       execute: jest.fn(async () => {
         if (noSystemId) {
-          return null;
+          return undefined;
         }
         return '123542/1';
       })
