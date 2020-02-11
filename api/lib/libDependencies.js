@@ -110,6 +110,13 @@ const academyBenefitsFetchNotesGateway = require('./gateways/Academy-Benefits/Fe
   }
 );
 
+const academyCouncilTaxFetchNotesGateway = require('./gateways/Academy-CouncilTax/FetchNotes')(
+  {
+    cominoFetchNotesGateway,
+    getSystemId
+  }
+);
+
 const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
   getSystemId,
   doJigsawGetRequest,
@@ -143,7 +150,11 @@ const fetchDocuments = require('./use-cases/FetchDocuments')({
 });
 
 const fetchNotes = require('./use-cases/FetchNotes')({
-  gateways: [academyBenefitsFetchNotesGateway, jigsawFetchNotesGateway]
+  gateways: [
+    academyBenefitsFetchNotesGateway,
+    academyCouncilTaxFetchNotesGateway,
+    jigsawFetchNotesGateway
+  ]
 });
 
 module.exports = {
