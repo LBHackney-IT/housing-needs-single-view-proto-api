@@ -150,8 +150,11 @@ const fetchDocuments = require('./use-cases/FetchDocuments')({
 });
 
 const fetchNotes = require('./use-cases/FetchNotes')({
-  gateways: [academyBenefitsFetchNotesGateway, uhwFetchNotesGateway]
-  gateways: [academyBenefitsFetchNotesGateway, jigsawFetchNotesGateway]
+  gateways: [
+    academyBenefitsFetchNotesGateway,
+    jigsawFetchNotesGateway,
+    uhwFetchNotesGateway
+  ]
 });
 
 module.exports = {
