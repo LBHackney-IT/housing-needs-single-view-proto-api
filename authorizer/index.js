@@ -1,6 +1,13 @@
 require('dotenv').config();
+const Sentry = require('@sentry/node');
 const jwt = require('jsonwebtoken');
 const cookie = require('cookie');
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  environment: process.env.ENV
+});
+
 const jwt_secret = process.env.jwtsecret;
 const allowedGroups = process.env.allowedGroups.split(',');
 
@@ -54,15 +61,21 @@ function userInAllowedGroup(userGroups) {
   }
 }
 
-exports.handler = (event, context, callback) => {
-  const token =
-    extractTokenFromAuthHeader(event) ||
-    extractTokenFromCookieHeader(event) ||
-    extractTokenFromUrl(event);
-  const decodedToken = decodeToken(token);
-  if (token && decodedToken && userInAllowedGroup(decodedToken.groups)) {
-    callback(null, allow(event.methodArn));
-  } else {
-    callback('Unauthorized');
+exports.handler = async event => {
+  try {
+    const token =
+      extractTokenFromAuthHeader(event) ||
+      extractTokenFromCookieHeader(event) ||
+      extractTokenFromUrl(event);
+    const decodedToken = decodeToken(token);
+    if (token && decodedToken && userInAllowedGroup(decodedToken.groups)) {
+      return allow(event.methodArn);
+    } else {
+      return 'Unauthorized';
+    }
+  } catch (err) {
+    console.log(err);
+    Sentry.captureException(err);
+    await Sentry.flush();
   }
 };

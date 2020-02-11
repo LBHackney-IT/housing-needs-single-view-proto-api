@@ -4,13 +4,12 @@ const { formatRecordDate } = require('../../Utils');
 module.exports = options => {
   const doGetRequest = options.doGetRequest;
   const doJigsawGetRequest = options.doJigsawGetRequest;
-  const jigsawEnv = options.jigsawEnv;
 
-  const caseUrl = `https://zebrahomelessness${jigsawEnv}.azurewebsites.net/api/casecheck/`;
+  const caseUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/casecheck/`;
   const customerNotesUrl = id =>
-    `https://zebracustomers${jigsawEnv}.azurewebsites.net/api/Customer/${id}/Notes`;
+    `https://zebracustomersproduction.azurewebsites.net/api/Customer/${id}/Notes`;
   const caseNotesUrl = id =>
-    `https://zebrahomelessness${jigsawEnv}.azurewebsites.net/api/Cases/${id}/Notes`;
+    `https://zebrahomelessnessproduction.azurewebsites.net/api/Cases/${id}/Notes`;
   const collabCaseworkUrl = `${process.env.COLLAB_CASEWORK_API}/contacts`;
   const collabCaseworkMessagesUrl = id => `${collabCaseworkUrl}/${id}/messages`;
 
