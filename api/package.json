@@ -13,7 +13,8 @@
     "pg-promise": "^9.3.3",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
-    "serverless-http": "^2.3.0"
+    "serverless-http": "^2.3.0",
+    "@sentry/node": "^5.12.2"
   },
   "scripts": {
     "lint": "eslint --fix --ext js lib && echo 'Lint complete.'",
