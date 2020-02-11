@@ -4,7 +4,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const QueryHandler = require('./lib/QueryHandler');
-const { customerSearch, fetchDocuments } = require('./lib/libDependencies');
+const {
+  customerSearch,
+  fetchDocuments,
+  fetchNotes
+} = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
   const Sentry = require('@sentry/node');
@@ -113,10 +117,7 @@ app.get('/customers/:id/record', async (req, res) => {
 app.get('/customers/:id/notes', async (req, res) => {
   console.log(`GET CUSTOMER NOTES id="${req.params.id}"`);
   console.time(`GET CUSTOMER NOTES id="${req.params.id}"`);
-  const results = await QueryHandler.fetchCustomerNotes(
-    req.params.id,
-    res.locals.hackneyToken
-  );
+  const results = await fetchNotes(req.params.id, res.locals.hackneyToken);
   console.timeEnd(`GET CUSTOMER NOTES id="${req.params.id}"`);
   res.send(results);
 });

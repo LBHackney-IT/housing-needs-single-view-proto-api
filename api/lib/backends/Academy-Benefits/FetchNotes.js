@@ -59,7 +59,8 @@ module.exports = options => {
       const claim_id = id.split('/')[0];
       const academyResults = await fetchCustomerNotes(id, db);
       const cominoResults = await Comino.fetchCustomerNotes({ claim_id });
-      return processNotesResults(academyResults).concat(cominoResults);
+      const results = processNotesResults(academyResults).concat(cominoResults);
+      return results;
     } catch (err) {
       console.log(`Error fetching customer notes in Academy-Benefits: ${err}`);
     }

@@ -13,12 +13,12 @@ const backends = {
   [Systems.SINGLEVIEW]: require('./backends/SingleView')
 };
 
-const badData = {
-  address: ['10 Elmbridge Walk, Blackstone Estate, London, E8 3HA'],
-  dob: ['01/01/1900']
-};
-
-const { cleanRecord } = require('./use-cases')({ badData });
+const cleanRecord = require('./use-cases/CleanRecord')({
+  badData: {
+    address: ['10 Elmbridge Walk, Blackstone Estate, London, E8 3HA'],
+    dob: ['01/01/1900']
+  }
+});
 
 let getCustomerLinks = async function(id) {
   const query = `

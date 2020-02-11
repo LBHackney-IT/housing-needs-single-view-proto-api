@@ -29,7 +29,7 @@ describe('UHWFetchDocumentsGateway', () => {
     });
   };
 
-  it('if customer has a system id we get the docs', async () => {
+  it('gets the docs if customer has a system id', async () => {
     const gateway = createGateway([], true);
     const id = '123';
     const paramMatcher = expect.arrayContaining([
@@ -41,7 +41,7 @@ describe('UHWFetchDocumentsGateway', () => {
     expect(db.request).toHaveBeenCalledWith(expect.anything(), paramMatcher);
   });
 
-  it('if customer does not have a system id we do not get the docs', async () => {
+  it('does not get the docs if customer does not have a system id', async () => {
     const gateway = createGateway([], false);
 
     const documents = await gateway.execute();

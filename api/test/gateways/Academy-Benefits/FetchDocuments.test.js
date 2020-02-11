@@ -2,6 +2,7 @@ const academyBenefitsFetchDocuments = require('../../../lib/gateways/Academy-Ben
 const { Systems } = require('../../../lib/Constants');
 
 describe('AcademyBenefitsFetchDocumentsGateway', () => {
+  const id = '123/1';
   let buildDocument;
   let db;
   let cominoFetchDocumentsGateway;
@@ -20,9 +21,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     };
 
     cominoFetchDocumentsGateway = {
-      execute: jest.fn(async () => {
-        return [];
-      })
+      execute: jest.fn()
     };
 
     getSystemId = {
@@ -41,19 +40,17 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
 
   it('gets the system ID', async () => {
     const gateway = createGateway([], true);
-    id = '123';
 
     await gateway.execute(id);
 
     expect(getSystemId.execute).toHaveBeenCalledWith(
       Systems.ACADEMY_BENEFITS,
-      '123'
+      '123/1'
     );
   });
 
-  it('if customer has a system id we get the docs', async () => {
-    const gateway = createGateway([], true, false);
-    const id = '123/1';
+  it('gets the docs if customer has a system id', async () => {
+    const gateway = createGateway([], true);
     const paramMatcher = expect.arrayContaining([
       expect.objectContaining({ value: '123' })
     ]);
@@ -68,9 +65,8 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     );
   });
 
-  it('if customer does not have a system id we do not get the docs', async () => {
-    const gateway = createGateway([], false, false);
-    const id = '123/1';
+  it('does not get the docs if customer does not have a system id', async () => {
+    const gateway = createGateway([]);
     await gateway.execute(id);
 
     expect(db.request).toHaveBeenCalledTimes(0);
@@ -78,9 +74,8 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
   });
 
   it('builds a document', async () => {
-    const id = '123';
-    const record = { id: '123', correspondence_code: 'code' };
-    const gateway = createGateway([record], true, false);
+    const record = { id, correspondence_code: 'code' };
+    const gateway = createGateway([record], true);
 
     await gateway.execute(id);
 
@@ -92,8 +87,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
   });
 
   it('returns an empty set of documents if there is an error', async () => {
-    const id = '123';
-    const record = { id: '123' };
+    const record = { id };
     const gateway = createGateway([record], true, true);
 
     const records = await gateway.execute(id);
