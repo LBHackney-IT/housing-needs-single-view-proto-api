@@ -7,7 +7,8 @@ module.exports = options => {
   const db = options.db;
   return {
     execute: async (name, id) => {
-      const result = await db.oneOrNone(fetchSystemIdSQL, [id, name]);
+      let result = await db.any(fetchSystemIdSQL, [id, name]);
+      result = result[0].remote_id;
       if (result) return result.remote_id;
     }
   };
