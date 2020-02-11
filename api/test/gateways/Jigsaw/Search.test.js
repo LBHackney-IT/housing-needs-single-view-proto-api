@@ -3,7 +3,6 @@ const jigsawSearch = require('../../../lib/gateways/Jigsaw/Search');
 describe('JigsawSearchGateway', () => {
   let buildSearchRecord;
   let doJigsawGetRequest;
-  let jigsawEnv = 'test';
 
   const createGateway = (records, throwsError) => {
     buildSearchRecord = jest.fn(({ id }) => {
@@ -19,8 +18,7 @@ describe('JigsawSearchGateway', () => {
 
     return jigsawSearch({
       buildSearchRecord,
-      doJigsawGetRequest,
-      jigsawEnv
+      doJigsawGetRequest
     });
   };
 
@@ -29,7 +27,7 @@ describe('JigsawSearchGateway', () => {
     const firstName = 'maria';
     const queryMatcher = expect.stringMatching(/maria/);
     const searchUrl = expect.stringMatching(
-      /zebracustomerstest.azurewebsites.net/
+      /zebracustomersproduction.azurewebsites.net/
     );
     await gateway.execute({ firstName });
 

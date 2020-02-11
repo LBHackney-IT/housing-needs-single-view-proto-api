@@ -2,9 +2,7 @@ const request = require('request-promise');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-const jigsawEnv = process.env.ENV === 'production' ? 'live' : 'training';
-
-const loginUrl = `https://${jigsawEnv}.housingjigsaw.co.uk/auth/login`;
+const loginUrl = `https://live.housingjigsaw.co.uk/auth/login`;
 
 let bearerToken = null;
 let lastLogin = null;
@@ -93,8 +91,7 @@ const doJigsawPostRequest = async function(url, json) {
 const options = {
   doGetRequest,
   doJigsawGetRequest,
-  doJigsawPostRequest,
-  jigsawEnv
+  doJigsawPostRequest
 };
 
 const Backend = {
