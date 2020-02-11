@@ -46,12 +46,14 @@ module.exports = options => {
     const parsedMeta = meta
       .trim()
       .match(
-        /User Id: ([^ ]+) {2}Date: (\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2})/
+        /User Id: ([^ ]+) {2}Date: (\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2}) {2}([^ ]+)/
       );
     const date = constructDate(parsedMeta);
     const user = parsedMeta[1];
+    const id = parsedMeta[8];
 
     return {
+      id,
       text: text.join('\n').trim(),
       date,
       user
@@ -62,7 +64,7 @@ module.exports = options => {
     return cleanupNotes(notes).map(note => {
       const noteData = deconstructNote(note);
       return buildNote({
-        id: null,
+        id: noteData.id,
         title: 'Note',
         text: noteData.text,
         date: noteData.date,

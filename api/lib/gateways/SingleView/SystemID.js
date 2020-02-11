@@ -8,7 +8,7 @@ module.exports = options => {
   return {
     execute: async (name, id) => {
       let result = await db.any(fetchSystemIdSQL, [id, name]);
-      result = result[0].remote_id;
+      result = result[0];
       if (result) return result.remote_id;
     }
   };

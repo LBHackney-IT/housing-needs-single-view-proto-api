@@ -4,7 +4,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const QueryHandler = require('./lib/QueryHandler');
-const { customerSearch, fetchDocuments } = require('./lib/libDependencies');
+const {
+  customerSearch,
+  fetchDocuments,
+  fetchNotes
+} = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
   const Sentry = require('@sentry/node');
