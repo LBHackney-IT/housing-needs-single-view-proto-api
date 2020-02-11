@@ -13,11 +13,10 @@ module.exports = options => {
       Systems.UHT_HOUSING_REGISTER,
       id
     );
-
     if (systemId) return systemId;
   };
 
-  const fetchCustomerNotesQuery = async systemId => {
+  const fetchCustomerNotes = async systemId => {
     const [app_ref, person_no] = systemId.split('/');
 
     return await db.request(fetchCustomerNotesSQL, [
@@ -26,10 +25,33 @@ module.exports = options => {
     ]);
   };
 
+  const processNotes = notes => {
+    return notes.map(note => {
+      return buildNote({
+        text: note.clog_details,
+        date: note.clog_date,
+        user: note.username,
+        title: 'Note',
+        system: Systems.UHT_HOUSING_REGISTER
+      });
+    });
+  };
+
   return {
     execute: async id => {
-      const systemId = await fetchSystemId(id);
-      fetchCustomerNotesQuery(systemId);
+      try {
+        const systemId = await fetchSystemId(id);
+        if (systemId) {
+          const notes = await fetchCustomerNotes(systemId);
+          return processNotes(notes);
+        }
+        return [];
+      } catch (err) {
+        console.log(
+          `Error fetching customer notes in UHT-HousingRegister: ${err}`
+        );
+        return [];
+      }
     }
   };
 };

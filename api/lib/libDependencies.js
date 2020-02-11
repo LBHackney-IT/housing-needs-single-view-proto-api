@@ -112,6 +112,14 @@ const academyBenefitsFetchNotesGateway = require('./gateways/Academy-Benefits/Fe
   }
 );
 
+const uhtHousingRegisterFetchNotesGateway = require('./gateways/UHT-HousingRegister/FetchNotes')(
+  {
+    db: uhtDb,
+    buildNote,
+    getSystemId
+  }
+);
+
 // USECASES
 
 const customerSearch = require('./use-cases/CustomerSearch')({
@@ -138,7 +146,10 @@ const fetchDocuments = require('./use-cases/FetchDocuments')({
 });
 
 const fetchNotes = require('./use-cases/FetchNotes')({
-  gateways: [academyBenefitsFetchNotesGateway]
+  gateways: [
+    academyBenefitsFetchNotesGateway,
+    uhtHousingRegisterFetchNotesGateway
+  ]
 });
 
 module.exports = {
