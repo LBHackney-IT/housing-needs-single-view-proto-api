@@ -3,15 +3,14 @@ const { Systems } = require('../../Constants');
 module.exports = options => {
   const getSystemId = options.getSystemId;
   const doJigsawGetRequest = options.doJigsawGetRequest;
-  const jigsawEnv = options.jigsawEnv;
   const doGetRequest = options.doGetRequest;
   const buildNote = options.buildNote;
 
   const customerNotesUrl = id =>
-    `https://zebracustomers${jigsawEnv}.azurewebsites.net/api/Customer/${id}/Notes`;
-  const caseUrl = `https://zebrahomelessness${jigsawEnv}.azurewebsites.net/api/casecheck/`;
+    `https://zebracustomersproduction.azurewebsites.net/api/Customer/${id}/Notes`;
+  const caseUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/casecheck/`;
   const caseNotesUrl = id =>
-    `https://zebrahomelessness${jigsawEnv}.azurewebsites.net/api/Cases/${id}/Notes`;
+    `https://zebrahomelessnessproduction.azurewebsites.net/api/Cases/${id}/Notes`;
   const collabCaseworkUrl = `${process.env.COLLAB_CASEWORK_API}/contacts`;
   const collabCaseworkMessagesUrl = id => `${collabCaseworkUrl}/${id}/messages`;
 
@@ -38,26 +37,45 @@ module.exports = options => {
   };
 
   const fetchCustomerSms = async (jigsawId, hackneyToken) => {
-    const smsContact = await doGetRequest(
+    const authHeader = {
+      Authorization: `Bearer ${hackneyToken}`
+    };
+
+    const smsContacts = await doGetRequest(
       collabCaseworkUrl,
       { jigsawId },
-      {
-        Authorization: `Bearer ${hackneyToken}`
-      }
+      authHeader
     );
 
-    if (smsContact.length === 0) return [];
+    if (smsContacts.length === 0) return [];
 
-    return await doGetRequest(collabCaseworkMessagesUrl(smsContact[0].id));
+    const contact = smsContacts[0];
+
+    const messages = await doGetRequest(
+      collabCaseworkMessagesUrl(contact.id),
+      {},
+      authHeader
+    );
+
+    return messages.map(m => {
+      return {
+        id: m.id,
+        title: `${m.outgoing ? 'Outgoing' : 'Incoming'} SMS`,
+        text: m.message,
+        date: m.time,
+        user: m.user_id // TODO: need to get username
+      };
+    });
   };
 
   const processSMS = sms => {
     return sms.map(m => {
       return buildNote({
-        title: `${m.outgoing ? 'Outgoing' : 'Incoming'} SMS`,
-        text: m.message,
-        date: m.time,
-        user: m.username,
+        id: m.id,
+        title: m.title,
+        text: m.text,
+        date: m.date,
+        user: m.user,
         system: 'SMS'
       });
     });
@@ -67,6 +85,7 @@ module.exports = options => {
     return notes.map(note => {
       const date = note.interviewDate ? note.interviewDate : note.createdDate;
       return buildNote({
+        id: note.id,
         title: noteType,
         text: note.content,
         date: date,
@@ -78,15 +97,15 @@ module.exports = options => {
   return {
     execute: async (id, token) => {
       try {
-      const jigsaw_id = await fetchSystemId(id);
-      const custNotes = await fetchCustomerNotes(jigsaw_id);
-      const caseNotes = await fetchCaseNotes(id);
-      const sms = await fetchCustomerSms(id, token);
+        const jigsaw_id = await fetchSystemId(id);
+        const custNotes = await fetchCustomerNotes(jigsaw_id);
+        const caseNotes = await fetchCaseNotes(jigsaw_id);
+        const sms = await fetchCustomerSms(jigsaw_id, token);
 
-      return processNotes(custNotes, 'Customer Note').concat(
-        processNotes(caseNotes, 'Case Note'),
-        processSMS(sms)
-      );
+        return processNotes(custNotes, 'Customer Note').concat(
+          processNotes(caseNotes, 'Case Note'),
+          processSMS(sms)
+        );
       } catch (err) {
         console.log(`Error fetching customer notes in Jigsaw: ${err}`);
         return [];
