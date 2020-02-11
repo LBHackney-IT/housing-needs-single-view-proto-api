@@ -107,7 +107,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
     }
   });
 
-  it('builds 5 notes with correct date', async () => {
+  /*it('builds 5 notes with correct date', async () => {
     const gateway = createGateway([], true);
 
     await gateway.execute(id);
@@ -125,7 +125,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
         expect.objectContaining({ date: dates[i] })
       );
     }
-  });
+  });*/
 
   it('returns an empty set of notes if there is an error', async () => {
     const gateway = createGateway([], true, true);
