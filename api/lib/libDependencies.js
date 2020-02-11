@@ -110,16 +110,17 @@ const academyBenefitsFetchNotesGateway = require('./gateways/Academy-Benefits/Fe
   }
 );
 
-<<<<<<< HEAD
 const uhtHousingRegisterFetchNotesGateway = require('./gateways/UHT-HousingRegister/FetchNotes')(
   {
     db: uhtDb,
     buildNote,
-=======
+    getSystemId
+  }
+);
+
 const academyCouncilTaxFetchNotesGateway = require('./gateways/Academy-CouncilTax/FetchNotes')(
   {
     cominoFetchNotesGateway,
->>>>>>> origin/notes-gateways
     getSystemId
   }
 );
