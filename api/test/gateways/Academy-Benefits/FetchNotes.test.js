@@ -107,25 +107,26 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
     }
   });
 
-  /*it('builds 5 notes with correct date', async () => {
+  it('builds 5 notes with correct date', async () => {
     const gateway = createGateway([], true);
 
     await gateway.execute(id);
 
     const dates = [
       new Date('2020-01-31T14:10:08.000Z'),
-      new Date('2019-04-10T13:50:50.000Z'),
+      new Date('2019-04-10T14:50:50.000Z'),
       new Date('2019-02-07T10:32:33.000Z'),
       new Date('2019-01-15T16:12:12.000Z'),
-      new Date('2018-08-16T14:30:07.000Z')
+      new Date('2018-08-16T15:30:07.000Z')
     ];
 
     for (let i = 0; i <= 4; i++) {
-      expect(buildNote).toHaveBeenCalledWith(
+      expect(buildNote).toHaveBeenNthCalledWith(
+        i + 1,
         expect.objectContaining({ date: dates[i] })
       );
     }
-  });*/
+  });
 
   it('returns an empty set of notes if there is an error', async () => {
     const gateway = createGateway([], true, true);

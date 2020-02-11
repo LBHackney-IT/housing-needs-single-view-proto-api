@@ -28,7 +28,7 @@ module.exports = options => {
       .map(x => x.trim())
       .filter(x => x);
   };
-
+  new Date();
   const constructDate = metadata => {
     return new Date(
       parseInt(metadata[4]),
