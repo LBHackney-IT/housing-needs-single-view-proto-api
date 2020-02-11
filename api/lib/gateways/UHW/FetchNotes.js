@@ -22,6 +22,7 @@ module.exports = options => {
   const processNotes = notes => {
     return notes.map(note => {
       return buildNote({
+        id: note.NoteID,
         title: 'Note',
         text: note.NoteText,
         date: note.NDate,
