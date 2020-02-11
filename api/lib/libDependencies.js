@@ -1,3 +1,4 @@
+const { doJigsawGetRequest, doJigsawPostRequest } = require('./JigsawUtils');
 const SqlServerConnection = require('./SqlServerConnection');
 const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB });
 const uhtDb = new SqlServerConnection({ dbUrl: process.env.UHT_DB });
@@ -26,7 +27,6 @@ const getSystemId = require('./gateways/SingleView/SystemID')({
 
 const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
   doJigsawGetRequest,
-  jigsawEnv,
   buildSearchRecord
 });
 const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
@@ -86,8 +86,7 @@ const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
     buildDocument,
     doJigsawGetRequest,
     doJigsawPostRequest,
-    getSystemId,
-    jigsawEnv
+    getSystemId
   }
 );
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(

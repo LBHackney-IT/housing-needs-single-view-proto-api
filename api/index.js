@@ -4,14 +4,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const QueryHandler = require('./lib/QueryHandler');
-const {
-  customerSearch,
-  fetchDocuments,
-  fetchNotes
-} = require('./lib/libDependencies');
-const Sentry = require('@sentry/node');
+const { customerSearch, fetchDocuments } = require('./lib/libDependencies');
 
-if (process.env.SENTRY_DSN && process.env.ENV === 'production') {
+if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
+  const Sentry = require('@sentry/node');
+
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     environment: process.env.ENV
