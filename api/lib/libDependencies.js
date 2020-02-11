@@ -174,15 +174,11 @@ const fetchDocuments = require('./use-cases/FetchDocuments')({
 const fetchNotes = require('./use-cases/FetchNotes')({
   gateways: [
     academyBenefitsFetchNotesGateway,
-<<<<<<< HEAD
     jigsawFetchNotesGateway,
-    uhwFetchNotesGateway
-=======
+    uhwFetchNotesGateway,
     uhtHousingRegisterFetchNotesGateway,
     academyCouncilTaxFetchNotesGateway,
-    jigsawFetchNotesGateway,
     uhtContactsFetchNotesGateway
->>>>>>> origin/notes-gateways
   ]
 });
 
