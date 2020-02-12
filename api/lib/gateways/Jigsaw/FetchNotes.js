@@ -98,14 +98,17 @@ module.exports = options => {
     execute: async (id, token) => {
       try {
         const jigsaw_id = await fetchSystemId(id);
-        const custNotes = await fetchCustomerNotes(jigsaw_id);
-        const caseNotes = await fetchCaseNotes(jigsaw_id);
-        const sms = await fetchCustomerSms(jigsaw_id, token);
+        if (jigsaw_id) {
+          const custNotes = await fetchCustomerNotes(jigsaw_id);
+          const caseNotes = await fetchCaseNotes(jigsaw_id);
+          const sms = await fetchCustomerSms(jigsaw_id, token);
 
-        return processNotes(custNotes, 'Customer Note').concat(
-          processNotes(caseNotes, 'Case Note'),
-          processSMS(sms)
-        );
+          return processNotes(custNotes, 'Customer Note').concat(
+            processNotes(caseNotes, 'Case Note'),
+            processSMS(sms)
+          );
+        }
+        return [];
       } catch (err) {
         console.log(`Error fetching customer notes in Jigsaw: ${err}`);
         return [];
