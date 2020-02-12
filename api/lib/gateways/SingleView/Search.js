@@ -14,11 +14,11 @@ module.exports = options => {
 
     if (queryParams.firstName && queryParams.firstName !== '') {
       whereClause.push('first_name ILIKE ${firstName}');
-      params.firstName = `%${queryParams.firstName}%`;
+      params.firstName = `%${queryParams.firstName.trim()}%`;
     }
     if (queryParams.lastName && queryParams.lastName !== '') {
       whereClause.push('last_name ILIKE ${lastName}');
-      params.lastName = `%${queryParams.lastName}%`;
+      params.lastName = `%${queryParams.lastName.trim()}%`;
     }
 
     const query = `${customerSearchSQL} WHERE (${whereClause.join(' AND ')})`;
