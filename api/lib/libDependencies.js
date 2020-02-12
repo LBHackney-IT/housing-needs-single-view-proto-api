@@ -159,12 +159,13 @@ const customerSearch = require('./use-cases/CustomerSearch')({
 });
 
 const fetchDocuments = require('./use-cases/FetchDocuments')({
-  gateways: [
-    academyCouncilTaxFetchDocumentsGateway,
-    academyBenefitsFetchDocumentsGateway,
-    jigsawFetchDocumentsGateway,
-    uhwFetchDocumentsGateway
-  ]
+  gateways: {
+    [Systems.UHW]: uhwFetchDocumentsGateway,
+    [Systems.ACADEMY_BENEFITS]: academyBenefitsFetchDocumentsGateway,
+    [Systems.ACADEMY_COUNCIL_TAX]: academyCouncilTaxFetchDocumentsGateway,
+    [Systems.JIGSAW]: jigsawFetchDocumentsGateway
+  },
+  db: singleViewDb
 });
 
 const fetchNotes = require('./use-cases/FetchNotes')({
