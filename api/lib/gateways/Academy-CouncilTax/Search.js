@@ -37,7 +37,7 @@ module.exports = options => {
       });
   };
   const search = async queryParams => {
-    let fullName = [queryParams.lastName, queryParams.firstName]
+    let fullName = [queryParams.lastName.trim(), queryParams.firstName.trim()]
       .filter(i => i && i !== '')
       .map(i => i.toUpperCase())
       .join('%');
