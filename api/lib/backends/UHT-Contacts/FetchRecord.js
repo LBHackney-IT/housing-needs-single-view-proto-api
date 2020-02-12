@@ -14,10 +14,12 @@ const { fetchCustomerSQL } = loadSQL(path.join(__dirname, 'sql'));
 async function fetchCustomer(id, db) {
   const [house_ref, person_no] = id.split('/');
 
-  return (await db.request(fetchCustomerSQL, [
-    { id: 'house_ref', type: 'NVarChar', value: house_ref },
-    { id: 'person_no', type: 'Int', value: person_no }
-  ]))[0];
+  return (
+    await db.request(fetchCustomerSQL, [
+      { id: 'house_ref', type: 'NVarChar', value: house_ref },
+      { id: 'person_no', type: 'Int', value: person_no }
+    ])
+  )[0];
 }
 
 let processCustomer = function(result) {
@@ -68,7 +70,7 @@ let processCustomer = function(result) {
       ])
     };
     customer.tenancies = { current: [], previous: [] };
-    if (tenancy.endDate === '1900-01-01') {
+    if (tenancy.endDate.includes('1900-01-01')) {
       // It is the current tenancy
       tenancy.endDate = null;
       customer.tenancies.current.push(tenancy);
