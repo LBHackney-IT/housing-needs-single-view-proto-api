@@ -112,7 +112,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
   });
 
   it('builds 5 notes with correct date', async () => {
-    const gateway = createGateway(true);
+    const gateway = createGateway([], true);
     await gateway.execute(id);
 
     const dates = [
