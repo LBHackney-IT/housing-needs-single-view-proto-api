@@ -14,12 +14,34 @@ const { fetchCustomerSQL } = loadSQL(path.join(__dirname, 'sql'));
 async function fetchCustomer(id, db) {
   const [house_ref, person_no] = id.split('/');
 
-  return (
-    await db.request(fetchCustomerSQL, [
-      { id: 'house_ref', type: 'NVarChar', value: house_ref },
-      { id: 'person_no', type: 'Int', value: person_no }
-    ])
-  )[0];
+  const records = await db.request(fetchCustomerSQL, [
+    { id: 'house_ref', type: 'NVarChar', value: house_ref },
+    { id: 'person_no', type: 'Int', value: person_no }
+  ]);
+
+  console.log(`BLAH ${house_ref} ${person_no}. RECS: ${records.length}`);
+
+  function compare(record1, record2) {
+    const date1 = new Date(
+      record1.start_date.split(' ')[0],
+      record1.start_date.split(' ')[1] - 1,
+      record1.start_date.split(' ')[2]
+    );
+    const date2 = new Date(
+      record2.start_date.split(' ')[0],
+      record2.start_date.split(' ')[1] - 1,
+      record2.start_date.split(' ')[2]
+    );
+    let comparison = 0;
+    if (date1 > date2) {
+      comparison = 1;
+    } else if (date2 > date1) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
+  return records.sort(compare)[0];
 }
 
 let processCustomer = function(result) {
@@ -75,7 +97,7 @@ let processCustomer = function(result) {
       tenancy.endDate = null;
       customer.tenancies.current.push(tenancy);
     } else {
-      // It is an old tenancy
+      // It is an old tenancy`
       customer.tenancies.previous.push(tenancy);
     }
   }
