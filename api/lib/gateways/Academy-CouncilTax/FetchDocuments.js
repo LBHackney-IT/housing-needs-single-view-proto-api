@@ -21,7 +21,7 @@ module.exports = options => {
         }
         return [];
       } catch (err) {
-        console.log(`Error fetching customer notes in Comino: ${err}`);
+        console.log(`Error fetching customer documents in Comino: ${err}`);
         return [];
       }
     }

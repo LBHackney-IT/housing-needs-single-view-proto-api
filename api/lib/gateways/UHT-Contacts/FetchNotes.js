@@ -44,7 +44,7 @@ module.exports = options => {
           return processNotes(notes);
         }
       } catch (err) {
-        console.log(`Error fetching customers in UHT-ActionDiary: ${err}`);
+        console.log(`Error fetching notes in UHT-Contacts: ${err}`);
       }
       return [];
     }
