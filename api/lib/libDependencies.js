@@ -1,3 +1,4 @@
+const { Systems } = require('./Constants');
 const SqlServerConnection = require('./SqlServerConnection');
 const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB });
 const uhtDb = new SqlServerConnection({ dbUrl: process.env.UHT_DB });
@@ -167,14 +168,14 @@ const fetchDocuments = require('./use-cases/FetchDocuments')({
 });
 
 const fetchNotes = require('./use-cases/FetchNotes')({
-  gateways: [
-    academyBenefitsFetchNotesGateway,
-    jigsawFetchNotesGateway,
-    uhwFetchNotesGateway,
-    uhtHousingRegisterFetchNotesGateway,
-    academyCouncilTaxFetchNotesGateway,
-    uhtContactsFetchNotesGateway
-  ]
+  gateways: {
+    [Systems.UHT_CONTACTS]: uhtContactsFetchNotesGateway,
+    [Systems.UHT_HOUSING_REGISTER]: uhtHousingRegisterFetchNotesGateway,
+    [Systems.UHW]: uhwFetchNotesGateway,
+    [Systems.ACADEMY_BENEFITS]: academyBenefitsFetchNotesGateway,
+    [Systems.ACADEMY_COUNCIL_TAX]: academyCouncilTaxFetchNotesGateway,
+    [Systems.JIGSAW]: jigsawFetchNotesGateway
+  }
 });
 
 module.exports = {
