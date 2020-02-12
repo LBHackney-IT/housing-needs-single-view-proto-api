@@ -176,7 +176,8 @@ const fetchNotes = require('./use-cases/FetchNotes')({
     [Systems.ACADEMY_BENEFITS]: academyBenefitsFetchNotesGateway,
     [Systems.ACADEMY_COUNCIL_TAX]: academyCouncilTaxFetchNotesGateway,
     [Systems.JIGSAW]: jigsawFetchNotesGateway
-  }
+  },
+  db: singleViewDb
 });
 
 module.exports = {
