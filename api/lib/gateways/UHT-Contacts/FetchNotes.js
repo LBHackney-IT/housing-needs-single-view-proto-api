@@ -10,8 +10,10 @@ module.exports = options => {
 
   const fetchHouseRef = async id => {
     const systemId = await getSystemId.execute(Systems.UHT_CONTACTS, id);
-    const [houseRef, personNo] = systemId.split('/');
-    return houseRef;
+    if (systemId) {
+      const houseRef = systemId.split('/')[0];
+      return houseRef;
+    }
   };
 
   async function fetchActionDiaryNotes(house_ref) {
@@ -42,8 +44,8 @@ module.exports = options => {
           return processNotes(notes);
         }
       } catch (err) {
-        console.log(`Error fetching customers in UHT-ActionDiary: ${err}`);
-      };
+        console.log(`Error fetching notes in UHT-Contacts: ${err}`);
+      }
       return [];
     }
   };

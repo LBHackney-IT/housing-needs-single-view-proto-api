@@ -49,7 +49,7 @@ describe('UHTContactsFetchNotes gateway', () => {
 
     await gateway.execute(id);
 
-    expect(getSystemId.execute).toHaveBeenCalledWith("UHT-Contacts", id);
+    expect(getSystemId.execute).toHaveBeenCalledWith('UHT-Contacts', id);
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
 
@@ -89,7 +89,7 @@ describe('UHTContactsFetchNotes gateway', () => {
 
     expect(buildNote).toHaveBeenCalledTimes(0);
     expect(consoleOutput).toBe(
-      'Error fetching customers in UHT-ActionDiary: Error: Database error'
+      'Error fetching notes in UHT-Contacts: Error: Database error'
     );
   });
 
