@@ -101,7 +101,6 @@ const cominoFetchNotesGateway = require('./gateways/Comino/FetchNotes')({
   buildNote,
   db: cominoDb
 });
-
 const academyBenefitsFetchNotesGateway = require('./gateways/Academy-Benefits/FetchNotes')(
   {
     db: academyDb,
@@ -117,7 +116,6 @@ const uhtContactsFetchNotesGateway = require('./gateways/UHT-Contacts/FetchNotes
     getSystemId
   }
 );
-
 const uhtHousingRegisterFetchNotesGateway = require('./gateways/UHT-HousingRegister/FetchNotes')(
   {
     db: uhtDb,
@@ -125,20 +123,17 @@ const uhtHousingRegisterFetchNotesGateway = require('./gateways/UHT-HousingRegis
     getSystemId
   }
 );
-
 const academyCouncilTaxFetchNotesGateway = require('./gateways/Academy-CouncilTax/FetchNotes')(
   {
     cominoFetchNotesGateway,
     getSystemId
   }
 );
-
 const uhwFetchNotesGateway = require('./gateways/UHW/FetchNotes')({
   db: uhwDb,
   buildNote,
   getSystemId
 });
-
 const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
   getSystemId,
   doJigsawGetRequest,

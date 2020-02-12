@@ -1,7 +1,7 @@
 const PostgresDb = require('./PostgresDb');
 const { Systems } = require('./Constants');
 const merge = require('@brikcss/merge');
-const { dedupeNotes, filterArray } = require('./Utils');
+const { filterArray } = require('./Utils');
 
 const backends = {
   [Systems.UHT_CONTACTS]: require('./backends/UHT-Contacts'),

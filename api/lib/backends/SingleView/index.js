@@ -3,9 +3,7 @@ const options = { db };
 
 const Backend = {
   createRecord: require('./CreateRecord')(options),
-  fetchCustomerRecord: require('./FetchRecord')(options),
-  fetchCustomerNotes: async () => [],
-  fetchCustomerDocuments: async () => []
+  fetchCustomerRecord: require('./FetchRecord')(options)
 };
 
 module.exports = Backend;
