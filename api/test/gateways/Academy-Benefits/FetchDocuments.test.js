@@ -7,8 +7,10 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
   let cominoFetchDocumentsGateway;
   let getSystemId;
 
-  const createGateway = (records, existsInSystem, throwsError) => {
-    buildDocument = jest.fn();
+  const createGateway = (records, existsInSystem, throwsError, existsInSystemMultipleTimes) => {
+    buildDocument = jest.fn( document => {
+      return document;
+    });
 
     db = {
       request: jest.fn(async () => {
@@ -27,7 +29,10 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
 
     getSystemId = {
       execute: jest.fn(async (name, id) => {
-        if (existsInSystem) return id;
+        if (existsInSystem) {
+          if (existsInSystemMultipleTimes) return [id, "second_id"];
+          return [id];
+        }
       })
     };
 
@@ -89,6 +94,18 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     });
     expect(buildDocument).toHaveBeenCalledTimes(1);
     expect(buildDocument).toHaveBeenCalledWith(recordMatcher);
+  });
+
+  it('if customer has multipile system ids we get the docs multiple times', async () => {
+    const id = '123';
+    const record = { id: '123', correspondence_code: 'code' };
+    const gateway = createGateway([record], true, false, true);
+
+    const records = await gateway.execute(id);
+
+    expect(db.request).toHaveBeenCalledTimes(2);
+    expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledTimes(2);
+    expect(records.length).toBe(2);
   });
 
   it('returns an empty set of documents if there is an error', async () => {

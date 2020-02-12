@@ -9,9 +9,9 @@ module.exports = options => {
   const cominoFetchDocumentsGateway = options.cominoFetchDocumentsGateway;
   const getSystemId = options.getSystemId;
 
-  const fetchSystemId = async id => {
+  const fetchSystemIds = async id => {
     const systemId = await getSystemId.execute(Systems.ACADEMY_BENEFITS, id);
-    if (systemId) return systemId.split('/')[0];
+    if (systemId.length) return systemId.map(id => id.split('/')[0]);
   };
 
   const fetchCustomerDocuments = async claim_id => {
@@ -36,25 +36,24 @@ module.exports = options => {
   return {
     execute: async id => {
       try {
-        const claim_id = await fetchSystemId(id);
-
-        if (claim_id) {
-          const academyRecords = await fetchCustomerDocuments(claim_id);
-          const cominoResults = await cominoFetchDocumentsGateway.execute({
-            claim_id
-          });
-          const documents = processDocuments(academyRecords).concat(
-            cominoResults
-          );
-          return documents;
+        const claim_ids = await fetchSystemIds(id);
+        const documents = [];
+        if (claim_ids) {
+          for (const id of claim_ids) {
+            const academyRecords = await fetchCustomerDocuments(id);
+            const cominoResults = await cominoFetchDocumentsGateway.execute({
+              claim_id: id
+            });
+            documents.push(processDocuments(academyRecords).concat(cominoResults));
+          }
         }
-        return [];
+        return documents;
       } catch (err) {
         console.log(
           `Error fetching customer documents in Academy-Benefits: ${err}`
         );
-        return [];
       }
+      return [];
     }
   };
 };
