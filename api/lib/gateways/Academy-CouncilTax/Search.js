@@ -37,9 +37,9 @@ module.exports = options => {
       });
   };
   const search = async queryParams => {
-    let fullName = [queryParams.lastName.trim(), queryParams.firstName.trim()]
+    let fullName = [queryParams.lastName, queryParams.firstName]
       .filter(i => i && i !== '')
-      .map(i => i.toUpperCase())
+      .map(i => i.toUpperCase().trim())
       .join('%');
 
     return await db.request(searchCustomersSQL, [
