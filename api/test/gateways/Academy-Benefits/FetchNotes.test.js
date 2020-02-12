@@ -113,11 +113,11 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
     await gateway.execute(id);
 
     const dates = [
-      new Date('2020-01-31T14:10:08.000Z'),
-      new Date('2019-04-10T14:50:50.000Z'),
-      new Date('2019-02-07T10:32:33.000Z'),
-      new Date('2019-01-15T16:12:12.000Z'),
-      new Date('2018-08-16T15:30:07.000Z')
+      new Date(2020, 0, 31, 14, 10, 8),
+      new Date(2019, 3, 10, 14, 50, 50),
+      new Date(2019, 1, 7, 10, 32, 33),
+      new Date(2019, 0, 15, 16, 12, 12),
+      new Date(2018, 7, 16, 15, 30, 7)
     ];
 
     for (let i = 0; i <= 4; i++) {
