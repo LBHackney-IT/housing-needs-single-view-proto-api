@@ -8,6 +8,5 @@ const db = new SqlServerConnection(dbConfig);
 const options = { db };
 
 module.exports = {
-  fetchCustomerRecord: require('./FetchRecord')(options),
-  fetchCustomerDocuments: async () => []
+  fetchCustomerRecord: require('./FetchRecord')(options)
 };
