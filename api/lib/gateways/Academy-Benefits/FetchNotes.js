@@ -1,6 +1,5 @@
-const moment = require('moment');
-const path = require('path');
 const { Systems } = require('../../Constants');
+const path = require('path');
 const { loadSQL } = require('../../Utils');
 const { fetchCustomerNotesSQL } = loadSQL(path.join(__dirname, 'sql'));
 
@@ -25,37 +24,37 @@ module.exports = options => {
     return notes
       .map(x => x.text_value)
       .join('')
-      .replace(/\n/g, '')
       .split(/-{200}/)
       .map(x => x.trim())
       .filter(x => x);
   };
 
   const constructDate = metadata => {
-    const year = parseInt(metadata[4]);
-    const month = parseInt(metadata[3]) - 1;
-    const day = parseInt(metadata[2]);
-    const hour = parseInt(metadata[5]);
-    const minute = parseInt(metadata[6]);
-    const second = parseInt(metadata[7]);
-
-    return new Date(year, month, day, hour, minute, second);
+    return new Date(
+      parseInt(metadata[4]),
+      parseInt(metadata[3]) - 1,
+      parseInt(metadata[2]),
+      parseInt(metadata[5]),
+      parseInt(metadata[6]),
+      parseInt(metadata[7])
+    );
   };
 
   const deconstructNote = note => {
-    const meta = note
+    const [meta, ...text] = note.trim().split('\n');
+
+    const parsedMeta = meta
       .trim()
       .match(
-        /User Id: ([^ ]+) {2}Date: (\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2}) {2}([^ ]+)\s*(.*)/
+        /User Id: ([^ ]+) {2}Date: (\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2}) {2}([^ ]+)/
       );
-    const date = constructDate(meta);
-    const user = meta[1];
-    const id = meta[8];
-    const text = meta[9].trim();
+    const date = constructDate(parsedMeta);
+    const user = parsedMeta[1];
+    const id = parsedMeta[8];
 
     return {
       id,
-      text,
+      text: text.join('\n').trim(),
       date,
       user
     };
