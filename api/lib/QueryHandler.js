@@ -75,21 +75,22 @@ let mergeAddresses = function(addresses) {
 };
 
 const sortMergedTenancies = merged => {
-  sorted_tenancies = merged.tenancies.sort(compareDateStrings);
-  merged.tenancies = { current: [], previous: [] };
+  const sorted_tenancies = merged.tenancies.sort(compareDateStrings);
+  const tenancies = { current: [], previous: [] };
   sorted_tenancies.map(t => {
-    if (t.endDate === null && merged.tenancies.current.length === 0) {
-      merged.tenancies.current.push(t);
+    if (t.endDate === null && tenancies.current.length === 0) {
+      tenancies.current.push(t);
     } else {
-      merged.tenancies.previous.push(t);
+      tenancies.previous.push(t);
     }
   });
+  return tenancies;
 };
 
 // Merge and tidy response upjects from multiple backends
 let mergeResponses = function(responses) {
   let merged = merge(...responses);
-  if (merged.tenancies) sortMergedTenancies(merged);
+  if (merged.tenancies) merged.tenancies = sortMergedTenancies(merged);
   if (merged.address) merged.address = mergeAddresses(merged.address);
   filterArrays(merged);
   return merged;

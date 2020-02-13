@@ -122,20 +122,15 @@ let Utils = {
 
   compareDateStrings(record1, record2) {
     const dates = [record1, record2].map(record => {
-      return new Date(
-        record.startDate.split('-')[0],
-        record.startDate.split('-')[1] - 1,
-        record.startDate.split('-')[2].substring(0, 2)
-      );
+      return new Date(record.startDate);
     });
 
-    let comparison = 0;
     if (dates[0] > dates[1]) {
-      comparison = -1;
+      return -1;
     } else if (dates[0] < dates[1]) {
-      comparison = 1;
+      return 1;
     }
-    return comparison;
+    return 0;
   }
 };
 

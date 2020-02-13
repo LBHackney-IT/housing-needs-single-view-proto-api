@@ -11,16 +11,16 @@ const {
 const { Systems } = require('../../Constants');
 const { fetchCustomerSQL } = loadSQL(path.join(__dirname, 'sql'));
 
-async function fetchCustomer(id, db) {
+const fetchCustomer = async (id, db) => {
   const [house_ref, person_no] = id.split('/');
 
   return await db.request(fetchCustomerSQL, [
     { id: 'house_ref', type: 'NVarChar', value: house_ref },
     { id: 'person_no', type: 'Int', value: person_no }
   ]);
-}
+};
 
-let processCustomer = function(results) {
+const processCustomer = results => {
   let customer = {
     systemIds: {
       uhtContacts: results[0].member_sid.toString(),
@@ -50,7 +50,7 @@ let processCustomer = function(results) {
     nino: [upperCase(results[0].ni_no)]
   };
 
-  let tenancies = results.map(result => {
+  const tenancies = results.map(result => {
     if (result.tag_ref) {
       return {
         tagRef: checkString(result.tag_ref),
