@@ -1,23 +1,27 @@
-const cominoFetchDocuments = require('../../../lib/gateways/Comino/FetchDocuments');
+const cominoFetchNotes = require('../../../lib/gateways/Comino/FetchNotes');
+const { Systems } = require('../../../lib/Constants');
 
-describe('CominoFetchDocumentsGateway', () => {
+describe('CominoFetchNotesGateway', () => {
   const claim_id = '123';
   const account_ref = '123';
+  let buildNote;
   let db;
-  let buildDocument;
-  const createGateway = (records, throwsError) => {
-    buildDocument = jest.fn();
+  const createGateway = (notes, throwsError) => {
+    buildNote = jest.fn();
 
     db = {
-      request: jest.fn(async claim_id => {
+      request: jest.fn(async () => {
         if (throwsError) {
           throw new Error('Database error');
         }
-        return records;
+        return notes;
       })
     };
 
-    return cominoFetchDocuments({ db, buildDocument });
+    return cominoFetchNotes({
+      buildNote,
+      db
+    });
   };
 
   const claimIdMatcher = id => {
@@ -72,32 +76,33 @@ describe('CominoFetchDocumentsGateway', () => {
   it('does not query the database if query contains no id', async () => {
     const gateway = createGateway([]);
 
-    await gateway.execute({});
+    const result = await gateway.execute({});
 
     expect(db.request).toHaveBeenCalledTimes(0);
+    expect(result.length).toBe(0);
   });
 
-  it('builds a single document', async () => {
-    const record = { claim_id, DocNo: '5' };
+  it('builds a document', async () => {
+    const record = { claim_id, NoteText: 'texty' };
     const gateway = createGateway([record]);
 
     await gateway.execute({ claim_id });
 
-    const recordMatcher = expect.objectContaining({
-      id: '5'
+    const noteMatcher = expect.objectContaining({
+      text: 'texty'
     });
 
-    expect(buildDocument).toHaveBeenCalledTimes(1);
-    expect(buildDocument).toHaveBeenCalledWith(recordMatcher);
+    expect(buildNote).toHaveBeenCalledTimes(1);
+    expect(buildNote).toHaveBeenCalledWith(noteMatcher);
   });
 
-  it('returns an empty set of documents if there is an error', async () => {
-    const record = { claim_id };
-    const gateway = createGateway([record], true, true);
+  it('returns an empty set of notes if there is an error', async () => {
+    const record = { claim_id, NoteText: 123 };
+    const gateway = createGateway([record], true);
 
     const records = await gateway.execute(claim_id);
 
-    expect(buildDocument).toHaveBeenCalledTimes(0);
+    expect(buildNote).toHaveBeenCalledTimes(0);
     expect(records.length).toBe(0);
   });
 });

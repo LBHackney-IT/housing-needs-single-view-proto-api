@@ -1,7 +1,7 @@
 const { Systems } = require('../../Constants');
 
 module.exports = options => {
-  const cominoFetchDocumentsGateway = options.cominoFetchDocumentsGateway;
+  const cominoFetchNotesGateway = options.cominoFetchNotesGateway;
   const getSystemId = options.getSystemId;
 
   const fetchSystemId = async id => {
@@ -14,14 +14,14 @@ module.exports = options => {
       try {
         const account_ref = await fetchSystemId(id);
         if (account_ref) {
-          const comino_results = await cominoFetchDocumentsGateway.execute({
+          const comino_results = await cominoFetchNotesGateway.execute({
             account_ref
           });
           return comino_results;
         }
         return [];
       } catch (err) {
-        console.log(`Error fetching customer documents in Comino: ${err}`);
+        console.log(`Error fetching customer notes in Comino: ${err}`);
         return [];
       }
     }

@@ -23,7 +23,7 @@ describe('SingleViewSearchGateway', () => {
     });
   };
 
-  it('if the query contains firstname then the db is queried for firstname', async () => {
+  it('queries the database for firstname if the query contains firstname', async () => {
     const gateway = createGateway([]);
     const firstName = 'maria';
     const queryMatcher = expect.stringMatching(/first_name ILIKE/);
@@ -34,7 +34,7 @@ describe('SingleViewSearchGateway', () => {
     expect(db.any).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
 
-  it('if the query does not have a firstname then the db is not queried for the forename', async () => {
+  it('does not query the database with the forename if the query does not have a firstname', async () => {
     const gateway = createGateway([]);
     const queryMatcher = expect.not.stringMatching(/first_name ILIKE/);
 
@@ -43,7 +43,7 @@ describe('SingleViewSearchGateway', () => {
     expect(db.any).toHaveBeenCalledWith(queryMatcher, expect.anything());
   });
 
-  it('if the query contains lastname then the db is queried for lastname', async () => {
+  it('queries the database for lastname if the query contains lastname', async () => {
     const gateway = createGateway([]);
     const lastName = 'Smith';
     const queryMatcher = expect.stringMatching(/last_name ILIKE/);
@@ -54,7 +54,7 @@ describe('SingleViewSearchGateway', () => {
     expect(db.any).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
 
-  it('if the query does not have a lastname then the db is not queried for the lastname', async () => {
+  it('does not query the database for the lastname if the query does not have a lastname', async () => {
     const gateway = createGateway([]);
     const queryMatcher = expect.not.stringMatching(/last_name ILIKE/);
 
