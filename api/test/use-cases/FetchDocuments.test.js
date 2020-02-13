@@ -15,8 +15,8 @@ describe('FetchDocuments', () => {
     };
     fetchDocuments = require('../../lib/use-cases/FetchDocuments')({
       gateways: gateways,
-      db: {
-        any: jest.fn(async () => {
+      getCustomerLinks: {
+        execute: jest.fn(async () => {
           return customerLinks;
         })
       }

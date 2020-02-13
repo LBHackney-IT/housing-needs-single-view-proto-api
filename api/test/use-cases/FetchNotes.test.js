@@ -16,8 +16,8 @@ describe('FetchNotes', () => {
     };
     fetchNotes = require('../../lib/use-cases/FetchNotes')({
       gateways: gateways,
-      db: {
-        any: jest.fn(async () => {
+      getCustomerLinks: {
+        execute: jest.fn(async () => {
           return customerLinks;
         })
       }
