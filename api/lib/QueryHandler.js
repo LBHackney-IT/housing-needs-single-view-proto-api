@@ -1,7 +1,7 @@
 const PostgresDb = require('./PostgresDb');
 const { Systems } = require('./Constants');
 const merge = require('@brikcss/merge');
-const { dedupeNotes, filterArray } = require('./Utils');
+const { dedupeNotes, filterArray, compareDateStrings } = require('./Utils');
 
 const backends = {
   [Systems.UHT_CONTACTS]: require('./backends/UHT-Contacts'),
@@ -75,28 +75,8 @@ let mergeAddresses = function(addresses) {
   });
 };
 
-const compare = (record1, record2) => {
-  const date1 = new Date(
-    record1.startDate.split('-')[0],
-    record1.startDate.split('-')[1] - 1,
-    record1.startDate.split('-')[2].substring(0, 2)
-  );
-  const date2 = new Date(
-    record2.startDate.split('-')[0],
-    record2.startDate.split('-')[1] - 1,
-    record2.startDate.split('-')[2].substring(0, 2)
-  );
-  let comparison = 0;
-  if (date1 > date2) {
-    comparison = -1;
-  } else if (date2 > date1) {
-    comparison = 1;
-  }
-  return comparison;
-};
-
 const sortMergedTenancies = merged => {
-  sorted_tenancies = merged.tenancies.sort(compare);
+  sorted_tenancies = merged.tenancies.sort(compareDateStrings);
   merged.tenancies = { current: [], previous: [] };
   sorted_tenancies.map(t => {
     if (t.endDate === null && merged.tenancies.current.length === 0) {
