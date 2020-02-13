@@ -1,27 +1,115 @@
-# Housing Needs Single View API
+# Housing Needs Single View API :mag_right:
 
-## Getting Local Dev Environment Started
+Provides aggregated data from multiple systems for the Single View of a Hackney Customer
 
-Run npm install in the following directories:
-- / (root)
-- api/
-- authorizer/
+Currently pulls data from:
 
-Set up the environment variables listed in [.env.sample](https://github.com/LBHackney-IT/housing-needs-single-view-proto-api/blob/master/.env.sample) and save them in a `.env` file, the relevant values could be found in the AWS param store
+- UHW
+- UHT
+- Academy
+- Jigsaw
+- Comino
 
-Add the following to the hosts file
+## Installation
+
+1\. Run the following in the root directory to install dependencies:
+
 ```
-127.0.0.1 localdev.hackney.gov.uk
+$ npm i && pushd api && npm i && popd && pushd authorizer && npm i && popd
 ```
 
-Set up the DB by running
+2\. Add a .env file in the root directory (see .env.sample for file structure).
+
+3\. Set the following value in .env (The production values can be found in the AWS param store):
+
 ```
-$ docker-compose up db
+/hn-single-view-api/dev/SINGLEVIEW_DB=postgresql://singleview_user:@localhost:10101/hnsingleview
 ```
 
-Start the API by running
+3\. Run the following to install the Single View db locally:
+
+```
+$ docker-compose up
+```
+
+## Run the API
+
 ```
 $ npm run start
 ```
 
-Play with the API by visiting http://localdev.hackney.gov.uk:3000/customers?firstName=john&lastName=smith
+## Usage
+
+### Search:
+
+- Route: `/customers`
+- Method: `GET`
+- Parameters:
+  - firstName=`[string]`
+  - lastName=`[string]`
+
+### Save Customer Record:
+
+- Route: `/customers`
+- Method: `POST`
+- Body:
+
+```
+{
+  source: 'system name',
+  id: 'system id',
+  firstName: 'forename',
+  lastName: 'surname',
+  address: 'address',
+  dob: 'date of birth',
+  nino: 'national insurance number',
+}
+```
+
+## Run the tests
+
+1\. yoloyolo
+
+## Invoke the authorizer
+
+1\. yolobolo
+
+## Debug the API (VS Code)
+
+Create a new file at .vscode/launch.json and add the following:
+
+```
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "name": "Serverless Debug",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "debug"],
+      "port": 9229
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest",
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/api/node_modules/.bin/jest",
+      "args": ["--runInBand"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      }
+    }
+  ]
+}
+
+```
+
+## Deployment
+
+## Troubleshooting
