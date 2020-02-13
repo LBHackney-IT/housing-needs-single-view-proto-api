@@ -1,3 +1,4 @@
+const { Systems } = require('./Constants');
 const SqlServerConnection = require('./SqlServerConnection');
 const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB });
 const uhtDb = new SqlServerConnection({ dbUrl: process.env.UHT_DB });
@@ -18,7 +19,11 @@ const {
   doJigsawPostRequest,
   doGetRequest
 } = require('./JigsawUtils');
+
 const getSystemId = require('./gateways/SingleView/SystemID')({
+  db: singleViewDb
+});
+const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
   db: singleViewDb
 });
 
@@ -158,23 +163,25 @@ const customerSearch = require('./use-cases/CustomerSearch')({
 });
 
 const fetchDocuments = require('./use-cases/FetchDocuments')({
-  gateways: [
-    academyCouncilTaxFetchDocumentsGateway,
-    academyBenefitsFetchDocumentsGateway,
-    jigsawFetchDocumentsGateway,
-    uhwFetchDocumentsGateway
-  ]
+  gateways: {
+    [Systems.UHW]: uhwFetchDocumentsGateway,
+    [Systems.ACADEMY_BENEFITS]: academyBenefitsFetchDocumentsGateway,
+    [Systems.ACADEMY_COUNCIL_TAX]: academyCouncilTaxFetchDocumentsGateway,
+    [Systems.JIGSAW]: jigsawFetchDocumentsGateway
+  },
+  getCustomerLinks
 });
 
 const fetchNotes = require('./use-cases/FetchNotes')({
-  gateways: [
-    academyBenefitsFetchNotesGateway,
-    jigsawFetchNotesGateway,
-    uhwFetchNotesGateway,
-    uhtHousingRegisterFetchNotesGateway,
-    academyCouncilTaxFetchNotesGateway,
-    uhtContactsFetchNotesGateway
-  ]
+  gateways: {
+    [Systems.UHT_CONTACTS]: uhtContactsFetchNotesGateway,
+    [Systems.UHT_HOUSING_REGISTER]: uhtHousingRegisterFetchNotesGateway,
+    [Systems.UHW]: uhwFetchNotesGateway,
+    [Systems.ACADEMY_BENEFITS]: academyBenefitsFetchNotesGateway,
+    [Systems.ACADEMY_COUNCIL_TAX]: academyCouncilTaxFetchNotesGateway,
+    [Systems.JIGSAW]: jigsawFetchNotesGateway
+  },
+  getCustomerLinks
 });
 
 module.exports = {
