@@ -19,7 +19,11 @@ const {
   doJigsawPostRequest,
   doGetRequest
 } = require('./JigsawUtils');
+
 const getSystemId = require('./gateways/SingleView/SystemID')({
+  db: singleViewDb
+});
+const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
   db: singleViewDb
 });
 
@@ -165,7 +169,7 @@ const fetchDocuments = require('./use-cases/FetchDocuments')({
     [Systems.ACADEMY_COUNCIL_TAX]: academyCouncilTaxFetchDocumentsGateway,
     [Systems.JIGSAW]: jigsawFetchDocumentsGateway
   },
-  db: singleViewDb
+  getCustomerLinks
 });
 
 const fetchNotes = require('./use-cases/FetchNotes')({
@@ -177,7 +181,7 @@ const fetchNotes = require('./use-cases/FetchNotes')({
     [Systems.ACADEMY_COUNCIL_TAX]: academyCouncilTaxFetchNotesGateway,
     [Systems.JIGSAW]: jigsawFetchNotesGateway
   },
-  db: singleViewDb
+  getCustomerLinks
 });
 
 module.exports = {

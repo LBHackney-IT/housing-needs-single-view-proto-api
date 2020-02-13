@@ -1,19 +1,11 @@
-const { dedupe, loadSQL } = require('../Utils');
-const path = require('path');
-
-const { fetchCustomerLinksSQL } = loadSQL(path.join(__dirname, 'sql'));
+const { dedupe } = require('../Utils');
 
 module.exports = options => {
   const gateways = options.gateways;
-  const db = options.db;
-
-  let getCustomerLinks = async function(id) {
-    return await db.any(fetchCustomerLinksSQL, [id]);
-  };
+  const getCustomerLinks = options.getCustomerLinks;
 
   return async id => {
-    const links = await getCustomerLinks(id);
-
+    const links = await getCustomerLinks.execute(id);
     const requests = links.map(async link => {
       if (gateways[link.name]) return gateways[link.name].execute(id);
     });
