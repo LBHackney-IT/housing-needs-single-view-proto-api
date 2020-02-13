@@ -14,14 +14,10 @@ const { fetchCustomerSQL } = loadSQL(path.join(__dirname, 'sql'));
 async function fetchCustomer(id, db) {
   const [house_ref, person_no] = id.split('/');
 
-  const records = await db.request(fetchCustomerSQL, [
+  return await db.request(fetchCustomerSQL, [
     { id: 'house_ref', type: 'NVarChar', value: house_ref },
     { id: 'person_no', type: 'Int', value: person_no }
   ]);
-
-  console.log(`BLAH ${house_ref} ${person_no}. RECS: ${records.length}`);
-
-  return records;
 }
 
 let processCustomer = function(results) {
@@ -87,7 +83,6 @@ let processCustomer = function(results) {
     }
     return tenancy;
   });
-
   return customer;
 };
 

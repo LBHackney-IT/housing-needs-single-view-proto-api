@@ -63,8 +63,7 @@ let mergeAddresses = function(addresses) {
           .map(addr => addr.source) // Pull out the sources into an array and deduplicate
           .filter((value, index, self) => {
             return self.indexOf(value) === index;
-          })
-          .sort(),
+          }),
         address: arr[0].address
       };
     } catch (err) {

@@ -37,4 +37,3 @@ FROM
 
 WHERE  member.house_ref = @house_ref
   AND member.person_no = @person_no
-  ORDER BY start_date DESC
