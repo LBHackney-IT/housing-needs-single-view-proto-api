@@ -75,11 +75,7 @@ let mergeAddresses = function(addresses) {
   });
 };
 
-function compare(record1, record2) {
-  const year = record1.startDate.split('-')[0];
-  const month = record1.startDate.split('-')[1] - 1;
-  const day = record1.startDate.split('-')[2].substring(0, 2);
-
+const compare = (record1, record2) => {
   const date1 = new Date(
     record1.startDate.split('-')[0],
     record1.startDate.split('-')[1] - 1,
@@ -97,12 +93,9 @@ function compare(record1, record2) {
     comparison = 1;
   }
   return comparison;
-}
+};
 
-// Merge and tidy response upjects from multiple backends
-let mergeResponses = function(responses) {
-  let merged = merge(...responses);
-
+const sortMergedTenancies = merged => {
   sorted_tenancies = merged.tenancies.sort(compare);
   merged.tenancies = { current: [], previous: [] };
   sorted_tenancies.map(t => {
@@ -112,7 +105,12 @@ let mergeResponses = function(responses) {
       merged.tenancies.previous.push(t);
     }
   });
+};
 
+// Merge and tidy response upjects from multiple backends
+let mergeResponses = function(responses) {
+  let merged = merge(...responses);
+  sortMergedTenancies(merged);
   if (merged.address) merged.address = mergeAddresses(merged.address);
   filterArrays(merged);
   return merged;

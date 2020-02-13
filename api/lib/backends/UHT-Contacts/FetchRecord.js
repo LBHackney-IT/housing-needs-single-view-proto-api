@@ -24,38 +24,37 @@ async function fetchCustomer(id, db) {
   return records;
 }
 
-let processCustomer = function(result) {
-  //const addresses = result.map(record => { return {source: Systems.UHT_CONTACTS, address: formatAddress(record.address)} });
+let processCustomer = function(results) {
   let customer = {
     systemIds: {
-      uhtContacts: result[0].member_sid.toString(),
-      householdRef: result[0].house_ref,
-      rent: checkString(result[0].tag_ref)
+      uhtContacts: results[0].member_sid.toString(),
+      householdRef: results[0].house_ref,
+      rent: checkString(results[0].tag_ref)
     },
     name: [
       {
-        first: nameCase(result[0].forename),
-        last: nameCase(result[0].surname),
-        title: nameCase(result[0].title)
+        first: nameCase(results[0].forename),
+        last: nameCase(results[0].surname),
+        title: nameCase(results[0].title)
       }
     ],
-    dob: [result[0].dob ? formatRecordDate(result[0].dob) : null],
+    dob: [results[0].dob ? formatRecordDate(results[0].dob) : null],
     phone: [
-      formatPhone(result[0].con_phone1),
-      formatPhone(result[0].con_phone2),
-      formatPhone(result[0].con_phone3)
+      formatPhone(results[0].con_phone1),
+      formatPhone(results[0].con_phone2),
+      formatPhone(results[0].con_phone3)
     ].filter(x => x),
     address: [
       {
         source: Systems.UHT_CONTACTS,
-        address: formatAddress(result[0].address)
+        address: formatAddress(results[0].address)
       }
     ],
-    postcode: [checkString(result[0].postcode)],
-    nino: [upperCase(result[0].ni_no)]
+    postcode: [checkString(results[0].postcode)],
+    nino: [upperCase(results[0].ni_no)]
   };
 
-  let tenancies = result.map(result => {
+  let tenancies = results.map(result => {
     if (result.tag_ref) {
       return {
         tagRef: checkString(result.tag_ref),
@@ -81,22 +80,12 @@ let processCustomer = function(result) {
       };
     }
   });
-  // customer.tenancies = { current: [], previous: [] };
 
-  customer.tenancies = tenancies.map(t => {
-    // if (t.endDate.includes('1900-01-01')) {
-    //   // It is the current tenancy
-    //   t.endDate = null;
-    //   customer.tenancies.current.push(t);
-    // } else {
-    //   // It is an old tenancy`
-    //   customer.tenancies.previous.push(t);
-    // }
-
-    if (t.endDate.includes('1900-01-01')) {
-      t.endDate = null;
+  customer.tenancies = tenancies.map(tenancy => {
+    if (tenancy.endDate.includes('1900-01-01')) {
+      tenancy.endDate = null;
     }
-    return t;
+    return tenancy;
   });
 
   return customer;
