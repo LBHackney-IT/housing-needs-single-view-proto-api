@@ -95,8 +95,7 @@ const options = {
 };
 
 const Backend = {
-  fetchCustomerRecord: require('./FetchRecord')(options),
-  fetchCustomerNotes: require('./FetchNotes')(options)
+  fetchCustomerRecord: require('./FetchRecord')(options)
 };
 
 module.exports = Backend;

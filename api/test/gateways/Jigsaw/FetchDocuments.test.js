@@ -2,6 +2,7 @@ const jigsawFetchDocuments = require('../../../lib/gateways/Jigsaw/FetchDocument
 const { Systems } = require('../../../lib/Constants');
 
 describe('JigsawFetchDocumentsGateway', () => {
+  const id = '123';
   let doJigsawGetRequest;
   let doJigsawPostRequest;
   let getSystemId;
@@ -39,25 +40,22 @@ describe('JigsawFetchDocumentsGateway', () => {
 
   it('gets the system ID', async () => {
     const gateway = createGateway([], true);
-    const id = '123';
 
     await gateway.execute(id);
 
     expect(getSystemId.execute).toHaveBeenCalledWith(Systems.JIGSAW, '123');
   });
 
-  it('if customer has a system id we get the docs', async () => {
-    const id = '123';
-    const gateway = createGateway([{ id }], true, false);
+  it('gets the docs if customer has a system id', async () => {
+    const gateway = createGateway([{ id }], true);
 
     await gateway.execute(id);
 
     expect(doJigsawPostRequest).toHaveBeenCalled();
   });
 
-  it('if customer does not have a system id we do not get the docs', async () => {
-    const id = '123';
-    const gateway = createGateway([{ id }], false, false);
+  it('does not get the docs if customer does not have a system id', async () => {
+    const gateway = createGateway([{ id }]);
 
     await gateway.execute(id);
 
@@ -88,8 +86,7 @@ describe('JigsawFetchDocumentsGateway', () => {
   });
 
   it('can build a document', async () => {
-    const id = '123';
-    const record = { id: '123', name: 'test' };
+    const record = { id, name: 'test' };
     const gateway = createGateway([record], true);
 
     const records = await gateway.execute(id);
@@ -103,8 +100,7 @@ describe('JigsawFetchDocumentsGateway', () => {
   });
 
   it('returns an empty set of records if an error is thrown', async () => {
-    const id = '123';
-    const record = { id: '123' };
+    const record = { id };
     const gateway = createGateway([record], true, true);
 
     const records = await gateway.execute(id);

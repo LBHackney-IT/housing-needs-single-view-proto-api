@@ -14,7 +14,7 @@ module.exports = options => {
       params.push({
         id: 'forename',
         type: 'NVarChar',
-        value: `%${queryParams.firstName.toUpperCase()}%`
+        value: `%${queryParams.firstName.toUpperCase().trim()}%`
       });
       whereClause.push('forename LIKE @forename');
     }
@@ -22,7 +22,7 @@ module.exports = options => {
       params.push({
         id: 'surname',
         type: 'NVarChar',
-        value: `%${queryParams.lastName.toUpperCase()}%`
+        value: `%${queryParams.lastName.toUpperCase().trim()}%`
       });
       whereClause.push('surname LIKE @surname');
     }

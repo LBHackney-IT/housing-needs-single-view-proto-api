@@ -4,22 +4,23 @@ describe('FetchNotes', () => {
     { id: 1, date: new Date(2010, 5, 12) }
   ];
   const notesFromB = [{ id: 5, date: new Date(2014, 2, 2) }];
-  const notesFromC = [{ id: 5, date: new Date(2014, 2, 2) }];
+  const customerLinks = [{ name: 'UHT' }, { name: 'UHW' }, { name: 'Jigsaw' }];
 
   let gateways;
   let fetchNotes;
 
   beforeEach(() => {
-    gateways = [
-      {
-        execute: jest.fn(() => notesFromA)
-      },
-      {
-        execute: jest.fn(() => notesFromB)
-      }
-    ];
+    gateways = {
+      UHT: { execute: jest.fn(() => notesFromA) },
+      UHW: { execute: jest.fn(() => notesFromB) }
+    };
     fetchNotes = require('../../lib/use-cases/FetchNotes')({
-      gateways
+      gateways: gateways,
+      getCustomerLinks: {
+        execute: jest.fn(async () => {
+          return customerLinks;
+        })
+      }
     });
   });
 
@@ -29,9 +30,9 @@ describe('FetchNotes', () => {
 
     await fetchNotes(id, token);
 
-    gateways.forEach(gateway => {
+    for (const [_, gateway] of Object.entries(gateways)) {
       expect(gateway.execute).toHaveBeenCalledWith(id, token);
-    });
+    }
   });
 
   it('concatenates the results', async () => {

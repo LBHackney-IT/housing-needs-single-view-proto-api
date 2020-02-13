@@ -1,6 +1,6 @@
-const systemIDGateway = require('../../../lib/gateways/SingleView/SystemID');
+const CustomerLinks = require('../../../lib/gateways/SingleView/CustomerLinks');
 
-describe('SystemIDGateway', () => {
+describe('CustomerLinks', () => {
   let db;
   const createGateway = (records, throwsError) => {
     db = {
@@ -12,18 +12,17 @@ describe('SystemIDGateway', () => {
       })
     };
 
-    return systemIDGateway({
+    return CustomerLinks({
       db
     });
   };
 
-  it('gets the systemID from singleview id', async () => {
+  it('gets the customer links from singleview id', async () => {
     const gateway = createGateway([]);
     const name = 'JIGSAW';
-    const id = '123';
-    const paramMatcher = expect.arrayContaining([name, id]);
+    const paramMatcher = expect.arrayContaining([name]);
 
-    await gateway.execute(name, id);
+    await gateway.execute(name);
 
     expect(db.any).toHaveBeenCalledWith(expect.anything(), paramMatcher);
   });

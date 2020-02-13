@@ -1,9 +1,0 @@
-SELECT
-	*
-FROM
-	W2ObjectNote
-	JOIN BENCLAIM ON BENCLAIM.CLAIMNO = W2ObjectNote.KeyNumb
-WHERE
-	BENCLAIM.CLAIMREFERENCE = @claim_id
-	AND W2Objectnote.KeyObject = 'Claim'
-ORDER BY NDate DESC;

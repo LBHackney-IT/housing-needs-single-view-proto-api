@@ -15,7 +15,7 @@ module.exports = options => {
       params.push({
         id: 'forename',
         type: 'NVarChar',
-        value: `%${queryParams.firstName.toLowerCase()}%`
+        value: `%${queryParams.firstName.toLowerCase().trim()}%`
       });
       whereClause.push(
         'forename collate SQL_Latin1_General_CP1_CI_AS LIKE @forename'
@@ -25,7 +25,7 @@ module.exports = options => {
       params.push({
         id: 'surname',
         type: 'NVarChar',
-        value: `%${queryParams.lastName.toLowerCase()}%`
+        value: `%${queryParams.lastName.toLowerCase().trim()}%`
       });
       whereClause.push(
         'surname collate SQL_Latin1_General_CP1_CI_AS LIKE @surname'

@@ -36,7 +36,7 @@ describe('JigsawSearchGateway', () => {
     });
   });
 
-  it('if the query contains lastname then the db is queried for lastname', async () => {
+  it('queries the database for lastname if the query contains lastname', async () => {
     const gateway = createGateway([]);
     const lastName = 'smith';
     const queryMatcher = expect.stringMatching(/smith/);
@@ -47,7 +47,7 @@ describe('JigsawSearchGateway', () => {
       search: queryMatcher
     });
   });
-  it('if the query contains firstname andlastname then the db is queried for firstname and lastname', async () => {
+  it('queries the database for firstname and lastname if the query contains firstname and lastname', async () => {
     const gateway = createGateway([]);
     const firstName = 'maria';
     const lastName = 'smith';
@@ -72,7 +72,7 @@ describe('JigsawSearchGateway', () => {
     expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
   });
 
-  it('Does not return record if id is missing', async () => {
+  it('does not return record if id is missing', async () => {
     const record = {};
     const gateway = createGateway([record]);
 

@@ -1,7 +1,7 @@
 const PostgresDb = require('./PostgresDb');
 const { Systems } = require('./Constants');
 const merge = require('@brikcss/merge');
-const { dedupeNotes, filterArray, compareDateStrings } = require('./Utils');
+const { filterArray, compareDateStrings } = require('./Utils');
 
 const backends = {
   [Systems.UHT_CONTACTS]: require('./backends/UHT-Contacts'),
@@ -13,12 +13,12 @@ const backends = {
   [Systems.SINGLEVIEW]: require('./backends/SingleView')
 };
 
-const badData = {
-  address: ['10 Elmbridge Walk, Blackstone Estate, London, E8 3HA'],
-  dob: ['01/01/1900']
-};
-
-const { cleanRecord } = require('./use-cases')({ badData });
+const cleanRecord = require('./use-cases/CleanRecord')({
+  badData: {
+    address: ['10 Elmbridge Walk, Blackstone Estate, London, E8 3HA'],
+    dob: ['01/01/1900']
+  }
+});
 
 let getCustomerLinks = async function(id) {
   const query = `
@@ -131,19 +131,6 @@ const QueryHandler = {
     }
 
     return cleanRecord(customer);
-  },
-
-  fetchCustomerNotes: async (id, hackneyToken) => {
-    const links = await getCustomerLinks(id);
-    let requests = links.map(async link =>
-      backends[link.name].fetchCustomerNotes(link.remote_id, hackneyToken)
-    );
-
-    let results = [].concat.apply([], await Promise.all(requests));
-    results = dedupeNotes(results);
-    results = results.sort((a, b) => b.date - a.date);
-
-    return { notes: results };
   }
 };
 
