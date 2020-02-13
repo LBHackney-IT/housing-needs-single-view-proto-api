@@ -89,7 +89,7 @@ const sortMergedTenancies = merged => {
 // Merge and tidy response upjects from multiple backends
 let mergeResponses = function(responses) {
   let merged = merge(...responses);
-  sortMergedTenancies(merged);
+  if (merged.tenancies) sortMergedTenancies(merged);
   if (merged.address) merged.address = mergeAddresses(merged.address);
   filterArrays(merged);
   return merged;
