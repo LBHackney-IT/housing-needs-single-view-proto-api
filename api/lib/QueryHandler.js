@@ -63,7 +63,8 @@ let mergeAddresses = function(addresses) {
           .map(addr => addr.source) // Pull out the sources into an array and deduplicate
           .filter((value, index, self) => {
             return self.indexOf(value) === index;
-          }),
+          })
+          .sort(),
         address: arr[0].address
       };
     } catch (err) {
@@ -74,9 +75,44 @@ let mergeAddresses = function(addresses) {
   });
 };
 
+function compare(record1, record2) {
+  const year = record1.startDate.split('-')[0];
+  const month = record1.startDate.split('-')[1] - 1;
+  const day = record1.startDate.split('-')[2].substring(0, 2);
+
+  const date1 = new Date(
+    record1.startDate.split('-')[0],
+    record1.startDate.split('-')[1] - 1,
+    record1.startDate.split('-')[2].substring(0, 2)
+  );
+  const date2 = new Date(
+    record2.startDate.split('-')[0],
+    record2.startDate.split('-')[1] - 1,
+    record2.startDate.split('-')[2].substring(0, 2)
+  );
+  let comparison = 0;
+  if (date1 > date2) {
+    comparison = -1;
+  } else if (date2 > date1) {
+    comparison = 1;
+  }
+  return comparison;
+}
+
 // Merge and tidy response upjects from multiple backends
 let mergeResponses = function(responses) {
   let merged = merge(...responses);
+
+  sorted_tenancies = merged.tenancies.sort(compare);
+  merged.tenancies = { current: [], previous: [] };
+  sorted_tenancies.map(t => {
+    if (t.endDate === null && merged.tenancies.current.length === 0) {
+      merged.tenancies.current.push(t);
+    } else {
+      merged.tenancies.previous.push(t);
+    }
+  });
+
   if (merged.address) merged.address = mergeAddresses(merged.address);
   filterArrays(merged);
   return merged;
