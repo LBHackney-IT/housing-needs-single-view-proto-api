@@ -1,7 +1,7 @@
 const PostgresDb = require('./PostgresDb');
 const { Systems } = require('./Constants');
 const merge = require('@brikcss/merge');
-const { filterArray } = require('./Utils');
+const { filterArray, compareDateStrings } = require('./Utils');
 
 const backends = {
   [Systems.UHT_CONTACTS]: require('./backends/UHT-Contacts'),
@@ -74,9 +74,23 @@ let mergeAddresses = function(addresses) {
   });
 };
 
+const sortMergedTenancies = merged => {
+  const sorted_tenancies = merged.tenancies.sort(compareDateStrings);
+  const tenancies = { current: [], previous: [] };
+  sorted_tenancies.map(t => {
+    if (t.endDate === null && tenancies.current.length === 0) {
+      tenancies.current.push(t);
+    } else {
+      tenancies.previous.push(t);
+    }
+  });
+  return tenancies;
+};
+
 // Merge and tidy response upjects from multiple backends
 let mergeResponses = function(responses) {
   let merged = merge(...responses);
+  if (merged.tenancies) merged.tenancies = sortMergedTenancies(merged);
   if (merged.address) merged.address = mergeAddresses(merged.address);
   filterArrays(merged);
   return merged;
