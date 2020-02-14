@@ -17,27 +17,10 @@
     "@sentry/node": "^5.12.2"
   },
   "scripts": {
-    "lint": "eslint --fix --ext js lib && echo 'Lint complete.'",
-    "watch": "watch 'clear && npm run -s lint' lib",
-    "test": "jest",
-    "test-coverage": "jest --coverage"
+    "lint": "eslint --fix --ext js lib && echo 'Lint complete.'"
   },
   "devDependencies": {
     "cache-manager": "^2.10.1",
-    "express-cache-middleware": "^1.0.1",
-    "jest": "^24.9.0",
-    "watch": "^1.0.2"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "collectCoverageFrom": [
-      "**/*.js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/",
-      "/coverage/",
-      "jest.config.js"
-    ]
+    "express-cache-middleware": "^1.0.1"
   }
 }

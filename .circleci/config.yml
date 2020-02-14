@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo npm i && pushd api && npm install && popd && pushd authorizer && npm install && popd
+            sudo npm i && pushd api && npm i && popd && pushd authorizer && npm i && popd
 
       - save_cache:
           paths:
@@ -34,8 +34,12 @@ jobs:
           key: v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "combined-package-lock.txt" }}
 
       - run:
+          name: Run linter
+          command: npm run lint
+
+      - run:
           name: Run tests with coverage
-          command: pushd api && npm run test-coverage && popd
+          command: npm run test-coverage
 
       - persist_to_workspace:
           root: ~/repo
