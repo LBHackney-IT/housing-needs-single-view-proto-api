@@ -1,6 +1,6 @@
 # Housing Needs Single View API :mag_right:
 
-Provides aggregated data from multiple systems for the Single View of a Hackney Customer
+Provides aggregated data from multiple systems for the Single View of a Hackney Customer.
 
 Currently pulls data from:
 
@@ -20,7 +20,7 @@ $ npm i && pushd api && npm i && popd && pushd authorizer && npm i && popd
 
 2\. Add a .env file in the root directory (see .env.sample for file structure).
 
-3\. Set the following value in .env (The production values can be found in the AWS param store):
+3\. Set the following value in .env (the production values can be found in the AWS param store):
 
 ```
 /hn-single-view-api/dev/SINGLEVIEW_DB=postgresql://singleview_user:@localhost:10101/hnsingleview
@@ -40,11 +40,11 @@ $ npm run start
 
 ## Usage
 
-### Search:
+### Customer Search:
 
 - Route: `/customers`
 - Method: `GET`
-- Parameters:
+- Query Parameters:
   - firstName=`[string]`
   - lastName=`[string]`
 
@@ -66,13 +66,51 @@ $ npm run start
 }
 ```
 
+### Delete Customer Record:
+
+- Route: `/customers/:id`
+- Method: `DELETE`
+- Url Parameters:
+  - id=`[string]`
+
+### Fetch Customer Record:
+
+- Route: `/customers/:id/record`
+- Method: `GET`
+- Url Parameters:
+  - id=`[string]`
+
+### Fetch Customer Notes:
+
+- Route: `/customers/:id/notes`
+- Method: `GET`
+- Url Parameters:
+  - id=`[string]`
+
+### Fetch Customer Documents:
+
+- Route: `/customers/:id/notes`
+- Method: `GET`
+- Url Parameters:
+  - id=`[string]`
+
 ## Run the tests
 
-1\. yoloyolo
+```
+$ npm run test
+```
 
 ## Invoke the authorizer
 
-1\. yolobolo
+1\. Add a .env file in the authorizer directory (see authorizer/.env.sample for file structure).
+
+2\. Add a event.json file in the authorizer directory (see authorizer/event.json for file structure).
+
+3\. Run the following from the root directory:
+
+```
+$ npm run auth
+```
 
 ## Debug the API (VS Code)
 
@@ -110,6 +148,12 @@ Create a new file at .vscode/launch.json and add the following:
 
 ```
 
-## Deployment
+## Linting
 
-## Troubleshooting
+```
+$ npm run lint
+```
+
+## Prettier
+
+We recommend installing the Prettier extension in your editor to keep formatting consistent.
