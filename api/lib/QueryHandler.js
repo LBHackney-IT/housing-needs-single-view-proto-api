@@ -86,7 +86,7 @@ const sortMergedTenancies = merged => {
   });
   return tenancies;
 };
-mergeHousingRegister = records => {
+const mergeHousingRegister = records => {
   const result = [];
   records.map(record => {
     if (record.housingRegister) result.push(record.housingRegister);
