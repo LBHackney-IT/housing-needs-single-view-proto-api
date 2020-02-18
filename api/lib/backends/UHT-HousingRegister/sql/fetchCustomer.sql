@@ -1,5 +1,6 @@
 SELECT
 	wlmember.*,
+	wlapp.u_eff_band_date,
 	wlapp.u_novalet_ref,
 	wlapp.app_band,
 	wlapp.post_code,

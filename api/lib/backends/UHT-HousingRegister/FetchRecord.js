@@ -13,12 +13,11 @@ const { fetchCustomerSQL } = loadSQL(path.join(__dirname, 'sql'));
 const fetchCustomer = async (id, db) => {
   const [app_ref, person_no] = id.split('/');
 
-  return (
-    await db.request(fetchCustomerSQL, [
-      { id: 'app_ref', type: 'NVarChar', value: app_ref },
-      { id: 'person_no', type: 'Int', value: person_no }
-    ])
-  )[0];
+  const results = await db.request(fetchCustomerSQL, [
+    { id: 'app_ref', type: 'NVarChar', value: app_ref },
+    { id: 'person_no', type: 'Int', value: person_no }
+  ]);
+  return results[0];
 };
 
 const processCustomerResults = result => {
@@ -54,7 +53,8 @@ const processCustomerResults = result => {
     housingRegister: {
       applicationRef: result.app_ref,
       biddingNo: result.u_novalet_ref,
-      band: HousingBands[result.app_band] || 'Unknown'
+      band: HousingBands[result.app_band] || 'Unknown',
+      startDate: result.u_eff_band_date
     }
   };
 };
