@@ -88,9 +88,12 @@ const sortMergedTenancies = merged => {
 };
 
 mergeHousingRegister = records => {
-  return records.map(record => {
-    if (record.housingRegister) return record.housingRegister;
+  const result = [];
+  records.map(record => {
+    if (record.housingRegister) result.push(record.housingRegister);
   });
+
+  return result;
 };
 
 // Merge and tidy response upjects from multiple backends
