@@ -86,12 +86,21 @@ const sortMergedTenancies = merged => {
   });
   return tenancies;
 };
+mergeHousingRegister = records => {
+  const result = [];
+  records.map(record => {
+    if (record.housingRegister) result.push(record.housingRegister);
+  });
 
+  return result;
+};
 // Merge and tidy response upjects from multiple backends
 let mergeResponses = function(responses) {
+  const mergedHousingRegister = mergeHousingRegister(responses);
   let merged = merge(...responses);
   if (merged.tenancies) merged.tenancies = sortMergedTenancies(merged);
   if (merged.address) merged.address = mergeAddresses(merged.address);
+  merged.housingRegister = mergedHousingRegister.sort(compareDateStrings);
   filterArrays(merged);
   return merged;
 };
