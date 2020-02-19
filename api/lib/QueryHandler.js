@@ -144,4 +144,4 @@ const QueryHandler = {
   }
 };
 
-module.exports = QueryHandler;
+module.exports = { QueryHandler, mergeResponses };
