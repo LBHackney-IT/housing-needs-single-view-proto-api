@@ -61,19 +61,13 @@ const sortMergedTenancies = merged => {
   return tenancies;
 };
 const mergeHousingRegister = records => {
-  const result = [];
-  records.map(record => {
-    if (record.housingRegister) {
-      if (record.housingRegister.applicationRef) {
-        result.push(record.housingRegister);
-      } else {
-        record.housingRegister.map(r => {
-          result.push(r);
-        });
-      }
-    }
-  });
-
+  let result = [];
+  records
+    .filter(r => r.housingRegister)
+    .forEach(r => {
+      if (r.housingRegister.applicationRef) result.push(r.housingRegister);
+      else result = result.concat(r.housingRegister);
+    });
   return result;
 };
 // Merge and tidy response upjects from multiple backends
