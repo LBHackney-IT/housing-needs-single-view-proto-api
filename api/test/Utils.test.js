@@ -3,19 +3,67 @@ const { compareDateStrings } = require('../lib/Utils');
 describe('Utils', () => {
   const records = [
     {
-      startDate: '2019-03-20'
+      startDate: new Date(2019, 2, 20)
     },
     {
-      startDate: '2019-03-23'
+      startDate: new Date(2019, 2, 23)
     }
   ];
 
   const expected = [
     {
-      startDate: '2019-03-23'
+      startDate: new Date(2019, 2, 23)
     },
     {
-      startDate: '2019-03-20'
+      startDate: new Date(2019, 2, 20)
+    }
+  ];
+
+  const dates = [
+    {
+      startDate: new Date(2019, 5, 1)
+    },
+    {
+      startDate: new Date(2019, 2, 1)
+    },
+    {
+      startDate: new Date(2019, 0, 3)
+    },
+    {
+      startDate: new Date(2019, 0, 2)
+    },
+    {
+      startDate: new Date(2019, 3, 1)
+    },
+    {
+      startDate: new Date(2019, 4, 1)
+    },
+    {
+      startDate: new Date(2019, 0, 1)
+    }
+  ];
+
+  const expectedDates = [
+    {
+      startDate: new Date(2019, 5, 1)
+    },
+    {
+      startDate: new Date(2019, 4, 1)
+    },
+    {
+      startDate: new Date(2019, 3, 1)
+    },
+    {
+      startDate: new Date(2019, 2, 1)
+    },
+    {
+      startDate: new Date(2019, 0, 3)
+    },
+    {
+      startDate: new Date(2019, 0, 2)
+    },
+    {
+      startDate: new Date(2019, 0, 1)
     }
   ];
 
@@ -43,5 +91,10 @@ describe('Utils', () => {
     const result = record.sort(compareDateStrings);
 
     expect(result).toStrictEqual(record);
+  });
+
+  it('orders very specific dates that fail in descending order', async () => {
+    const result = dates.sort(compareDateStrings);
+    expect(result).toStrictEqual(expectedDates);
   });
 });

@@ -1,6 +1,5 @@
 const path = require('path');
 const {
-  formatDisplayDate,
   formatPhone,
   formatAddress,
   checkString,
@@ -56,7 +55,7 @@ const processCustomerResults = result => {
       applicationRef: result.app_ref,
       biddingNo: result.u_novalet_ref,
       band: HousingBands[result.app_band] || 'Unknown',
-      startDate: formatDisplayDate(result.u_eff_band_date)
+      startDate: result.u_eff_band_date
     }
   };
 };

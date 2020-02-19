@@ -1,4 +1,4 @@
-const { mergeResponses } = require('../lib/QueryHandler');
+const mergeResponses = require('../lib/MergeResponses');
 describe('QueryHandler', () => {
   const responses = [
     {
@@ -7,19 +7,19 @@ describe('QueryHandler', () => {
           applicationRef: 'DIR0111111',
           biddingNo: '2157162',
           band: 'one',
-          startDate: '01/06/2019'
+          startDate: new Date(2019, 5, 1)
         },
         {
           applicationRef: 'DIR0111112',
           biddingNo: '2157163',
           band: 'two',
-          startDate: '01/03/2019'
+          startDate: new Date(2019, 2, 1)
         },
         {
           applicationRef: 'DIR0111113',
           biddingNo: '2157164',
           band: 'two',
-          startDate: '03/01/2019'
+          startDate: new Date(2019, 0, 3)
         }
       ]
     },
@@ -28,7 +28,7 @@ describe('QueryHandler', () => {
         applicationRef: 'DIR0222222',
         biddingNo: '2157166',
         band: 'three',
-        startDate: '02/01/2019'
+        startDate: new Date(2019, 0, 2)
       }
     },
     {
@@ -37,19 +37,19 @@ describe('QueryHandler', () => {
           applicationRef: 'DIR0333331',
           biddingNo: '2157120',
           band: 'one',
-          startDate: '01/04/2019'
+          startDate: new Date(2019, 3, 1)
         },
         {
           applicationRef: 'DIR0333332',
           biddingNo: '2157154',
           band: 'two',
-          startDate: '01/05/2019'
+          startDate: new Date(2019, 4, 1)
         },
         {
           applicationRef: 'DIR0333333',
           biddingNo: '2157133',
           band: 'three',
-          startDate: '01/01/2019'
+          startDate: new Date(2019, 0, 1)
         }
       ]
     }
@@ -58,46 +58,46 @@ describe('QueryHandler', () => {
   const expected = {
     housingRegister: [
       {
-        applicationRef: 'DIR0333333',
-        biddingNo: '2157133',
-        band: 'three',
-        startDate: '01/01/2019'
-      },
-      {
-        applicationRef: 'DIR0222222',
-        biddingNo: '2157166',
-        band: 'three',
-        startDate: '02/01/2019'
-      },
-      {
-        applicationRef: 'DIR0111113',
-        biddingNo: '2157164',
-        band: 'two',
-        startDate: '03/01/2019'
-      },
-      {
-        applicationRef: 'DIR0111112',
-        biddingNo: '2157163',
-        band: 'two',
-        startDate: '01/03/2019'
-      },
-      {
-        applicationRef: 'DIR0333331',
-        biddingNo: '2157120',
+        applicationRef: 'DIR0111111',
+        biddingNo: '2157162',
         band: 'one',
-        startDate: '01/04/2019'
+        startDate: new Date(2019, 5, 1)
       },
       {
         applicationRef: 'DIR0333332',
         biddingNo: '2157154',
         band: 'two',
-        startDate: '01/05/2019'
+        startDate: new Date(2019, 4, 1)
       },
       {
-        applicationRef: 'DIR0111111',
-        biddingNo: '2157162',
+        applicationRef: 'DIR0333331',
+        biddingNo: '2157120',
         band: 'one',
-        startDate: '01/06/2019'
+        startDate: new Date(2019, 3, 1)
+      },
+      {
+        applicationRef: 'DIR0111112',
+        biddingNo: '2157163',
+        band: 'two',
+        startDate: new Date(2019, 2, 1)
+      },
+      {
+        applicationRef: 'DIR0111113',
+        biddingNo: '2157164',
+        band: 'two',
+        startDate: new Date(2019, 0, 3)
+      },
+      {
+        applicationRef: 'DIR0222222',
+        biddingNo: '2157166',
+        band: 'three',
+        startDate: new Date(2019, 0, 2)
+      },
+      {
+        applicationRef: 'DIR0333333',
+        biddingNo: '2157133',
+        band: 'three',
+        startDate: new Date(2019, 0, 1)
       }
     ]
   };

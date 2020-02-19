@@ -121,12 +121,9 @@ let Utils = {
   },
 
   compareDateStrings(record1, record2) {
-    const date1 = new Date(record1.startDate);
-    const date2 = new Date(record2.startDate);
-
-    if (date1 > date2) {
+    if (record1.startDate > record2.startDate) {
       return -1;
-    } else if (date1 < date2) {
+    } else if (record1.startDate < record2.startDate) {
       return 1;
     }
     return 0;
