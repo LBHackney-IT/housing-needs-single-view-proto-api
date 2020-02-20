@@ -50,35 +50,35 @@ const processCustomer = results => {
     nino: [upperCase(results[0].ni_no)]
   };
 
-  const tenancies = results.map(result => {
-    if (result.tag_ref) {
-      return {
-        tagRef: checkString(result.tag_ref),
-        startDate: result.start_date
-          ? formatRecordDate(result.start_date)
-          : null,
-        endDate: result.end_date ? formatRecordDate(result.end_date) : null,
-        tenure: checkString(result.tenure),
-        currentBalance: result.current_balance,
-        rentAmount: result.rent,
-        rentPeriod: result.period,
-        propRef: checkString(result.prop_ref),
-        address: formatAddress([
-          result.post_preamble,
-          [checkString(result.post_design), checkString(result.aline1)]
-            .filter(x => x)
-            .join(' '),
-          result.aline2,
-          result.aline3,
-          result.aline4,
-          result.post_code
-        ])
-      };
-    }
-  });
+  const tenancies = results
+    .map(result => {
+      if (result.tag_ref) {
+        return {
+          tagRef: checkString(result.tag_ref),
+          startDate: result.start_date,
+          endDate: result.end_date,
+          tenure: checkString(result.tenure),
+          currentBalance: result.current_balance,
+          rentAmount: result.rent,
+          rentPeriod: result.period,
+          propRef: checkString(result.prop_ref),
+          address: formatAddress([
+            result.post_preamble,
+            [checkString(result.post_design), checkString(result.aline1)]
+              .filter(x => x)
+              .join(' '),
+            result.aline2,
+            result.aline3,
+            result.aline4,
+            result.post_code
+          ])
+        };
+      }
+    })
+    .filter(x => x);
 
   customer.tenancies = tenancies.map(tenancy => {
-    if (tenancy.endDate.includes('1900-01-01')) {
+    if (tenancy.endDate.getYear() === '1900') {
       tenancy.endDate = null;
     }
     return tenancy;

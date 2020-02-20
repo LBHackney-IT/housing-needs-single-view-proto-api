@@ -1,7 +1,6 @@
 const PostgresDb = require('./PostgresDb');
 const { Systems } = require('./Constants');
-const merge = require('@brikcss/merge');
-const { filterArray, compareDateStrings } = require('./Utils');
+const mergeResponses = require('./MergeResponses');
 
 const backends = {
   [Systems.UHT_CONTACTS]: require('./backends/UHT-Contacts'),
@@ -25,75 +24,6 @@ let getCustomerLinks = async function(id) {
     SELECT customer_links.remote_id, systems.name FROM customer_links, customers, systems 
     WHERE systems.id = customer_links.system_id AND customers.id = customer_links.customer_id AND customers.id = $1`;
   return await PostgresDb.any(query, [id]);
-};
-
-// Recursively filter duplicates from arrays in objects
-let filterArrays = function(input) {
-  for (let key in input) {
-    if (Array.isArray(input[key])) {
-      input[key] = filterArray(input[key]);
-    } else if (typeof input[key] === 'object') {
-      filterArrays(input[key]);
-    }
-  }
-};
-
-let mergeAddresses = function(addresses) {
-  // Remove empty addresses
-  addresses = addresses.filter(addr => addr.address.length > 0);
-
-  // reducer lambda to group by address
-  let group = (acc, address) => {
-    let key = JSON.stringify(address.address);
-    if (!acc[key]) {
-      acc[key] = [];
-    }
-    acc[key].push(address);
-    return acc;
-  };
-
-  // group by address
-  let grouped = addresses.reduce(group, {});
-
-  // flatten back into an array with the sources as an array in each object
-  return Object.values(grouped).map(arr => {
-    try {
-      return {
-        source: arr
-          .map(addr => addr.source) // Pull out the sources into an array and deduplicate
-          .filter((value, index, self) => {
-            return self.indexOf(value) === index;
-          }),
-        address: arr[0].address
-      };
-    } catch (err) {
-      console.error('Error merging addresses');
-      console.error(err);
-      return {};
-    }
-  });
-};
-
-const sortMergedTenancies = merged => {
-  const sorted_tenancies = merged.tenancies.sort(compareDateStrings);
-  const tenancies = { current: [], previous: [] };
-  sorted_tenancies.map(t => {
-    if (t.endDate === null && tenancies.current.length === 0) {
-      tenancies.current.push(t);
-    } else {
-      tenancies.previous.push(t);
-    }
-  });
-  return tenancies;
-};
-
-// Merge and tidy response upjects from multiple backends
-let mergeResponses = function(responses) {
-  let merged = merge(...responses);
-  if (merged.tenancies) merged.tenancies = sortMergedTenancies(merged);
-  if (merged.address) merged.address = mergeAddresses(merged.address);
-  filterArrays(merged);
-  return merged;
 };
 
 const QueryHandler = {
