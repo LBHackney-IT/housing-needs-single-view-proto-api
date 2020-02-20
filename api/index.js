@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const QueryHandler = require('./lib/QueryHandler');
 const {
+  addVulnerability,
   customerSearch,
   fetchDocuments,
   fetchNotes
@@ -128,6 +129,17 @@ app.get('/customers/:id/documents', async (req, res) => {
   const results = await fetchDocuments(req.params.id);
   console.timeEnd(`GET CUSTOMER DOCS id="${req.params.id}"`);
   res.send(results);
+});
+
+app.post('/customers/:id/vulnerabilities', async (req, res) => {
+  console.log('SAVING VULNERABILITY');
+  console.time('SAVING VULNERABILITY');
+  // Save the selected vulnerability
+  let vulnerability = req.body;
+  vulnerability.customerId = req.params.id;
+  const id = await addVulnerability(vulnerability);
+  console.timeEnd('SAVING VULNERABILITY');
+  res.send({ id });
 });
 
 module.exports.handler = serverless(app);
