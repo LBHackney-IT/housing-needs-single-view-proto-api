@@ -78,7 +78,7 @@ const processCustomer = results => {
     .filter(x => x);
 
   customer.tenancies = tenancies.map(tenancy => {
-    if (tenancy.endDate.getYear === '1990') {
+    if (tenancy.endDate.getYear === '1900') {
       tenancy.endDate = null;
     }
     return tenancy;

@@ -121,12 +121,7 @@ let Utils = {
   },
 
   compareDateStrings(record1, record2) {
-    if (record1.startDate > record2.startDate) {
-      return -1;
-    } else if (record1.startDate < record2.startDate) {
-      return 1;
-    }
-    return 0;
+    return record2.startDate - record1.startDate;
   }
 };
 
