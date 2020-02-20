@@ -27,6 +27,13 @@ const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
   db: singleViewDb
 });
 
+const vulnerabilitiesGateway = require('./gateways/SingleView/Vulnerabilities')(
+  {
+    buildNote,
+    db: singleViewDb
+  }
+);
+
 // SEARCH GATEWAYS
 
 const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
@@ -179,12 +186,18 @@ const fetchNotes = require('./use-cases/FetchNotes')({
     [Systems.UHW]: uhwFetchNotesGateway,
     [Systems.ACADEMY_BENEFITS]: academyBenefitsFetchNotesGateway,
     [Systems.ACADEMY_COUNCIL_TAX]: academyCouncilTaxFetchNotesGateway,
-    [Systems.JIGSAW]: jigsawFetchNotesGateway
+    [Systems.JIGSAW]: jigsawFetchNotesGateway,
+    [Systems.SINGLEVIEW]: vulnerabilitiesGateway
   },
   getCustomerLinks
 });
 
+const addVulnerability = require('./use-cases/AddVulnerability')({
+  gateway: vulnerabilitiesGateway
+});
+
 module.exports = {
+  addVulnerability,
   customerSearch,
   fetchDocuments,
   fetchNotes

@@ -16,9 +16,6 @@
     "serverless-http": "^2.3.0",
     "@sentry/node": "^5.12.2"
   },
-  "scripts": {
-    "lint": "eslint --fix --ext js lib && echo 'Lint complete.'"
-  },
   "devDependencies": {
     "cache-manager": "^2.10.1",
     "express-cache-middleware": "^1.0.1"

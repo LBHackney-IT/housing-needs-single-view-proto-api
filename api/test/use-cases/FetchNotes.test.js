@@ -1,10 +1,12 @@
+const { Systems } = require('../../lib/Constants');
+
 describe('FetchNotes', () => {
   const notesFromA = [
     { id: 2, date: new Date(2012, 8, 4) },
     { id: 1, date: new Date(2010, 5, 12) }
   ];
   const notesFromB = [{ id: 5, date: new Date(2014, 2, 2) }];
-  const customerLinks = [{ name: 'UHT' }, { name: 'UHW' }, { name: 'Jigsaw' }];
+  const customerLinks = [{ name: 'UHT' }, { name: 'UHW' }];
 
   let gateways;
   let fetchNotes;
@@ -12,7 +14,9 @@ describe('FetchNotes', () => {
   beforeEach(() => {
     gateways = {
       UHT: { execute: jest.fn(() => notesFromA) },
-      UHW: { execute: jest.fn(() => notesFromB) }
+      UHW: { execute: jest.fn(() => notesFromB) },
+      Jigsaw: { execute: jest.fn(() => []) },
+      SINGLEVIEW: { getAll: jest.fn(() => []) }
     };
     fetchNotes = require('../../lib/use-cases/FetchNotes')({
       gateways: gateways,
@@ -24,15 +28,24 @@ describe('FetchNotes', () => {
     });
   });
 
-  it('can query for a customer notes from multiple gateways', async () => {
+  it('can query for a customers notes from multiple gateways', async () => {
     const id = 1;
     const token = 'abc';
 
     await fetchNotes(id, token);
 
-    for (const [_, gateway] of Object.entries(gateways)) {
-      expect(gateway.execute).toHaveBeenCalledWith(id, token);
+    for (const link of customerLinks) {
+      expect(gateways[link.name].execute).toHaveBeenCalledWith(id, token);
     }
+  });
+
+  it('queries for a customer notes from the vulnerabilities gateway', async () => {
+    const id = 1;
+    const token = 'abc';
+
+    await fetchNotes(id, token);
+
+    expect(gateways[Systems.SINGLEVIEW].getAll).toHaveBeenCalledWith(id);
   });
 
   it('concatenates the results', async () => {
