@@ -54,7 +54,8 @@ const processCustomerResults = result => {
     housingRegister: {
       applicationRef: result.app_ref,
       biddingNo: result.u_novalet_ref,
-      band: HousingBands[result.app_band] || 'Unknown'
+      band: HousingBands[result.app_band] || 'Unknown',
+      startDate: result.u_eff_band_date
     }
   };
 };

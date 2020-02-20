@@ -120,16 +120,8 @@ let Utils = {
     }, {});
   },
 
-  compareDateStrings(record1, record2) {
-    const date1 = new Date(record1.startDate);
-    const date2 = new Date(record2.startDate);
-
-    if (date1 > date2) {
-      return -1;
-    } else if (date1 < date2) {
-      return 1;
-    }
-    return 0;
+  compareDate(record1, record2) {
+    return record2.startDate - record1.startDate;
   }
 };
 
