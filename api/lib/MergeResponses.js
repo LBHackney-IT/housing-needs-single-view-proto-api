@@ -1,5 +1,5 @@
 const merge = require('@brikcss/merge');
-const { filterArray, compareDateStrings } = require('./Utils');
+const { filterArray, compareDate } = require('./Utils');
 
 // Recursively filter duplicates from arrays in objects
 let filterArrays = function(input) {
@@ -49,7 +49,7 @@ let mergeAddresses = function(addresses) {
 };
 
 const sortMergedTenancies = merged => {
-  const sorted_tenancies = merged.tenancies.sort(compareDateStrings);
+  const sorted_tenancies = merged.tenancies.sort(compareDate);
   const tenancies = { current: [], previous: [] };
   sorted_tenancies.map(t => {
     if (t.endDate === null && tenancies.current.length === 0) {
@@ -76,7 +76,7 @@ const MergeResponses = function(responses) {
   let merged = merge(...responses);
   if (merged.tenancies) merged.tenancies = sortMergedTenancies(merged);
   if (merged.address) merged.address = mergeAddresses(merged.address);
-  merged.housingRegister = mergedHousingRegister.sort(compareDateStrings);
+  merged.housingRegister = mergedHousingRegister.sort(compareDate);
   filterArrays(merged);
   return merged;
 };

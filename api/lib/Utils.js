@@ -120,7 +120,7 @@ let Utils = {
     }, {});
   },
 
-  compareDateStrings(record1, record2) {
+  compareDate(record1, record2) {
     return record2.startDate - record1.startDate;
   }
 };
