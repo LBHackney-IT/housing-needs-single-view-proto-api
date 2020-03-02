@@ -8,7 +8,7 @@ module.exports = options => {
   return async (id, token) => {
     const links = await getCustomerLinks.execute(id);
     const requests = links.map(async link => {
-      if (gateways[link.name])
+      if (gateways[link.name] && link.remote_id)
         return gateways[link.name].execute(link.remote_id, token);
     });
 
