@@ -2,7 +2,7 @@ const academyBenefitsFetchDocuments = require('../../../lib/gateways/Academy-Ben
 const { Systems } = require('../../../lib/Constants');
 
 describe('AcademyBenefitsFetchDocumentsGateway', () => {
-  const id = '123/1';
+  const id = '123';
   let buildDocument;
   let db;
   let cominoFetchDocumentsGateway;
@@ -33,21 +33,9 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     return academyBenefitsFetchDocuments({
       buildDocument,
       db,
-      cominoFetchDocumentsGateway,
-      getSystemId
+      cominoFetchDocumentsGateway
     });
   };
-
-  it('gets the system ID', async () => {
-    const gateway = createGateway([], true);
-
-    await gateway.execute(id);
-
-    expect(getSystemId.execute).toHaveBeenCalledWith(
-      Systems.ACADEMY_BENEFITS,
-      '123/1'
-    );
-  });
 
   it('gets the docs if customer has a system id', async () => {
     const gateway = createGateway([], true);
@@ -67,7 +55,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
 
   it('does not get the docs if customer does not have a system id', async () => {
     const gateway = createGateway([]);
-    await gateway.execute(id);
+    await gateway.execute(null);
 
     expect(db.request).toHaveBeenCalledTimes(0);
     expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledTimes(0);

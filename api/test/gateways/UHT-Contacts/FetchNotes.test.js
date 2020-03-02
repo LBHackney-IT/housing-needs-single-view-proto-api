@@ -3,9 +3,8 @@ const UHTContactsFetchNotes = require('../../../lib/gateways/UHT-Contacts/FetchN
 describe('UHTContactsFetchNotes gateway', () => {
   let buildNote;
   let db;
-  let getSystemId;
 
-  const createGateway = (notes, throwsError, noSystemId) => {
+  const createGateway = (notes, throwsError) => {
     buildNote = jest.fn(({ id }) => {
       return { id };
     });
@@ -19,42 +18,31 @@ describe('UHTContactsFetchNotes gateway', () => {
       })
     };
 
-    getSystemId = {
-      execute: jest.fn(async () => {
-        if (noSystemId) {
-          return undefined;
-        }
-        return '123542/1';
-      })
-    };
-
     return UHTContactsFetchNotes({
       buildNote,
-      db,
-      getSystemId
+      db
     });
   };
 
   it('queries the database with appropriate id', async () => {
     const gateway = createGateway([]);
-    const id = 4;
+    const id = '4/1';
     const queryMatcher = expect.stringMatching(/house_ref = @house_ref/);
     const paramMatcher = expect.arrayContaining([
       {
         id: 'house_ref',
         type: 'NVarChar',
-        value: '123542'
+        value: '4'
       }
     ]);
 
     await gateway.execute(id);
 
-    expect(getSystemId.execute).toHaveBeenCalledWith('UHT-Contacts', id);
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
 
   it('returns nicely formatted notes', async () => {
-    const id = 4;
+    const id = '4/1';
 
     const note = {
       action_comment: 'meow',

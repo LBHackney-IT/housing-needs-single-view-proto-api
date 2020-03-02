@@ -4,8 +4,6 @@ describe('AcademyCouncilTaxFetchNotesGateway', () => {
   const id = '123';
 
   let cominoFetchNotesGateway;
-  let getSystemId;
-
   const createGateway = (records, throwsError, existsInSystem) => {
     cominoFetchNotesGateway = {
       execute: jest.fn(async () => {
@@ -16,15 +14,8 @@ describe('AcademyCouncilTaxFetchNotesGateway', () => {
       })
     };
 
-    getSystemId = {
-      execute: jest.fn(async (name, id) => {
-        if (existsInSystem) return id;
-      })
-    };
-
     return academyCouncilTaxFetchNotes({
-      cominoFetchNotesGateway,
-      getSystemId
+      cominoFetchNotesGateway
     });
   };
 
@@ -54,7 +45,7 @@ describe('AcademyCouncilTaxFetchNotesGateway', () => {
 
   it('does not get the notes if customer does not have a system id', async () => {
     const gateway = createGateway([]);
-    const result = await gateway.execute(id);
+    const result = await gateway.execute(null);
 
     expect(cominoFetchNotesGateway.execute).toHaveBeenCalledTimes(0);
     expect(result.length).toBe(0);

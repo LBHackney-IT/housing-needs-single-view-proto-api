@@ -66,7 +66,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
     });
   };
 
-  it('gets the notes if customer has a system id', async () => {
+  it('gets the notes if customer has an id', async () => {
     const gateway = createGateway(true);
     const academyParamMatcher = expect.arrayContaining([
       expect.objectContaining({ value: '123' })
@@ -76,10 +76,6 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
 
     await gateway.execute(id);
 
-    expect(getSystemId.execute).toHaveBeenCalledWith(
-      Systems.ACADEMY_BENEFITS,
-      id
-    );
     expect(db.request).toHaveBeenCalledWith(
       expect.anything(),
       academyParamMatcher
@@ -92,7 +88,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
   it('does not get the notes if customer does not have a system id', async () => {
     const gateway = createGateway();
 
-    const results = await gateway.execute(id);
+    const results = await gateway.execute(null);
 
     expect(db.request).not.toHaveBeenCalled;
     expect(cominoFetchNotesGateway.execute).not.toHaveBeenCalled();

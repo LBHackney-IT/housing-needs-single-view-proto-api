@@ -6,12 +6,10 @@ const { fetchActionDiaryNotesSQL } = loadSQL(path.join(__dirname, 'sql'));
 module.exports = options => {
   const db = options.db;
   const buildNote = options.buildNote;
-  const getSystemId = options.getSystemId;
 
   const fetchHouseRef = async id => {
-    const systemId = await getSystemId.execute(Systems.UHT_CONTACTS, id);
-    if (systemId) {
-      const houseRef = systemId.split('/')[0];
+    if (id) {
+      const houseRef = id.split('/')[0];
       return houseRef;
     }
   };

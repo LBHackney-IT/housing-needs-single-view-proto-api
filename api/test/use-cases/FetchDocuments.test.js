@@ -4,7 +4,11 @@ describe('FetchDocuments', () => {
     { id: 1, date: new Date(2010, 5, 12) }
   ];
   const docsFromB = [{ id: 5, date: new Date(2014, 2, 2) }];
-  const customerLinks = [{ name: 'UHT' }, { name: 'UHW' }, { name: 'Jigsaw' }];
+  const customerLinks = [
+    { name: 'UHT', remote_id: 10 },
+    { name: 'UHW', remote_id: 10 },
+    { name: 'Jigsaw', remote_id: 10 }
+  ];
   let gateways;
   let fetchDocuments;
 
@@ -29,7 +33,7 @@ describe('FetchDocuments', () => {
     await fetchDocuments(id);
 
     for (const [_, gateway] of Object.entries(gateways)) {
-      expect(gateway.execute).toHaveBeenCalledWith(id);
+      expect(gateway.execute).toHaveBeenCalledWith(10);
     }
   });
 

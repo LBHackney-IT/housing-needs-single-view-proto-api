@@ -60,7 +60,7 @@ describe('UHWFetchDocumentsGateway', () => {
   });
 
   it('returns an empty set of records if there is an error', async () => {
-    const document = { DocNo: 1231 };
+    const document = { DocNo: '1231' };
     const gateway = createGateway([document], true, true);
 
     const documents = await gateway.execute('1');

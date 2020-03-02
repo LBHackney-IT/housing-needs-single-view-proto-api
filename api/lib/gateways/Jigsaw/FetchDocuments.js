@@ -5,14 +5,9 @@ module.exports = options => {
   const doJigsawGetRequest = options.doJigsawGetRequest;
   const doJigsawPostRequest = options.doJigsawPostRequest;
   const buildDocument = options.buildDocument;
-  const getSystemId = options.getSystemId;
 
   const caseUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/casecheck/`;
   const docsUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/cases/getcasedocs/`;
-
-  const fetchSystemId = async id => {
-    return await getSystemId.execute(Systems.JIGSAW, id);
-  };
 
   const fetchCases = async id => {
     return await doJigsawGetRequest(caseUrl + id);
@@ -47,9 +42,8 @@ module.exports = options => {
   return {
     execute: async id => {
       try {
-        const jigsaw_id = await fetchSystemId(id);
-        if (jigsaw_id) {
-          const documents = await fetchCustomerDocuments(jigsaw_id);
+        if (id) {
+          const documents = await fetchCustomerDocuments(id);
           return processDocuments(documents);
         }
         return [];

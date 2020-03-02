@@ -20,9 +20,6 @@ const {
   doGetRequest
 } = require('./JigsawUtils');
 
-const getSystemId = require('./gateways/SingleView/SystemID')({
-  db: singleViewDb
-});
 const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
   db: singleViewDb
 });
@@ -83,27 +80,23 @@ const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefit
   {
     db: academyDb,
     buildDocument,
-    cominoFetchDocumentsGateway,
-    getSystemId
+    cominoFetchDocumentsGateway
   }
 );
 const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
   db: uhwDb,
-  buildDocument,
-  getSystemId
+  buildDocument
 });
 const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
   {
     buildDocument,
     doJigsawGetRequest,
-    doJigsawPostRequest,
-    getSystemId
+    doJigsawPostRequest
   }
 );
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
   {
-    cominoFetchDocumentsGateway,
-    getSystemId
+    cominoFetchDocumentsGateway
   }
 );
 
@@ -117,37 +110,31 @@ const academyBenefitsFetchNotesGateway = require('./gateways/Academy-Benefits/Fe
   {
     db: academyDb,
     buildNote,
-    cominoFetchNotesGateway,
-    getSystemId
+    cominoFetchNotesGateway
   }
 );
 const uhtContactsFetchNotesGateway = require('./gateways/UHT-Contacts/FetchNotes')(
   {
     db: uhtDb,
-    buildNote,
-    getSystemId
+    buildNote
   }
 );
 const uhtHousingRegisterFetchNotesGateway = require('./gateways/UHT-HousingRegister/FetchNotes')(
   {
     db: uhtDb,
-    buildNote,
-    getSystemId
+    buildNote
   }
 );
 const academyCouncilTaxFetchNotesGateway = require('./gateways/Academy-CouncilTax/FetchNotes')(
   {
-    cominoFetchNotesGateway,
-    getSystemId
+    cominoFetchNotesGateway
   }
 );
 const uhwFetchNotesGateway = require('./gateways/UHW/FetchNotes')({
   db: uhwDb,
-  buildNote,
-  getSystemId
+  buildNote
 });
 const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
-  getSystemId,
   doJigsawGetRequest,
   doGetRequest,
   buildNote

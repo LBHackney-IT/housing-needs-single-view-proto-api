@@ -9,17 +9,10 @@ describe('UHWFetchNotesGateway', () => {
   ]);
 
   let buildNote;
-  let getSystemId;
   let db;
 
   const createGateway = (records, existsInSystem, throwsError) => {
     buildNote = jest.fn();
-
-    getSystemId = {
-      execute: jest.fn(async (name, id) => {
-        if (existsInSystem) return id;
-      })
-    };
 
     db = {
       request: jest.fn(async (name, id) => {
@@ -32,18 +25,9 @@ describe('UHWFetchNotesGateway', () => {
 
     return uhwFetchNotes({
       buildNote,
-      getSystemId,
       db
     });
   };
-
-  it('gets the system ID', async () => {
-    const gateway = createGateway([], true);
-
-    await gateway.execute(id);
-
-    expect(getSystemId.execute).toHaveBeenCalledWith(Systems.UHW, id);
-  });
 
   it('queries the database with id if the systemId exists', async () => {
     const gateway = createGateway([], true);
@@ -56,7 +40,7 @@ describe('UHWFetchNotesGateway', () => {
   it('does not query the database with id if the systemId does not exist', async () => {
     const gateway = createGateway([], false);
 
-    await gateway.execute(id);
+    await gateway.execute(null);
     expect(db.request).not.toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
 
