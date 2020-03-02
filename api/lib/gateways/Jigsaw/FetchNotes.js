@@ -1,7 +1,6 @@
 const { Systems } = require('../../Constants');
 
 module.exports = options => {
-  const getSystemId = options.getSystemId;
   const doJigsawGetRequest = options.doJigsawGetRequest;
   const doGetRequest = options.doGetRequest;
   const buildNote = options.buildNote;
@@ -13,10 +12,6 @@ module.exports = options => {
     `https://zebrahomelessnessproduction.azurewebsites.net/api/Cases/${id}/Notes`;
   const collabCaseworkUrl = `${process.env.COLLAB_CASEWORK_API}/contacts`;
   const collabCaseworkMessagesUrl = id => `${collabCaseworkUrl}/${id}/messages`;
-
-  const fetchSystemId = async id => {
-    return await getSystemId.execute(Systems.JIGSAW, id);
-  };
 
   const fetchCustomerNotes = async id => {
     return await doJigsawGetRequest(customerNotesUrl(id));
@@ -97,11 +92,10 @@ module.exports = options => {
   return {
     execute: async (id, token) => {
       try {
-        const jigsaw_id = await fetchSystemId(id);
-        if (jigsaw_id) {
-          const custNotes = await fetchCustomerNotes(jigsaw_id);
-          const caseNotes = await fetchCaseNotes(jigsaw_id);
-          const sms = await fetchCustomerSms(jigsaw_id, token);
+        if (id) {
+          const custNotes = await fetchCustomerNotes(id);
+          const caseNotes = await fetchCaseNotes(id);
+          const sms = await fetchCustomerSms(id, token);
 
           return processNotes(custNotes, 'Customer Note').concat(
             processNotes(caseNotes, 'Case Note'),

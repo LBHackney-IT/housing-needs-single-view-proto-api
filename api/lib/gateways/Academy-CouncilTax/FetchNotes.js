@@ -2,20 +2,13 @@ const { Systems } = require('../../Constants');
 
 module.exports = options => {
   const cominoFetchNotesGateway = options.cominoFetchNotesGateway;
-  const getSystemId = options.getSystemId;
-
-  const fetchSystemId = async id => {
-    const systemId = await getSystemId.execute(Systems.ACADEMY_COUNCIL_TAX, id);
-    if (systemId) return systemId;
-  };
 
   return {
     execute: async id => {
       try {
-        const account_ref = await fetchSystemId(id);
-        if (account_ref) {
+        if (id) {
           const comino_results = await cominoFetchNotesGateway.execute({
-            account_ref
+            id
           });
           return comino_results;
         }

@@ -7,7 +7,8 @@ module.exports = options => {
   return async id => {
     const links = await getCustomerLinks.execute(id);
     const requests = links.map(async link => {
-      if (gateways[link.name]) return gateways[link.name].execute(id);
+      if (gateways[link.name])
+        return gateways[link.name].execute(link.remote_id);
     });
 
     let documents = [].concat.apply([], await Promise.all(requests));

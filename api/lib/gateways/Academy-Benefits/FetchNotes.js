@@ -7,11 +7,9 @@ module.exports = options => {
   const db = options.db;
   const buildNote = options.buildNote;
   const cominoFetchNotesGateway = options.cominoFetchNotesGateway;
-  const getSystemId = options.getSystemId;
 
   const fetchSystemId = async id => {
-    const systemId = await getSystemId.execute(Systems.ACADEMY_BENEFITS, id);
-    if (systemId) return systemId.split('/')[0];
+    if (id) return id.split('/')[0];
   };
 
   const fetchCustomerNotes = async id => {
