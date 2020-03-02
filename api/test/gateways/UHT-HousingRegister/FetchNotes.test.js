@@ -14,17 +14,10 @@ describe('UHTHousingFetchNotesGateway', () => {
   ]);
 
   let buildNote;
-  let getSystemId;
   let db;
 
   const createGateway = (records, existsInSystem, throwsError) => {
     buildNote = jest.fn();
-
-    getSystemId = {
-      execute: jest.fn(async (name, id) => {
-        if (existsInSystem) return id;
-      })
-    };
 
     db = {
       request: jest.fn(async (name, id) => {
@@ -37,21 +30,9 @@ describe('UHTHousingFetchNotesGateway', () => {
 
     return uhtHousingRegisterFetchNotes({
       buildNote,
-      getSystemId,
       db
     });
   };
-
-  it('gets the system ID', async () => {
-    const gateway = createGateway([], true);
-
-    await gateway.execute(id);
-
-    expect(getSystemId.execute).toHaveBeenCalledWith(
-      Systems.UHT_HOUSING_REGISTER,
-      id
-    );
-  });
 
   it('queries the database for app_ref and person_no if the app_ref and person_no exist in systemId', async () => {
     const gateway = createGateway([], true);
@@ -68,10 +49,10 @@ describe('UHTHousingFetchNotesGateway', () => {
     );
   });
 
-  it('does not query the database for app_ref and person_no if the app_ref and person_no do not exist in systemId', async () => {
+  it('does not query the database for app_ref and person_no if the app_ref and person_no do not exist', async () => {
     const gateway = createGateway([], false);
 
-    await gateway.execute(id);
+    await gateway.execute(null);
 
     expect(db.request).not.toHaveBeenCalledWith(
       appRefQueryMatcher,

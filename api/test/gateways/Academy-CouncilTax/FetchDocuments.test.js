@@ -52,9 +52,9 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
     );
   });
 
-  it('does not get the docs if customer does not have a system id ', async () => {
+  it('does not get the docs if customer does not have an id ', async () => {
     const gateway = createGateway([]);
-    const result = await gateway.execute(id);
+    const result = await gateway.execute(null);
 
     expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledTimes(0);
     expect(result.length).toBe(0);

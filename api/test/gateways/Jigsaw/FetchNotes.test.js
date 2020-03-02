@@ -5,7 +5,6 @@ describe('JigsawFetchNotesGateway', () => {
   const id = '123';
 
   let doJigsawGetRequest;
-  let getSystemId;
   let doGetRequest;
   let buildNote;
 
@@ -29,27 +28,12 @@ describe('JigsawFetchNotesGateway', () => {
       return records;
     });
 
-    getSystemId = {
-      execute: jest.fn(async (name, id) => {
-        if (existsInSystem) return id;
-      })
-    };
-
     return jigsawFetchNotes({
       doJigsawGetRequest,
       buildNote,
-      getSystemId,
       doGetRequest
     });
   };
-
-  it('gets the system ID', async () => {
-    const gateway = createGateway([], true);
-
-    await gateway.execute(id);
-
-    expect(getSystemId.execute).toHaveBeenCalledWith(Systems.JIGSAW, '123');
-  });
 
   it('gets customer notes if customer has a system id', async () => {
     const gateway = createGateway([{ id }], true);

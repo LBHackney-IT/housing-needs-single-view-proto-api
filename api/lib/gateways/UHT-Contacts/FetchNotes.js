@@ -9,7 +9,7 @@ module.exports = options => {
 
   const fetchHouseRef = async id => {
     if (id) {
-      const houseRef = systemId.split('/')[0];
+      const houseRef = id.split('/')[0];
       return houseRef;
     }
   };

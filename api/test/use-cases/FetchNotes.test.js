@@ -6,7 +6,10 @@ describe('FetchNotes', () => {
     { id: 1, date: new Date(2010, 5, 12) }
   ];
   const notesFromB = [{ id: 5, date: new Date(2014, 2, 2) }];
-  const customerLinks = [{ name: 'UHT' }, { name: 'UHW' }];
+  const customerLinks = [
+    { name: 'UHT', remote_id: 1 },
+    { name: 'UHW', remote_id: 1 }
+  ];
 
   let gateways;
   let fetchNotes;

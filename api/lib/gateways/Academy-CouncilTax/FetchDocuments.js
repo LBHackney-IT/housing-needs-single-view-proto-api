@@ -8,7 +8,7 @@ module.exports = options => {
       try {
         if (id) {
           const comino_results = await cominoFetchDocumentsGateway.execute({
-            id
+            account_ref: id
           });
           return comino_results;
         }

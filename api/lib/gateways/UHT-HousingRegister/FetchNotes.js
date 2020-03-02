@@ -7,8 +7,8 @@ module.exports = options => {
   const db = options.db;
   const buildNote = options.buildNote;
 
-  const fetchCustomerNotes = async systemId => {
-    const [app_ref, person_no] = systemId.split('/');
+  const fetchCustomerNotes = async id => {
+    const [app_ref, person_no] = id.split('/');
 
     return await db.request(fetchCustomerNotesSQL, [
       { id: 'app_ref', type: 'NVarChar', value: app_ref },
