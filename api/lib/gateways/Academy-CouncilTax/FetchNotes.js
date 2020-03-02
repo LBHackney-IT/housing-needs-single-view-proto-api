@@ -1,5 +1,3 @@
-const { Systems } = require('../../Constants');
-
 module.exports = options => {
   const cominoFetchNotesGateway = options.cominoFetchNotesGateway;
 

@@ -20,9 +20,6 @@ const {
   doGetRequest
 } = require('./JigsawUtils');
 
-const getSystemId = require('./gateways/SingleView/SystemID')({
-  db: singleViewDb
-});
 const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
   db: singleViewDb
 });
