@@ -25,7 +25,8 @@ const processCustomer = results => {
     systemIds: {
       uhtContacts: results[0].member_sid.toString(),
       householdRef: results[0].house_ref,
-      rent: checkString(results[0].tag_ref)
+      rent: checkString(results[0].tag_ref),
+      paymentRef: results[0].u_saff_rentacc
     },
     name: [
       {
