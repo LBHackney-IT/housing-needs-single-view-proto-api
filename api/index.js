@@ -91,6 +91,7 @@ app.post('/customers', async (req, res) => {
   res.send({ customer });
 });
 
+// I think this can be deleted?
 app.get('/customers/:id', async (req, res) => {
   console.log(`GET CUSTOMER LINKS id="${req.params.id}"`);
   console.time(`GET CUSTOMER LINKS id="${req.params.id}"`);
