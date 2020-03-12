@@ -51,5 +51,8 @@ exports.config = {
       'response.headers.setCookie*',
       'response.headers.x*'
     ]
+  },
+  distributed_tracing: {
+    enabled: true
   }
 }
