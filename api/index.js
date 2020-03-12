@@ -12,6 +12,7 @@ const {
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
+  require('newrelic');
   const Sentry = require('@sentry/node');
 
   Sentry.init({
