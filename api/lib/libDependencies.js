@@ -14,6 +14,8 @@ const cleanRecord = require('./use-cases/CleanRecord')({
     dob: ['01/01/1900']
   }
 });
+const mergeResponses = require('../lib/MergeResponses');
+
 const {
   doJigsawGetRequest,
   doJigsawPostRequest,
@@ -100,6 +102,34 @@ const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-Counc
   }
 );
 
+// RECORDS GATEWAYS
+
+const academyBenefitsFetchRecordsGateway = require('./gateways/Academy-Benefits/FetchRecord')({
+  db: academyDb,
+  buildNote
+});
+
+const uhtContactsFetchRecordsGateway = require('./gateways/UHT-Contacts/FetchRecord')({
+  db: uhtDb,
+  buildNote
+});
+
+const uhtHousingRegisterFetchRecordsGateway = require('./gateways/UHT-HousingRegister/FetchRecord')({
+  db: uhtDb,
+  buildNote
+});
+
+const academyCouncilTaxFetchRecordsGateway = require('./gateways/Academy-CouncilTax/FetchRecord')({});
+
+const uhwFetchRecordsGateway = require('./gateways/UHW/FetchRecord')({
+  db: uhwDb
+});
+
+const jigsawFetchRecordsGateway = require('./gateways/Jigsaw/FetchRecord')({
+  doJigsawGetRequest,
+  doGetRequest
+});
+
 // NOTES GATEWAYS
 
 const cominoFetchNotesGateway = require('./gateways/Comino/FetchNotes')({
@@ -166,6 +196,21 @@ const fetchDocuments = require('./use-cases/FetchDocuments')({
   getCustomerLinks
 });
 
+const fetchRecords = require('./use-cases/FetchRecords')({
+  cleanRecord,
+  gateways: {
+    [Systems.UHT_CONTACTS]: uhtContactsFetchRecordsGateway,
+    [Systems.UHT_HOUSING_REGISTER]: uhtHousingRegisterFetchRecordsGateway,
+    [Systems.UHW]: uhwFetchRecordsGateway,
+    [Systems.ACADEMY_BENEFITS]: academyBenefitsFetchRecordsGateway,
+    [Systems.ACADEMY_COUNCIL_TAX]: academyCouncilTaxFetchRecordsGateway,
+    [Systems.JIGSAW]: jigsawFetchRecordsGateway,
+    [Systems.SINGLEVIEW]: vulnerabilitiesGateway
+  },
+  getCustomerLinks,
+  mergeResponses
+});
+
 const fetchNotes = require('./use-cases/FetchNotes')({
   gateways: {
     [Systems.UHT_CONTACTS]: uhtContactsFetchNotesGateway,
@@ -187,5 +232,6 @@ module.exports = {
   addVulnerability,
   customerSearch,
   fetchDocuments,
+  fetchRecords,
   fetchNotes
 };
