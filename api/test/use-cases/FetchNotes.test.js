@@ -52,11 +52,11 @@ describe('FetchNotes', () => {
   });
 
   it('concatenates the results', async () => {
-    const expectedNotes = { notes: [].concat(notesFromB, notesFromA) };
-    const notes = await fetchNotes();
+    const expected = { notes: [].concat(notesFromB, notesFromA) };
+    const received = await fetchNotes();
 
-    expect(notes).toEqual(expectedNotes);
-    expect(notes.length).toEqual(expectedNotes.length);
+    expect(received).toEqual(expected);
+    expect(received.notes.length).toEqual(expected.notes.length);
   });
 
   it('can sort the documents by date descending', async () => {
