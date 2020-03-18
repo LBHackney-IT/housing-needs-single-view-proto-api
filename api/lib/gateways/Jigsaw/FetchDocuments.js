@@ -29,6 +29,7 @@ module.exports = options => {
   const processDocuments = documents => {
     return documents.map(doc => {
       return buildDocument({
+        userid: doc.casePersonId,
         id: doc.id,
         title: 'Document',
         text: doc.name,
@@ -44,6 +45,7 @@ module.exports = options => {
       try {
         if (id) {
           const documents = await fetchCustomerDocuments(id);
+          console.log(documents);
           return processDocuments(documents);
         }
         return [];

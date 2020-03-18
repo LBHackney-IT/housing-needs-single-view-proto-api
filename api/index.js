@@ -145,4 +145,24 @@ app.post('/customers/:id/vulnerabilities', async (req, res) => {
   res.send({ id });
 });
 
+app.get('/customers/:id/documents/jigsaw/:jigsawDocId', async (req, res) => {
+  const url = `https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/${req.params.jigsawDocId}`;
+  const { login } = require('./lib/JigsawUtils');
+
+  const token = await login();
+
+  const options = {
+    url,
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    encoding: null
+  };
+
+  res.set('Content-Type', 'application/pdf');
+  const doc = await request.get(options);
+
+  return res.send(doc);
+});
+
 module.exports.handler = serverless(app);
