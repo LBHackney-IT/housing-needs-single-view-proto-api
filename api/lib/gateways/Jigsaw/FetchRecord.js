@@ -111,25 +111,27 @@ module.exports = options => {
     return customer;
   };
 
-  return async id => {
-    try {
-      const caseDetails = processCases(id, await fetchCases(id));
+  return {
+    execute: async id => {
+      try {
+        const caseDetails = processCases(id, await fetchCases(id));
 
-      let accomPlacements = {};
-      if (caseDetails.housingNeeds.jigsawCaseId) {
-        accomPlacements = processAccomPlacements(
-          await fetchAccomPlacements(caseDetails.housingNeeds.jigsawCaseId)
+        let accomPlacements = {};
+        if (caseDetails.housingNeeds.jigsawCaseId) {
+          accomPlacements = processAccomPlacements(
+            await fetchAccomPlacements(caseDetails.housingNeeds.jigsawCaseId)
+          );
+        }
+
+        const customerDetails = processCustomer(await fetchCustomer(id));
+        const customer = merge(
+          ...[caseDetails, accomPlacements, customerDetails]
         );
+
+        return customer;
+      } catch (err) {
+        console.log(`Error fetching customers in Jigsaw: ${err}`);
       }
-
-      const customerDetails = processCustomer(await fetchCustomer(id));
-      const customer = merge(
-        ...[caseDetails, accomPlacements, customerDetails]
-      );
-
-      return customer;
-    } catch (err) {
-      console.log(`Error fetching customers in Jigsaw: ${err}`);
     }
   };
 };

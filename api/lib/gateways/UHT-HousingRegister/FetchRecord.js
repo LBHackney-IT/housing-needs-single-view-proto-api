@@ -63,12 +63,14 @@ const processCustomerResults = result => {
 module.exports = options => {
   const db = options.db;
 
-  return async id => {
-    try {
-      const customer = await fetchCustomer(id, db);
-      return processCustomerResults(customer);
-    } catch (err) {
-      console.log(`Error fetching customers in UHT-HousingRegister: ${err}`);
-    }
-  };
+  return {
+    execute: async id => {
+      try {
+        const customer = await fetchCustomer(id, db);
+        return processCustomerResults(customer);
+      } catch (err) {
+        console.log(`Error fetching customers in UHT-HousingRegister: ${err}`);
+      }
+    };
+  }
 };
