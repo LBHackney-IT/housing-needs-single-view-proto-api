@@ -104,22 +104,30 @@ const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-Counc
 
 // RECORDS GATEWAYS
 
-const academyBenefitsFetchRecordsGateway = require('./gateways/Academy-Benefits/FetchRecord')({
-  db: academyDb,
-  buildNote
-});
+const academyBenefitsFetchRecordsGateway = require('./gateways/Academy-Benefits/FetchRecord')(
+  {
+    db: academyDb,
+    buildNote
+  }
+);
 
-const uhtContactsFetchRecordsGateway = require('./gateways/UHT-Contacts/FetchRecord')({
-  db: uhtDb,
-  buildNote
-});
+const uhtContactsFetchRecordsGateway = require('./gateways/UHT-Contacts/FetchRecord')(
+  {
+    db: uhtDb,
+    buildNote
+  }
+);
 
-const uhtHousingRegisterFetchRecordsGateway = require('./gateways/UHT-HousingRegister/FetchRecord')({
-  db: uhtDb,
-  buildNote
-});
+const uhtHousingRegisterFetchRecordsGateway = require('./gateways/UHT-HousingRegister/FetchRecord')(
+  {
+    db: uhtDb,
+    buildNote
+  }
+);
 
-const academyCouncilTaxFetchRecordsGateway = require('./gateways/Academy-CouncilTax/FetchRecord')({});
+const academyCouncilTaxFetchRecordsGateway = require('./gateways/Academy-CouncilTax/FetchRecord')(
+  {}
+);
 
 const uhwFetchRecordsGateway = require('./gateways/UHW/FetchRecord')({
   db: uhwDb
