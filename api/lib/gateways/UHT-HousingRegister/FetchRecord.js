@@ -71,6 +71,6 @@ module.exports = options => {
       } catch (err) {
         console.log(`Error fetching customers in UHT-HousingRegister: ${err}`);
       }
-    };
-  }
+    }
+  };
 };
