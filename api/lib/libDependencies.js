@@ -125,9 +125,7 @@ const uhtHousingRegisterFetchRecordsGateway = require('./gateways/UHT-HousingReg
   }
 );
 
-const academyCouncilTaxFetchRecordsGateway = require('./gateways/Academy-CouncilTax/FetchRecord')(
-  {}
-);
+const academyCouncilTaxFetchRecordsGateway = require('./gateways/Academy-CouncilTax/FetchRecord')();
 
 const uhwFetchRecordsGateway = require('./gateways/UHW/FetchRecord')({
   db: uhwDb
