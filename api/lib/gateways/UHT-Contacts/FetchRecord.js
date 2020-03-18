@@ -90,12 +90,14 @@ const processCustomer = results => {
 module.exports = options => {
   const db = options.db;
 
-  return async id => {
-    try {
-      const customer = await fetchCustomer(id, db);
-      return processCustomer(customer);
-    } catch (err) {
-      console.log(`Error fetching customers in UHT-Contacts: ${err}`);
+  return {
+    execute: async id => {
+      try {
+        const customer = await fetchCustomer(id, db);
+        return processCustomer(customer);
+      } catch (err) {
+        console.log(`Error fetching customers in UHT-Contacts: ${err}`);
+      }
     }
   };
 };
