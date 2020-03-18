@@ -56,7 +56,7 @@ const processCustomerResults = result => {
       biddingNo: result.u_novalet_ref,
       band: HousingBands[result.app_band] || 'Unknown',
       startDate: result.u_eff_band_date,
-      bedroomReq: result.wlaneeds_cte.bedrooms
+      bedroomReq: result.bedrooms
     }
   };
 };
