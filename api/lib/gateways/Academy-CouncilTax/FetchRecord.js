@@ -69,19 +69,21 @@ const processCustomer = record => {
 module.exports = options => {
   const db = options.db;
 
-  return async id => {
-    try {
-      const [customerResult, transactionsResults] = await Promise.all([
-        fetchCustomer(id, db),
-        fetchCustomerTransactions(id, db)
-      ]);
+  return {
+    execute: async id => {
+      try {
+        const [customerResult, transactionsResults] = await Promise.all([
+          fetchCustomer(id, db),
+          fetchCustomerTransactions(id, db)
+        ]);
 
-      const customer = processCustomer(customerResult);
-      customer.councilTax['transactions'] = transactionsResults;
+        const customer = processCustomer(customerResult);
+        customer.councilTax['transactions'] = transactionsResults;
 
-      return customer;
-    } catch (err) {
-      console.log(`Error fetching customers in Academy-CouncilTax: ${err}`);
+        return customer;
+      } catch (err) {
+        console.log(`Error fetching customers in Academy-CouncilTax: ${err}`);
+      }
     }
   };
 };

@@ -100,22 +100,24 @@ let processBenefits = function(benefits) {
 module.exports = options => {
   const db = options.db;
 
-  return async id => {
-    try {
-      const [customerResult, benefitsResults, household] = await Promise.all([
-        fetchCustomer(id, db),
-        fetchBenefits(id, db),
-        fetchHousehold(id, db)
-      ]);
+  return {
+    execute: async id => {
+      try {
+        const [customerResult, benefitsResults, household] = await Promise.all([
+          fetchCustomer(id, db),
+          fetchBenefits(id, db),
+          fetchHousehold(id, db)
+        ]);
 
-      let customer = processCustomer(customerResult);
-      customer.benefits.income = processBenefits(benefitsResults);
-      if (household.length > 0)
-        customer.household = processHousehold(household);
+        let customer = processCustomer(customerResult);
+        customer.benefits.income = processBenefits(benefitsResults);
+        if (household.length > 0)
+          customer.household = processHousehold(household);
 
-      return customer;
-    } catch (err) {
-      console.log(`Error fetching customers in Academy-Benefits: ${err}`);
+        return customer;
+      } catch (err) {
+        console.log(`Error fetching customers in Academy-Benefits: ${err}`);
+      }
     }
   };
 };
