@@ -11,6 +11,7 @@ const {
   fetchNotes,
   fetchRecords
 } = require('./lib/libDependencies');
+const request = require('request-promise');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
   require('newrelic');
@@ -145,24 +146,27 @@ app.post('/customers/:id/vulnerabilities', async (req, res) => {
   res.send({ id });
 });
 
-app.get('/customers/:id/documents/jigsaw/:jigsawDocId', async (req, res) => {
-  const url = `https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/${req.params.jigsawDocId}`;
-  const { login } = require('./lib/JigsawUtils');
+app.get(
+  '/jigsaw/customers/:id/documents/jigsaw/:jigsawDocId',
+  async (req, res) => {
+    const url = `https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/${req.params.jigsawDocId}`;
+    const { login } = require('./lib/JigsawUtils');
 
-  const token = await login();
+    const token = await login();
 
-  const options = {
-    url,
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    encoding: null
-  };
+    const options = {
+      url,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      encoding: null
+    };
+    //res.set('Content-Disposition', `attachment; filename="test.pdf"`);
+    res.set('Content-Type', 'application/pdf');
+    const doc = await request.get(options);
 
-  res.set('Content-Type', 'application/pdf');
-  const doc = await request.get(options);
-
-  return res.send(doc);
-});
+    return res.send(doc);
+  }
+);
 
 module.exports.handler = serverless(app);
