@@ -13,6 +13,7 @@ SELECT
   contacts.con_phone2,
   contacts.con_phone3,
   tenagree.tag_ref,
+  tenagree.u_saff_rentacc,
   tenagree.cot as start_date,
   tenagree.eot as end_date,
   tenure.ten_desc as tenure,

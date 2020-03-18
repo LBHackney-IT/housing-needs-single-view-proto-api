@@ -1,5 +1,6 @@
-const mergeResponses = require('../lib/MergeResponses');
-describe('QueryHandler', () => {
+const mergeResponses = require('../../lib/MergeResponses');
+
+describe ('MergeResponses', () => {
   const responses = [
     {
       housingRegister: [
@@ -54,7 +55,6 @@ describe('QueryHandler', () => {
       ]
     }
   ];
-
   const expected = {
     housingRegister: [
       {
@@ -101,6 +101,7 @@ describe('QueryHandler', () => {
       }
     ]
   };
+
   it('can merge housing registry applications', async () => {
     expect(mergeResponses(responses)).toStrictEqual(expected);
   });

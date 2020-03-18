@@ -8,7 +8,8 @@ const {
   addVulnerability,
   customerSearch,
   fetchDocuments,
-  fetchNotes
+  fetchNotes,
+  fetchRecords
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -112,7 +113,7 @@ app.delete('/customers/:id', async (req, res) => {
 app.get('/customers/:id/record', async (req, res) => {
   console.log(`GET CUSTOMER id="${req.params.id}"`);
   console.time(`GET CUSTOMER id="${req.params.id}"`);
-  const result = await QueryHandler.fetchCustomerRecord(req.params.id);
+  const result = await fetchRecords(req.params.id);
   console.timeEnd(`GET CUSTOMER id="${req.params.id}"`);
   res.send({ customer: result });
 });
