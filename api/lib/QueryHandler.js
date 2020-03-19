@@ -17,10 +17,6 @@ const QueryHandler = {
 
     await PostgresDb.none(removeLinksQuery, { id });
     return await PostgresDb.none(removeCustomerQuery, { id });
-  },
-
-  fetchCustomer: async id => {
-    return await backends[Systems.SINGLEVIEW].fetchCustomer(id);
   }
 };
 

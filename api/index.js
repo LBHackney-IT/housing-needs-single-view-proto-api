@@ -93,15 +93,6 @@ app.post('/customers', async (req, res) => {
   res.send({ customer });
 });
 
-// I think this can be deleted?
-app.get('/customers/:id', async (req, res) => {
-  console.log(`GET CUSTOMER LINKS id="${req.params.id}"`);
-  console.time(`GET CUSTOMER LINKS id="${req.params.id}"`);
-  const result = await QueryHandler.fetchCustomer(req.params.id);
-  console.timeEnd(`GET CUSTOMER LINKS id="${req.params.id}"`);
-  res.send({ customer: result });
-});
-
 app.delete('/customers/:id', async (req, res) => {
   console.log(`DELETE CUSTOMER id="${req.params.id}"`);
   console.time(`DELETE CUSTOMER id="${req.params.id}"`);
