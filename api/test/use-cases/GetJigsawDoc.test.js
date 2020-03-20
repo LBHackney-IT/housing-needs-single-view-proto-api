@@ -6,14 +6,14 @@ describe('GetJigsawDoc', () => {
       execute: jest.fn(() => [])
     };
 
-    getJigsawDoc = require('../../lib/use-cases/GetJigsawDoc.js')({});
+    getJigsawDoc = require('../../lib/use-cases/GetJigsawDoc.js')({
+      jigsawDocGateway
+    });
   });
 
-  it("can query for a customer's records from multiple gateways", async () => {
+  it('can query document from jigsaw gateway with the correct document id', async () => {
     const jigsawDocId = 1;
-
     await getJigsawDoc(jigsawDocId);
-
-    expect(jigsawDocGateway.execute).toHaveBeenCalledWith();
+    expect(jigsawDocGateway.execute).toHaveBeenCalledWith(jigsawDocId);
   });
 });
