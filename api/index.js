@@ -146,27 +146,34 @@ app.post('/customers/:id/vulnerabilities', async (req, res) => {
   res.send({ id });
 });
 
-app.get(
-  '/jigsaw/customers/:id/documents/jigsaw/:jigsawDocId',
-  async (req, res) => {
-    const url = `https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/${req.params.jigsawDocId}`;
-    const { login } = require('./lib/JigsawUtils');
+const getJigsawDoc = async event => {
+  const url = `https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/${event.pathParameters.jigsawDocId}`;
+  const { login } = require('./lib/JigsawUtils');
 
-    const token = await login();
+  const token = await login();
 
-    const options = {
-      url,
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      encoding: null
-    };
-    //res.set('Content-Disposition', `attachment; filename="test.pdf"`);
-    res.set('Content-Type', 'application/pdf');
-    const doc = await request.get(options);
+  const options = {
+    url,
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    encoding: null
+  };
 
-    return res.send(doc);
-  }
-);
+  const doc = await request.get(options);
 
-module.exports.handler = serverless(app);
+  return {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'application/pdf',
+      'Content-Length': doc.length
+    },
+    body: doc.toString('base64'),
+    isBase64Encoded: true
+  };
+};
+
+module.exports = {
+  handler: serverless(app),
+  getJigsawDoc
+};
