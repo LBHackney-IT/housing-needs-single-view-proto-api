@@ -35,7 +35,8 @@ module.exports = options => {
         text: doc.name,
         date: formatRecordDate(doc.date),
         user: doc.casePersonName,
-        system: Systems.JIGSAW
+        system: Systems.JIGSAW,
+        format: doc.format
       });
     });
   };
