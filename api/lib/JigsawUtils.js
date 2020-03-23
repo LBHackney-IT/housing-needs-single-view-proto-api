@@ -70,6 +70,11 @@ const doGetRequest = async function(url, qs, headers) {
   return JSON.parse(httpResponse.body);
 };
 
+const doGetDocRequest = async function(url, qs, headers) {
+  let options = { url, headers, encoding: qs };
+  return await request.get(options);
+};
+
 const doPostRequest = async function(url, json, headers) {
   let options = { url, json, resolveWithFullResponse: true };
   if (headers) options.headers = headers;
@@ -92,5 +97,6 @@ module.exports = {
   doJigsawGetRequest,
   doJigsawPostRequest,
   doGetRequest,
-  login
+  login,
+  doGetDocRequest
 };

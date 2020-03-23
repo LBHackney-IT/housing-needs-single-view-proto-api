@@ -19,7 +19,9 @@ const mergeResponses = require('../lib/MergeResponses');
 const {
   doJigsawGetRequest,
   doJigsawPostRequest,
-  doGetRequest
+  doGetRequest,
+  doGetDocRequest,
+  login
 } = require('./JigsawUtils');
 
 const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
@@ -104,22 +106,30 @@ const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-Counc
 
 // RECORDS GATEWAYS
 
-const academyBenefitsFetchRecordsGateway = require('./gateways/Academy-Benefits/FetchRecord')({
-  db: academyDb,
-  buildNote
-});
+const academyBenefitsFetchRecordsGateway = require('./gateways/Academy-Benefits/FetchRecord')(
+  {
+    db: academyDb,
+    buildNote
+  }
+);
 
-const uhtContactsFetchRecordsGateway = require('./gateways/UHT-Contacts/FetchRecord')({
-  db: uhtDb,
-  buildNote
-});
+const uhtContactsFetchRecordsGateway = require('./gateways/UHT-Contacts/FetchRecord')(
+  {
+    db: uhtDb,
+    buildNote
+  }
+);
 
-const uhtHousingRegisterFetchRecordsGateway = require('./gateways/UHT-HousingRegister/FetchRecord')({
-  db: uhtDb,
-  buildNote
-});
+const uhtHousingRegisterFetchRecordsGateway = require('./gateways/UHT-HousingRegister/FetchRecord')(
+  {
+    db: uhtDb,
+    buildNote
+  }
+);
 
-const academyCouncilTaxFetchRecordsGateway = require('./gateways/Academy-CouncilTax/FetchRecord')({});
+const academyCouncilTaxFetchRecordsGateway = require('./gateways/Academy-CouncilTax/FetchRecord')(
+  {}
+);
 
 const uhwFetchRecordsGateway = require('./gateways/UHW/FetchRecord')({
   db: uhwDb
@@ -168,6 +178,12 @@ const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
   doJigsawGetRequest,
   doGetRequest,
   buildNote
+});
+
+//document image gateways
+const fetchDocumentImage = require('./gateways/Jigsaw/FetchDocumentImage')({
+  doGetDocRequest,
+  login
 });
 
 // USECASES
@@ -228,10 +244,15 @@ const addVulnerability = require('./use-cases/AddVulnerability')({
   gateway: vulnerabilitiesGateway
 });
 
+const getJigsawDocument = require('./use-cases/FetchJigsawDocument')({
+  jigsawDocGateway: fetchDocumentImage
+});
+
 module.exports = {
   addVulnerability,
   customerSearch,
   fetchDocuments,
   fetchRecords,
-  fetchNotes
+  fetchNotes,
+  getJigsawDocument
 };

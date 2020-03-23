@@ -9,7 +9,8 @@ const {
   customerSearch,
   fetchDocuments,
   fetchNotes,
-  fetchRecords
+  fetchRecords,
+  getJigsawDocument
 } = require('./lib/libDependencies');
 const request = require('request-promise');
 
@@ -147,21 +148,7 @@ app.post('/customers/:id/vulnerabilities', async (req, res) => {
 });
 
 const getJigsawDoc = async event => {
-  const url = `https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/${event.pathParameters.jigsawDocId}`;
-  const { login } = require('./lib/JigsawUtils');
-
-  const token = await login();
-
-  const options = {
-    url,
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    encoding: null
-  };
-
-  const doc = await request.get(options);
-
+  const doc = await getJigsawDocument(event.pathParameters.jigsawDocId);
   return {
     statusCode: 200,
     headers: {

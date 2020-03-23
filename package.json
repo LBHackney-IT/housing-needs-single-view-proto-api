@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "file-system": "^2.2.2",
+    "jsdom": "^16.2.1",
     "node-pg-migrate": "^4.2.2",
     "pg": "^7.18.1"
   },
