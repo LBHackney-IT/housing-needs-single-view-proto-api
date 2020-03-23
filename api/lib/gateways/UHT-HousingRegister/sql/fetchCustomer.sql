@@ -1,5 +1,5 @@
 WITH
-  wlaneeds_cte
+  wlaneeds_temp
   AS
   (
     SELECT
@@ -18,11 +18,12 @@ SELECT
 	wlapp.app_band,
 	wlapp.post_code,
 	wlapp.corr_addr,
-	wlaneeds_cte.bedrooms
-FROM
+ 	ISNULL (wlaneeds_temp.bedrooms,0) AS bedrooms
+
+	FROM
 [dbo].[wlmember] AS wlmember
-JOIN wlapp ON wlmember.app_ref = wlapp.app_ref
-JOIN wlaneeds_cte ON wlapp.app_ref = wlaneeds_cte.app_ref
+LEFT JOIN wlapp ON wlmember.app_ref = wlapp.app_ref
+LEFT JOIN wlaneeds_temp ON wlapp.app_ref = wlaneeds_temp.app_ref
 WHERE
 	wlapp.app_ref = wlmember.app_ref
 	AND wlmember.app_ref = @app_ref
