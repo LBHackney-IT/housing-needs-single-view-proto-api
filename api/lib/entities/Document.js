@@ -8,7 +8,8 @@ module.exports = () => {
       text,
       date: formatRecordDate(date),
       user,
-      system
+      system,
+      format
     };
   };
 };
