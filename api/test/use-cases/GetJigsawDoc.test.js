@@ -6,11 +6,9 @@ describe('fetchJigsawDocument', () => {
       execute: jest.fn(() => [])
     };
 
-    fetchJigsawDocument = require('../../lib/use-cases/fetchJigsawDocument.js')(
-      {
-        jigsawDocGateway
-      }
-    );
+    fetchJigsawDocument = require('../../lib/use-cases/FetchJigsawDocument')({
+      jigsawDocGateway
+    });
   });
 
   it('can query document from jigsaw gateway with the correct document id', async () => {
