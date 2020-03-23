@@ -12,7 +12,6 @@ const {
   fetchRecords,
   getJigsawDocument
 } = require('./lib/libDependencies');
-const request = require('request-promise');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
   require('newrelic');

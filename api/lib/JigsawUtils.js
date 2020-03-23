@@ -70,8 +70,8 @@ const doGetRequest = async function(url, qs, headers) {
   return JSON.parse(httpResponse.body);
 };
 
-const doGetDocRequest = async function(url, qs, headers) {
-  let options = { url, headers, encoding: qs };
+const doGetDocRequest = async function(url, headers) {
+  let options = { url, headers, encoding: null };
   return await request.get(options);
 };
 

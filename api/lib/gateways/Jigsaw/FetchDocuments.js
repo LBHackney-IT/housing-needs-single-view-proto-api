@@ -46,7 +46,6 @@ module.exports = options => {
       try {
         if (id) {
           const documents = await fetchCustomerDocuments(id);
-          console.log(documents);
           return processDocuments(documents);
         }
         return [];

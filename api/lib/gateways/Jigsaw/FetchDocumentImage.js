@@ -3,13 +3,17 @@ module.exports = options => {
   const login = options.login;
   return {
     execute: async id => {
-      const url = `https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/${id}`;
-      const token = await login();
+      try {
+        const url = `https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/${id}`;
+        const token = await login();
 
-      const doc = await doGetDocRequest(url, null, {
-        Authorization: `Bearer ${token}`
-      });
-      return doc;
+        const doc = await doGetDocRequest(url, {
+          Authorization: `Bearer ${token}`
+        });
+        return doc;
+      } catch (err) {
+        console.log(`Error fetching the document: ${err}`);
+      }
     }
   };
 };
