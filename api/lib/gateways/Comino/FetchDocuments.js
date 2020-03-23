@@ -30,7 +30,8 @@ module.exports = options => {
         text: doc.DocDesc + `${doc.title ? ' - ' + doc.title : ''}`,
         date: doc.DocDate,
         user: doc.UserID,
-        system: Systems.COMINO
+        system: Systems.COMINO,
+        format: null
       });
     });
   };
