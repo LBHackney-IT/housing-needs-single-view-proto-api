@@ -26,10 +26,10 @@ module.exports = options => {
       .flat();
   };
 
-  const processDocuments = documents => {
+  const processDocuments = (documents, userid) => {
     return documents.map(doc => {
       return buildDocument({
-        userid: doc.casePersonId,
+        userid,
         id: doc.id,
         title: 'Document',
         text: doc.name,
@@ -46,7 +46,7 @@ module.exports = options => {
       try {
         if (id) {
           const documents = await fetchCustomerDocuments(id);
-          return processDocuments(documents);
+          return processDocuments(documents, id);
         }
         return [];
       } catch (err) {

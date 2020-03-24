@@ -25,6 +25,7 @@ module.exports = options => {
   const processDocuments = documents => {
     return documents.map(doc => {
       return buildDocument({
+        userid: null,
         id: doc.DocNo,
         title: 'Document',
         text: doc.DocDesc + `${doc.title ? ' - ' + doc.title : ''}`,

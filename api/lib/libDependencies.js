@@ -247,7 +247,8 @@ const addVulnerability = require('./use-cases/AddVulnerability')({
 });
 
 const getJigsawDocument = require('./use-cases/FetchJigsawDocument')({
-  jigsawDocGateway: fetchDocumentImage
+  jigsawDocGateway: fetchDocumentImage,
+  jigsawMetadataGateway: jigsawFetchDocumentsGateway
 });
 
 module.exports = {
