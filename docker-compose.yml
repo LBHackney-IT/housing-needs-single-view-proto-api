@@ -9,5 +9,5 @@ services:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
       POSTGRES_USER: 'singleview_user'
-      POSTGRES_PASSWORD: 'singleview_password'
+      POSTGRES_PASSWORD: 'password'
       POSTGRES_DB: hnsingleview

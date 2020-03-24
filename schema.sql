@@ -27,13 +27,7 @@ CREATE TABLE customer_links (
   CONSTRAINT customer_links_systems_fkey FOREIGN KEY (system_id) REFERENCES systems (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE vulnerabilities (
-  id serial PRIMARY KEY,
-  customer_id integer NOT NULL,
-  text text NOT NULL,
-  system_user varchar(50) NOT NULL,
-  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT vulnerabilities_customer_fkey FOREIGN KEY (customer_id) REFERENCES customers (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
+
 
 INSERT INTO systems (name)
   VALUES ('UHT-Contacts');
