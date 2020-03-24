@@ -9,7 +9,8 @@ const {
   customerSearch,
   fetchDocuments,
   fetchNotes,
-  fetchRecords
+  fetchRecords,
+  getJigsawDocument
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -145,4 +146,20 @@ app.post('/customers/:id/vulnerabilities', async (req, res) => {
   res.send({ id });
 });
 
-module.exports.handler = serverless(app);
+const getJigsawDoc = async event => {
+  const doc = await getJigsawDocument(event.pathParameters.jigsawDocId);
+  return {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'application/pdf',
+      'Content-Length': doc.length
+    },
+    body: doc.toString('base64'),
+    isBase64Encoded: true
+  };
+};
+
+module.exports = {
+  handler: serverless(app),
+  getJigsawDoc
+};

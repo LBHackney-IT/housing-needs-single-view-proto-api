@@ -29,12 +29,14 @@ module.exports = options => {
   const processDocuments = documents => {
     return documents.map(doc => {
       return buildDocument({
+        userid: doc.casePersonId,
         id: doc.id,
         title: 'Document',
         text: doc.name,
         date: formatRecordDate(doc.date),
         user: doc.casePersonName,
-        system: Systems.JIGSAW
+        system: Systems.JIGSAW,
+        format: doc.format
       });
     });
   };

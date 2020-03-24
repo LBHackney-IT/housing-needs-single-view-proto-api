@@ -70,6 +70,11 @@ const doGetRequest = async function(url, qs, headers) {
   return JSON.parse(httpResponse.body);
 };
 
+const doGetDocRequest = async function(url, headers) {
+  let options = { url, headers, encoding: null };
+  return await request.get(options);
+};
+
 const doPostRequest = async function(url, json, headers) {
   let options = { url, json, resolveWithFullResponse: true };
   if (headers) options.headers = headers;
@@ -88,4 +93,10 @@ const doJigsawPostRequest = async function(url, json) {
   return doPostRequest(url, json, { Authorization: `Bearer ${token}` });
 };
 
-module.exports = { doJigsawGetRequest, doJigsawPostRequest, doGetRequest };
+module.exports = {
+  doJigsawGetRequest,
+  doJigsawPostRequest,
+  doGetRequest,
+  login,
+  doGetDocRequest
+};

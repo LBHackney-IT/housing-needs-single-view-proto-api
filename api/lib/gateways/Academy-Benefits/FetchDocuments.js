@@ -26,7 +26,8 @@ module.exports = options => {
         text: doc.correspondence_code,
         date: doc.completed_date,
         user: doc.user_id,
-        system: Systems.ACADEMY_BENEFITS
+        system: Systems.ACADEMY_BENEFITS,
+        format: null
       });
     });
   };

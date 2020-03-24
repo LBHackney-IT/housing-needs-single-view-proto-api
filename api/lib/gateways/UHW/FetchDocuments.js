@@ -21,7 +21,8 @@ module.exports = options => {
         text: `${doc.DocDesc}${doc.title ? ' - ' + doc.title : ''}`,
         date: doc.DocDate,
         user: doc.UserID,
-        system: Systems.UHW
+        system: Systems.UHW,
+        format: null
       });
     });
   };

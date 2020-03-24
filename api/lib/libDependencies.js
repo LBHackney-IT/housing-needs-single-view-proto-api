@@ -19,7 +19,9 @@ const mergeResponses = require('../lib/MergeResponses');
 const {
   doJigsawGetRequest,
   doJigsawPostRequest,
-  doGetRequest
+  doGetRequest,
+  doGetDocRequest,
+  login
 } = require('./JigsawUtils');
 
 const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
@@ -180,6 +182,12 @@ const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
   buildNote
 });
 
+//document image gateways
+const fetchDocumentImage = require('./gateways/Jigsaw/FetchDocumentImage')({
+  doGetDocRequest,
+  login
+});
+
 // USECASES
 
 const customerSearch = require('./use-cases/CustomerSearch')({
@@ -238,10 +246,15 @@ const addVulnerability = require('./use-cases/AddVulnerability')({
   gateway: vulnerabilitiesGateway
 });
 
+const getJigsawDocument = require('./use-cases/FetchJigsawDocument')({
+  jigsawDocGateway: fetchDocumentImage
+});
+
 module.exports = {
   addVulnerability,
   customerSearch,
   fetchDocuments,
   fetchRecords,
-  fetchNotes
+  fetchNotes,
+  getJigsawDocument
 };
