@@ -147,14 +147,11 @@ app.post('/customers/:id/vulnerabilities', async (req, res) => {
 });
 
 const getJigsawDoc = async event => {
-  const { doc, mimeType } = await getJigsawDocument(
-    event.pathParameters.jigsawDocId,
-    event.pathParameters.customerId
-  );
+  const doc = await getJigsawDocument(event.pathParameters.jigsawDocId);
   return {
     statusCode: 200,
     headers: {
-      'Content-Type': mimeType,
+      'Content-Type': 'application/pdf',
       'Content-Length': doc.length
     },
     body: doc.toString('base64'),

@@ -28,16 +28,8 @@ const HousingBands = {
   GEN: 'General'
 };
 
-const MimeType = {
-  Default: 'application/octet-stream',
-  Html: 'text/html',
-  Pdf: 'application/pdf',
-  PlainText: 'text/plain'
-};
-
 module.exports = {
   Systems,
   IncomeFrequency,
-  HousingBands,
-  MimeType
+  HousingBands
 };
