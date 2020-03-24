@@ -69,7 +69,7 @@ functions:
         - api/node_modules/**
     events:
       - http:
-          path: 'jigsaw/customers/{customerId}/documents/jigsaw/{jigsawDocId}'
+          path: 'jigsaw/{proxy+}'
           method: GET
           authorizer: ${self:custom.authorizer.hn-single-view-api-authorizer}
           cors:
