@@ -28,8 +28,28 @@ const HousingBands = {
   GEN: 'General'
 };
 
+const ApplicationStatus = {
+  800: 'Offer accepted',
+  500: 'Offer withdrawn',
+  600: 'Denied',
+  901: 'Active and awaiting assessment',
+  400: 'Shortlisted',
+  102: 'Web application',
+  100: 'Awaiting assessment',
+  110: 'Not active and under appeal',
+  300: 'Active',
+  700: 'Under annual review',
+  310: 'TA live',
+  101: 'No data',
+  301: 'Temporary accommodation live',
+  320: 'Active and under appeal',
+  900: 'Applicant rehoused',
+  200: 'Cancelled'
+}
+
 module.exports = {
   Systems,
   IncomeFrequency,
-  HousingBands
+  HousingBands,
+  ApplicationStatus
 };

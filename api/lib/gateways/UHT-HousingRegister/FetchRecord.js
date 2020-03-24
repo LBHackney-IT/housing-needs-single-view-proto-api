@@ -7,7 +7,7 @@ const {
   formatRecordDate,
   loadSQL
 } = require('../../Utils');
-const { Systems, HousingBands } = require('../../Constants');
+const { Systems, HousingBands, ApplicationStatus } = require('../../Constants');
 const { fetchCustomerSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 const fetchCustomer = async (id, db) => {
@@ -53,6 +53,7 @@ const processCustomerResults = result => {
     nino: [checkString(result.ni_no)],
     housingRegister: {
       applicationRef: result.app_ref,
+      applicationStatus: ApplicationStatus[result.wl_status] || 'Unknown',
       biddingNo: result.u_novalet_ref,
       band: HousingBands[result.app_band] || 'Unknown',
       startDate: result.u_eff_band_date,
