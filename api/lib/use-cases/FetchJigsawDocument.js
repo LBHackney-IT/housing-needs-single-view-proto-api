@@ -15,7 +15,7 @@ module.exports = options => {
     metadata.forEach(m => {
       if (m.id === intId) {
         fileExt = m.format;
-        filename = m.text;
+        if (m.text) filename = m.text;
       }
     });
 

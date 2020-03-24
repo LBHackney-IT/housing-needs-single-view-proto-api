@@ -26,7 +26,6 @@ describe('fetchJigsawDocument', () => {
           userid: '3',
           id: 2,
           title: 'Document',
-          text: 'ltters.docx',
           date: '2018-09-04 10:17:26',
           user: 'mr person',
           system: 'JIGSAW',
@@ -59,6 +58,17 @@ describe('fetchJigsawDocument', () => {
     it('can get a default mimeType', async () => {
       const { mimeType } = await fetchJigsawDocument(jigsawDocIdTwo, userId);
       expect(mimeType).toEqual('application/octet-stream');
+    });
+  });
+
+  describe('filename', async () => {
+    it('can get first filename', async () => {
+      const { filename } = await fetchJigsawDocument(jigsawDocId, userId);
+      expect(filename).toEqual('something.pdf');
+    });
+    it('can get a default filename', async () => {
+      const { filename } = await fetchJigsawDocument(jigsawDocIdTwo, userId);
+      expect(filename).toEqual('download');
     });
   });
 });
