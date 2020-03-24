@@ -10,14 +10,16 @@ module.exports = options => {
     const metadata = await jigsawMetadataGateway.execute(userId);
 
     let fileExt = MimeType.Default;
+    let filename = 'download';
     const intId = parseInt(id, 10);
     metadata.forEach(m => {
       if (m.id === intId) {
         fileExt = m.format;
+        filename = m.text;
       }
     });
 
     const mimeType = mimeTypes.lookup(fileExt) || MimeType.Default;
-    return { doc, mimeType };
+    return { doc, mimeType, filename };
   };
 };

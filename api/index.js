@@ -145,9 +145,9 @@ app.post('/customers/:id/vulnerabilities', async (req, res) => {
   console.timeEnd('SAVING VULNERABILITY');
   res.send({ id });
 });
-
+const getJigsawDocDownloadTemplate = () => {};
 const getJigsawDoc = async event => {
-  const { doc, mimeType } = await getJigsawDocument(
+  const { doc, mimeType, filename } = await getJigsawDocument(
     event.pathParameters.jigsawDocId,
     event.pathParameters.customerId
   );
@@ -155,7 +155,8 @@ const getJigsawDoc = async event => {
     statusCode: 200,
     headers: {
       'Content-Type': mimeType,
-      'Content-Length': doc.length
+      'Content-Length': doc.length,
+      'Content-Disposition': `inline; filename="${filename}"`
     },
     body: doc.toString('base64'),
     isBase64Encoded: true
