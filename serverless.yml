@@ -13,9 +13,6 @@ provider:
     subnetIds:
       - subnet-00356e0650138f74f
       - subnet-0a7f442c22a6feedc
-  apiGateway:
-    binaryMediaTypes:
-      - '*/*'
 
 plugins:
   - serverless-offline
