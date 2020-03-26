@@ -14,6 +14,7 @@ WITH
   )
 SELECT
 	wlmember.*,
+	wlapp.wl_status,
 	wlapp.u_novalet_ref,
 	wlapp.app_band,
 	wlapp.post_code,
