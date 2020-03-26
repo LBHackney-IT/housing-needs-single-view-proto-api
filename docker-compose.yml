@@ -11,3 +11,13 @@ services:
       POSTGRES_USER: 'singleview_user'
       POSTGRES_PASSWORD: 'password'
       POSTGRES_DB: hnsingleview
+
+  sql_test_db:
+    image: 'mcr.microsoft.com/mssql/server'
+    ports:
+      - '1433:1433'
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/api/test/sql/UHT/schema.sql
+    environment:
+      SA_PASSWORD: 'UHT_password'
+      ACCEPT_EULA: 'Y'
