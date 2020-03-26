@@ -5,7 +5,6 @@ CREATE TABLE [dbo].[wlmember] (
     [forename] char(24) DEFAULT (space((1))),
     [surname] char(20) DEFAULT (space((1))),
     [ni_no] char(12) DEFAULT (space((1))),
-    PRIMARY KEY ([wlmember_sid])
 );
 
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR6940111', 4, '1965-03-25', 'Hillel', 'Lorenz', 'AB106755C');
