@@ -4,7 +4,7 @@ CREATE TABLE [dbo].[member] (
     [forename] char(24) DEFAULT (space((1))),
     [surname] char(20) DEFAULT (space((1))),
     [ni_no] char(12) DEFAULT (space((1))),
-    [dob] uhdate DEFAULT (''),
+    [dob] datetime DEFAULT (''),
 );
 
 insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('9383795', 1, 'Hodge', 'Maskelyne', 'AB062376W', '1981-06-01');
@@ -66,23 +66,23 @@ CREATE TABLE [dbo].[wlapp] (
     PRIMARY KEY ([app_ref])
 );
 
-insert into wlmember (app_ref, post_code, corr_addr, con_key) values ('DIR6940111', 'H04 7OT', '26 Toban Junction', 629314841);
-insert into wlmember (app_ref, post_code, corr_addr, con_key) values ('DIR4704058', 'O70 5TH', '3 Schlimgen Point', 530672748);
-insert into wlmember (app_ref, post_code, corr_addr, con_key) values ('DIR5135951', 'DT0 0AX', '56264 Westport Lane', 302934398);
-insert into wlmember (app_ref, post_code, corr_addr, con_key) values ('DIR7479057', 'S09 4NH', '3 Mandrake Alley', 868776284);
-insert into wlmember (app_ref, post_code, corr_addr, con_key) values ('DIR7350104', 'L36 0TK', '0742 Victoria Alley', 726669153);
-insert into wlmember (app_ref, post_code, corr_addr, con_key) values ('DIR3646682', 'UC9 8EQ', '7 Goodland Parkway', 995371469);
-insert into wlmember (app_ref, post_code, corr_addr, con_key) values ('DIR9055215', 'JX3 0ZK', '2 Arrowood Alley', 146114001);
-insert into wlmember (app_ref, post_code, corr_addr, con_key) values ('DIR1784557', 'T34 9II', '3 Coolidge Park', 172168279);
-insert into wlmember (app_ref, post_code, corr_addr, con_key) values ('DIR6421750', 'AT8 1OC', '7742 Northport Court', 412769753);
-insert into wlmember (app_ref, post_code, corr_addr, con_key) values ('DIR9610142', 'VM1 3AE', '4014 Vermont Road', 240815067);
+insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR6940111', 'H04 7OT', '26 Toban Junction', 629314841);
+insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR4704058', 'O70 5TH', '3 Schlimgen Point', 530672748);
+insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR5135951', 'DT0 0AX', '56264 Westport Lane', 302934398);
+insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR7479057', 'S09 4NH', '3 Mandrake Alley', 868776284);
+insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR7350104', 'L36 0TK', '0742 Victoria Alley', 726669153);
+insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR3646682', 'UC9 8EQ', '7 Goodland Parkway', 995371469);
+insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR9055215', 'JX3 0ZK', '2 Arrowood Alley', 146114001);
+insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR1784557', 'T34 9II', '3 Coolidge Park', 172168279);
+insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR6421750', 'AT8 1OC', '7742 Northport Court', 412769753);
+insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR9610142', 'VM1 3AE', '4014 Vermont Road', 240815067);
 
 ---------------------
 
 CREATE TABLE [dbo].[wlmember] (
     [app_ref] char(10) DEFAULT (space((1))),
     [person_no] numeric(2,0) DEFAULT ((0)),
-    [dob] uhdate DEFAULT (' '),
+    [dob] datetime DEFAULT (' '),
     [forename] char(24) DEFAULT (space((1))),
     [surname] char(20) DEFAULT (space((1))),
     [ni_no] char(12) DEFAULT (space((1))),
@@ -98,6 +98,3 @@ insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values 
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR1784557', 2, '1979-12-15', 'Gordie', 'Drayson', 'KK933624D');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR6421750', 2, '1979-12-14', 'Eadie', 'Bullan', 'JE019827F');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR9610142', 5, '1969-11-29', 'Nadya', 'Montes', 'ME918699A');
-
-
-
