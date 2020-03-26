@@ -81,8 +81,6 @@ functions:
       HN_COMINO_URL: ${ssm:/hn-single-view-api/production/HN_COMINO_URL}
       ENV: ${self:provider.stage}
       SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
-      NEW_RELIC_LICENSE_KEY: ${ssm:/hn-single-view-api/NEW_RELIC_LICENSE_KEY}
-      NEW_RELIC_ACCOUNT_ID: ${ssm:/hn-single-view-api/NEW_RELIC_ACCOUNT_ID}
       ENABLE_CACHING: false
 
   hn-single-view-api-authorizer:
