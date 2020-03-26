@@ -73,6 +73,7 @@ functions:
             origins:
               - '*'
     environment:
+      URL_PREFIX: 'jigsaw'
       Jigsaw_email: ${ssm:/hn-single-view-api/production/Jigsaw_email}
       Jigsaw_password: ${ssm:/hn-single-view-api/production/Jigsaw_password}
       UHW_DB: ${ssm:/hn-single-view-api/production/UHW_DB}
