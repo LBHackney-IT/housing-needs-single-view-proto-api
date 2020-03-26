@@ -47,9 +47,17 @@ const ApplicationStatus = {
   200: 'Cancelled'
 }
 
+const MimeType = {
+  Default: 'application/octet-stream',
+  Html: 'text/html',
+  Pdf: 'application/pdf',
+  PlainText: 'text/plain'
+};
+
 module.exports = {
   Systems,
   IncomeFrequency,
   HousingBands,
-  ApplicationStatus
+  ApplicationStatus,
+  MimeType
 };

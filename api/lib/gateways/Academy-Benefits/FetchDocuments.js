@@ -21,6 +21,7 @@ module.exports = options => {
   const processDocuments = records => {
     return records.map(doc => {
       return buildDocument({
+        userid: null,
         id: doc.document_id,
         title: 'Academy Document',
         text: doc.correspondence_code,

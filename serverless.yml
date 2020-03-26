@@ -13,9 +13,6 @@ provider:
     subnetIds:
       - subnet-00356e0650138f74f
       - subnet-0a7f442c22a6feedc
-  apiGateway:
-    binaryMediaTypes:
-      - '*/*'
 
 plugins:
   - serverless-offline
@@ -76,6 +73,7 @@ functions:
             origins:
               - '*'
     environment:
+      URL_PREFIX: 'jigsaw'
       Jigsaw_email: ${ssm:/hn-single-view-api/production/Jigsaw_email}
       Jigsaw_password: ${ssm:/hn-single-view-api/production/Jigsaw_password}
       UHW_DB: ${ssm:/hn-single-view-api/production/UHW_DB}
