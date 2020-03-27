@@ -5,9 +5,21 @@ services:
     ports:
       - '10101:5432'
     volumes:
-      - ~/docker/volumes/postgres:/var/lib/postgresql/data
+      - ~/docker/volumes/postgres1:/var/lib/postgresql/data1
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_USER: 'singleview_user'
       POSTGRES_PASSWORD: 'password'
       POSTGRES_DB: hnsingleview
+
+  test_db:
+    image: postgres
+    ports:
+      - '10102:5432'
+    volumes:
+      - ~/docker/volumes/postgres2:/var/lib/postgresql/data2
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: 'singleview_user'
+      POSTGRES_DB: test_hnsingleview

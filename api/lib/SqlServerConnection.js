@@ -3,6 +3,8 @@ const url = require('url');
 
 class SqlServerConnection {
   constructor(config) {
+    if (!config.dbUrl) return; // TO REVIEW
+
     const dbUrl = url.parse(config.dbUrl);
     const [user, pass] = dbUrl.auth.split(':');
 
@@ -22,6 +24,7 @@ class SqlServerConnection {
   }
 
   async request(query, params) {
+    if (!this.poolConnect) return []; // TO REVIEW
     await this.poolConnect;
 
     const request = this.pool.request();
