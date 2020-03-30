@@ -12,6 +12,8 @@ jobs:
     executor: my-executor
 
     steps:
+      - setup_remote_docker
+
       - checkout
 
       - run:
@@ -39,7 +41,9 @@ jobs:
 
       - run:
           name: Run tests with coverage
-          command: npm run test-ci
+          command: |
+            docker-compose --version
+            npm run test-ci
 
       - persist_to_workspace:
           root: ~/repo
