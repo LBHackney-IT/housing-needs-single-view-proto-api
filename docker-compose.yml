@@ -17,6 +17,7 @@ services:
     ports:
       - '1433:1433'
     volumes:
+      - ~/docker/volumes/mssql:/var/lib/mssql/data
       - ./schema.sql:/docker-entrypoint-initdb.d/api/test/sql/UHT/schema.sql
     environment:
       SA_PASSWORD: 'UHT_password'

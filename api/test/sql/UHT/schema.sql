@@ -1,4 +1,7 @@
-CREATE TABLE [dbo].[member] (
+CREATE DATABASE uhtlive;
+USE uhtlive;
+
+CREATE TABLE [uhtlive].[dbo].[member] (
     [house_ref] char(10) DEFAULT (space((1))),
     [person_no] numeric(2,0) DEFAULT ((0)),
     [forename] char(24) DEFAULT (space((1))),
@@ -21,7 +24,7 @@ insert into member (house_ref, person_no, forename, surname, ni_no, dob) values 
 
 ---------------------
 
-CREATE TABLE [dbo].[contacts] (
+CREATE TABLE [uhtlive].[dbo].[contacts] (
     [con_key] int DEFAULT ((0)),
     [con_ref] char(12) DEFAULT (space((1))),
     [con_address] char(200) DEFAULT (space((1))),
@@ -41,7 +44,7 @@ insert into contacts (con_key, con_ref, con_address, con_postcode) values (4043,
 
 -------------------
 
-CREATE TABLE [dbo].[househ] (
+CREATE TABLE [uhtlive].[dbo].[househ] (
     [house_ref] char(10) DEFAULT (space((1))),
 );
 
@@ -58,7 +61,7 @@ insert into househ (house_ref) values ('1101447');
 
 --------------------
 
-CREATE TABLE [dbo].[wlapp] (
+CREATE TABLE [uhtlive].[dbo].[wlapp] (
     [app_ref] char(10) DEFAULT (space(1)),
     [post_code] char(10) DEFAULT (space(1)),
     [corr_addr] char(150) DEFAULT (space(1)),
@@ -79,7 +82,7 @@ insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR9610142',
 
 ---------------------
 
-CREATE TABLE [dbo].[wlmember] (
+CREATE TABLE [uhtlive].[dbo].[wlmember] (
     [app_ref] char(10) DEFAULT (space((1))),
     [person_no] numeric(2,0) DEFAULT ((0)),
     [dob] datetime DEFAULT (' '),
