@@ -4,7 +4,7 @@ EXPOSE 1433
 
 COPY ./ /simulator
 WORKDIR /simulator
-ENV SA_PASSWORD "Rooty-Tooty"
+ENV SA_PASSWORD "UHT-password"
 ENV ACCEPT_EULA "Y"
 
 RUN /opt/mssql/bin/sqlservr & sleep 20 \
