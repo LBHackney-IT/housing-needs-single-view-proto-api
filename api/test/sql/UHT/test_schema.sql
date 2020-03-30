@@ -1,4 +1,3 @@
-CREATE DATABASE uhtlive;
 USE uhtlive;
 
 CREATE TABLE [member] (
