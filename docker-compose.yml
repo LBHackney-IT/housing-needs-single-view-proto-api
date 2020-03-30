@@ -12,13 +12,21 @@ services:
       POSTGRES_PASSWORD: 'password'
       POSTGRES_DB: hnsingleview
 
-  sql_test_db:
+#  sql_test_db:
+#    image: 'mcr.microsoft.com/mssql/server'
+#    ports:
+#      - '1433:1433'
+#    volumes:
+#      - ~/docker/volumes/mssql:/var/lib/mssql/data
+#      - ./schema.sql:/docker-entrypoint-initdb.d/api/test/sql/UHT/schema.sql
+#    environment:
+#      SA_PASSWORD: 'UHT_password'
+#      ACCEPT_EULA: 'Y'
+
+  universal_housing_simulator_database:
     image: 'mcr.microsoft.com/mssql/server'
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     ports:
-      - '1433:1433'
-    volumes:
-      - ~/docker/volumes/mssql:/var/lib/mssql/data
-      - ./schema.sql:/docker-entrypoint-initdb.d/api/test/sql/UHT/schema.sql
-    environment:
-      SA_PASSWORD: 'UHT_password'
-      ACCEPT_EULA: 'Y'
+      - 1433:1433
