@@ -38,8 +38,6 @@ jobs:
           paths: .
 
   test:
-    executor: my-executor
-
     machine: true
     steps:
       - attach_workspace:
