@@ -40,6 +40,7 @@ jobs:
   test:
     executor: my-executor
 
+    machine: true
     steps:
       - attach_workspace:
           at: ~/repo
