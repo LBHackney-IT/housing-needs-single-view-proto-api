@@ -37,8 +37,8 @@
     "jest-watch": "jest --watch",
     "start-test-db": "docker-compose rm -fsv test_db && docker-compose up --force-recreate -d test_db uh_test_db",
     "test": "jest --watch",
-    "test-ci": "npm run start-test-db && api/test/wait-for-test-containers.sh && npm run test-coverage",
-    "test-new": "npm run start-test-db && api/test/wait-for-test-containers.sh && npm run jest-watch",
+    "test-ci": "npm run start & npm run start-test-db && api/test/wait-for-test-containers.sh && npm run test-coverage",
+    "test-new": "npm run start & npm run start-test-db && api/test/wait-for-test-containers.sh && npm run jest-watch",
     "test-coverage": "jest --coverage",
     "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'",
     "migrate": "node-pg-migrate"

@@ -33,17 +33,34 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "combined-package-lock.txt" }}
 
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+
+  test:
+    executor: my-executor
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run: |
+          export ENV=dev
+          export Jigsaw_email=${JIGSAW_EMAIL_DEV}
+          export Jigsaw_password=${JIGSAW_PASSWORD_DEV}
+          export UHW_DB=${UHW_DEV}
+          export UHT_DB=${UHT_DEV}
+          export ACADEMY_DB=${ACADEMY_DEV}
+          export SINGLEVIEW_DB=${SINGLEVIEW_DEV}
+          export HN_COMINO_URL=${COMINO_DEV}
+
       - run:
           name: Run linter
           command: npm run lint
 
       - run:
           name: Run tests with coverage
-          command: npm run test-coverage
-
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
+          command: npm run test-ci
 
   deploy-staging:
     executor: my-executor
@@ -92,9 +109,12 @@ workflows:
   continuous-delivery:
     jobs:
       - build
-      - deploy-staging:
+      - test:
           requires:
             - build
+      - deploy-staging:
+          requires:
+            - test
           filters:
             branches:
               only:

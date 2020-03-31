@@ -56,7 +56,7 @@ describe('Singleview API', () => {
       uri: 'http://localhost:3000/customers?firstName=john&lastName=smith',
       qs: {},
       headers: {
-        'User-Agent': 'Request-Promise'
+        Connection: 'Keep-Alive'
       },
       json: true
     };
@@ -66,7 +66,7 @@ describe('Singleview API', () => {
 
   it('returns empty records for non-existent customer', async () => {
     var response = await doSearchRequest();
-    expect(response).toBe({
+    expect(response).toStrictEqual({
       grouped: [],
       ungrouped: [],
       connected: []
