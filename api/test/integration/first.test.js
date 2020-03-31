@@ -50,7 +50,28 @@ describe('Singleview API', () => {
   // });
 
   // A TEST TO MAKE CIRCLE HAPPY WITH THIS FILE (WON'T ACCEPT AN EMPTY TEST FILE WITH NO TESTS)
-  it('to make circle pass', () => {
-    expect(true).toBe(true);
+  const request = require('request');
+  const doSearchRequest = async () => {
+    var res = await request(
+      'http://localhost:3000/customers?firstName=john&lastName=smith',
+      { json: true },
+      (err, res, body) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(body.url);
+        console.log(body.explanation);
+      }
+    );
+    return res;
+  };
+
+  it('returns empty records for non-existent customer', async () => {
+    var response = await doSearchRequest();
+    expect(response).toBe({
+      grouped: [],
+      ungrouped: [],
+      connected: []
+    });
   });
 });
