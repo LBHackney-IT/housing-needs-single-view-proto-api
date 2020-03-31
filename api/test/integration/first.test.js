@@ -50,20 +50,18 @@ describe('Singleview API', () => {
   // });
 
   // A TEST TO MAKE CIRCLE HAPPY WITH THIS FILE (WON'T ACCEPT AN EMPTY TEST FILE WITH NO TESTS)
-  const request = require('request');
+  const rp = require('request-promise');
   const doSearchRequest = async () => {
-    var res = await request(
-      'http://localhost:3000/customers?firstName=john&lastName=smith',
-      { json: true },
-      (err, res, body) => {
-        if (err) {
-          return console.log(err);
-        }
-        console.log(body.url);
-        console.log(body.explanation);
-      }
-    );
-    return res;
+    var options = {
+      uri: 'http://localhost:3000/customers?firstName=john&lastName=smith',
+      qs: {},
+      headers: {
+        'User-Agent': 'Request-Promise'
+      },
+      json: true
+    };
+
+    return await rp(options);
   };
 
   it('returns empty records for non-existent customer', async () => {
