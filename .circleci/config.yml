@@ -48,14 +48,14 @@ jobs:
       - run: |
           export ENV=dev
           export PORT=3000
-          export /hn-single-view-api/dev/Jigsaw_email=${JIGSAW_EMAIL_DEV}
-          export /hn-single-view-api/dev/Jigsaw_password=${JIGSAW_PASSWORD_DEV}
-          export /hn-single-view-api/dev/UHW_DB=${UHW_DEV}
-          export /hn-single-view-api/dev/UHT_DB=${UHT_DEV}
-          export /hn-single-view-api/dev/ACADEMY_DB=${ACADEMY_DEV}
-          export /hn-single-view-api/dev/SINGLEVIEW_DB=${SINGLEVIEW_DEV}
-          export /hn-single-view-api/dev/HN_COMINO_URL=${COMINO_DEV}
-          export /hn-single-view-api/SENTRY_DSN=x
+          export Jigsaw_email=${JIGSAW_EMAIL_DEV}
+          export Jigsaw_password=${JIGSAW_PASSWORD_DEV}
+          export UHW_DB=${UHW_DEV}
+          export UHT_DB=${UHT_DEV}
+          export ACADEMY_DB=${ACADEMY_DEV}
+          export SINGLEVIEW_DB=${SINGLEVIEW_DEV}
+          export HN_COMINO_URL=${COMINO_DEV}
+          export SENTRY_DSN=x
 
       - run:
           name: Run linter
