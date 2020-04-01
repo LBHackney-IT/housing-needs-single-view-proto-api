@@ -45,18 +45,10 @@ jobs:
       - attach_workspace:
           at: ~/repo
 
-      - run: |
-          export ENV=dev
-          export PORT=3000
-          export Jigsaw_email=${JIGSAW_EMAIL_DEV}
-          export Jigsaw_password=${JIGSAW_PASSWORD_DEV}
-          export UHW_DB=${UHW_DEV}
-          export UHT_DB=${UHT_DEV}
-          export ACADEMY_DB=${ACADEMY_DEV}
-          export SINGLEVIEW_DB=${SINGLEVIEW_DEV}
-          export HN_COMINO_URL=${COMINO_DEV}
-          export SENTRY_DSN=x
-          export jwtsecret=x
+      - run:
+          shell: /bin/sh
+          command: |
+            echo "ENV=dev PORT=3000 Jigsaw_email=${JIGSAW_EMAIL_DEV} Jigsaw_password=${JIGSAW_PASSWORD_DEV} UHW_DB=${UHW_DEV} UHT_DB=${UHT_DEV} ACADEMY_DB=${ACADEMY_DEV} SINGLEVIEW_DB=${SINGLEVIEW_DEV} HN_COMINO_URL=${COMINO_DEV} SENTRY_DSN=x jwtsecret=x" >> .env
 
       - run:
           name: Run linter
