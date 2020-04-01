@@ -146,7 +146,9 @@ const getJigsawDoc = async event => {
     headers: {
       'Content-Type': mimeType,
       'Content-Length': doc.length,
-      'Content-Disposition': `inline; filename="${filename}"`
+      'Content-Disposition': `inline; filename="${filename}"`,
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
     },
     body: doc.toString('base64'),
     isBase64Encoded: true
