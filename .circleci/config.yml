@@ -48,7 +48,14 @@ jobs:
       - run:
           shell: /bin/sh
           command: |
-            echo $'ENV=dev\nPORT=3000\n/hn-single-view-api/dev/Jigsaw_email=${JIGSAW_EMAIL_DEV}\n/hn-single-view-api/dev/Jigsaw_password=${JIGSAW_PASSWORD_DEV}\n/hn-single-view-api/dev/UHW_DB=${UHW_DEV}\n/hn-single-view-api/dev/UHT_DB=${UHT_DEV}\n/hn-single-view-api/dev/ACADEMY_DB=${ACADEMY_DEV}\n/hn-single-view-api/dev/SINGLEVIEW_DB=${SINGLEVIEW_DEV}\n/hn-single-view-api/dev/HN_COMINO_URL=${COMINO_DEV}\n/hn-single-view-api/dev/SENTRY_DSN=x\n/common/hackney-jwt-secretjwtsecret=x' >> .env
+            export Jigsaw_email=${JIGSAW_EMAIL_DEV}
+            export Jigsaw_password=${JIGSAW_PASSWORD_DEV}
+            export UHW_DB=${UHW_DEV}
+            export UHT_DB=${UHT_DEV}
+            export ACADEMY_DB=${ACADEMY_DEV}
+            export SINGLEVIEW_DB=${SINGLEVIEW_DEV}
+            export HN_COMINO_URL=${COMINO_DEV}
+            echo $'ENV=dev\nPORT=3000\n/hn-single-view-api/dev/Jigsaw_email=$JIGSAW_EMAIL_DEV\n/hn-single-view-api/dev/Jigsaw_password=$JIGSAW_PASSWORD_DEV\n/hn-single-view-api/dev/UHW_DB=$UHW_DEV\n/hn-single-view-api/dev/UHT_DB=$UHT_DEV\n/hn-single-view-api/dev/ACADEMY_DB=$ACADEMY_DEV\n/hn-single-view-api/dev/SINGLEVIEW_DB=$SINGLEVIEW_DEV\n/hn-single-view-api/dev/HN_COMINO_URL=$COMINO_DEV\n/hn-single-view-api/dev/SENTRY_DSN=x\n/common/hackney-jwt-secretjwtsecret=x' >> .env
 
       - run:
           name: Run linter
@@ -73,7 +80,7 @@ jobs:
       - run:
           name: Set AWS credentials
           command: |
-            pushd ~ && serverless config credentials -p aws -k ${AWS_ACCESS_KEY_ID} -s ${AWS_SECRET_ACCESS_KEY} -n hackney && popd
+            pushd ~ && serverless config credentials -p aws -k $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -n hackney && popd
 
       - run:
           name: Deploy application
