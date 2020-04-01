@@ -47,6 +47,7 @@ jobs:
 
       - run: |
           export ENV=dev
+          export PORT=3000
           export Jigsaw_email=${JIGSAW_EMAIL_DEV}
           export Jigsaw_password=${JIGSAW_PASSWORD_DEV}
           export UHW_DB=${UHW_DEV}
