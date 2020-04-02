@@ -12,7 +12,7 @@ services:
       POSTGRES_USER: 'singleview_user'
       POSTGRES_PASSWORD: 'password'
       POSTGRES_DB: hnsingleview
-      
+
   test_db:
     image: postgres
     ports:
@@ -38,7 +38,10 @@ services:
       context: .
       dockerfile: ./Dockerfile.testenv
     ports:
-      - 3000:3000
+      - 127.0.0.1:3000:3000
+    networks:
+      - default
+
     depends_on:
       - test_db
       - uh_test_db
