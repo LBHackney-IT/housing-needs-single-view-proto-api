@@ -35,7 +35,7 @@
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s dev --noAuth",
     "auth": "serverless invoke local -s dev -f hn-single-view-api-authorizer -p authorizer/event.json",
     "jest-watch": "jest --watch",
-    "start-test-db": "docker-compose rm -fsv test_db uh_test_db && docker-compose up --force-recreate -d test_db uh_test_db",
+    "start-test-db": "docker-compose rm -fsv test_db uh_test_db && docker-compose up --force-recreate -d test_db uh_test_db && docker ps",
     "test": "jest --watch",
     "test-ci": "npm run start-test-db & api/test/wait-for-test-containers.sh && start-server-and-test start http://localhost:3000/customers?firstName=jon test-coverage",
     "test-new": "npm run start & npm run start-test-db && api/test/wait-for-test-containers.sh && npm run jest-watch",
