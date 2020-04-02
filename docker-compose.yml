@@ -31,17 +31,3 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 1433:1433
-
-  test_api:
-    image: test_api
-    build:
-      context: .
-      dockerfile: ./Dockerfile.testenv
-    ports:
-      - 127.0.0.1:3000:3000
-    networks:
-      - default
-
-    depends_on:
-      - test_db
-      - uh_test_db
