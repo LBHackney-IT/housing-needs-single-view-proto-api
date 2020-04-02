@@ -1,0 +1,13 @@
+FROM docker
+
+RUN mkdir -p /usr/src/app
+
+WORKDIR /usr/src/app
+
+COPY . ./urs/src/app
+
+RUN npm install
+
+EXPOSE 8000
+
+CMD ["docker-compose", "up", "test_api"]
