@@ -49,7 +49,6 @@ describe('Singleview API', () => {
   //   expect(savedCustomers.length).toEqual(1);
   // });
 
-  // A TEST TO MAKE CIRCLE HAPPY WITH THIS FILE (WON'T ACCEPT AN EMPTY TEST FILE WITH NO TESTS)
   const rp = require('request-promise');
   const doSearchRequest = async () => {
     var options = {
