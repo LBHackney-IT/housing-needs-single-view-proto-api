@@ -39,7 +39,7 @@
     "test": "jest --watch",
     "test-ci": "npm run start-test-db & api/test/wait-for-test-containers.sh && start-server-and-test start http://localhost:3000/customers?firstName=jon test-coverage",
     "test-new": "npm run start & npm run start-test-db && api/test/wait-for-test-containers.sh && npm run jest-watch",
-    "test-coverage": "jest --coverage",
+    "test-coverage": "docker ps && jest --coverage",
     "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'",
     "migrate": "node-pg-migrate"
   }
