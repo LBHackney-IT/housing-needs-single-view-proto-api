@@ -3,17 +3,19 @@
   "version": "1.0.0",
   "dependencies": {
     "node-pg-migrate": "^4.2.2",
-    "pg": "^7.18.1"
+    "pg": "^7.18.1",
+    "start-server-and-test": "^1.10.11"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^24.9.0",
     "prettier": "^1.18.2",
     "serverless": "^1.60.5",
     "serverless-offline": "^5.12.1",
     "serverless-offline-ssm": "^4.1.2",
-    "jest": "^24.9.0",
+    "supertest": "^4.0.2",
     "watch": "^1.0.2"
   },
   "jest": {
@@ -32,7 +34,11 @@
     "start": "sls offline start -s dev --noAuth",
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s dev --noAuth",
     "auth": "serverless invoke local -s dev -f hn-single-view-api-authorizer -p authorizer/event.json",
+    "jest-watch": "jest --watch",
+    "start-test-db": "docker-compose rm -fsv test_db uh_test_db && docker-compose up --force-recreate -d test_db uh_test_db",
     "test": "jest --watch",
+    "test-ci": "npm run start & npm run start-test-db & api/test/wait-for-test-containers.sh && npm run test-coverage",
+    "test-new": "npm run start & npm run start-test-db && api/test/wait-for-test-containers.sh && npm run jest-watch",
     "test-coverage": "jest --coverage",
     "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'",
     "migrate": "node-pg-migrate"
