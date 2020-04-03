@@ -1,13 +1,5 @@
 version: '3'
 services:
-  main_test_container:
-    image: main_test_container
-    ports:
-      - '8000:8000'
-    build:
-      context: .
-      dockerfile: ./Dockerfile.main
-
   db:
     image: postgres
     ports:
@@ -51,3 +43,14 @@ services:
     depends_on:
       - test_db
       - uh_test_db
+
+  main:
+    image: main
+    build:
+      context: .
+      dockerfile: ./Dockerfile.main
+    ports:
+      - 8000:8000
+
+    depends_on:
+      - test_api

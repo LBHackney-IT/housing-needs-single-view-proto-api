@@ -1,13 +1,12 @@
-FROM docker
+FROM alpine
 
 RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
-COPY . ./urs/src/app
-
-RUN npm install
+COPY . ./usr/src/app
 
 EXPOSE 8000
 
-CMD ["docker-compose", "up", "test_api"]
+CMD ["ping", "test_api"]
+
