@@ -16,6 +16,8 @@ const cleanRecord = require('./use-cases/CleanRecord')({
 });
 const mergeResponses = require('../lib/MergeResponses');
 
+const { fetchCominoDocuments } = require('./CominoUtils');
+
 const {
   doJigsawGetRequest,
   doJigsawPostRequest,
@@ -74,22 +76,16 @@ const singleViewSearchGateway = require('./gateways/SingleView/Search')({
 
 // DOCUMENT GATEWAYS
 
-const cominoFetchDocumentsGateway = require('./gateways/Comino/FetchDocuments')(
-  {
-    buildDocument,
-    db: cominoDb
-  }
-);
 const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefits/FetchDocuments')(
   {
     db: academyDb,
     buildDocument,
-    cominoFetchDocumentsGateway
+    fetchCominoDocuments
   }
 );
 const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
-  db: uhwDb,
-  buildDocument
+  buildDocument,
+  fetchCominoDocuments
 });
 const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
   {
@@ -100,7 +96,8 @@ const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
 );
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
   {
-    cominoFetchDocumentsGateway
+    buildDocument,
+    fetchCominoDocuments
   }
 );
 

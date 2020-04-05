@@ -4,9 +4,7 @@ const { Systems } = require('../../Constants');
 const { fetchCustomerDocumentsSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 module.exports = options => {
-  const db = options.db;
-  const buildDocument = options.buildDocument;
-  const cominoFetchDocumentsGateway = options.cominoFetchDocumentsGateway;
+  const { buildDocument, db, fetchCominoDocuments } = options;
 
   const fetchSystemId = async id => {
     if (id) return id.split('/')[0];
@@ -34,21 +32,22 @@ module.exports = options => {
   };
 
   return {
-    execute: async id => {
+    execute: async (id, token) => {
       try {
         const claim_id = await fetchSystemId(id);
+        if (!claim_id) return [];
 
-        if (claim_id) {
-          const academyRecords = await fetchCustomerDocuments(claim_id);
-          const cominoResults = await cominoFetchDocumentsGateway.execute({
-            claim_id
-          });
-          const documents = processDocuments(academyRecords).concat(
-            cominoResults
-          );
-          return documents;
-        }
-        return [];
+        const academyRecords = await fetchCustomerDocuments(claim_id);
+        const cominoRecords = await fetchCominoDocuments(
+          { id: claim_id, gateway: 'hncomino' },
+          token
+        );
+
+        const documents = processDocuments(academyRecords).concat(
+          cominoRecords.map(doc => buildDocument(doc))
+        );
+
+        return documents;
       } catch (err) {
         console.log(
           `Error fetching customer documents in Academy-Benefits: ${err}`

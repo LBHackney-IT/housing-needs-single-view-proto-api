@@ -1,69 +1,72 @@
 const academyCouncilTaxFetchDocuments = require('../../../lib/gateways/Academy-CouncilTax/FetchDocuments');
+const buildDoc = require('../../../lib/entities/Document')();
+
+const mockCominoDocuments = [
+  {
+    date: '2010-02-03T20:30:14.000Z',
+    format: null,
+    text: 'Housing Register form',
+    title: 'Document',
+    user: 'First.Last',
+    system: 'COMINO'
+  }
+];
+
+const prepareTestGateway = (gateway, dependencies = {}) => {
+  return (opts = {}) => {
+    const { raiseError } = opts;
+
+    if (raiseError) return gateway({});
+
+    return gateway(dependencies);
+  };
+};
 
 describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
-  let cominoFetchDocumentsGateway;
-  let getSystemId;
   const id = '123';
-  const record = { account_ref: '123' };
+  const token = 'a_token';
 
-  const createGateway = (records, throwsError, existsInSystem) => {
-    cominoFetchDocumentsGateway = {
-      execute: jest.fn(async () => {
-        if (throwsError) {
-          throw new Error('Database error');
-        }
-        return records;
-      })
-    };
+  let buildDocument;
+  let fetchCominoDocuments;
+  let createGateway;
 
-    getSystemId = {
-      execute: jest.fn(async (name, id) => {
-        if (existsInSystem) return id;
-      })
-    };
+  beforeEach(() => {
+    buildDocument = jest.fn(doc => buildDoc(doc));
+    fetchCominoDocuments = jest.fn(() => mockCominoDocuments);
 
-    return academyCouncilTaxFetchDocuments({
-      cominoFetchDocumentsGateway,
-      getSystemId
+    createGateway = prepareTestGateway(academyCouncilTaxFetchDocuments, {
+      buildDocument,
+      fetchCominoDocuments
     });
-  };
-
-  it('gets the docs if customer has a system id', async () => {
-    const gateway = createGateway([], false, true);
-
-    const cominoParamMatcher = expect.objectContaining(record);
-
-    await gateway.execute(id);
-
-    expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledWith(
-      cominoParamMatcher
-    );
   });
 
-  it('queries the database with the account reference if the query contains an account reference', async () => {
-    const gateway = createGateway([], false, true);
+  it('requests Comino documents with the account reference if called with an id (account reference)', async () => {
+    const gateway = createGateway();
 
-    const cominoParamMatcher = expect.objectContaining(record);
+    const documents = await gateway.execute(id, token);
 
-    await gateway.execute(id);
+    const expectedParams = [{ id: '123', gateway: 'hncomino' }, 'a_token'];
 
-    expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledWith(
-      cominoParamMatcher
-    );
+    const expectedDocument = expect.objectContaining({
+      ...mockCominoDocuments[0],
+      date: '2010-02-03 08:30:14'
+    });
+
+    expect(fetchCominoDocuments).toHaveBeenCalledWith(...expectedParams);
+    expect(documents[0]).toMatchObject(expectedDocument);
   });
 
-  it('does not get the docs if customer does not have an id ', async () => {
-    const gateway = createGateway([]);
-    const result = await gateway.execute(null);
+  it('does not get the docs if customer does not have an id', async () => {
+    const gateway = createGateway();
+    const documents = await gateway.execute(null);
 
-    expect(cominoFetchDocumentsGateway.execute).toHaveBeenCalledTimes(0);
-    expect(result.length).toBe(0);
+    expect(fetchCominoDocuments).toHaveBeenCalledTimes(0);
+    expect(documents.length).toBe(0);
   });
 
   it('returns an empty set of records if there is an error', async () => {
-    const gateway = createGateway([record], true);
-
-    const documents = await gateway.execute();
+    const gateway = createGateway({ raiseError: true });
+    const documents = await gateway.execute(id, token);
 
     expect(documents.length).toBe(0);
   });

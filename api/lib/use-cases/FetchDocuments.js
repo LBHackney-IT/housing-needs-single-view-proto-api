@@ -4,11 +4,12 @@ module.exports = options => {
   const gateways = options.gateways;
   const getCustomerLinks = options.getCustomerLinks;
 
-  return async id => {
+  return async (id, token) => {
     const links = await getCustomerLinks.execute(id);
     const requests = links.map(async link => {
-      if (gateways[link.name] && link.remote_id)
-        return gateways[link.name].execute(link.remote_id);
+      if (gateways[link.name] && link.remote_id) {
+        return gateways[link.name].execute(link.remote_id, token);
+      }
     });
 
     let documents = [].concat.apply([], await Promise.all(requests));
