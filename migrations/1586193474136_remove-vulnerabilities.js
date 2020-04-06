@@ -1,4 +1,8 @@
 exports.up = pgm => {
+  pgm.dropTable('vulnerabilities', { ifExists: true });
+};
+
+exports.down = pgm => {
   pgm.createTable(
     'vulnerabilities',
     {
@@ -22,9 +26,5 @@ exports.up = pgm => {
         }
       }
     }
-  );
-};
-
-exports.down = pgm => {
-  pgm.dropTable('vulnerabilities', { ifExists: true });
+  )
 };

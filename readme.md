@@ -24,6 +24,7 @@ $ npm i && pushd api && npm i && popd && pushd authorizer && npm i && popd
 
 ```
 /hn-single-view-api/dev/SINGLEVIEW_DB=postgresql://singleview_user:@localhost:10101/hnsingleview
+DATABASE_URL=postgresql://singleview_user:@localhost:10101/hnsingleview
 ```
 
 3\. Run the following to install the Single View db locally:
@@ -31,6 +32,13 @@ $ npm i && pushd api && npm i && popd && pushd authorizer && npm i && popd
 ```
 $ docker-compose up
 ```
+
+4\. Run the following to run migrations on the local Single View DB:
+
+```
+$ npm run migrate up
+```
+
 
 ## Run the API
 
