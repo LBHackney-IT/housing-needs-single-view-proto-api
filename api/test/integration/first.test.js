@@ -50,9 +50,9 @@ describe('Singleview API', () => {
   // });
 
   const rp = require('request-promise');
-  const doSearchRequest = async () => {
+  const doSearchRequest = async uri => {
     var options = {
-      uri: 'http://localhost:3000/customers?firstName=john&lastName=smith',
+      uri,
       qs: {},
       headers: {
         Connection: 'Keep-Alive'
@@ -64,10 +64,37 @@ describe('Singleview API', () => {
   };
 
   it('returns empty records for non-existent customer', async () => {
-    var response = await doSearchRequest();
+    var response = await doSearchRequest(
+      'http://localhost:3000/customers?firstName=john&lastName=smith'
+    );
     expect(response).toStrictEqual({
       grouped: [],
       ungrouped: [],
+      connected: []
+    });
+  });
+
+  it('returns uht record if customer exists in uht', async () => {
+    var response = await doSearchRequest(
+      'http://localhost:3000/customers?firstName=dani&lastName=beyn'
+    );
+    expect(response).toStrictEqual({
+      grouped: [],
+      ungrouped: [
+        {
+          address: '65 Bunker Hill Hill',
+          dob: '23/07/1955',
+          firstName: 'Dani',
+          id: '2966927/2',
+          lastName: 'Beyn',
+          links: {
+            uhContact: 6452
+          },
+          nino: 'EF926702A',
+          postcode: 'N16 5Z',
+          source: 'UHT-Contacts'
+        }
+      ],
       connected: []
     });
   });
