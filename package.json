@@ -38,7 +38,7 @@
     "start-test-db": "docker-compose rm -fsv test_db uh_test_db test_api && docker-compose up --force-recreate -d test_db uh_test_db test_api && docker ps",
     "test": "jest --watch",
     "testy": "start-server-and-test start http://localhost:3000/customers?firstName=jon test-coverage",
-    "test-ci": "docker-compose up --build test_api",
+    "test-ci": "docker-compose run test_api",
     "test-new": "npm run start & npm run start-test-db && api/test/wait-for-test-containers.sh && npm run jest-watch",
     "test-coverage": "jest --coverage",
     "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'",
