@@ -136,7 +136,6 @@ describe('Singleview API', () => {
       ]
     };
     doPostRequest(`http://localhost:3000/customers`, data);
-    doDeleteRequest(`http://localhost:3000/customers/1`);
 
     var response = await doSearchRequest(
       'http://localhost:3000/customers?firstName=Henrieta&lastName=sterre'
