@@ -18,6 +18,7 @@ describe('Singleview API', () => {
       method: 'POST',
       uri,
       body,
+      timeout: 18000,
       json: true
     };
     return await rp(options);
