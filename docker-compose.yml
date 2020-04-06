@@ -23,7 +23,7 @@ services:
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_USER: 'singleview_user'
-      POSTGRES_DB: test_hnsingleview
+      POSTGRES_DB: hnsingleview
 
   uh_test_db:
     image: 'mcr.microsoft.com/mssql/server'
