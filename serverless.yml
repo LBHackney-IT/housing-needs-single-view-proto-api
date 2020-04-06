@@ -67,6 +67,7 @@ functions:
           path: 'jigsaw/customers/{customerId}/documents/jigsaw/{jigsawDocId}'
           method: GET
           authorizer: ${self:custom.authorizer.hn-single-view-api-authorizer}
+          contentHandling: CONVERT_TO_BINARY
           cors:
             origins:
               - '*'
