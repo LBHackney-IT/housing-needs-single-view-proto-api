@@ -99,4 +99,15 @@ describe('Singleview API', () => {
 
     expect(response).toStrictEqual(paramMatcher);
   });
+
+  it('control test', async () => {
+    var response = await doSearchRequest(
+      'http://localhost:3000/customers?firstName=john&lastName=smith'
+    );
+    expect(response).toStrictEqual({
+      grouped: [],
+      ungrouped: [],
+      connected: []
+    });
+  });
 });
