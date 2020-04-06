@@ -63,6 +63,24 @@ describe('Singleview API', () => {
     return await rp(options);
   };
 
+  const doPostRequest = async (uri, body) => {
+    var options = {
+      method: 'POST',
+      uri,
+      body,
+      json: true
+    };
+    return await rp(options);
+  };
+
+  const doDeleteRequest = async uri => {
+    var options = {
+      method: 'DELETE',
+      uri
+    };
+    return await rp(options);
+  };
+
   it('returns empty records for non-existent customer', async () => {
     var response = await doSearchRequest(
       'http://localhost:3000/customers?firstName=john&lastName=smith'
@@ -97,5 +115,39 @@ describe('Singleview API', () => {
       ],
       connected: []
     });
+  });
+
+  it('can connect a single uht record', async () => {
+    const data = {
+      customers: [
+        {
+          address: '8019 Mariners Cove Lane',
+          dob: '17/03/1999',
+          firstName: 'Henrieta',
+          id: '8381960/1',
+          lastName: 'Sterre',
+          links: {
+            uhContact: 5380
+          },
+          nino: 'NO884836E',
+          postcode: 'A2 B4',
+          source: 'UHT-Contacts'
+        }
+      ]
+    };
+    doPostRequest(`http://localhost:3000/customers`, data);
+    doDeleteRequest(`http://localhost:3000/customers/1`);
+
+    var response = await doSearchRequest(
+      'http://localhost:3000/customers?firstName=Henrieta&lastName=sterre'
+    );
+
+    const paramMatcher = expect.objectContaining({
+      connected: expect.arrayContaining([
+        expect.objectContaining({ firstName: 'Henrieta' })
+      ])
+    });
+
+    expect(response).toStrictEqual(paramMatcher);
   });
 });
