@@ -4,9 +4,6 @@ describe('Singleview API', () => {
     var options = {
       uri,
       qs: {},
-      headers: {
-        Connection: 'Keep-Alive'
-      },
       json: true
     };
 
