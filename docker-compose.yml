@@ -43,14 +43,3 @@ services:
     depends_on:
       - test_db
       - uh_test_db
-
-  main:
-    image: main
-    build:
-      context: .
-      dockerfile: ./Dockerfile.main
-    ports:
-      - 8000:8000
-
-    depends_on:
-      - test_api
