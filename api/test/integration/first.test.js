@@ -18,6 +18,9 @@ describe('Singleview API', () => {
       method: 'POST',
       uri,
       body,
+      headers: {
+        Connection: 'Keep-Alive'
+      },
       json: true
     };
     return await rp(options);
