@@ -19,7 +19,7 @@ services:
       - '5432:5432'
     volumes:
       - ~/docker/volumes/postgres2:/var/lib/postgresql/data2
-      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./schema.sql:./schema.sql
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_USER: 'singleview_user'
