@@ -6,6 +6,20 @@ WORKDIR /usr/src/app
 
 COPY . .
 
+ENV ENV=dev
+ENV PORT=3000
+ENV /hn-single-view-api/dev/Jigsaw_email=x
+ENV /hn-single-view-api/dev/Jigsaw_password=x
+ENV /hn-single-view-api/dev/UHW_DB=mssql://sa:UHT-password@uh_test_db/uhwlive
+ENV /hn-single-view-api/dev/UHT_DB=mssql://sa:UHT-password@uh_test_db/uhtlive
+ENV /hn-single-view-api/dev/ACADEMY_DB=mssql://sa:UHT-password@uh_test_db/HBCTLIVEDB
+ENV /hn-single-view-api/dev/SINGLEVIEW_DB=postgresql://singleview_user:@test_db/hnsingleview
+ENV /hn-single-view-api/dev/HN_COMINO_URL=mssql://sa:UHT-password@uh_test_db/cmData
+ENV /hn-single-view-api/SENTRY_DSN=x
+ENV /common/hackney-jwt-secret=x
+
+RUN  set > ".env"
+
 RUN npm install
 
 EXPOSE 3000
