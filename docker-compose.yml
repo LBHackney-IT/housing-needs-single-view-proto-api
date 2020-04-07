@@ -12,17 +12,18 @@ services:
       POSTGRES_USER: 'singleview_user'
       POSTGRES_PASSWORD: 'password'
       POSTGRES_DB: hnsingleview
-      
+
   test_db:
     image: postgres
     ports:
       - '10102:5432'
     volumes:
       - ~/docker/volumes/postgres2:/var/lib/postgresql/data2
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_USER: 'singleview_user'
-      POSTGRES_DB: test_hnsingleview
+      POSTGRES_DB: hnsingleview
 
   uh_test_db:
     image: 'mcr.microsoft.com/mssql/server'
@@ -32,3 +33,14 @@ services:
     ports:
       - 1433:1433
 
+  test_api:
+    image: test_api
+    build:
+      context: .
+      dockerfile: ./Dockerfile.testenv
+    ports:
+      - 3000:3000
+
+    depends_on:
+      - test_db
+      - uh_test_db

@@ -61,7 +61,7 @@ describe('fetchJigsawDocument', () => {
     });
   });
 
-  describe('filename', async () => {
+  describe('filename', () => {
     it('can get first filename', async () => {
       const { filename } = await fetchJigsawDocument(jigsawDocId, userId);
       expect(filename).toEqual('something.pdf');
