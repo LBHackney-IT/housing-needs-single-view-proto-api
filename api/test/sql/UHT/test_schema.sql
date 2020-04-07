@@ -100,3 +100,84 @@ insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values 
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR1784557', 2, '1979-12-15', 'Gordie', 'Drayson', 'KK933624D');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR6421750', 2, '1979-12-14', 'Eadie', 'Bullan', 'JE019827F');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR9610142', 5, '1969-11-29', 'Nadya', 'Montes', 'ME918699A');
+
+-------ACADEMY BENEFITS---------
+
+USE HBCTLIVEDB;
+
+CREATE TABLE [hbclaim] (
+    [claim_id] int,
+    [check_digit] nvarchar(1)
+);
+
+
+CREATE TABLE [hbmember] (
+    [claim_id] int,
+    [house_id] smallint,
+    [person_ref] int,
+    [surname] nvarchar(32),
+    [forename] nvarchar(32),
+    [birth_date] datetime2(7),
+    [nino] nvarchar(10)
+);
+
+CREATE TABLE [hbhousehold] (
+    [claim_id] int,
+    [house_id] smallint,
+    [to_date] datetime2(7),
+    [addr1] nvarchar(35),
+    [addr2] nvarchar(35),
+    [addr3] nvarchar(32),
+    [addr4] nvarchar(32),
+    [post_code] nvarchar(10)
+);
+
+
+---ACADEMY COUNCIL TAX---
+
+CREATE TABLE [ctaccount] (
+    [account_ref] int,
+    [account_cd] nvarchar(1),
+    [lead_liab_title] nvarchar(8),
+    [lead_liab_name] nvarchar(32),
+    [lead_liab_forename] nvarchar(32),
+    [lead_liab_surname] nvarchar(32)
+);
+
+
+CREATE TABLE [ctproperty] (
+    [property_ref] nvarchar(18),
+    [addr1] nvarchar(35),
+    [addr2] nvarchar(35),
+    [addr3] nvarchar(32),
+    [addr4] nvarchar(32),
+    [postcode] nvarchar(8)
+);
+
+CREATE TABLE [hbctaxclaim] (
+    [claim_id] int,
+    [ctax_claim_id] smallint,
+    [ctax_ref] nvarchar(9)
+);
+
+CREATE TABLE [ctoccupation] (
+    [account_ref] int,
+    [property_ref] nvarchar(18),
+    [vacation_date] datetime
+);
+
+---UHW-----
+USE uhwlive;
+
+CREATE TABLE [CCContact] (
+    [ContactNo] int IDENTITY,
+    [Forenames] varchar(40),
+    [Surname] varchar(40),
+    [Addr1] varchar(40),
+    [Addr2] varchar(40),
+    [Addr3] varchar(40),
+    [Addr4] varchar(40),
+    [PostCode] varchar(8),
+    [NINo] varchar(12),
+    [DOB] datetime
+);
