@@ -39,6 +39,7 @@ jobs:
 
   test:
     machine: true
+    working_directory: ~/repo
     steps:
       - attach_workspace:
           at: ~/repo
