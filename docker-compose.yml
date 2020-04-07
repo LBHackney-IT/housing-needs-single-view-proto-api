@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: postgres
+    image: postgres:12
     ports:
       - '10101:5432'
     volumes:
@@ -14,7 +14,7 @@ services:
       POSTGRES_DB: hnsingleview
 
   test_db:
-    image: postgres
+    image: postgres:12
     ports:
       - '10102:5432'
     volumes:
@@ -26,7 +26,7 @@ services:
       POSTGRES_DB: hnsingleview
 
   uh_test_db:
-    image: 'mcr.microsoft.com/mssql/server'
+    image: mcr.microsoft.com/mssql/server:2019-latest
     build:
       context: .
       dockerfile: ./Dockerfile
