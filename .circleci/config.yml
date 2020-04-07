@@ -38,7 +38,6 @@ jobs:
           paths: .
 
   test:
-    executor: my-executor
     machine: true
     steps:
       - attach_workspace:
@@ -57,14 +56,14 @@ jobs:
             echo "ENV=dev\nPORT=3000\n/hn-single-view-api/dev/Jigsaw_email=x\n/hn-single-view-api/dev/Jigsaw_password=$JIGSAW_PASSWORD_DEV\n/hn-single-view-api/dev/UHW_DB=$UHW_DEV\n/hn-single-view-api/dev/UHT_DB=$UHT_DEV\n/hn-single-view-api/dev/ACADEMY_DB=$ACADEMY_DEV\n/hn-single-view-api/dev/SINGLEVIEW_DB=$SINGLEVIEW_DEV\n/hn-single-view-api/dev/HN_COMINO_URL=$COMINO_DEV\n/hn-single-view-api/SENTRY_DSN=x\n/common/hackney-jwt-secret=x" >> .env
             cat .env
 
-      - run:
-          name: Run linter
-          command: npm run lint
+#      - run:
+#          name: Run linter
+#          command: npm run lint
 
       - run:
           name: Run tests with coverage
           command: |
-            npm run test-ci
+            docker-compose down && docker-compose run test_api
 
   deploy-staging:
     executor: my-executor
