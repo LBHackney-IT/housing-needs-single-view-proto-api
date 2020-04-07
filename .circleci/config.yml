@@ -38,10 +38,8 @@ jobs:
           paths: .
 
   test:
-    executor: my-executor
-
+    machine: true
     steps:
-      - setup_remote_docker
       - attach_workspace:
           at: ~/repo
 
@@ -130,4 +128,4 @@ workflows:
             - deploy-staging
       - deploy-production:
           requires:
-            - permit-deploy-production
+            - permit-d
