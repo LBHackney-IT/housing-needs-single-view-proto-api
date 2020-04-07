@@ -179,5 +179,6 @@ CREATE TABLE [CCContact] (
     [Addr4] varchar(40),
     [PostCode] varchar(8),
     [NINo] varchar(12),
-    [DOB] datetime
+    [DOB] datetime,
+    [UHContact] int,
 );
