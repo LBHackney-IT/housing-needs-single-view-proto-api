@@ -45,6 +45,7 @@ jobs:
 
       - run:
           shell: /bin/sh
+          name: Set ENV
           command: |
             export Jigsaw_email=${JIGSAW_EMAIL_DEV}
             export Jigsaw_password=${JIGSAW_PASSWORD_DEV}
@@ -55,15 +56,17 @@ jobs:
             export HN_COMINO_URL=${COMINO_DEV}
             echo "ENV=dev\nPORT=3000\n/hn-single-view-api/dev/Jigsaw_email=x\n/hn-single-view-api/dev/Jigsaw_password=$JIGSAW_PASSWORD_DEV\n/hn-single-view-api/dev/UHW_DB=$UHW_DEV\n/hn-single-view-api/dev/UHT_DB=$UHT_DEV\n/hn-single-view-api/dev/ACADEMY_DB=$ACADEMY_DEV\n/hn-single-view-api/dev/SINGLEVIEW_DB=$SINGLEVIEW_DEV\n/hn-single-view-api/dev/HN_COMINO_URL=$COMINO_DEV\n/hn-single-view-api/SENTRY_DSN=x\n/common/hackney-jwt-secret=x" >> .env
             cat .env
-
 #      - run:
 #          name: Run linter
 #          command: npm run lint
+      - run:
+          command: ls
 
       - run:
           name: Run tests with coverage
+          shell: /bin/sh
           command: |
-            cd repo/ && docker-compose down && docker-compose run test_api
+            docker-compose down && docker-compose run test_api
 
   deploy-staging:
     executor: my-executor
