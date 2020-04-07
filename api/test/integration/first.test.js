@@ -1,20 +1,4 @@
 describe('Singleview API', () => {
-  const path = require('path');
-  const singleViewDb = require('../../lib/PostgresDb');
-  const { loadSQL } = require('../../../api/lib/Utils');
-  const { dropTablesSQL } = loadSQL(path.join(__dirname, 'sql'));
-  const { schemaSQL } = loadSQL(path.join(__dirname, '../../../'));
-
-  jest.mock('jsdom');
-
-  beforeEach(async () => {
-    await singleViewDb.any(schemaSQL);
-  });
-
-  afterEach(async () => {
-    await singleViewDb.any(dropTablesSQL);
-  });
-
   const rp = require('request-promise');
   const doSearchRequest = async uri => {
     var options = {
@@ -98,7 +82,7 @@ describe('Singleview API', () => {
         }
       ]
     };
-    await doPostRequest(`http://localhost:3000/customers`, data);
+    doPostRequest(`http://localhost:3000/customers`, data);
 
     var response = await doSearchRequest(
       'http://localhost:3000/customers?firstName=Henrieta&lastName=sterre'
