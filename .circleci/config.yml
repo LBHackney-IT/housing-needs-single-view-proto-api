@@ -45,10 +45,6 @@ jobs:
           at: ~/repo
 
       - run:
-          name: env var
-          command: mv .env.test .env
-
-      - run:
           name: Run tests with coverage
           command: docker-compose run test_api
 
