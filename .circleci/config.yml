@@ -128,4 +128,4 @@ workflows:
             - deploy-staging
       - deploy-production:
           requires:
-            - permit-d
+            - permit-deploy-production
