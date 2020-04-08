@@ -44,7 +44,10 @@ module.exports = options => {
 
     if (smsContacts.length === 0) return [];
 
-    const contact = smsContacts[0];
+    let cont;
+    smsContacts.forEach(cont => {
+      if (cont.jigsawId === jigsawId) cont = contact;
+    });
 
     const messages = await doGetRequest(
       collabCaseworkMessagesUrl(contact.id),
