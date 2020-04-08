@@ -35,8 +35,7 @@
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s dev --noAuth",
     "auth": "serverless invoke local -s dev -f hn-single-view-api-authorizer -p authorizer/event.json",
     "test": "jest --watch",
-    "docker-test": "start-server-and-test start http://localhost:3000/customers?firstName=jon test-coverage",
-    "test-ci": "docker-compose down && docker-compose run test_api",
+    "docker-test": "npm run lint && start-server-and-test start http://localhost:3000/customers?firstName=jon test-coverage",
     "test-coverage": "jest --coverage",
     "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'",
     "migrate": "node-pg-migrate"

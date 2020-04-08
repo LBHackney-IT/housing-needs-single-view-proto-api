@@ -6,6 +6,8 @@ WORKDIR /usr/src/app
 
 COPY . .
 
+RUN mv .env.test .env
+
 RUN npm install
 
 EXPOSE 3000
