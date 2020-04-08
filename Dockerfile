@@ -3,7 +3,9 @@ FROM microsoft/mssql-server-linux
 EXPOSE 1433
 
 COPY . .
+
 ENV SA_PASSWORD "UHT-password"
+
 ENV ACCEPT_EULA "Y"
 
 RUN /opt/mssql/bin/sqlservr & sleep 20 \
