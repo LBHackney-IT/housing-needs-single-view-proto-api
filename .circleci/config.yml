@@ -56,7 +56,7 @@ jobs:
 
       - run:
           name: Run tests with coverage
-          command: docker-compose run test_api
+          command: docker-compose build && docker-compose run test_api
 
   deploy-staging:
     executor: my-executor
