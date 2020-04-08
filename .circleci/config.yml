@@ -46,6 +46,9 @@ jobs:
           at: ~/repo
 
       - run:
+          name: Build docker images
+          command: docker-compose build
+      - run:
           name: Run tests with coverage
           command: docker-compose run test_api
 
