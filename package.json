@@ -35,8 +35,9 @@
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s dev --noAuth",
     "auth": "serverless invoke local -s dev -f hn-single-view-api-authorizer -p authorizer/event.json",
     "test": "jest --watch",
-    "docker-test": "npm run lint && start-server-and-test start http://localhost:3000/customers?firstName=jon test-coverage",
-    "test-coverage": "jest --coverage",
+    "docker-test": "npm run lint && start-server-and-test start http://localhost:3000/customers?firstName=jon integration-test",
+    "test-coverage": "jest --coverage --testPathIgnorePatterns=api/test/integration",
+    "integration-test": "jest --testPathPattern=api/test/integration",
     "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'",
     "migrate": "node-pg-migrate"
   }

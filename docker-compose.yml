@@ -25,11 +25,11 @@ services:
       POSTGRES_USER: 'singleview_user'
       POSTGRES_DB: hnsingleview
 
-  uh_test_db:
+  external_test_dbs:
     image: mcr.microsoft.com/mssql/server:2019-latest
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile.external_test_dbs
     ports:
       - 1433:1433
 
@@ -43,4 +43,4 @@ services:
 
     depends_on:
       - test_db
-      - uh_test_db
+      - external_test_dbs
