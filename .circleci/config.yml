@@ -114,7 +114,7 @@ workflows:
             - build_and_test
       - deploy-staging:
           requires:
-            - test
+            - integration_test
           filters:
             branches:
               only:
