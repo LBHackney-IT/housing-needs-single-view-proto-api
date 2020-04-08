@@ -44,14 +44,14 @@ module.exports = options => {
 
     if (smsContacts.length === 0) return [];
 
-    let contact = '';
+    let contact;
     smsContacts.forEach(cont => {
       if (cont.jigsawId === jigsawId) {
         contact = cont;
       }
     });
 
-    if (contact === '') return [];
+    if (!contact) return [];
     const messages = await doGetRequest(
       collabCaseworkMessagesUrl(contact.id),
       {},
