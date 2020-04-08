@@ -51,6 +51,7 @@ module.exports = options => {
       }
     });
 
+    if (contact === '') return [];
     const messages = await doGetRequest(
       collabCaseworkMessagesUrl(contact.id),
       {},
