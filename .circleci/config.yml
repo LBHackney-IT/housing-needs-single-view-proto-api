@@ -46,8 +46,7 @@ jobs:
           paths: .
 
   integration_test:
-    machine:
-      docker_layer_caching: true
+    machine: true
 
     working_directory: ~/repo
 
