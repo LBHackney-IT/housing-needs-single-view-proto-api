@@ -63,17 +63,18 @@ module.exports = options => {
     });
   };
 
-  const processSMS = sms => {
-    return sms.map(m => {
-      return buildNote({
-        id: m.id,
-        title: m.title,
-        text: m.text,
-        date: m.date,
-        user: m.user,
-        system: 'SMS'
-      });
-    });
+  const processSMS = () => {
+    return [];
+    // return sms.map(m => {
+    //   return buildNote({
+    //     id: m.id,
+    //     title: m.title,
+    //     text: m.text,
+    //     date: m.date,
+    //     user: m.user,
+    //     system: 'SMS'
+    //   });
+    // });
   };
 
   const processNotes = (notes, noteType) => {
