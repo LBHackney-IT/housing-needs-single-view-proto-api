@@ -21,7 +21,7 @@ describe('JigsawFetchNotesGateway', () => {
       if (url.includes('Notes')) return records;
     });
 
-    doGetRequest = jest.fn(async url => {
+    doGetRequest = jest.fn(async () => {
       if (throwsError) {
         throw new Error('error');
       }
