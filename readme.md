@@ -38,6 +38,38 @@ $ docker-compose up
 $ npm run start
 ```
 
+## Running integration tests locally
+
+1. Start the external test db
+```
+$ docker-compose up external_test_dbs
+```
+2. Start the test single view db
+```
+$ docker-compose up test_db
+```
+3. Set the following testing env variables in your `.env` file
+```
+ENV=dev
+PORT=3000
+/hn-single-view-api/dev/Jigsaw_email=x
+/hn-single-view-api/dev/Jigsaw_password=x
+/hn-single-view-api/dev/UHW_DB=mssql://sa:UHT-password@0.0.0.0/uhwlive
+/hn-single-view-api/dev/UHT_DB=mssql://sa:UHT-password@0.0.0.0/uhtlive
+/hn-single-view-api/dev/ACADEMY_DB=mssql://sa:UHT-password@0.0.0.0/HBCTLIVEDB
+/hn-single-view-api/dev/SINGLEVIEW_DB=postgresql://singleview_user:@0.0.0.0:10102/hnsingleview
+/hn-single-view-api/dev/HN_COMINO_URL=mssql://sa:UHT-password@0.0.0.0/cmData
+/hn-single-view-api/SENTRY_DSN=x
+/common/hackney-jwt-secret=x
+``` 
+4. Start the api 
+```
+$ npm start
+```
+5. Run the integration tests
+```
+npm run integration-tests
+```
 ## Usage
 
 ### Customer Search:
