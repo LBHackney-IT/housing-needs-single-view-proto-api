@@ -1,25 +1,21 @@
 const path = require('path');
 const singleViewDb = require('../../lib/PostgresDb');
 const { loadSQL } = require('../../../api/lib/Utils');
-const { dropTablesSQL } = loadSQL(path.join(__dirname, 'sql'));
-const { schemaSQL } = loadSQL(path.join(__dirname, '../../../'));
-
-// jest.setTimeout(30000);
+const { truncateTablesSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 describe('Singleview API', () => {
   const rp = require('request-promise');
   const doSearchRequest = async uri => {
-    var options = {
+    const options = {
       uri,
       qs: {},
       json: true
     };
-
     return await rp(options);
   };
 
   const doPostRequest = async (uri, body) => {
-    var options = {
+    const options = {
       method: 'POST',
       uri,
       body,
@@ -29,7 +25,7 @@ describe('Singleview API', () => {
   };
 
   const doDeleteRequest = async uri => {
-    var options = {
+    const options = {
       method: 'DELETE',
       uri
     };
@@ -37,15 +33,14 @@ describe('Singleview API', () => {
   };
 
   beforeEach(async done => {
-    await singleViewDb.any(dropTablesSQL);
-    await singleViewDb.any(schemaSQL);
+    await singleViewDb.any(truncateTablesSQL);
     return done();
   });
 
   afterAll(singleViewDb.$pool.end);
 
-  xit('returns empty records for non-existent customer', async () => {
-    var response = await doSearchRequest(
+  it('returns empty records for non-existent customer', async () => {
+    const response = await doSearchRequest(
       'http://localhost:3000/customers?firstName=john&lastName=smith'
     );
     expect(response).toStrictEqual({
@@ -55,8 +50,8 @@ describe('Singleview API', () => {
     });
   });
 
-  xit('returns uht record if customer exists in uht', async () => {
-    var response = await doSearchRequest(
+  it('returns uht record if customer exists in uht', async () => {
+    const response = await doSearchRequest(
       'http://localhost:3000/customers?firstName=dani&lastName=beyn'
     );
     expect(response).toStrictEqual({
@@ -100,7 +95,7 @@ describe('Singleview API', () => {
     };
     await doPostRequest(`http://localhost:3000/customers`, data);
 
-    var result = await doSearchRequest(
+    const result = await doSearchRequest(
       'http://localhost:3000/customers?firstName=Henrieta&lastName=sterre'
     );
 
@@ -112,7 +107,7 @@ describe('Singleview API', () => {
     expect(result).toStrictEqual(paramMatcher);
   });
 
-  xit('can disconnect a uht record', async () => {
+  it('can disconnect a uht record', async () => {
     // connect a record first
     const data = {
       customers: [
@@ -131,29 +126,25 @@ describe('Singleview API', () => {
         }
       ]
     };
-    doPostRequest(`http://localhost:3000/customers`, data);
+    await doPostRequest(`http://localhost:3000/customers`, data);
 
-    var response = await doSearchRequest(
+    // now disconnect the record
+    const deleteResponse = await doDeleteRequest(
+      `http://localhost:3000/customers/1`
+    );
+
+    expect(deleteResponse).toEqual('OK');
+
+    const result = await doSearchRequest(
       'http://localhost:3000/customers?firstName=Henrieta&lastName=sterre'
     );
 
-    // now disconnect the record
-    doDeleteRequest(`http://localhost:3000/customers/1`);
-    // var response = await doSearchRequest(
-    //   'http://localhost:3000/customers/1'
-    // );
-    console.log(response);
-    expect(true).toEqual(true);
-  });
-
-  xit('control test', async () => {
-    var response = await doSearchRequest(
-      'http://localhost:3000/customers?firstName=john&lastName=smith'
-    );
-    expect(response).toStrictEqual({
-      grouped: [],
-      ungrouped: [],
-      connected: []
+    const paramMatcher = expect.objectContaining({
+      ungrouped: expect.arrayContaining([
+        expect.objectContaining({ firstName: 'Henrieta' })
+      ])
     });
+
+    expect(result).toStrictEqual(paramMatcher);
   });
 });
