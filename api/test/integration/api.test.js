@@ -36,16 +36,13 @@ describe('Singleview API', () => {
     return await rp(options);
   };
 
-  beforeEach(async () => {
-    const thing = await singleViewDb.any(schemaSQL);
-    console.log(thing);
-    console.log('loading_schema');
+  beforeEach(async done => {
+    await singleViewDb.any(dropTablesSQL);
+    await singleViewDb.any(schemaSQL);
+    return done();
   });
 
-  afterEach(async () => {
-    singleViewDb.any(dropTablesSQL);
-    console.log('droping tables');
-  });
+  afterAll(singleViewDb.$pool.end);
 
   xit('returns empty records for non-existent customer', async () => {
     var response = await doSearchRequest(
@@ -84,7 +81,6 @@ describe('Singleview API', () => {
   });
 
   it('can connect a single uht record', async () => {
-    console.log('---starting test---');
     const data = {
       customers: [
         {
@@ -102,7 +98,7 @@ describe('Singleview API', () => {
         }
       ]
     };
-    doPostRequest(`http://localhost:3000/customers`, data);
+    await doPostRequest(`http://localhost:3000/customers`, data);
 
     var result = await doSearchRequest(
       'http://localhost:3000/customers?firstName=Henrieta&lastName=sterre'
