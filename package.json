@@ -37,7 +37,7 @@
     "test": "jest --watch",
     "docker-test": "start-server-and-test start http://localhost:3000/customers?firstName=jon integration-tests",
     "test-coverage": "jest --coverage --testPathIgnorePatterns=api/test/integration",
-    "integration-tests": "jest --testPathPattern=api/test/integration",
+    "integration-tests": "export SINGLEVIEW_DB=postgresql://singleview_user:@localhost:10102/hnsingleview && jest --testPathPattern=api/test/integration",
     "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'",
     "migrate": "node-pg-migrate"
   }
