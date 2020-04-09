@@ -1,3 +1,11 @@
+const path = require('path');
+const singleViewDb = require('../../lib/PostgresDb');
+const { loadSQL } = require('../../../api/lib/Utils');
+const { dropTablesSQL } = loadSQL(path.join(__dirname, 'sql'));
+const { schemaSQL } = loadSQL(path.join(__dirname, '../../../'));
+
+// jest.setTimeout(30000);
+
 describe('Singleview API', () => {
   const rp = require('request-promise');
   const doSearchRequest = async uri => {
@@ -28,7 +36,18 @@ describe('Singleview API', () => {
     return await rp(options);
   };
 
-  it('returns empty records for non-existent customer', async () => {
+  beforeEach(async () => {
+    const thing = await singleViewDb.any(schemaSQL);
+    console.log(thing);
+    console.log('loading_schema');
+  });
+
+  afterEach(async () => {
+    singleViewDb.any(dropTablesSQL);
+    console.log('droping tables');
+  });
+
+  xit('returns empty records for non-existent customer', async () => {
     var response = await doSearchRequest(
       'http://localhost:3000/customers?firstName=john&lastName=smith'
     );
@@ -39,7 +58,7 @@ describe('Singleview API', () => {
     });
   });
 
-  it('returns uht record if customer exists in uht', async () => {
+  xit('returns uht record if customer exists in uht', async () => {
     var response = await doSearchRequest(
       'http://localhost:3000/customers?firstName=dani&lastName=beyn'
     );
@@ -65,6 +84,7 @@ describe('Singleview API', () => {
   });
 
   it('can connect a single uht record', async () => {
+    console.log('---starting test---');
     const data = {
       customers: [
         {
@@ -130,7 +150,7 @@ describe('Singleview API', () => {
     expect(true).toEqual(true);
   });
 
-  it('control test', async () => {
+  xit('control test', async () => {
     var response = await doSearchRequest(
       'http://localhost:3000/customers?firstName=john&lastName=smith'
     );
