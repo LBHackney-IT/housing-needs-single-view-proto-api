@@ -12,4 +12,6 @@ RUN npm install
 
 EXPOSE 3000
 
+ENV SINGLEVIEW_DB=postgresql://singleview_user:@test_db/hnsingleview
+
 CMD ["npm", "run", "docker-test"]
