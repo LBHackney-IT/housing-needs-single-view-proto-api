@@ -35,7 +35,7 @@
     "start": "sls offline start -s dev --noAuth",
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s dev --noAuth",
     "auth": "serverless invoke local -s dev -f hn-single-view-api-authorizer -p authorizer/event.json",
-    "unit-tests": "jest --watch",
+    "unit-tests": "jest --testPathIgnorePatterns=api/test/integration --watch",
     "unit-tests-coverage": "jest --coverage --testPathIgnorePatterns=api/test/integration",
     "start-test": "sls offline start -s test --port 3010 --noAuth",
     "integration-tests": "jest --testPathPattern=api/test/integration",

@@ -50,7 +50,6 @@ functions:
       HN_COMINO_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HN_COMINO_URL}
       ENV: ${self:provider.stage}
       SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
-      ENABLE_CACHING: false
 
   getJigsawDoc:
     name: hn-single-view-getJigsawDoc-${self:provider.stage}
@@ -84,7 +83,6 @@ functions:
       HN_COMINO_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HN_COMINO_URL}
       ENV: ${self:provider.stage}
       SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
-      ENABLE_CACHING: false
 
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
