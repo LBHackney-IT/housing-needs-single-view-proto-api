@@ -15,7 +15,7 @@ Currently pulls data from:
 1\. Run the following in the root directory to install dependencies:
 
 ```
-$ npm i && pushd api && npm i && popd && pushd authorizer && npm i && popd
+$ npm i
 ```
 
 2\. Add a .env file in the root directory (see .env.sample for file structure).
@@ -36,6 +36,22 @@ $ docker-compose up
 
 ```
 $ npm run start
+```
+
+## Running integration tests locally
+
+1. Start the test dbs
+
+```
+$ docker-compose up -d external_test_dbs test_db
+```
+
+2. Check that your .env file contains the TEST ENV section from .env.sample
+
+3. Run the integration tests
+
+```
+npm run ci
 ```
 
 ## Usage

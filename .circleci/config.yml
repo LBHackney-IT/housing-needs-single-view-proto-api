@@ -8,7 +8,7 @@ executors:
     working_directory: ~/repo
 
 jobs:
-  build:
+  build_and_test:
     executor: my-executor
 
     steps:
@@ -16,12 +16,11 @@ jobs:
 
       - run:
           name: Concatenate all package-lock.json files into single file for checksum
-          command: cat package.json api/package.json authorizer/package.json > combined-package-lock.txt
+          command: cat package-lock.json api/package-lock.json authorizer/package-lock.json > combined-package-lock.txt
 
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "combined-package-lock.txt" }}
-            - v1-dependencies-
 
       - run:
           name: Install dependencies
@@ -38,12 +37,26 @@ jobs:
           command: npm run lint
 
       - run:
-          name: Run tests with coverage
-          command: npm run test-coverage
+          name: Run unit tests with coverage
+          command: npm run unit-tests-coverage
 
       - persist_to_workspace:
           root: ~/repo
           paths: .
+
+  integration_test:
+    machine: true
+
+    working_directory: ~/repo
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Run integration tests
+          command: |
+            docker-compose run test_api
 
   deploy-staging:
     executor: my-executor
@@ -60,7 +73,7 @@ jobs:
       - run:
           name: Set AWS credentials
           command: |
-            pushd ~ && serverless config credentials -p aws -k ${AWS_ACCESS_KEY_ID} -s ${AWS_SECRET_ACCESS_KEY} -n hackney && popd
+            pushd ~ && serverless config credentials -p aws -k $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -n hackney && popd
 
       - run:
           name: Deploy application
@@ -91,10 +104,13 @@ workflows:
   version: 2
   continuous-delivery:
     jobs:
-      - build
+      - build_and_test
+      - integration_test:
+          requires:
+            - build_and_test
       - deploy-staging:
           requires:
-            - build
+            - integration_test
           filters:
             branches:
               only:

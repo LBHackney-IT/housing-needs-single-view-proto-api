@@ -45,7 +45,7 @@ const ApplicationStatus = {
   320: 'Active and under appeal',
   900: 'Applicant rehoused',
   200: 'Cancelled'
-}
+};
 
 const MimeType = {
   Default: 'application/octet-stream',
