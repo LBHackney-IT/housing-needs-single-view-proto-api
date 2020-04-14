@@ -157,6 +157,5 @@ const getJigsawDoc = async event => {
 
 module.exports = {
   handler: serverless(app),
-  getJigsawDoc,
-  app
+  getJigsawDoc
 };

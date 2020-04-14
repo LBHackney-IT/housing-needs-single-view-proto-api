@@ -1,7 +1,10 @@
+require('dotenv').config();
 const path = require('path');
 const singleViewDb = require('../../lib/PostgresDb');
 const { loadSQL } = require('../../../api/lib/Utils');
 const { truncateTablesSQL } = loadSQL(path.join(__dirname, 'sql'));
+
+const BASE_URL = 'http://localhost:3010';
 
 describe('Singleview API', () => {
   const rp = require('request-promise');
@@ -41,7 +44,7 @@ describe('Singleview API', () => {
 
   it('returns empty records for non-existent customer', async () => {
     const response = await doSearchRequest(
-      'http://localhost:3000/customers?firstName=john&lastName=smith'
+      `${BASE_URL}/customers?firstName=john&lastName=smith`
     );
     expect(response).toStrictEqual({
       grouped: [],
@@ -52,7 +55,7 @@ describe('Singleview API', () => {
 
   it('returns uht record if customer exists in uht', async () => {
     const response = await doSearchRequest(
-      'http://localhost:3000/customers?firstName=dani&lastName=beyn'
+      `${BASE_URL}/customers?firstName=dani&lastName=beyn`
     );
     expect(response).toStrictEqual({
       grouped: [],
@@ -93,10 +96,10 @@ describe('Singleview API', () => {
         }
       ]
     };
-    await doPostRequest(`http://localhost:3000/customers`, data);
+    await doPostRequest(`${BASE_URL}/customers`, data);
 
     const result = await doSearchRequest(
-      'http://localhost:3000/customers?firstName=Henrieta&lastName=sterre'
+      `${BASE_URL}/customers?firstName=Henrieta&lastName=sterre`
     );
 
     const paramMatcher = expect.objectContaining({
@@ -126,17 +129,15 @@ describe('Singleview API', () => {
         }
       ]
     };
-    await doPostRequest(`http://localhost:3000/customers`, data);
+    await doPostRequest(`${BASE_URL}/customers`, data);
 
     // now disconnect the record
-    const deleteResponse = await doDeleteRequest(
-      `http://localhost:3000/customers/1`
-    );
+    const deleteResponse = await doDeleteRequest(`${BASE_URL}/customers/1`);
 
     expect(deleteResponse).toEqual('OK');
 
     const result = await doSearchRequest(
-      'http://localhost:3000/customers?firstName=Henrieta&lastName=sterre'
+      `${BASE_URL}/customers?firstName=Henrieta&lastName=sterre`
     );
 
     const paramMatcher = expect.objectContaining({

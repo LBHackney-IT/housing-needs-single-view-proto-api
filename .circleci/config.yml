@@ -16,12 +16,11 @@ jobs:
 
       - run:
           name: Concatenate all package-lock.json files into single file for checksum
-          command: cat package.json api/package.json authorizer/package.json > combined-package-lock.txt
+          command: cat package-lock.json api/package-lock.json authorizer/package-lock.json > combined-package-lock.txt
 
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "combined-package-lock.txt" }}
-            - v1-dependencies-
 
       - run:
           name: Install dependencies
@@ -38,8 +37,8 @@ jobs:
           command: npm run lint
 
       - run:
-          name: Run tests with coverage
-          command: npm run test-coverage
+          name: Run unit tests with coverage
+          command: npm run unit-tests-coverage
 
       - persist_to_workspace:
           root: ~/repo
@@ -55,8 +54,9 @@ jobs:
           at: ~/repo
 
       - run:
-          name: Run tests with coverage
-          command: docker-compose run test_api
+          name: Run integration tests
+          command: |
+            docker-compose run test_api
 
   deploy-staging:
     executor: my-executor

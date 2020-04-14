@@ -42,8 +42,7 @@ services:
       context: .
       dockerfile: ./dockerfiles/testAPI/Dockerfile
     ports:
-      - 3000:3000
-
+      - 3010:3010
     depends_on:
       - test_db
       - external_test_dbs

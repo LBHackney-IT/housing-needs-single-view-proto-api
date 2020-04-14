@@ -6,12 +6,12 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN mv .env.test .env
+RUN mv test_env .env
 
-RUN npm install
+RUN npm i
 
-EXPOSE 3000
+EXPOSE 3010
 
 ENV SINGLEVIEW_DB=postgresql://singleview_user:@test_db/hnsingleview
 
-CMD ["npm", "run", "docker-test"]
+CMD ["npm", "run", "ci"]

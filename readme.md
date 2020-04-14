@@ -15,7 +15,7 @@ Currently pulls data from:
 1\. Run the following in the root directory to install dependencies:
 
 ```
-$ npm i && pushd api && npm i && popd && pushd authorizer && npm i && popd
+$ npm i
 ```
 
 2\. Add a .env file in the root directory (see .env.sample for file structure).
@@ -40,36 +40,20 @@ $ npm run start
 
 ## Running integration tests locally
 
-1. Start the external test db
+1. Start the test dbs
+
 ```
-$ docker-compose up external_test_dbs
+$ docker-compose up -d external_test_dbs test_db
 ```
-2. Start the test single view db
+
+2. Check that your .env file contains the TEST ENV section from .env.sample
+
+3. Run the integration tests
+
 ```
-$ docker-compose up test_db
+npm run ci
 ```
-3. Set the following testing env variables in your `.env` file
-```
-ENV=dev
-PORT=3000
-/hn-single-view-api/dev/Jigsaw_email=x
-/hn-single-view-api/dev/Jigsaw_password=x
-/hn-single-view-api/dev/UHW_DB=mssql://sa:UHT-password@0.0.0.0/uhwlive
-/hn-single-view-api/dev/UHT_DB=mssql://sa:UHT-password@0.0.0.0/uhtlive
-/hn-single-view-api/dev/ACADEMY_DB=mssql://sa:UHT-password@0.0.0.0/HBCTLIVEDB
-/hn-single-view-api/dev/SINGLEVIEW_DB=postgresql://singleview_user:@0.0.0.0:10102/hnsingleview
-/hn-single-view-api/dev/HN_COMINO_URL=mssql://sa:UHT-password@0.0.0.0/cmData
-/hn-single-view-api/SENTRY_DSN=x
-/common/hackney-jwt-secret=x
-``` 
-4. Start the api 
-```
-$ npm start
-```
-5. Run the integration tests
-```
-npm run integration-tests
-```
+
 ## Usage
 
 ### Customer Search:
