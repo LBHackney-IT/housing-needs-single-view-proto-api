@@ -36,18 +36,13 @@ module.exports = options => {
       Authorization: `Bearer ${hackneyToken}`
     };
 
-    const smsContacts = await doGetRequest(
-      collabCaseworkUrl,
-      { jigsawId },
-      authHeader
-    );
+    const smsContacts = await doGetRequest(collabCaseworkUrl, {}, authHeader);
+    const matches = smsContacts.find(c => c.jigsawId === jigsawId);
 
-    if (smsContacts.length === 0) return [];
-
-    const contact = smsContacts[0];
+    if (!matches) return [];
 
     const messages = await doGetRequest(
-      collabCaseworkMessagesUrl(contact.id),
+      collabCaseworkMessagesUrl(matches.id),
       {},
       authHeader
     );
@@ -63,18 +58,17 @@ module.exports = options => {
     });
   };
 
-  const processSMS = () => {
-    return [];
-    // return sms.map(m => {
-    //   return buildNote({
-    //     id: m.id,
-    //     title: m.title,
-    //     text: m.text,
-    //     date: m.date,
-    //     user: m.user,
-    //     system: 'SMS'
-    //   });
-    // });
+  const processSMS = sms => {
+    return sms.map(m => {
+      return buildNote({
+        id: m.id,
+        title: m.title,
+        text: m.text,
+        date: m.date,
+        user: m.user,
+        system: 'SMS'
+      });
+    });
   };
 
   const processNotes = (notes, noteType) => {

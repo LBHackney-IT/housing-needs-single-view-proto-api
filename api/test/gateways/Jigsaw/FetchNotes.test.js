@@ -57,33 +57,18 @@ describe('JigsawFetchNotesGateway', () => {
     expect(doJigsawGetRequest).toHaveBeenCalledWith(caseNotesUrlMatcher);
   });
 
-  // it('gets customer sms if customer has a system id', async () => {
-  //   const gateway = createGateway([{ id }], true);
-  //   const messagesUrlMatcher = expect.stringContaining(
-  //     `/contacts/${id}/messages`
-  //   );
+  it('can build a note from an sms', async () => {
+    const record = { id, jigsawId: id, outgoing: false, username: 'Maria' };
+    const gateway = createGateway([record], true);
 
-  //   await gateway.execute(id, '12345');
+    await gateway.execute(id);
 
-  //   expect(doGetRequest).toHaveBeenCalledWith(
-  //     messagesUrlMatcher,
-  //     expect.anything(),
-  //     expect.anything()
-  //   );
-  // });
-
-  // it('can build a note from an sms', async () => {
-  //   const record = { id, outgoing: false, username: 'Maria' };
-  //   const gateway = createGateway([record], true);
-
-  //   await gateway.execute(id);
-
-  //   // TODO: this is not totally correct as we dont currently have a way of differentiating between note types
-  //   // (buildNote will get called 3 times in this test)
-  //   expect(buildNote).toHaveBeenCalledWith(
-  //     expect.objectContaining({ title: 'Incoming SMS' })
-  //   );
-  // });
+    // TODO: this is not totally correct as we dont currently have a way of differentiating between note types
+    // (buildNote will get called 3 times in this test)
+    expect(buildNote).toHaveBeenCalledWith(
+      expect.objectContaining({ title: 'Incoming SMS' })
+    );
+  });
 
   it('can build a note from a customer note', async () => {
     const record = { content: 'text' };
