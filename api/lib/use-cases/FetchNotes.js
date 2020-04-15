@@ -1,5 +1,4 @@
 const { dedupe } = require('../Utils');
-const { Systems } = require('../Constants');
 
 module.exports = options => {
   const gateways = options.gateways;
@@ -11,8 +10,6 @@ module.exports = options => {
       if (gateways[link.name] && link.remote_id)
         return gateways[link.name].execute(link.remote_id, token);
     });
-
-    requests.push(gateways[Systems.SINGLEVIEW].getAll(id));
 
     let notes = [].concat.apply([], await Promise.all(requests));
     notes = dedupe(notes, doc => JSON.stringify(doc));

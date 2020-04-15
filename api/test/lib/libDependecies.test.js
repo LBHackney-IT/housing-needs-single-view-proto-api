@@ -16,14 +16,12 @@ beforeEach(() => {
 describe('libDependencies', () => {
   it('is able to initialise the use cases', async () => {
     const {
-      addVulnerability,
       customerSearch,
       fetchDocuments,
       fetchNotes,
       fetchRecords
     } = require('../../lib/libDependencies');
 
-    expect(addVulnerability).toBeDefined();
     expect(customerSearch).toBeDefined();
     expect(fetchDocuments).toBeDefined();
     expect(fetchNotes).toBeDefined();
