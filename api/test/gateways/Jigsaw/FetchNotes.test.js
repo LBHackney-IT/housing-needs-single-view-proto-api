@@ -57,19 +57,6 @@ describe('JigsawFetchNotesGateway', () => {
     expect(doJigsawGetRequest).toHaveBeenCalledWith(caseNotesUrlMatcher);
   });
 
-  it('gets customer sms if customer has a system id', async () => {
-    const gateway = createGateway([{ id }], true);
-    const messagesUrlMatcher = expect.stringContaining(`/contacts`);
-
-    await gateway.execute(id, '12345');
-
-    expect(doGetRequest).toHaveBeenCalledWith(
-      messagesUrlMatcher,
-      { jigsawId: id },
-      { Authorization: `Bearer 12345` }
-    );
-  });
-
   it('can build a note from an sms', async () => {
     const record = { id, jigsawId: id, outgoing: false, username: 'Maria' };
     const gateway = createGateway([record], true);

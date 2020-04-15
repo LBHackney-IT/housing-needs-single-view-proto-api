@@ -5,7 +5,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const QueryHandler = require('./lib/QueryHandler');
 const {
-  addVulnerability,
   customerSearch,
   fetchDocuments,
   fetchNotes,
@@ -29,27 +28,6 @@ if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
 }
 
 app.use(bodyParser.json());
-
-if (process.env.ENABLE_CACHING === 'true') {
-  console.log('Enabling Cache');
-  const ExpressCache = require('express-cache-middleware');
-  const cacheManager = require('cache-manager');
-
-  const cacheMiddleware = new ExpressCache(
-    cacheManager.caching({
-      store: 'memory',
-      max: 10000,
-      ttl: 3600
-    }),
-    {
-      hydrate: (req, res, data, cb) => {
-        res.contentType('application/json');
-        cb(null, data);
-      }
-    }
-  );
-  cacheMiddleware.attach(app);
-}
 
 app.use(function(req, res, next) {
   if (req.headers.authorization) {
@@ -125,17 +103,6 @@ app.get('/customers/:id/documents', async (req, res) => {
   res.send(results);
 });
 
-app.post('/customers/:id/vulnerabilities', async (req, res) => {
-  console.log('SAVING VULNERABILITY');
-  console.time('SAVING VULNERABILITY');
-  // Save the selected vulnerability
-  let vulnerability = req.body;
-  vulnerability.customerId = req.params.id;
-  const id = await addVulnerability(vulnerability);
-  console.timeEnd('SAVING VULNERABILITY');
-  res.send({ id });
-});
-const getJigsawDocDownloadTemplate = () => {};
 const getJigsawDoc = async event => {
   const { doc, mimeType, filename } = await getJigsawDocument(
     event.pathParameters.jigsawDocId,

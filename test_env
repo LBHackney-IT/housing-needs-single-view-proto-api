@@ -1,0 +1,10 @@
+ENV=test
+/hn-single-view-api/test/UHW_DB=mssql://sa:UHT-password@external_test_dbs/uhwlive
+/hn-single-view-api/test/UHT_DB=mssql://sa:UHT-password@external_test_dbs/uhtlive
+/hn-single-view-api/test/ACADEMY_DB=mssql://sa:UHT-password@external_test_dbs/HBCTLIVEDB
+/hn-single-view-api/test/SINGLEVIEW_DB=postgresql://singleview_user:@test_db/hnsingleview
+/hn-single-view-api/test/HN_COMINO_URL=mssql://sa:UHT-password@external_test_dbs/cmData
+/hn-single-view-api/test/Jigsaw_email=x
+/hn-single-view-api/test/Jigsaw_password=x
+/hn-single-view-api/SENTRY_DSN=x
+/common/hackney-jwt-secret=x

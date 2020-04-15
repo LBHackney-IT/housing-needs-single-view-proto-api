@@ -42,15 +42,6 @@ describe('FetchNotes', () => {
     }
   });
 
-  it('queries for a customer notes from the vulnerabilities gateway', async () => {
-    const id = 1;
-    const token = 'abc';
-
-    await fetchNotes(id, token);
-
-    expect(gateways[Systems.SINGLEVIEW].getAll).toHaveBeenCalledWith(id);
-  });
-
   it('concatenates the results', async () => {
     const expected = { notes: [].concat(notesFromB, notesFromA) };
     const received = await fetchNotes();

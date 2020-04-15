@@ -2,19 +2,18 @@
   "name": "hn-single-view-api",
   "version": "1.0.0",
   "dependencies": {
-    "node-pg-migrate": "^4.2.2",
-    "pg": "^7.18.1",
+    "start-server-and-test": "^1.10.11",
     "serverless-apigwy-binary": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^24.9.0",
     "prettier": "^1.18.2",
     "serverless": "^1.60.5",
     "serverless-offline": "^5.12.1",
     "serverless-offline-ssm": "^4.1.2",
-    "jest": "^24.9.0",
     "watch": "^1.0.2"
   },
   "jest": {
@@ -30,12 +29,15 @@
     ]
   },
   "scripts": {
+    "postinstall": "(cd api && echo 'Installing API node modules' && npm i); (cd authorizer && echo 'Installing Authorizer node modules' && npm i);",
     "start": "sls offline start -s dev --noAuth",
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s dev --noAuth",
     "auth": "serverless invoke local -s dev -f hn-single-view-api-authorizer -p authorizer/event.json",
-    "test": "jest --watch",
-    "test-coverage": "jest --coverage",
-    "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'",
-    "migrate": "node-pg-migrate"
+    "unit-tests": "jest --testPathIgnorePatterns=api/test/integration --watch",
+    "unit-tests-coverage": "jest --coverage --testPathIgnorePatterns=api/test/integration",
+    "start-test": "sls offline start -s test --port 3010 --noAuth",
+    "integration-tests": "jest --testPathPattern=api/test/integration",
+    "ci": "start-server-and-test start-test http://localhost:3010/customers?firstName=jon integration-tests",
+    "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'"
   }
 }

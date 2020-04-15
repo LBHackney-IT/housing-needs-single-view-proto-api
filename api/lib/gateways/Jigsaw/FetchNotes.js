@@ -36,24 +36,13 @@ module.exports = options => {
       Authorization: `Bearer ${hackneyToken}`
     };
 
-    const smsContacts = await doGetRequest(
-      collabCaseworkUrl,
-      { jigsawId },
-      authHeader
-    );
+    const smsContacts = await doGetRequest(collabCaseworkUrl, {}, authHeader);
+    const matches = smsContacts.find(c => c.jigsawId === jigsawId);
 
-    if (smsContacts.length === 0) return [];
+    if (!matches) return [];
 
-    let contact;
-    smsContacts.forEach(cont => {
-      if (cont.jigsawId === jigsawId) {
-        contact = cont;
-      }
-    });
-
-    if (!contact) return [];
     const messages = await doGetRequest(
-      collabCaseworkMessagesUrl(contact.id),
+      collabCaseworkMessagesUrl(matches.id),
       {},
       authHeader
     );
