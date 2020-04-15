@@ -1,2 +1,2 @@
-TRUNCATE customers, customer_links, vulnerabilities RESTART IDENTITY CASCADE;
-
+TRUNCATE customers, customer_links RESTART
+IDENTITY CASCADE;

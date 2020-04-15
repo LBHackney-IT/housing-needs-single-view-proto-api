@@ -35,9 +35,8 @@ describe('Singleview API', () => {
     return await rp(options);
   };
 
-  beforeEach(async done => {
-    await singleViewDb.any(truncateTablesSQL);
-    return done();
+  beforeEach(() => {
+    return singleViewDb.any(truncateTablesSQL);
   });
 
   afterAll(singleViewDb.$pool.end);
