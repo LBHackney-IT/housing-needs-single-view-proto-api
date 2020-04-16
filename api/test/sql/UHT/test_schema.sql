@@ -177,9 +177,9 @@ CREATE TABLE [ctaccount] (
     [lead_liab_surname] nvarchar(32)
 );
 
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (815631207, '5', 'Ms', 'MONCUR,MS ELWIRA', 'Elwira', 'Moncur');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (256644325, '4', 'Honorable', 'BULLIMORE,HONORABLE TATE', 'Tate', 'Bullimore');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (472335332, '0', 'Ms', 'STERNDALE,MS ALFONSE', 'Alfonse', 'Sterndale');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (256644325, '4', 'Honorable', 'BULLIMORE,HONORABLE TATE', 'Tate', 'Bullimore');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (27126442, '1', 'Ms', 'MONCUR,MS ELWIRA', 'Elwira', 'Moncur');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (352059093, '9', 'Mrs', 'OLLIVIER,MRS VAL', 'Val', 'Ollivier');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (652268349, '2', 'Rev', 'PISCOPO,REV CLEMENTINA', 'Clementina', 'Piscopo');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (524457367, '6', 'Ms', 'ROSCRIGG,MS ALF', 'Alf', 'Roscrigg');
@@ -216,11 +216,11 @@ CREATE TABLE [hbctaxclaim] (
 
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (7368451, 3, '8156312075');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8920277, 14, '2566443254');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3608321, 14, '4723353320');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (5260765, 14, '271264421');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2866464, 6, '3520590939');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (9359082, 8, '6522683492');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8722915, 14, '5244573676');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2743325, 3, '271264421');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (5260765, 3, '271264421');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3581194, 7, '533269188');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8903330, 13, '428069341');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3690439, 4, '999702729');
@@ -233,7 +233,7 @@ CREATE TABLE [ctoccupation] (
 
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (815631207, '109262008', '2020-01-02');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (256644325, '680348096', '2017-09-11');
-insert into ctoccupation (account_ref, property_ref, vacation_date) values (472335332, '109575307', '2017-10-04');
+insert into ctoccupation (account_ref, property_ref, vacation_date) values (27126442, '109575307', '2017-10-04');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (352059093, '267583903', '2017-08-28');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (652268349, '149325830', '2017-06-02');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (524457367, '648485095', '2019-05-01');

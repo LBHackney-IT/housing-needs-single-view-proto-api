@@ -269,6 +269,20 @@ describe('Singleview API', () => {
             source: 'ACADEMY-Benefits'
           },
           {
+            address:
+              '0 Claremont Alley, 6906 Northwestern Avenue, London, I0 5XL',
+            dob: null,
+            firstName: 'Elwira',
+            id: '271264421',
+            lastName: 'Moncur',
+            links: {
+              hbClaimId: 5260765
+            },
+            nino: null,
+            postcode: 'I0 5XL',
+            source: 'ACADEMY-CouncilTax'
+          },
+          {
             address: '3 Schlimgen Point',
             dob: '22/12/1971',
             firstName: 'Elwira',
@@ -281,7 +295,6 @@ describe('Singleview API', () => {
             postcode: 'O70 5TH',
             source: 'UHT-HousingRegister'
           },
-
           {
             address: '',
             dob: '22/12/1971',
@@ -310,21 +323,7 @@ describe('Singleview API', () => {
           }
         ]
       ],
-      ungrouped: [
-        {
-          address: '5 Northfield Park, 58 Muir Plaza, London, T9 7KR',
-          dob: null,
-          firstName: 'Elwira',
-          id: '8156312075',
-          lastName: 'Moncur',
-          links: {
-            hbClaimId: null
-          },
-          nino: null,
-          postcode: 'T9 7KR',
-          source: 'ACADEMY-CouncilTax'
-        }
-      ],
+      ungrouped: [],
       connected: []
     });
   });
