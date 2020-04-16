@@ -51,7 +51,7 @@ $ docker-compose up -d external_test_dbs test_db
 3. Run the integration tests
 
 ```
-npm run ci
+npm run ci-local
 ```
 
 ## Usage
@@ -113,7 +113,7 @@ npm run ci
 ## Run the tests
 
 ```
-$ npm run unit-test
+$ npm run unit-tests
 ```
 
 ## Invoke the authorizer
