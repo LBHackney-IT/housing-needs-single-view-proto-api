@@ -1,6 +1,6 @@
 const request = require('request-promise');
 
-const fetchCominoDocuments = async (params = {}, token) => {
+const fetchW2Documents = async (params = {}, token) => {
   const { id, gateway } = params;
 
   const requestOptions = {
@@ -17,4 +17,4 @@ const fetchCominoDocuments = async (params = {}, token) => {
   return JSON.parse(httpResponse.body);
 };
 
-module.exports = { fetchCominoDocuments };
+module.exports = { fetchW2Documents };

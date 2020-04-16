@@ -16,7 +16,7 @@ const cleanRecord = require('./use-cases/CleanRecord')({
 });
 const mergeResponses = require('../lib/MergeResponses');
 
-const { fetchCominoDocuments } = require('./CominoUtils');
+const { fetchW2Documents } = require('./W2Utils');
 
 const {
   doJigsawGetRequest,
@@ -73,12 +73,12 @@ const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefit
   {
     db: academyDb,
     buildDocument,
-    fetchCominoDocuments
+    fetchW2Documents
   }
 );
 const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
   buildDocument,
-  fetchCominoDocuments
+  fetchW2Documents
 });
 const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
   {
@@ -90,7 +90,7 @@ const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
   {
     buildDocument,
-    fetchCominoDocuments
+    fetchW2Documents
   }
 );
 

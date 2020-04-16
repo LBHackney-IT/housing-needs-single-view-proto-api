@@ -29,7 +29,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
 
   let buildDocument;
   let db;
-  let fetchCominoDocuments;
+  let fetchW2Documents;
   let createGateway;
 
   beforeEach(() => {
@@ -37,12 +37,12 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     db = {
       request: jest.fn(async () => [academyDocument])
     };
-    fetchCominoDocuments = jest.fn(() => mockCominoDocuments);
+    fetchW2Documents = jest.fn(() => mockCominoDocuments);
 
     createGateway = prepareTestGateway(academyBenefitsFetchDocuments, {
       buildDocument,
       db,
-      fetchCominoDocuments
+      fetchW2Documents
     });
   });
 
@@ -56,7 +56,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     await gateway.execute(id, token);
 
     expect(db.request).toHaveBeenCalledWith(expect.anything(), paramMatcher);
-    expect(fetchCominoDocuments).toHaveBeenCalledWith(cominoMatcher, token);
+    expect(fetchW2Documents).toHaveBeenCalledWith(cominoMatcher, token);
   });
 
   it('does not get the docs if customer does not have a system id', async () => {

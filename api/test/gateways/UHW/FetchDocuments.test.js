@@ -1,7 +1,7 @@
 const UHWFetchDocuments = require('../../../lib/gateways/UHW/FetchDocuments');
 const buildDoc = require('../../../lib/entities/Document')();
 
-const mockCominoDocuments = [
+const mockUhwDocuments = [
   {
     date: '2010-02-03T20:30:14.000Z',
     format: null,
@@ -27,16 +27,16 @@ describe('UHWFetchDocumentsGateway', () => {
   const token = 'a_token';
 
   let buildDocument;
-  let fetchCominoDocuments;
+  let fetchW2Documents;
   let createGateway;
 
   beforeEach(() => {
     buildDocument = jest.fn(doc => buildDoc(doc));
-    fetchCominoDocuments = jest.fn(() => mockCominoDocuments);
+    fetchW2Documents = jest.fn(() => mockUhwDocuments);
 
     createGateway = prepareTestGateway(UHWFetchDocuments, {
       buildDocument,
-      fetchCominoDocuments
+      fetchW2Documents
     });
   });
 
@@ -45,16 +45,16 @@ describe('UHWFetchDocumentsGateway', () => {
 
     const expectedFetchParam = [{ gateway: 'uhw', id: '123' }, 'a_token'];
 
-    const expectedBuildParam = expect.objectContaining(mockCominoDocuments[0]);
+    const expectedBuildParam = expect.objectContaining(mockUhwDocuments[0]);
 
     const expectedDocument = expect.objectContaining({
-      ...mockCominoDocuments[0],
+      ...mockUhwDocuments[0],
       date: '2010-02-03 08:30:14'
     });
 
     const documents = await gateway.execute(id, token);
 
-    expect(fetchCominoDocuments).toHaveBeenCalledWith(...expectedFetchParam);
+    expect(fetchW2Documents).toHaveBeenCalledWith(...expectedFetchParam);
     expect(buildDocument).toHaveBeenCalledWith(expectedBuildParam);
     expect(documents.length).toEqual(1);
     expect(documents[0]).toMatchObject(expectedDocument);

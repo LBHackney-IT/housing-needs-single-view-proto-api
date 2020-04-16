@@ -4,7 +4,7 @@ const { Systems } = require('../../Constants');
 const { fetchCustomerDocumentsSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 module.exports = options => {
-  const { buildDocument, db, fetchCominoDocuments } = options;
+  const { buildDocument, db, fetchW2Documents } = options;
 
   const fetchSystemId = async id => {
     if (id) return id.split('/')[0];
@@ -38,7 +38,7 @@ module.exports = options => {
         if (!claim_id) return [];
 
         const academyRecords = await fetchCustomerDocuments(claim_id);
-        const cominoRecords = await fetchCominoDocuments(
+        const cominoRecords = await fetchW2Documents(
           { id: claim_id, gateway: 'hncomino' },
           token
         );

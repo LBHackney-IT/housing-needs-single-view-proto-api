@@ -27,16 +27,16 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
   const token = 'a_token';
 
   let buildDocument;
-  let fetchCominoDocuments;
+  let fetchW2Documents;
   let createGateway;
 
   beforeEach(() => {
     buildDocument = jest.fn(doc => buildDoc(doc));
-    fetchCominoDocuments = jest.fn(() => mockCominoDocuments);
+    fetchW2Documents = jest.fn(() => mockCominoDocuments);
 
     createGateway = prepareTestGateway(academyCouncilTaxFetchDocuments, {
       buildDocument,
-      fetchCominoDocuments
+      fetchW2Documents
     });
   });
 
@@ -52,7 +52,7 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
       date: '2010-02-03 08:30:14'
     });
 
-    expect(fetchCominoDocuments).toHaveBeenCalledWith(...expectedParams);
+    expect(fetchW2Documents).toHaveBeenCalledWith(...expectedParams);
     expect(documents[0]).toMatchObject(expectedDocument);
   });
 
@@ -60,7 +60,7 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
     const gateway = createGateway();
     const documents = await gateway.execute(null);
 
-    expect(fetchCominoDocuments).toHaveBeenCalledTimes(0);
+    expect(fetchW2Documents).toHaveBeenCalledTimes(0);
     expect(documents.length).toBe(0);
   });
 
