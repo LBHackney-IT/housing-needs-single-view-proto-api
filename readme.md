@@ -113,7 +113,7 @@ npm run ci
 ## Run the tests
 
 ```
-$ npm run test
+$ npm run unit-test
 ```
 
 ## Invoke the authorizer
