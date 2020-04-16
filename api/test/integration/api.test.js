@@ -77,7 +77,7 @@ describe('Singleview API', () => {
     });
   });
 
-  it('can connect a single uht record', async () => {
+  it('can connect a single uht contacts record', async () => {
     const data = {
       customers: [
         {
@@ -146,5 +146,186 @@ describe('Singleview API', () => {
     });
 
     expect(result).toStrictEqual(paramMatcher);
+  });
+
+  it('returns academy-benefits record if customer exists in academy-benefits', async () => {
+    const response = await doSearchRequest(
+      `${BASE_URL}/customers?firstName=flor&lastName=beden`
+    );
+    expect(response).toStrictEqual({
+      grouped: [],
+      ungrouped: [
+        {
+          address: '8017 Garrison Point, 2 Lake View Crossing, London, S3 1EV',
+          dob: '08/02/1981',
+          firstName: 'Flor',
+          id: '60605913/2',
+          lastName: 'Beden',
+          links: {
+            hbClaimId: 6060591
+          },
+          nino: 'CD877342Z',
+          postcode: 'S3 1EV',
+          source: 'ACADEMY-Benefits'
+        }
+      ],
+      connected: []
+    });
+  });
+
+  it('returns academy-councilTax record if customer exists in academy-councilTax', async () => {
+    const response = await doSearchRequest(
+      `${BASE_URL}/customers?firstName=alf&lastName=roscrigg`
+    );
+    expect(response).toStrictEqual({
+      grouped: [],
+      ungrouped: [
+        {
+          address: '25 Maple Wood Park, 3 Prairie Rose Alley, London, Q0 0ZE',
+          dob: null,
+          firstName: 'Alf',
+          id: '5244573676',
+          lastName: 'Roscrigg',
+          links: {
+            hbClaimId: null
+          },
+          nino: null,
+          postcode: 'Q0 0ZE',
+          source: 'ACADEMY-CouncilTax'
+        }
+      ],
+      connected: []
+    });
+  });
+
+  it('returns UHT-housingRegister record if customer exists in UHT-housingRegister', async () => {
+    const response = await doSearchRequest(
+      `${BASE_URL}/customers?firstName=Imojean&lastName=D'Abbot-Doyle`
+    );
+    expect(response).toStrictEqual({
+      grouped: [],
+      ungrouped: [
+        {
+          address: '56264 Westport Lane',
+          dob: '18/05/1971',
+          firstName: 'Imojean',
+          id: 'DIR5135951/3',
+          lastName: "D'abbot-doyle",
+          links: {
+            uhContact: 302934398
+          },
+          nino: 'CC808991F',
+          postcode: 'DT0 0AX',
+          source: 'UHT-HousingRegister'
+        }
+      ],
+      connected: []
+    });
+  });
+
+  it('returns UHW record if customer exists in UHW', async () => {
+    const response = await doSearchRequest(
+      `${BASE_URL}/customers?firstName=Melisa&lastName=hansbury`
+    );
+    expect(response).toStrictEqual({
+      grouped: [],
+      ungrouped: [
+        {
+          address: '',
+          dob: '27/04/1954',
+          firstName: 'Melisa',
+          id: '9589034',
+          lastName: 'Hansbury',
+          links: {
+            uhContact: 9229870
+          },
+          nino: 'HB4070802G',
+          postcode: null,
+          source: 'UHW'
+        }
+      ],
+      connected: []
+    });
+  });
+
+  it('Groups search records from all systems if they have same name, nino and dob', async () => {
+    const response = await doSearchRequest(
+      `${BASE_URL}/customers?firstName=elwira&lastName=moncur`
+    );
+    expect(response).toStrictEqual({
+      grouped: [
+        [
+          {
+            address: '6 Cascade Junction, 49 Norway Maple Pass, London, I3 0RP',
+            dob: '22/12/1971',
+            firstName: 'Elwira',
+            id: '52607656/1',
+            lastName: 'Moncur',
+            links: {
+              hbClaimId: 5260765
+            },
+            nino: 'CD877332Z',
+            postcode: 'I3 0RP',
+            source: 'ACADEMY-Benefits'
+          },
+          {
+            address: '3 Schlimgen Point',
+            dob: '22/12/1971',
+            firstName: 'Elwira',
+            id: 'DIR4704058/5',
+            lastName: 'Moncur',
+            links: {
+              uhContact: 530672748
+            },
+            nino: 'CD877332Z',
+            postcode: 'O70 5TH',
+            source: 'UHT-HousingRegister'
+          },
+
+          {
+            address: '',
+            dob: '22/12/1971',
+            firstName: 'Elwira',
+            id: '8852263',
+            lastName: 'Moncur',
+            links: {
+              uhContact: 9802781
+            },
+            nino: 'CD877332Z',
+            postcode: null,
+            source: 'UHW'
+          },
+          {
+            address: '1 Mallard Circle',
+            dob: '22/12/1971',
+            firstName: 'Elwira',
+            id: '6867133/2',
+            lastName: 'Moncur',
+            links: {
+              uhContact: 7250
+            },
+            nino: 'CD877332Z',
+            postcode: 'N1 5DZ',
+            source: 'UHT-Contacts'
+          }
+        ]
+      ],
+      ungrouped: [
+        {
+          address: '5 Northfield Park, 58 Muir Plaza, London, T9 7KR',
+          dob: null,
+          firstName: 'Elwira',
+          id: '8156312075',
+          lastName: 'Moncur',
+          links: {
+            hbClaimId: null
+          },
+          nino: null,
+          postcode: 'T9 7KR',
+          source: 'ACADEMY-CouncilTax'
+        }
+      ],
+      connected: []
+    });
   });
 });

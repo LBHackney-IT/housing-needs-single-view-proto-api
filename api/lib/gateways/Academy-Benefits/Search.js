@@ -29,6 +29,7 @@ module.exports = options => {
 
     whereClause = whereClause.map(clause => `(${clause})`);
     const query = `${searchCustomersSQL} AND(${whereClause.join(' AND ')})`;
+    console.log(query);
     return await db.request(query, params);
   };
 
@@ -64,8 +65,10 @@ module.exports = options => {
 
   return {
     execute: async queryParams => {
+      console.log("it's happening");
       try {
         const records = await search(queryParams);
+        console.log(records);
         return processRecords(records);
       } catch (err) {
         console.log(`Error searching customers in Academy-Benefits: ${err}`);

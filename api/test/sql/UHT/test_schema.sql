@@ -132,7 +132,7 @@ CREATE TABLE [hbmember] (
     [nino] nvarchar(10)
 );
 
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (5260765, 1, 1, 'Elwira', 'Moncur', '1971-12-22', 'CD877332Z');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (5260765, 1, 1, 'Moncur', 'Elwira', '1971-12-22', 'CD877332Z');
 insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (5759744, 1, 1, 'Mibourne', 'Wendi', '1971-09-25', 'CD877534Z');
 insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (6060591, 2, 2, 'Beden', 'Flor', '1981-02-08', 'CD877342Z');
 insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (5479047, 1, 1, 'Veare', 'Arlette', '1986-11-07', 'CD657332Z');
@@ -177,7 +177,7 @@ CREATE TABLE [ctaccount] (
     [lead_liab_surname] nvarchar(32)
 );
 
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (815631207, '5', 'Ms', 'COOKE,MS NADY', 'Nady', 'Cooke');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (815631207, '5', 'Ms', 'MONCUR,MS ELWIRA', 'Elwira', 'Moncur');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (256644325, '4', 'Honorable', 'BULLIMORE,HONORABLE TATE', 'Tate', 'Bullimore');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (472335332, '0', 'Ms', 'STERNDALE,MS ALFONSE', 'Alfonse', 'Sterndale');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (352059093, '9', 'Mrs', 'OLLIVIER,MRS VAL', 'Val', 'Ollivier');
@@ -258,7 +258,7 @@ CREATE TABLE [CCContact] (
     [DOB] datetime,
     [UHContact] int,
 );
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (8852263, 'Myriam', 'Lachaize', 'MT2882204X', '1996-10-03', 9802781);
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (8852263, 'Elwira', 'Moncur', 'CD877332Z', '1971-12-22', 9802781);
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (4186867, 'Arlyn', 'Wilce', 'XY1186882E', '1973-08-23', 3651747);
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (6240678, 'Arielle', 'Blenkharn', 'YV3079822V', '1987-06-18', 7741706);
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (9589034, 'Melisa', 'Hansbury', 'HB4070802G', '1954-04-27', 9229870);
