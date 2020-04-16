@@ -66,18 +66,13 @@ jobs:
           at: ~/repo
 
       - run:
-          name: Install Serverless CLI
-          command: |
-            sudo npm i -g serverless
-
-      - run:
           name: Set AWS credentials
           command: |
-            pushd ~ && serverless config credentials -p aws -k $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -n hackney && popd
+            pushd ~ && ./repo/node_modules/serverless/bin/serverless config credentials -p aws -k ${AWS_ACCESS_KEY_ID} -s ${AWS_SECRET_ACCESS_KEY} -n hackney && popd
 
       - run:
           name: Deploy application
-          command: sls deploy -s staging
+          command: ./node_modules/serverless/bin/serverless deploy -s staging
 
   deploy-production:
     executor: my-executor
@@ -87,18 +82,13 @@ jobs:
           at: ~/repo
 
       - run:
-          name: Install Serverless CLI
-          command: |
-            sudo npm i -g serverless
-
-      - run:
           name: Set AWS credentials
           command: |
-            pushd ~ && serverless config credentials -p aws -k ${AWS_ACCESS_KEY_ID} -s ${AWS_SECRET_ACCESS_KEY} -n hackney && popd
+            pushd ~ && ./repo/node_modules/serverless/bin/serverless config credentials -p aws -k ${AWS_ACCESS_KEY_ID} -s ${AWS_SECRET_ACCESS_KEY} -n hackney && popd
 
       - run:
           name: Deploy application
-          command: sls deploy -s production
+          command: ./node_modules/serverless/bin/serverless deploy -s production
 
 workflows:
   version: 2

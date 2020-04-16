@@ -19,14 +19,17 @@ plugins:
   - serverless-offline-ssm
   - serverless-apigwy-binary
 
+package:
+  individually: true
+  exclude:
+    - ./**
+
 functions:
   hn-single-view-api:
     name: hn-single-view-api-${self:provider.stage}
     role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
     handler: api/index.handler
     package:
-      exclude:
-        - '**'
       include:
         - api/index.js
         - api/lib/**
@@ -56,8 +59,6 @@ functions:
     role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
     handler: api/index.getJigsawDoc
     package:
-      exclude:
-        - '**'
       include:
         - api/index.js
         - api/lib/**
@@ -89,8 +90,6 @@ functions:
     role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
     handler: authorizer/index.handler
     package:
-      exclude:
-        - '**'
       include:
         - authorizer/index.js
         - authorizer/node_modules/**
