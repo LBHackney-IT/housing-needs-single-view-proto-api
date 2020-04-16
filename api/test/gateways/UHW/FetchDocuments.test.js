@@ -1,69 +1,78 @@
 const UHWFetchDocuments = require('../../../lib/gateways/UHW/FetchDocuments');
+const buildDoc = require('../../../lib/entities/Document')();
+
+const mockUhwDocuments = [
+  {
+    date: '2010-02-03T20:30:14.000Z',
+    format: null,
+    text: 'Housing Register form',
+    title: 'Document',
+    user: 'First.Last',
+    system: 'UHW'
+  }
+];
+
+const prepareTestGateway = (gateway, dependencies = {}) => {
+  return (opts = {}) => {
+    const { raiseError } = opts;
+
+    if (raiseError) return gateway({});
+
+    return gateway(dependencies);
+  };
+};
 
 describe('UHWFetchDocumentsGateway', () => {
+  const id = '123';
+  const token = 'a_token';
+
   let buildDocument;
-  let db;
+  let fetchW2Documents;
+  let createGateway;
 
-  const createGateway = (records, existsInSystem, throwsError) => {
-    buildDocument = jest.fn();
+  beforeEach(() => {
+    buildDocument = jest.fn(doc => buildDoc(doc));
+    fetchW2Documents = jest.fn(() => mockUhwDocuments);
 
-    db = {
-      request: jest.fn(async () => {
-        if (throwsError) {
-          throw new Error('Database error');
-        }
-        return records;
-      })
-    };
-
-    getSystemId = {
-      execute: jest.fn(async (name, id) => {
-        if (existsInSystem) return id;
-      })
-    };
-
-    return UHWFetchDocuments({
+    createGateway = prepareTestGateway(UHWFetchDocuments, {
       buildDocument,
-      db,
-      getSystemId
+      fetchW2Documents
     });
-  };
+  });
 
-  it('gets the docs if customer has a system id', async () => {
-    const gateway = createGateway([], true);
-    const id = '123';
-    const paramMatcher = expect.arrayContaining([
-      expect.objectContaining({ value: '123' })
-    ]);
+  it('gets and processes the docs if customer has a system id', async () => {
+    const gateway = createGateway();
 
-    await gateway.execute(id);
+    const expectedFetchParam = [{ gateway: 'uhw', id: '123' }, 'a_token'];
 
-    expect(db.request).toHaveBeenCalledWith(expect.anything(), paramMatcher);
+    const expectedBuildParam = expect.objectContaining(mockUhwDocuments[0]);
+
+    const expectedDocument = expect.objectContaining({
+      ...mockUhwDocuments[0],
+      date: '2010-02-03 08:30:14'
+    });
+
+    const documents = await gateway.execute(id, token);
+
+    expect(fetchW2Documents).toHaveBeenCalledWith(...expectedFetchParam);
+    expect(buildDocument).toHaveBeenCalledWith(expectedBuildParam);
+    expect(documents.length).toEqual(1);
+    expect(documents[0]).toMatchObject(expectedDocument);
   });
 
   it('does not get the docs if customer does not have a system id', async () => {
-    const gateway = createGateway([], false);
+    const gateway = createGateway();
 
     const documents = await gateway.execute();
 
-    expect(db.request).not.toHaveBeenCalled();
+    expect(buildDocument).not.toHaveBeenCalled();
     expect(documents.length).toBe(0);
   });
 
-  it('builds a document', async () => {
-    const document = { DocNo: '1231' };
-    const gateway = createGateway([document], true);
-
-    await gateway.execute({});
-    const paramMatcher = expect.objectContaining({ id: '1231' });
-    expect(buildDocument).toHaveBeenCalledWith(paramMatcher);
-  });
-
   it('returns an empty set of records if there is an error', async () => {
-    const document = { DocNo: '1231' };
-    const gateway = createGateway([document], true, true);
+    const gateway = createGateway({ raiseError: true });
 
-    const documents = await gateway.execute('1');
+    const documents = await gateway.execute(id, token);
 
     expect(buildDocument).not.toHaveBeenCalled();
     expect(documents.length).toBe(0);
