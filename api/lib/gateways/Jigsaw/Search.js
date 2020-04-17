@@ -40,6 +40,7 @@ module.exports = options => {
     execute: async queryParams => {
       try {
         const results = await search(queryParams);
+        console.log(results);
         return processRecords(results);
       } catch (err) {
         console.log(`Error searching customers in Jigsaw: ${err}`);

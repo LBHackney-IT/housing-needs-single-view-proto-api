@@ -327,4 +327,82 @@ describe('Singleview API', () => {
       connected: []
     });
   });
+
+  it('Groups search records based on claim ID', async () => {
+    const response = await doSearchRequest(
+      `${BASE_URL}/customers?firstName=tate&lastName=Bullimore`
+    );
+    expect(response).toStrictEqual({
+      grouped: [
+        [
+          {
+            address: '8 Schlimgen Terrace, 5111 Basil Avenue, London, E0 1MO',
+            dob: '25/09/1971',
+            firstName: 'Tate',
+            id: '57597440/1',
+            lastName: 'Bullimore',
+            links: {
+              hbClaimId: 5759744
+            },
+            nino: 'CD877534Z',
+            postcode: 'E0 1MO',
+            source: 'ACADEMY-Benefits'
+          },
+          {
+            address: '50884 Westridge Road, 79 Talisman Point, London, G6 7UB',
+            dob: null,
+            firstName: 'Tate',
+            id: '256644324',
+            lastName: 'Bullimore',
+            links: {
+              hbClaimId: 5759744
+            },
+            nino: null,
+            postcode: 'G6 7UB',
+            source: 'ACADEMY-CouncilTax'
+          }
+        ]
+      ],
+      ungrouped: [],
+      connected: []
+    });
+  });
+
+  it('Does not group search records only based on name', async () => {
+    const response = await doSearchRequest(
+      `${BASE_URL}/customers?firstName=Hartwell&lastName=lorinez`
+    );
+    expect(response).toStrictEqual({
+      grouped: [],
+      ungrouped: [
+        {
+          address: '55 Pankratz Point',
+          dob: '24/05/1942',
+          firstName: 'Hartwell',
+          id: '8282501/1',
+          lastName: 'Lorinez',
+          links: {
+            uhContact: 6976
+          },
+          nino: 'ST949511G',
+          postcode: 'N3 6Z',
+          source: 'UHT-Contacts'
+        },
+        {
+          address: '3 Coolidge Park',
+          dob: '15/12/1979',
+          firstName: 'Hartwell',
+          id: 'DIR1784557/2',
+          lastName: 'Lorinez',
+          links: {
+            uhContact: 172168279
+          },
+          nino: 'KK933624D',
+          postcode: 'T34 9II',
+          source: 'UHT-HousingRegister'
+        }
+      ],
+      connected: []
+    });
+  });
 });
