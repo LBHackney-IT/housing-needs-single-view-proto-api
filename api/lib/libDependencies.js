@@ -230,7 +230,7 @@ const fetchNotes = require('./use-cases/FetchNotes')({
   getCustomerLinks
 });
 
-const getJigsawDocument = require('./use-cases/FetchJigsawDocument')({
+const getJigsawDocument = require('./use-cases/GetJigsawDocument')({
   jigsawDocGateway: fetchDocumentImage,
   jigsawMetadataGateway: jigsawFetchDocumentsGateway
 });

@@ -17,7 +17,6 @@ provider:
 plugins:
   - serverless-offline
   - serverless-offline-ssm
-  - serverless-apigwy-binary
 
 package:
   individually: true
@@ -52,37 +51,6 @@ functions:
       SINGLEVIEW_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/SINGLEVIEW_DB}
       HN_COMINO_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HN_COMINO_URL}
       W2_DOCUMENTS_API: ${ssm:/hn-single-view-api/${self:provider.stage}/W2_DOCUMENTS_API}
-      ENV: ${self:provider.stage}
-      SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
-
-  getJigsawDoc:
-    name: hn-single-view-getJigsawDoc-${self:provider.stage}
-    role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
-    handler: api/index.getJigsawDoc
-    package:
-      include:
-        - api/index.js
-        - api/lib/**
-        - api/node_modules/**
-    events:
-      - http:
-          path: 'jigsaw/customers/{customerId}/documents/jigsaw/{jigsawDocId}'
-          method: GET
-          authorizer: ${self:custom.authorizer.hn-single-view-api-authorizer}
-          contentHandling: CONVERT_TO_BINARY
-          cors:
-            origins:
-              - '*'
-    environment:
-      URL_PREFIX: 'jigsaw'
-      Jigsaw_email: ${ssm:/hn-single-view-api/${self:provider.stage}/Jigsaw_email}
-      Jigsaw_password: ${ssm:/hn-single-view-api/${self:provider.stage}/Jigsaw_password}
-      UHW_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/UHW_DB}
-      UHT_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/UHT_DB}
-      ACADEMY_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_DB}
-      COLLAB_CASEWORK_API: https://hn-collab-tools-proto.herokuapp.com
-      SINGLEVIEW_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/SINGLEVIEW_DB}
-      HN_COMINO_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HN_COMINO_URL}
       ENV: ${self:provider.stage}
       SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
 

@@ -5,13 +5,13 @@ module.exports = options => {
   const jigsawDocGateway = options.jigsawDocGateway;
   const jigsawMetadataGateway = options.jigsawMetadataGateway;
 
-  return async (id, userId) => {
-    const doc = await jigsawDocGateway.execute(id);
-    const metadata = await jigsawMetadataGateway.execute(userId);
+  return async (jigsawId, documentId) => {
+    const metadata = await jigsawMetadataGateway.execute(jigsawId);
+    const doc = await jigsawDocGateway.execute(documentId);
 
     let fileExt = MimeType.Default;
     let filename = 'download';
-    const intId = parseInt(id, 10);
+    const intId = parseInt(documentId, 10);
     metadata.forEach(m => {
       if (m.id === intId) {
         fileExt = m.format;
