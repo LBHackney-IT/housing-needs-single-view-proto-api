@@ -151,19 +151,23 @@ CREATE TABLE [wlapp] (
     [post_code] char(10) DEFAULT (space(1)),
     [corr_addr] char(150) DEFAULT (space(1)),
     [con_key] int DEFAULT (0),
+    [wl_status] char(3) DEFAULT (space(1)),
+    [u_novalet_ref] char(7) DEFAULT (''),
+    [app_band] char(3) DEFAULT (''),
     PRIMARY KEY ([app_ref])
 );
 
-insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR6940111', 'H04 7OT', '26 Toban Junction', 629314841);
-insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR4704058', 'O70 5TH', '3 Schlimgen Point', 530672748);
-insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR5135951', 'DT0 0AX', '56264 Westport Lane', 302934398);
-insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR7479057', 'S09 4NH', '3 Mandrake Alley', 868776284);
-insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR7350104', 'L36 0TK', '0742 Victoria Alley', 726669153);
-insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR3646682', 'UC9 8EQ', '7 Goodland Parkway', 995371469);
-insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR9055215', 'JX3 0ZK', '2 Arrowood Alley', 146114001);
-insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR1784557', 'T34 9II', '3 Coolidge Park', 172168279);
-insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR6421750', 'AT8 1OC', '7742 Northport Court', 412769753);
-insert into wlapp (app_ref, post_code, corr_addr, con_key) values ('DIR9610142', 'VM1 3AE', '4014 Vermont Road', 240815067);
+
+insert into wlapp (app_ref, post_code, corr_addr, con_key, wl_status, u_novalet_ref, app_band) values ('DIR6940111', 'H04 7OT', '26 Toban Junction', 629314841, '200', '2000111', 'URG');
+insert into wlapp (app_ref, post_code, corr_addr, con_key, wl_status, u_novalet_ref, app_band) values ('DIR4704058', 'O70 5TH', '3 Schlimgen Point', 530672748, '200', '2000111', 'GEN');
+insert into wlapp (app_ref, post_code, corr_addr, con_key, wl_status, u_novalet_ref, app_band) values ('DIR5135951', 'DT0 0AX', '56264 Westport Lane', 302934398, '200', '2000111', 'URG');
+insert into wlapp (app_ref, post_code, corr_addr, con_key, wl_status, u_novalet_ref, app_band) values ('DIR7479057', 'S09 4NH', '3 Mandrake Alley', 868776284, '200', '2000111', 'URG');
+insert into wlapp (app_ref, post_code, corr_addr, con_key, wl_status, u_novalet_ref, app_band) values ('DIR7350104', 'L36 0TK', '0742 Victoria Alley', 726669153, '200', '2000111', 'GEN');
+insert into wlapp (app_ref, post_code, corr_addr, con_key, wl_status, u_novalet_ref, app_band) values ('DIR3646682', 'UC9 8EQ', '7 Goodland Parkway', 995371469, '200', '2000111', 'URG');
+insert into wlapp (app_ref, post_code, corr_addr, con_key, wl_status, u_novalet_ref, app_band) values ('DIR9055215', 'JX3 0ZK', '2 Arrowood Alley', 146114001, '200', '2000111', 'URG');
+insert into wlapp (app_ref, post_code, corr_addr, con_key, wl_status, u_novalet_ref, app_band) values ('DIR1784557', 'T34 9II', '3 Coolidge Park', 172168279, '200', '2000111', 'RES');
+insert into wlapp (app_ref, post_code, corr_addr, con_key, wl_status, u_novalet_ref, app_band) values ('DIR6421750', 'AT8 1OC', '7742 Northport Court', 412769753, '200', '2000111', 'URG');
+insert into wlapp (app_ref, post_code, corr_addr, con_key, wl_status, u_novalet_ref, app_band) values ('DIR9610142', 'VM1 3AE', '4014 Vermont Road', 240815067, '200', '2000111', 'URG');
 
 ---------------------
 
@@ -174,18 +178,42 @@ CREATE TABLE [wlmember] (
     [forename] char(24) DEFAULT (space((1))),
     [surname] char(20) DEFAULT (space((1))),
     [ni_no] char(12) DEFAULT (space((1))),
+    [title] char(10) DEFAULT (space((1))),
+    [home_phone] char(20) DEFAULT (space((1))),
+    [work_phone] char(20) DEFAULT (space((1))),
+    [u_memmobile] char(20) DEFAULT (space((1))),
+    [m_address] char(150) DEFAULT (space((1))),
+    [u_eff_band_date] smalldatetime DEFAULT (''),
+
 );
 
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR6940111', 4, '1965-03-25', 'Hillel', 'Lorenz', 'AB106755C');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR4704058', 5, '1971-12-22', 'Elwira', 'Moncur', 'CD877332Z');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR5135951', 3, '1971-05-18', 'Imojean', 'D''Abbot-Doyle', 'CC808991F');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR7479057', 1, '1983-08-11', 'Rodrick', 'Kellitt', 'GH210551B');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR7350104', 1, '1965-08-15', 'Zilvia', 'Tomaello', 'RF735670C');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR3646682', 1, '1975-04-13', 'Dasha', 'Sanchez', 'GD345625V');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR9055215', 6, '1962-07-03', 'Marget', 'Rubie', 'JE799725S');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR1784557', 2, '1979-12-15', 'Gordie', 'Drayson', 'KK933624D');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR6421750', 2, '1979-12-14', 'Eadie', 'Bullan', 'JE019827F');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no) values ('DIR9610142', 5, '1969-11-29', 'Nadya', 'Montes', 'ME918699A');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR6940111', 4, '1965-03-25', 'Hillel', 'Lorenz', 'AB106755C', 'Mr');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR4704058', 5, '1971-12-22', 'Elwira', 'Moncur', 'CD877332Z', 'Ms');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR5135951', 3, '1971-05-18', 'Imojean', 'D''Abbot-Doyle', 'CC80891F', 'Mr');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR7479057', 1, '1983-08-11', 'Rodrick', 'Kellitt', 'GH210551B', 'Mr')
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR7350104', 1, '1965-08-15', 'Zilvia', 'Tomaello', 'RF735670C', 'Ms');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR3646682', 1, '1975-04-13', 'Dasha', 'Sanchez', 'GD345625V', 'Mr');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR9055215', 6, '1962-07-03', 'Marget', 'Rubie', 'JE799725S', 'Mr');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR1784557', 2, '1979-12-15', 'Gordie', 'Drayson', 'KK933624D', 'Mr');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR6421750', 2, '1979-12-14', 'Eadie', 'Bullan', 'JE019827F', 'Mr');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR9610142', 5, '1969-11-29', 'Nadya', 'Montes', 'ME918699A', 'Miss');
+--------------------
+CREATE TABLE [wlaneeds] (
+    [app_ref] char(10) DEFAULT (space(1)),
+    [r_to] char(20) DEFAULT (space(1)),
+    [field_ref] char(20) DEFAULT (space(1))
+);
+
+insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR6940111', '1', 'num_bedrooms');
+insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR4704058', '1', 'num_bedrooms');
+insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR5135951', '2', 'num_bedrooms');
+insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR7479057', '1', 'num_bedrooms');
+insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR7350104', '2', 'num_bedrooms');
+insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR3646682', '1', 'num_bedrooms');
+insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR9055215', '1', 'num_bedrooms');
+insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR1784557', '2', 'num_bedrooms');
+insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR6421750', '2', 'num_bedrooms');
+insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR9610142', '1', 'num_bedrooms');
 
 -------ACADEMY BENEFITS---------
 

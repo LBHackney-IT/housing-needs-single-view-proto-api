@@ -157,7 +157,7 @@ describe('Singleview API', () => {
     });
   });
 
-  it('returns empty records for non-existent customer', async () => {
+  it('Records record from UHT-Contacts', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/123/record`);
     expect(response).toStrictEqual({
@@ -207,6 +207,46 @@ describe('Singleview API', () => {
               tenure: 'STERIS plc'
             }
           ]
+        }
+      }
+    });
+  });
+
+  it('returns empty records for non-existent customer', async () => {
+    await singleViewDb.any(insertLinksSQL);
+    const response = await doSearchRequest(`${BASE_URL}/customers/124/record`);
+    expect(response).toStrictEqual({
+      customer: {
+        address: [
+          {
+            address: ['26 Toban Junction'],
+            source: ['UHT-HousingRegister-Correspondence']
+          }
+        ],
+        dob: ['1965-03-25 01:00:00'],
+        housingNeeds: {},
+        housingRegister: [
+          {
+            applicationRef: 'DIR6940111',
+            applicationStatus: 'Cancelled',
+            band: 'Urgent',
+            bedroomReq: '1                   ',
+            biddingNo: '2000111',
+            startDate: '1900-01-01T00:00:00.000Z'
+          }
+        ],
+        name: [
+          {
+            first: 'Hillel',
+            last: 'Lorenz',
+            title: 'Mr'
+          }
+        ],
+        nino: ['AB106755C'],
+        phone: [],
+        postcode: ['H04 7OT'],
+        systemIds: {
+          uhtHousingRegister: ['DIR6940111/4']
         }
       }
     });
