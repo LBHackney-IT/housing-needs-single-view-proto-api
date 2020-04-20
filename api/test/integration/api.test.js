@@ -248,6 +248,27 @@ describe('Singleview API', () => {
     });
   });
 
+  it('Can get a record from Jigsaw', async () => {
+    const response = await doSearchRequest(
+      `${BASE_URL}/customers?firstName=firstname&lastName=lastname`
+    );
+    expect(response).toStrictEqual({
+      grouped: [],
+      ungrouped: [
+        {
+          id: '123',
+          firstName: 'Firstname',
+          lastName: 'Lastname',
+          dob: '06/11/1974',
+          nino: 'SS111111A',
+          address: '1 The Streets',
+          source: 'JIGSAW'
+        }
+      ],
+      connected: []
+    });
+  });
+
   it('Groups search records from all systems if they have same name, nino and dob', async () => {
     const response = await doSearchRequest(
       `${BASE_URL}/customers?firstName=elwira&lastName=moncur`
@@ -255,6 +276,15 @@ describe('Singleview API', () => {
     expect(response).toStrictEqual({
       grouped: [
         [
+          {
+            address: 'Address',
+            dob: '22/12/1971',
+            firstName: 'Elwira',
+            id: '123',
+            lastName: 'Moncur',
+            nino: 'CD877332Z',
+            source: 'JIGSAW'
+          },
           {
             address: '6 Cascade Junction, 49 Norway Maple Pass, London, I3 0RP',
             dob: '22/12/1971',
@@ -400,27 +430,6 @@ describe('Singleview API', () => {
           nino: 'KK933624D',
           postcode: 'T34 9II',
           source: 'UHT-HousingRegister'
-        }
-      ],
-      connected: []
-    });
-  });
-
-  it('Can get a record from Jigsaw', async () => {
-    const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=firstname&lastName=lastname`
-    );
-    expect(response).toStrictEqual({
-      grouped: [],
-      ungrouped: [
-        {
-          id: '123',
-          firstName: 'Firstname',
-          lastName: 'Lastname',
-          dob: '06/11/1974',
-          nino: 'SS111111A',
-          address: '1 The Streets',
-          source: 'JIGSAW'
         }
       ],
       connected: []

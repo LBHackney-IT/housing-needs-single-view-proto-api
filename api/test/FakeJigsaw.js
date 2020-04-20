@@ -43,6 +43,23 @@ app.get('/customer/api/customerSearch', (req, res) => {
         niNumber: 'SS111111A'
       }
     ]);
+  } else if (req.query.search === 'elwira moncur') {
+    res.send([
+      {
+        address: 'address',
+        doB: '1971-12-22T00:00:00',
+        email: null,
+        firstName: 'elwira',
+        homePhone: null,
+        householdMembers: 'Somenone some, One someone',
+        id: 123,
+        lastName: 'MONCUR',
+        mobilePhone: '07000000000',
+        nhsNumber: null,
+        nickName: null,
+        niNumber: 'CD877332Z'
+      }
+    ]);
   } else {
     res.send([
       {
