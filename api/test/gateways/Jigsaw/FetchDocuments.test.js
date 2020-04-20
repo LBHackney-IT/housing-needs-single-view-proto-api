@@ -48,7 +48,7 @@ describe('JigsawFetchDocumentsGateway', () => {
 
   it('gets cases with id and url', async () => {
     const id = '123';
-    const expectedUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/casecheck/${id}`;
+    const expectedUrl = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/casecheck/${id}`;
     const gateway = createGateway([{ id }], true);
 
     await gateway.execute(id);
@@ -58,7 +58,7 @@ describe('JigsawFetchDocumentsGateway', () => {
 
   it('gets documents with id and url', async () => {
     const id = '123';
-    const expectedUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/cases/getcasedocs/${id}`;
+    const expectedUrl = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/cases/getcasedocs/${id}`;
     const gateway = createGateway([{ id }], true);
 
     await gateway.execute(id);

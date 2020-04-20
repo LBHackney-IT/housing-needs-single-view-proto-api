@@ -2,8 +2,8 @@
   "name": "hn-single-view-api",
   "version": "1.0.0",
   "dependencies": {
-    "start-server-and-test": "^1.10.11",
-    "serverless-apigwy-binary": "^1.0.0"
+    "serverless-apigwy-binary": "^1.0.0",
+    "start-server-and-test": "^1.10.11"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
@@ -36,7 +36,7 @@
     "auth": "serverless invoke local -s dev -f hn-single-view-api-authorizer -p authorizer/event.json",
     "unit-tests": "jest --testPathIgnorePatterns=api/test/integration --watch",
     "unit-tests-coverage": "jest --coverage --testPathIgnorePatterns=api/test/integration",
-    "start-test": "sls offline start -s test --port 3010 --noAuth",
+    "start-test": "sls offline start -s test --port 3010 --noAuth & node ./api/test/FakeJigsaw.js",
     "integration-tests": "jest --testPathPattern=api/test/integration",
     "integration-tests-local": "jest --testPathPattern=api/test/integration --watch",
     "ci-local": "start-server-and-test start-test http://localhost:3010/customers?firstName=jon integration-tests-local",

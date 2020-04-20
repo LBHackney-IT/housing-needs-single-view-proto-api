@@ -31,7 +31,7 @@ describe('FetchDocumentImage Gateway', () => {
     expect(
       doGetDocRequest
     ).toHaveBeenCalledWith(
-      'https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/123',
+      `${process.env.JigsawHomelessnessBaseSearchUrl}/api/blobdownload/123`,
       { Authorization: 'Bearer fake token' }
     );
   });

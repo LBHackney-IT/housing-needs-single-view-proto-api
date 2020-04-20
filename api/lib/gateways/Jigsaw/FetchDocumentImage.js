@@ -4,7 +4,7 @@ module.exports = options => {
   return {
     execute: async id => {
       try {
-        const url = `https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/${id}`;
+        const url = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/blobdownload/${id}`;
         const token = await login();
 
         const doc = await doGetDocRequest(url, {

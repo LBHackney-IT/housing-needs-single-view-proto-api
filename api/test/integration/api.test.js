@@ -405,4 +405,25 @@ describe('Singleview API', () => {
       connected: []
     });
   });
+
+  it('Can get a record from Jigsaw', async () => {
+    const response = await doSearchRequest(
+      `${BASE_URL}/customers?firstName=firstname&lastName=lastname`
+    );
+    expect(response).toStrictEqual({
+      grouped: [],
+      ungrouped: [
+        {
+          id: '123',
+          firstName: 'Firstname',
+          lastName: 'Lastname',
+          dob: '06/11/1974',
+          nino: 'SS111111A',
+          address: '1 The Streets',
+          source: 'JIGSAW'
+        }
+      ],
+      connected: []
+    });
+  });
 });
