@@ -2,7 +2,9 @@ require('dotenv').config();
 const path = require('path');
 const singleViewDb = require('../../lib/PostgresDb');
 const { loadSQL } = require('../../../api/lib/Utils');
-const { truncateTablesSQL } = loadSQL(path.join(__dirname, 'sql'));
+const { truncateTablesSQL, insertLinksSQL } = loadSQL(
+  path.join(__dirname, 'sql')
+);
 
 const BASE_URL = 'http://localhost:3010';
 
@@ -146,5 +148,67 @@ describe('Singleview API', () => {
     });
 
     expect(result).toStrictEqual(paramMatcher);
+  });
+
+  it('returns empty records for non-existent customer', async () => {
+    const response = await doSearchRequest(`${BASE_URL}/customers/123/record`);
+    expect(response).toStrictEqual({
+      customer: false
+    });
+  });
+
+  it('returns empty records for non-existent customer', async () => {
+    await singleViewDb.any(insertLinksSQL);
+    const response = await doSearchRequest(`${BASE_URL}/customers/123/record`);
+    expect(response).toStrictEqual({
+      customer: {
+        address: [
+          {
+            address: ['1 Mallard Circle'],
+            source: ['UHT-Contacts']
+          }
+        ],
+        dob: ['1971-12-22 12:00:00'],
+        housingNeeds: {},
+        housingRegister: [],
+        name: [
+          {
+            first: 'Elwira',
+            last: 'Moncur',
+            title: 'Ms'
+          }
+        ],
+        nino: ['CD877332Z'],
+        phone: ['07222222222', '07123456789', '02222222222'],
+        postcode: ['N1 5DZ'],
+        systemIds: {
+          householdRef: '6867133   ',
+          paymentRef: '593507764           ',
+          rent: '000038/08',
+          uhtContacts: '222222'
+        },
+        tenancies: {
+          current: [],
+          previous: [
+            {
+              address: [
+                '7433 Armistice Pass',
+                '07777 Claremont Terrace',
+                'Hackney',
+                'London',
+                'Dv9 17v'
+              ],
+              currentBalance: -669.98,
+              endDate: '2018-03-21T00:00:00.000Z',
+              propRef: '579165050',
+              rentAmount: 0,
+              startDate: '2005-11-08T00:00:00.000Z',
+              tagRef: '000038/08',
+              tenure: 'STERIS plc'
+            }
+          ]
+        }
+      }
+    });
   });
 });

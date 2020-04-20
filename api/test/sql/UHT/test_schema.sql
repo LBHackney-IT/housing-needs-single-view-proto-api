@@ -1,6 +1,8 @@
 USE uhtlive;
 
 CREATE TABLE [member] (
+    [member_sid] int DEFAULT ((0)),
+    [title] char(10) DEFAULT (space((1))),
     [house_ref] char(10) DEFAULT (space((1))),
     [person_no] numeric(2,0) DEFAULT ((0)),
     [forename] char(24) DEFAULT (space((1))),
@@ -9,16 +11,16 @@ CREATE TABLE [member] (
     [dob] datetime DEFAULT (''),
 );
 
-insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('9383795', 1, 'Hodge', 'Maskelyne', 'AB062376W', '1981-06-01');
-insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('6867133', 2, 'Elwira', 'Moncur', 'CD877332Z', '1971-12-22');
-insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('2966927', 2, 'Dani', 'Beyn', 'EF926702A', '1955-07-23');
-insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('4750013', 3, 'Rodrick', 'Kellitt', 'GH210551B', '1983-08-11');
-insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('8539472', 1, 'Osmund', 'Watters', 'JK963646C', '1992-10-27');
-insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('7375016', 2, 'Deana', 'De Luna', 'LM474572D', '1984-03-03');
-insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('8381960', 1, 'Henrieta', 'Sterre', 'NO884836E', '1999-03-17');
-insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('4595514', 2, 'Claudina', 'Soame', 'PR226831F', '1948-08-17');
-insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('8282501', 1, 'Hartwell', 'Lorinez', 'ST949511G', '1942-05-24');
-insert into member (house_ref, person_no, forename, surname, ni_no, dob) values ('1101447', 1, 'Sherline', 'Deveril', 'UV388142H', '1973-12-18');
+insert into member (member_sid, title, house_ref, person_no, forename, surname, ni_no, dob) values (111111, 'Mr','9383795', 1, 'Hodge', 'Maskelyne', 'AB062376W', '1981-06-01');
+insert into member (member_sid, title, house_ref, person_no, forename, surname, ni_no, dob) values (222222, 'Ms','6867133', 2, 'Elwira', 'Moncur', 'CD877332Z', '1971-12-22');
+insert into member (member_sid, title, house_ref, person_no, forename, surname, ni_no, dob) values (333333, 'Ms','2966927', 2, 'Dani', 'Beyn', 'EF926702A', '1955-07-23');
+insert into member (member_sid, title, house_ref, person_no, forename, surname, ni_no, dob) values (444444, 'Mr','4750013', 3, 'Rodrick', 'Kellitt', 'GH210551B', '1983-08-11');
+insert into member (member_sid, title, house_ref, person_no, forename, surname, ni_no, dob) values (555555, 'Mr','8539472', 1, 'Osmund', 'Watters', 'JK963646C', '1992-10-27');
+insert into member (member_sid, title, house_ref, person_no, forename, surname, ni_no, dob) values (666666, 'Ms','7375016', 2, 'Deana', 'De Luna', 'LM474572D', '1984-03-03');
+insert into member (member_sid, title, house_ref, person_no, forename, surname, ni_no, dob) values (777777, 'Ms','8381960', 1, 'Henrieta', 'Sterre', 'NO884836E', '1999-03-17');
+insert into member (member_sid, title, house_ref, person_no, forename, surname, ni_no, dob) values (888888, 'Ms','4595514', 2, 'Claudina', 'Soame', 'PR226831F', '1948-08-17');
+insert into member (member_sid, title, house_ref, person_no, forename, surname, ni_no, dob) values (999999, 'Mr','8282501', 1, 'Hartwell', 'Lorinez', 'ST949511G', '1942-05-24');
+insert into member (member_sid, title, house_ref, person_no, forename, surname, ni_no, dob) values (000000, 'Mr','1101447', 1, 'Sherline', 'Deveril', 'UV388142H', '1973-12-18');
 
 
 ---------------------
@@ -28,18 +30,21 @@ CREATE TABLE [contacts] (
     [con_ref] char(12) DEFAULT (space((1))),
     [con_address] char(200) DEFAULT (space((1))),
     [con_postcode] char(10) DEFAULT (space((1))),
+    [con_phone1] char(21) DEFAULT (space((1))),
+    [con_phone2] char(21) DEFAULT (space((1))),
+    [con_phone3] char(21) DEFAULT (space((1))),
 );
 
-insert into contacts (con_key, con_ref, con_address, con_postcode) values (3848, '9383795', '9 Anderson Trail', 'N16 5DZ');
-insert into contacts (con_key, con_ref, con_address, con_postcode) values (7250, '6867133', '1 Mallard Circle', 'N1 5DZ');
-insert into contacts (con_key, con_ref, con_address, con_postcode) values (6452, '2966927', '65 Bunker Hill Hill', 'N16 5Z');
-insert into contacts (con_key, con_ref, con_address, con_postcode) values (4097, '4750013', '321 Ridgeview Plaza', 'N6 4Z');
-insert into contacts (con_key, con_ref, con_address, con_postcode) values (3913, '8539472', '2695 Twin Pines Pass', 'A16 5Z');
-insert into contacts (con_key, con_ref, con_address, con_postcode) values (6586, '7375016', '20 Debra Road', 'N16 5DZ');
-insert into contacts (con_key, con_ref, con_address, con_postcode) values (5380, '8381960', '8019 Mariners Cove Lane', 'A2 B4');
-insert into contacts (con_key, con_ref, con_address, con_postcode) values (3451, '4595514', '8735 Washington Way', 'R2 D2');
-insert into contacts (con_key, con_ref, con_address, con_postcode) values (6976, '8282501', '55 Pankratz Point', 'N3 6Z');
-insert into contacts (con_key, con_ref, con_address, con_postcode) values (4043, '1101447', '9 Veith Way', 'N34 6O');
+insert into contacts (con_key, con_ref, con_address, con_postcode, con_phone1, con_phone2, con_phone3) values (3848, '9383795', '9 Anderson Trail', 'N16 5DZ', '07111111111', '07123456789', '02111111111');
+insert into contacts (con_key, con_ref, con_address, con_postcode, con_phone1, con_phone2, con_phone3) values (7250, '6867133', '1 Mallard Circle', 'N1 5DZ', '07222222222', '07123456789', '02222222222');
+insert into contacts (con_key, con_ref, con_address, con_postcode, con_phone1, con_phone2, con_phone3) values (6452, '2966927', '65 Bunker Hill Hill', 'N16 5Z', '07333333333', '07123456789', '02333333333');
+insert into contacts (con_key, con_ref, con_address, con_postcode, con_phone1, con_phone2, con_phone3) values (4097, '4750013', '321 Ridgeview Plaza', 'N6 4Z', '07444444444', '07123456789', '02444444444');
+insert into contacts (con_key, con_ref, con_address, con_postcode, con_phone1, con_phone2, con_phone3) values (3913, '8539472', '2695 Twin Pines Pass', 'A16 5Z', '07555555555', '07123456789', '02555555555');
+insert into contacts (con_key, con_ref, con_address, con_postcode, con_phone1, con_phone2, con_phone3) values (6586, '7375016', '20 Debra Road', 'N16 5DZ', '07666666666', '07123456789', '02666666666');
+insert into contacts (con_key, con_ref, con_address, con_postcode, con_phone1, con_phone2, con_phone3) values (5380, '8381960', '8019 Mariners Cove Lane', 'A2 B4', '07777777777', '07123456789', '02777777777');
+insert into contacts (con_key, con_ref, con_address, con_postcode, con_phone1, con_phone2, con_phone3) values (3451, '4595514', '8735 Washington Way', 'R2 D2', '07888888888', '07123456789', '02111111111');
+insert into contacts (con_key, con_ref, con_address, con_postcode, con_phone1, con_phone2, con_phone3) values (6976, '8282501', '55 Pankratz Point', 'N3 6Z', '07999999999', '07123456789', '02111111111');
+insert into contacts (con_key, con_ref, con_address, con_postcode, con_phone1, con_phone2, con_phone3) values (4043, '1101447', '9 Veith Way', 'N34 6O', '07000000000', '07123456789', '02111111111');
 
 -------------------
 
@@ -58,7 +63,88 @@ insert into househ (house_ref) values ('4595514');
 insert into househ (house_ref) values ('8282501');
 insert into househ (house_ref) values ('1101447');
 
---------------------
+
+---------------------
+CREATE TABLE [tenagree] (
+    [tag_ref] char(11) DEFAULT (space((1))),
+    [prop_ref] char(12) DEFAULT (space((1))),
+    [house_ref] char(10) DEFAULT (space((1))),
+    [cot] smalldatetime DEFAULT (''),
+    [eot] smalldatetime DEFAULT (''),
+    [tenure] char(3) DEFAULT (space((1))),
+    [prd_code] char(2) DEFAULT (space((1))),
+    [rent] numeric(9,2) DEFAULT ((0)),
+    [cur_bal] numeric(9,2) DEFAULT ((0)),
+    [u_saff_rentacc] char(20) DEFAULT (space((1)))
+);
+
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000023/02', '841461088', '9383795', '2018-05-29', '2013-05-22', 'SEC', 'WK', -716.51, '471436430');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000038/08', '579165050', '6867133', '2005-11-08', '2018-03-21', 'SEC', 'WK', -669.98, '593507764');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000060/06', '711532210', '2966927', '2014-01-02', '2017-02-08', 'SEC', 'WK', -431.32, '707650073');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000039/01', '019363148', '4750013', '2006-06-03', '2014-07-26', 'SEC', 'WK', -859.92, '031500691');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000027/02', '028269624', '8539472', '2000-06-26', '2017-02-06', 'SEC', 'WK', -942.84, '410710831');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000072/01', '750770968', '7375016', '2007-08-16', '2012-07-21', 'SEC', 'WK', -869.94, '357903098');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000056/02', '957152794', '8381960', '2001-12-16', '2010-05-28', 'SEC', 'WK', -860.06, '761340403');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000071/01', '041581425', '4595514', '2011-12-20', '2012-10-29', 'SEC', 'WK', -292.14, '339439311');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000051/04', '975605363', '8282501', '2004-11-16', '2014-02-16', 'SEC', 'WK', -380.65, '330021755');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000030/01', '522127710', '1101447', '2003-05-07', '2011-12-21', 'SEC', 'WK', -254.84, '120587287');
+---------------
+CREATE TABLE [tenure] (
+    [ten_type] char(3) DEFAULT (space(1)),
+    [ten_desc] char(15) DEFAULT (space(1)),
+);
+
+insert into tenure (ten_type, ten_desc) values ('SEC', 'CIT Group Inc (DEL)');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'FactSet Research Systems Inc.');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Customers Bancorp, Inc');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Colony NorthStar, Inc.');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'STERIS plc');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Net Element, Inc.');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'United States Cellular Corporation');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Cirrus Logic, Inc.');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Amplify Snack Brands, inc.');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Fortress Biotech, Inc.');
+
+--------------
+CREATE TABLE [Addresses] (
+    [prop_ref] char(12),
+    [post_code] char(10),
+    [post_preamble] char(60),
+    [aline1] char(50),
+    [aline2] char(50),
+    [aline3] char(50),
+    [aline4] char(50),
+);
+
+insert into Addresses (prop_ref, post_code, post_preamble, aline1, aline2, aline3) values ('841461088', 'VD5 48Q', '9 Luster Avenue', '416 Norway Maple Hill', 'Hackney', 'LONDON');
+insert into Addresses (prop_ref, post_code, post_preamble, aline1, aline2, aline3) values ('579165050', 'DV9 17V', '7433 Armistice Pass', '07777 Claremont Terrace', 'Hackney', 'LONDON');
+insert into Addresses (prop_ref, post_code, post_preamble, aline1, aline2, aline3) values ('711532210', 'MJ7 66N', '78 Lindbergh Circle', '4 Emmet Pass', 'Hackney', 'LONDON');
+insert into Addresses (prop_ref, post_code, post_preamble, aline1, aline2, aline3) values ('019363148', 'LS4 70D', '56 Briar Crest Park', '858 Delladonna Alley', 'Hackney', 'LONDON');
+insert into Addresses (prop_ref, post_code, post_preamble, aline1, aline2, aline3) values ('028269624', 'IA9 67R', '3 Debs Park', '82946 Arizona Court', 'Hackney', 'LONDON');
+insert into Addresses (prop_ref, post_code, post_preamble, aline1, aline2, aline3) values ('750770968', 'TJ8 22N', '5 Hooker Hill', '352 Lakewood Park', 'Hackney', 'LONDON');
+insert into Addresses (prop_ref, post_code, post_preamble, aline1, aline2, aline3) values ('957152794', 'UL1 77B', '58 Butternut Street', '04 Anhalt Court', 'Hackney', 'LONDON');
+insert into Addresses (prop_ref, post_code, post_preamble, aline1, aline2, aline3) values ('041581425', 'YA8 01V', '34701 Westport Drive', '6 Vera Avenue', 'Hackney', 'LONDON');
+insert into Addresses (prop_ref, post_code, post_preamble, aline1, aline2, aline3) values ('975605363', 'DS8 57Y', '39 Crowley Alley', '917 Vernon Road', 'Hackney', 'LONDON');
+insert into Addresses (prop_ref, post_code, post_preamble, aline1, aline2, aline3) values ('522127710', 'AR1 72X', '35 Thierer Plaza', '25 Gina Alley', 'Hackney', 'LONDON');
+--------------
+
+CREATE TABLE [period] (
+    [prd_code] char(2) DEFAULT (space(1)),
+    [prd_desc] char(16) DEFAULT (space(1)),
+);
+
+insert into period (prd_code, prd_desc) values ('WK', 'Monthly(2th)');
+insert into period (prd_code, prd_desc) values ('WK', 'Monthly(3th)');
+insert into period (prd_code, prd_desc) values ('WK', 'Monthly(6th)');
+insert into period (prd_code, prd_desc) values ('WK', 'Monthly(0th)');
+insert into period (prd_code, prd_desc) values ('WK', 'Monthly(1th)');
+insert into period (prd_code, prd_desc) values ('WK', 'Monthly(9th)');
+insert into period (prd_code, prd_desc) values ('WK', 'Monthly(3th)');
+insert into period (prd_code, prd_desc) values ('WK', 'Monthly(8th)');
+insert into period (prd_code, prd_desc) values ('WK', 'Monthly(9th)');
+insert into period (prd_code, prd_desc) values ('WK', 'Monthly(0th)');
+
+--------------------UHT Housing Register--------------
 
 CREATE TABLE [wlapp] (
     [app_ref] char(10) DEFAULT (space(1)),
