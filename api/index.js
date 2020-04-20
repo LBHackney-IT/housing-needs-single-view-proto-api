@@ -98,7 +98,7 @@ app.get('/customers/:id/notes', async (req, res) => {
 app.get('/customers/:id/documents', async (req, res) => {
   console.log(`GET CUSTOMER DOCS id="${req.params.id}"`);
   console.time(`GET CUSTOMER DOCS id="${req.params.id}"`);
-  const results = await fetchDocuments(req.params.id);
+  const results = await fetchDocuments(req.params.id, res.locals.hackneyToken);
   console.timeEnd(`GET CUSTOMER DOCS id="${req.params.id}"`);
   res.send(results);
 });

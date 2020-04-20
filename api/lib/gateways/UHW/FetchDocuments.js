@@ -1,43 +1,19 @@
-const path = require('path');
-const { loadSQL } = require('../../Utils');
-const { Systems } = require('../../Constants');
-const { fetchCustomerDocumentsSQL } = loadSQL(path.join(__dirname, 'sql'));
-
 module.exports = options => {
-  const db = options.db;
-  const buildDocument = options.buildDocument;
-
-  const fetchCustomerDocumentsQuery = async id => {
-    return await db.request(fetchCustomerDocumentsSQL, [
-      { id: 'id', type: 'Int', value: id }
-    ]);
-  };
-
-  const processDocuments = results => {
-    return results.map(doc => {
-      return buildDocument({
-        userid: null,
-        id: doc.DocNo,
-        title: 'Document',
-        text: `${doc.DocDesc}${doc.title ? ' - ' + doc.title : ''}`,
-        date: doc.DocDate,
-        user: doc.UserID,
-        system: Systems.UHW,
-        format: null
-      });
-    });
-  };
+  const { buildDocument, fetchW2Documents } = options;
 
   return {
-    execute: async id => {
+    execute: async (id, token) => {
+      if (!id) return [];
+
       try {
-        if (id) {
-          const results = await fetchCustomerDocumentsQuery(id);
-          return processDocuments(results);
-        }
-        return [];
-      } catch (err) {
-        console.log(`Error fetching customer documents in UHW: ${err}`);
+        const cominoRecords = await fetchW2Documents(
+          { id, gateway: 'uhw' },
+          token
+        );
+
+        return cominoRecords.map(doc => buildDocument(doc));
+      } catch (e) {
+        console.log(`Error fetching documents from UHW: ${e}`);
         return [];
       }
     }

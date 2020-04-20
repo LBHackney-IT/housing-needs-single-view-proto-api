@@ -9,6 +9,7 @@ describe('FetchDocuments', () => {
     { name: 'UHW', remote_id: 10 },
     { name: 'Jigsaw', remote_id: 10 }
   ];
+  const token = 'a_token';
   let gateways;
   let fetchDocuments;
 
@@ -30,10 +31,10 @@ describe('FetchDocuments', () => {
   it('can query for a customers documents from multiple gateways', async () => {
     const id = 1;
 
-    await fetchDocuments(id);
+    await fetchDocuments(id, token);
 
     for (const [_, gateway] of Object.entries(gateways)) {
-      expect(gateway.execute).toHaveBeenCalledWith(10);
+      expect(gateway.execute).toHaveBeenCalledWith(10, token);
     }
   });
 

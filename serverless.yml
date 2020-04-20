@@ -54,6 +54,7 @@ functions:
       COLLAB_CASEWORK_API: https://hn-collab-tools-proto.herokuapp.com
       SINGLEVIEW_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/SINGLEVIEW_DB}
       HN_COMINO_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HN_COMINO_URL}
+      W2_DOCUMENTS_API: ${ssm:/hn-single-view-api/${self:provider.stage}/W2_DOCUMENTS_API}
       ENV: ${self:provider.stage}
       SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
 
