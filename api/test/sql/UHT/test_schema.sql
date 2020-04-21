@@ -437,6 +437,40 @@ insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASH
 insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Multi-channelled holistic alliance');
 insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Face to face responsive architecture');
 insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Innovative tertiary monitoring');
+---------------
+
+CREATE TABLE [dbo].[cttransaction] (
+    [process_date] datetime2(7),
+    [tran_code] nvarchar(4),
+    [tran_amount] numeric(14,2),
+    [account_ref] int
+);
+
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 34.77, 815631207);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'ACCE', 35.77, 256644325);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 33.77, 472335332);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'ALEP', 32.77, 352059093);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 31.77, 652268349);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMB', 37.97, 524457367);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'ALEP', 34.07, 3472806);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 34.57, 4392512);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMB', 34.75, 3383987);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 34.37, 4599257);
+---------------
+CREATE TABLE [dbo].[cttrancode] (
+    [tran_code] char(4),
+    [tran_desc] varchar(30)
+);
+insert into cttrancode (tran_code, tran_desc) values ('AEMA', 'description 1');
+insert into cttrancode (tran_code, tran_desc) values ('ACCE', 'description 2');
+insert into cttrancode (tran_code, tran_desc) values ('AEMA', 'description 3');
+insert into cttrancode (tran_code, tran_desc) values ('ALEP', 'description 4');
+insert into cttrancode (tran_code, tran_desc) values ('AEMA', 'description 5');
+insert into cttrancode (tran_code, tran_desc) values ('AEMB', 'description 6');
+insert into cttrancode (tran_code, tran_desc) values ('ALEP', 'description 7');
+insert into cttrancode (tran_code, tran_desc) values ('AEMA', 'description 8');
+insert into cttrancode (tran_code, tran_desc) values ('AEMB', 'description 9');
+insert into cttrancode (tran_code, tran_desc) values ('AEMA', 'description 0');
 
 ---UHW-----
 USE uhwlive;

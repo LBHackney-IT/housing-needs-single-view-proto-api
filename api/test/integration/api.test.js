@@ -43,7 +43,7 @@ describe('Singleview API', () => {
 
   afterAll(singleViewDb.$pool.end);
 
-  it('returns empty records for non-existent customer', async () => {
+  xit('returns empty records for non-existent customer', async () => {
     const response = await doSearchRequest(
       `${BASE_URL}/customers?firstName=john&lastName=smith`
     );
@@ -54,7 +54,7 @@ describe('Singleview API', () => {
     });
   });
 
-  it('returns uht record if customer exists in uht', async () => {
+  xit('returns uht record if customer exists in uht', async () => {
     const response = await doSearchRequest(
       `${BASE_URL}/customers?firstName=dani&lastName=beyn`
     );
@@ -79,7 +79,7 @@ describe('Singleview API', () => {
     });
   });
 
-  it('can connect a single uht record', async () => {
+  xit('can connect a single uht record', async () => {
     const data = {
       customers: [
         {
@@ -111,7 +111,7 @@ describe('Singleview API', () => {
     expect(result).toStrictEqual(paramMatcher);
   });
 
-  it('can disconnect a uht record', async () => {
+  xit('can disconnect a uht record', async () => {
     // connect a record first
     const data = {
       customers: [
@@ -150,14 +150,14 @@ describe('Singleview API', () => {
     expect(result).toStrictEqual(paramMatcher);
   });
 
-  it('returns empty records for non-existent customer', async () => {
+  xit('returns empty records for non-existent customer', async () => {
     const response = await doSearchRequest(`${BASE_URL}/customers/123/record`);
     expect(response).toStrictEqual({
       customer: false
     });
   });
 
-  it('returns info for customer with UHT-Contacts record', async () => {
+  xit('returns info for customer with UHT-Contacts record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/123/record`);
     expect(response).toStrictEqual({
@@ -212,7 +212,7 @@ describe('Singleview API', () => {
     });
   });
 
-  it('returns info for customer with UHT-Housing Register record', async () => {
+  xit('returns info for customer with UHT-Housing Register record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/124/record`);
     const dobMatcher = expect.arrayContaining([
@@ -255,7 +255,7 @@ describe('Singleview API', () => {
     });
   });
 
-  it('returns info for customer with UHT-Contacts record', async () => {
+  xit('returns info for customer with UHT-Contacts record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/125/record`);
     expect(response).toStrictEqual({
@@ -277,7 +277,7 @@ describe('Singleview API', () => {
     expect(response).toStrictEqual();
   });
 
-  it('returns info for customer with Academy-Benefits record', async () => {
+  xit('returns info for customer with Academy-Benefits record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/127/record`);
     expect(response).toStrictEqual({

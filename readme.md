@@ -29,7 +29,7 @@ $ npm i
 3\. Run the following to install the Single View db locally:
 
 ```
-$ docker-compose up
+$ docker-compose up db
 ```
 
 ## Run the API
