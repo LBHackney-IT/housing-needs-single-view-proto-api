@@ -1,3 +1,5 @@
+require('dotenv').config();
+const Sentry = require('@sentry/node');
 const {
   doJigsawGetRequest,
   doJigsawPostRequest
@@ -13,20 +15,32 @@ const getJigsawDocument = require('./use-cases/GetJigsawDocument')({
   })
 });
 
-module.exports.handler = async event => {
-  const { doc, mimeType } = await getJigsawDocument(
-    event.pathParameters.jigsawId,
-    event.pathParameters.documentId
-  );
+if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.ENV
+  });
+}
 
-  return {
-    statusCode: 200,
-    headers: {
-      'Content-Type': mimeType,
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
-    },
-    body: doc.toString('base64'),
-    isBase64Encoded: true
-  };
+module.exports.handler = async event => {
+  try {
+    const { doc, mimeType } = await getJigsawDocument(
+      event.pathParameters.jigsawId,
+      event.pathParameters.documentId
+    );
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': mimeType,
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: doc.toString('base64'),
+      isBase64Encoded: true
+    };
+  } catch (err) {
+    console.log(err);
+    Sentry.captureException(err);
+    await Sentry.flush();
+  }
 };
