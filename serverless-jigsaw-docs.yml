@@ -27,7 +27,7 @@ functions:
     handler: jigsaw/index.handler
     package:
       include:
-        - jigsaw/index.js
+        - jigsaw/**
         - api/lib/**
         - api/node_modules/**
     events:

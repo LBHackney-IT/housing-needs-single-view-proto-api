@@ -37,8 +37,8 @@ jobs:
           command: npm run lint
 
       - run:
-          name: Run unit tests with coverage
-          command: npm run unit-tests-coverage
+          name: Run unit tests
+          command: npm run unit-tests
 
       - persist_to_workspace:
           root: ~/repo
@@ -72,7 +72,9 @@ jobs:
 
       - run:
           name: Deploy application
-          command: ./node_modules/serverless/bin/serverless deploy -s staging
+          command: |
+            ./node_modules/serverless/bin/serverless deploy -s staging --config serverless-jigsaw-docs.yml
+            ./node_modules/serverless/bin/serverless deploy -s staging --config serverless-api.yml
 
   deploy-production:
     executor: my-executor
@@ -88,7 +90,9 @@ jobs:
 
       - run:
           name: Deploy application
-          command: ./node_modules/serverless/bin/serverless deploy -s production
+          command: |
+            ./node_modules/serverless/bin/serverless deploy -s production --config serverless-jigsaw-docs.yml
+            ./node_modules/serverless/bin/serverless deploy -s production --config serverless-api.yml
 
 workflows:
   version: 2

@@ -9,12 +9,8 @@ module.exports = options => {
   const caseUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/casecheck/`;
   const docsUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/cases/getcasedocs/`;
 
-  const fetchCases = async id => {
-    return await doJigsawGetRequest(caseUrl + id);
-  };
-
   const fetchCustomerDocuments = async id => {
-    const casesResult = await fetchCases(id);
+    const casesResult = await doJigsawGetRequest(caseUrl + id);
 
     const requests = casesResult.cases.map(c => {
       return doJigsawPostRequest(docsUrl + c.id, {});

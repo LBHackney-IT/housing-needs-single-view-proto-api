@@ -1,13 +1,13 @@
 const mimeTypes = require('mime-types');
-const { MimeType } = require('../Constants');
+const { MimeType } = require('../../api/lib/Constants');
 
 module.exports = options => {
-  const jigsawDocGateway = options.jigsawDocGateway;
-  const jigsawMetadataGateway = options.jigsawMetadataGateway;
+  const fetchDocMetadataGateway = options.fetchDocMetadataGateway;
+  const fetchDocImageGateway = options.fetchDocImageGateway;
 
-  return async (jigsawId, documentId) => {
-    const metadata = await jigsawMetadataGateway.execute(jigsawId);
-    const doc = await jigsawDocGateway.execute(documentId);
+  return async (jigsawCaseId, documentId) => {
+    const metadata = await fetchDocMetadataGateway.execute(jigsawCaseId);
+    const doc = await fetchDocImageGateway.execute(documentId);
 
     let fileExt = MimeType.Default;
     let filename = 'download';

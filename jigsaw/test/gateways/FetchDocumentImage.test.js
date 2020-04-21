@@ -1,38 +1,27 @@
 describe('FetchDocumentImage Gateway', () => {
   let getJigsawDocumentGateway;
-  let login;
+  let doJigsawGetRequest;
 
   const createGateway = throwsError => {
-    doGetDocRequest = jest.fn((url, qs, headers) => {
+    doJigsawGetRequest = jest.fn(() => {
       if (throwsError) {
         throw new Error('error');
       } else return [];
     });
     login = jest.fn(() => 'fake token');
 
-    getJigsawDocumentGateway = require('../../../lib/gateways/Jigsaw/FetchDocumentImage')(
-      {
-        doGetDocRequest,
-        login
-      }
-    );
+    getJigsawDocumentGateway = require('../../gateways/FetchDocumentImage')({
+      doJigsawGetRequest
+    });
   };
-
-  it('can login', async () => {
-    createGateway();
-    await getJigsawDocumentGateway.execute();
-    expect(login).toHaveBeenCalled();
-  });
 
   it('can query for jigsaw document with correct url and headers', async () => {
     createGateway();
-    id = 123;
     await getJigsawDocumentGateway.execute(123);
-    expect(
-      doGetDocRequest
-    ).toHaveBeenCalledWith(
+    expect(doJigsawGetRequest).toHaveBeenCalledWith(
       'https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/123',
-      { Authorization: 'Bearer fake token' }
+      {},
+      true
     );
   });
 
@@ -40,6 +29,6 @@ describe('FetchDocumentImage Gateway', () => {
   it('catches an error when one is thrown', async () => {
     createGateway(true);
     id = 123;
-    expect(await getJigsawDocumentGateway.execute(123)).not.toEqual([]);
+    expect(await getJigsawDocumentGateway.execute(123)).toBeUndefined();
   });
 });

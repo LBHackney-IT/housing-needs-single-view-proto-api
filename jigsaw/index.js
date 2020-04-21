@@ -1,30 +1,16 @@
 const {
   doJigsawGetRequest,
-  doJigsawPostRequest,
-  doGetDocRequest,
-  login
+  doJigsawPostRequest
 } = require('../api/lib/JigsawUtils');
 
-const buildDocument = require('../api/lib/entities/Document')();
-
-const jigsawFetchDocumentsGateway = require('../api/lib/gateways/Jigsaw/FetchDocuments')(
-  {
-    buildDocument,
+const getJigsawDocument = require('./use-cases/GetJigsawDocument')({
+  fetchDocImageGateway: require('./gateways/FetchDocumentImage')({
+    doJigsawGetRequest
+  }),
+  fetchDocMetadataGateway: require('./gateways/FetchDocumentMetadata')({
     doJigsawGetRequest,
     doJigsawPostRequest
-  }
-);
-
-const fetchDocumentImage = require('../api/lib/gateways/Jigsaw/FetchDocumentImage')(
-  {
-    doGetDocRequest,
-    login
-  }
-);
-
-const getJigsawDocument = require('../api/lib/use-cases/GetJigsawDocument')({
-  jigsawDocGateway: fetchDocumentImage,
-  jigsawMetadataGateway: jigsawFetchDocumentsGateway
+  })
 });
 
 module.exports.handler = async event => {
