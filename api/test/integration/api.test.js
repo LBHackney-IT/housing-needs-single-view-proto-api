@@ -215,6 +215,9 @@ describe('Singleview API', () => {
   it('returns empty records for non-existent customer', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/124/record`);
+    const dobMatcher = expect.arrayContaining([
+      expect.stringContaining('1965-03-25')
+    ]);
     expect(response).toStrictEqual({
       customer: {
         address: [
@@ -223,7 +226,7 @@ describe('Singleview API', () => {
             source: ['UHT-HousingRegister-Correspondence']
           }
         ],
-        dob: ['1965-03-25 01:00:00'],
+        dob: dobMatcher,
         housingNeeds: {},
         housingRegister: [
           {
