@@ -1,0 +1,67 @@
+service: hn-jigsaw-docs-api
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-2
+  stage: ${opt:stage}
+  profile: hackney
+  timeout: 15
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
+
+plugins:
+  - serverless-offline
+  - serverless-offline-ssm
+
+package:
+  individually: true
+  exclude:
+    - ./**
+
+functions:
+  hn-jigsaw-docs-api:
+    name: hn-jigsaw-docs-api-${self:provider.stage}
+    role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
+    handler: jigsaw/index.handler
+    package:
+      include:
+        - jigsaw/**
+        - api/lib/**
+        - api/node_modules/**
+    events:
+      - http:
+          path: 'customers/{jigsawId}/documents/{documentId}'
+          method: GET
+          authorizer: ${self:custom.authorizer.hn-jigsaw-docs-api-authorizer}
+          cors:
+            origins:
+              - '*'
+    environment:
+      Jigsaw_email: ${ssm:/hn-single-view-api/${self:provider.stage}/Jigsaw_email}
+      Jigsaw_password: ${ssm:/hn-single-view-api/${self:provider.stage}/Jigsaw_password}
+      ENV: ${self:provider.stage}
+      SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
+
+      hn-jigsaw-docs-api-authorizer-authorizer:
+      name: hn-jigsaw-docs-api-authorizer-authorizer-${self:provider.stage}
+      role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
+      handler: authorizer/index.handler
+      package:
+        include:
+          - authorizer/index.js
+          - authorizer/node_modules/**
+      environment:
+        jwtsecret: ${ssm:/common/hackney-jwt-secret}
+        allowedGroups: 'housingneeds-singleview-beta'
+        ENV: ${self:provider.stage}
+        SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
+
+custom:
+  stage: ${self:provider.stage}
+  authorizer:
+    hn-jigsaw-docs-api-authorizer:
+      name: hn-jigsaw-docs-api-authorizer
+      type: request
+      resultTtlInSeconds: 0
