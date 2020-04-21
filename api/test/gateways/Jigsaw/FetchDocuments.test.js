@@ -1,41 +1,33 @@
 const jigsawFetchDocuments = require('../../../lib/gateways/Jigsaw/FetchDocuments');
-const { Systems } = require('../../../lib/Constants');
 
 describe('JigsawFetchDocumentsGateway', () => {
   const id = '123';
-  let doJigsawGetRequest;
-  let doJigsawPostRequest;
+  let fetchDocMetadataGateway;
 
-  const createGateway = (records, existsInSystem, throwsError) => {
+  const createGateway = (records, throwsError) => {
     buildDocument = jest.fn();
 
-    doJigsawGetRequest = jest.fn(async () => {
-      if (throwsError) {
-        throw new Error('error');
-      }
-      return { cases: records };
-    });
-
-    doJigsawPostRequest = jest.fn(async () => {
-      if (throwsError) {
-        throw new Error('error');
-      }
-      return [{ caseDocuments: records }];
-    });
+    fetchDocMetadataGateway = {
+      execute: jest.fn(async () => {
+        if (throwsError) {
+          throw new Error('error');
+        }
+        return records;
+      })
+    };
 
     return jigsawFetchDocuments({
-      doJigsawGetRequest,
-      doJigsawPostRequest,
+      fetchDocMetadataGateway,
       buildDocument
     });
   };
 
   it('gets the docs if customer has a system id', async () => {
-    const gateway = createGateway([{ id }], true);
+    const gateway = createGateway([{ id }]);
 
     await gateway.execute(id);
 
-    expect(doJigsawPostRequest).toHaveBeenCalled();
+    expect(fetchDocMetadataGateway.execute).toHaveBeenCalled();
   });
 
   it('does not get the docs if customer does not have an id', async () => {
@@ -43,35 +35,21 @@ describe('JigsawFetchDocumentsGateway', () => {
 
     await gateway.execute(null);
 
-    expect(doJigsawPostRequest).not.toHaveBeenCalled();
+    expect(fetchDocMetadataGateway.execute).not.toHaveBeenCalled();
   });
 
-  it('gets cases with id and url', async () => {
+  it('gets documents with id', async () => {
     const id = '123';
-    const expectedUrl = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/casecheck/${id}`;
-    const gateway = createGateway([{ id }], true);
+    const gateway = createGateway([{ id }]);
 
     await gateway.execute(id);
 
-    expect(doJigsawGetRequest).toHaveBeenCalledWith(expectedUrl);
-  });
-
-  it('gets documents with id and url', async () => {
-    const id = '123';
-    const expectedUrl = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/cases/getcasedocs/${id}`;
-    const gateway = createGateway([{ id }], true);
-
-    await gateway.execute(id);
-
-    expect(doJigsawPostRequest).toHaveBeenCalledWith(
-      expectedUrl,
-      expect.anything()
-    );
+    expect(fetchDocMetadataGateway.execute).toHaveBeenCalledWith(id);
   });
 
   it('can build a document', async () => {
     const record = { id, name: 'test' };
-    const gateway = createGateway([record], true);
+    const gateway = createGateway([record]);
 
     const records = await gateway.execute(id);
 
@@ -85,7 +63,7 @@ describe('JigsawFetchDocumentsGateway', () => {
 
   it('returns an empty set of records if an error is thrown', async () => {
     const record = { id };
-    const gateway = createGateway([record], true, true);
+    const gateway = createGateway([record], true);
 
     const records = await gateway.execute(id);
 

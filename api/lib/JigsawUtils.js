@@ -61,18 +61,19 @@ const login = async function() {
   }
 };
 
-const doGetRequest = async function(url, qs, headers) {
-  let options = { uri: url, resolveWithFullResponse: true };
+const doGetRequest = async function(uri, qs, headers, returnRaw) {
+  let options = { uri };
   if (headers) options.headers = headers;
   if (qs) options.qs = qs;
 
+  if (returnRaw) {
+    options.encoding = null;
+    return await request.get(options);
+  }
+
+  options.resolveWithFullResponse = true;
   const httpResponse = await request.get(options);
   return JSON.parse(httpResponse.body);
-};
-
-const doGetDocRequest = async function(url, headers) {
-  let options = { url, headers, encoding: null };
-  return await request.get(options);
 };
 
 const doPostRequest = async function(url, json, headers) {
@@ -83,9 +84,10 @@ const doPostRequest = async function(url, json, headers) {
   return httpResponse.body;
 };
 
-const doJigsawGetRequest = async function(url, qs) {
+const doJigsawGetRequest = async function(url, qs, returnRaw) {
   const token = await login();
-  return doGetRequest(url, qs, { Authorization: `Bearer ${token}` });
+
+  return doGetRequest(url, qs, { Authorization: `Bearer ${token}` }, returnRaw);
 };
 
 const doJigsawPostRequest = async function(url, json) {
@@ -97,6 +99,5 @@ module.exports = {
   doJigsawGetRequest,
   doJigsawPostRequest,
   doGetRequest,
-  login,
-  doGetDocRequest
+  login
 };
