@@ -214,12 +214,12 @@ CREATE TABLE [hbctaxclaim] (
     [ctax_ref] nvarchar(9)
 );
 
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (7368451, 3, '8156312075');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (7368451, 3, '815631207');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (5759744, 14, '256644324');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (5260765, 14, '271264421');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2866464, 6, '3520590939');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (9359082, 8, '6522683492');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8722915, 14, '5244573676');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2866464, 6, '352059099');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (9359082, 8, '652268392');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8722915, 14, '524453676');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (5260765, 3, '271264421');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3581194, 7, '533269188');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8903330, 13, '428069341');
