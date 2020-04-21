@@ -94,16 +94,16 @@ CREATE TABLE [tenure] (
     [ten_desc] char(15) DEFAULT (space(1)),
 );
 
-insert into tenure (ten_type, ten_desc) values ('SEC', 'CIT Group Inc (DEL)');
-insert into tenure (ten_type, ten_desc) values ('SEC', 'FactSet Research Systems Inc.');
-insert into tenure (ten_type, ten_desc) values ('SEC', 'Customers Bancorp, Inc');
-insert into tenure (ten_type, ten_desc) values ('SEC', 'Colony NorthStar, Inc.');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'CIT Group ');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'FactSet Res');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Customers ');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Colony ');
 insert into tenure (ten_type, ten_desc) values ('SEC', 'STERIS plc');
-insert into tenure (ten_type, ten_desc) values ('SEC', 'Net Element, Inc.');
-insert into tenure (ten_type, ten_desc) values ('SEC', 'United States Cellular Corporation');
-insert into tenure (ten_type, ten_desc) values ('SEC', 'Cirrus Logic, Inc.');
-insert into tenure (ten_type, ten_desc) values ('SEC', 'Amplify Snack Brands, inc.');
-insert into tenure (ten_type, ten_desc) values ('SEC', 'Fortress Biotech, Inc.');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Net , Inc.');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'United States');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Cirrus Logic.');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Amplify Snack');
+insert into tenure (ten_type, ten_desc) values ('SEC', 'Fortress Bi');
 
 --------------
 CREATE TABLE [Addresses] (
@@ -221,20 +221,21 @@ USE HBCTLIVEDB;
 
 CREATE TABLE [hbclaim] (
     [claim_id] int,
-    [check_digit] nvarchar(1)
+    [check_digit] nvarchar(1),
+    [status_ind] int
 );
 
 
-insert into hbclaim (claim_id, check_digit) values (5260765, '6');
-insert into hbclaim (claim_id, check_digit) values (5759744, '0');
-insert into hbclaim (claim_id, check_digit) values (6060591, '3');
-insert into hbclaim (claim_id, check_digit) values (5479047, '8');
-insert into hbclaim (claim_id, check_digit) values (5879391, '3');
-insert into hbclaim (claim_id, check_digit) values (6115325, '5');
-insert into hbclaim (claim_id, check_digit) values (5587103, '4');
-insert into hbclaim (claim_id, check_digit) values (5315153, '5');
-insert into hbclaim (claim_id, check_digit) values (5167284, '3');
-insert into hbclaim (claim_id, check_digit) values (5448076, '2');
+insert into hbclaim (claim_id, check_digit, status_ind) values (5260765, '6', 1);
+insert into hbclaim (claim_id, check_digit, status_ind) values (5759744, '0', 2);
+insert into hbclaim (claim_id, check_digit, status_ind) values (6060591, '3', 3);
+insert into hbclaim (claim_id, check_digit, status_ind) values (5479047, '8', 4);
+insert into hbclaim (claim_id, check_digit, status_ind) values (5879391, '3', 5);
+insert into hbclaim (claim_id, check_digit, status_ind) values (6115325, '5', 6);
+insert into hbclaim (claim_id, check_digit, status_ind) values (5587103, '4', 7);
+insert into hbclaim (claim_id, check_digit, status_ind) values (5315153, '5', 8);
+insert into hbclaim (claim_id, check_digit, status_ind) values (5167284, '3', 9);
+insert into hbclaim (claim_id, check_digit, status_ind) values (5448076, '2', 0);
 
 CREATE TABLE [hbmember] (
     [claim_id] int,
@@ -243,19 +244,21 @@ CREATE TABLE [hbmember] (
     [surname] nvarchar(32),
     [forename] nvarchar(32),
     [birth_date] datetime2(7),
-    [nino] nvarchar(10)
+    [nino] nvarchar(10),
+    [title] nvarchar(4)
 );
 
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (5260765, 1, 1, 'Elwira', 'Moncur', '1971-12-22', 'CD877332Z');
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (5759744, 1, 1, 'Mibourne', 'Wendi', '1971-09-25', 'CD877534Z');
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (6060591, 2, 2, 'Beden', 'Flor', '1981-02-08', 'CD877342Z');
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (5479047, 1, 1, 'Veare', 'Arlette', '1986-11-07', 'CD657332Z');
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (5879391, 3, 3, 'Manoelli', 'Nanny', '1987-05-22', 'CF877332Z');
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (6115325, 3, 3, 'Wegener', 'Tera', '1969-08-09', 'CD877332O');
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (6233154, 17, 2, 'Wherrett', 'Ruggiero', '1989-08-07', 'CD877355Z');
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (6534331, 11, 1, 'Metzing', 'Adara', '1949-12-29', 'CD877334E');
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (6111340, 5, 3, 'Swettenham', 'Babara', '1941-08-05', 'FF577332Z');
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino) values (5932526, 11, 1, 'Bourthouloume', 'Damaris', '1944-10-03', 'CE354652Z');
+
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5260765, 1, 1, 'Elwira', 'Moncur', '1971-12-22', 'CD877332Z', 'Ms');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5759744, 1, 1, 'Mibourne', 'Wendi', '1971-09-25', 'CD877534Z', 'Ms');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (6060591, 2, 2, 'Beden', 'Flor', '1981-02-08', 'CD877342Z', 'Mr');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5479047, 1, 1, 'Veare', 'Arlette', '1986-11-07', 'CD657332Z', 'Mr');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5879391, 3, 3, 'Manoelli', 'Nanny', '1987-05-22', 'CF877332Z', 'Ms');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (6115325, 3, 3, 'Wegener', 'Tera', '1969-08-09', 'CD877332O', 'Mr');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (6233154, 17, 2, 'Wherrett', 'Ruggiero', '1989-08-07', 'CD877355Z', 'Mr');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (6534331, 11, 1, 'Metzing', 'Adara', '1949-12-29', 'CD877334E', 'Mrs');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (6111340, 5, 3, 'Swettenham', 'Babara', '1941-08-05', 'FF577332Z', 'Miss');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5932526, 11, 1, 'Bourthouloume', 'Damaris', '1944-10-03', 'CE354652Z', 'Mr');
 
 CREATE TABLE [hbhousehold] (
     [claim_id] int,
@@ -278,7 +281,43 @@ insert into hbhousehold (claim_id, house_id, to_date, addr1, addr2, addr3, post_
 insert into hbhousehold (claim_id, house_id, to_date, addr1, addr2, addr3, post_code) values (6908963, 18, '2019-09-05', '4065 Debs Hill', '8491 John Wall Plaza', 'LONDON', 'R1 1GT');
 insert into hbhousehold (claim_id, house_id, to_date, addr1, addr2, addr3, post_code) values (6724267, 9, '2019-05-01', '540 Pawling Street', '063 Mitchell Way', 'LONDON', 'U9 1CX');
 insert into hbhousehold (claim_id, house_id, to_date, addr1, addr2, addr3, post_code) values (6969380, 20, '2019-04-28', '0 Clemons Place', '93931 Norway Maple Street', 'LONDON', 'F6 5QI');
+---------------------
+CREATE TABLE [hbincome] (
+    [claim_id] int,
+    [house_id] smallint,
+    [inc_amt] numeric(14,2),
+    [freq_period] smallint,
+    [freq_len] smallint,
+    [inc_code] nvarchar(3),
+);
 
+insert into hbincome (claim_id, house_id, inc_amt, freq_period, freq_len, inc_code) values (5260765, 1, 89.56, 1, 2, 'DLL');
+insert into hbincome (claim_id, house_id, inc_amt, freq_period, freq_len, inc_code) values (5759744, 1, 27.61, 1, 2, 'DLL');
+insert into hbincome (claim_id, house_id, inc_amt, freq_period, freq_len, inc_code) values (6060591, 2, 2.03, 1, 2, 'DLL');
+insert into hbincome (claim_id, house_id, inc_amt, freq_period, freq_len, inc_code) values (5479047, 1, 29.48, 1, 2, 'DLL');
+insert into hbincome (claim_id, house_id, inc_amt, freq_period, freq_len, inc_code) values (5879391, 3, 22.47, 1, 2, 'DLL');
+insert into hbincome (claim_id, house_id, inc_amt, freq_period, freq_len, inc_code) values (6115325, 3, 2.25, 1, 2, 'DLL');
+insert into hbincome (claim_id, house_id, inc_amt, freq_period, freq_len, inc_code) values (5696752, 1, 67.75, 1, 2, 'YTS');
+insert into hbincome (claim_id, house_id, inc_amt, freq_period, freq_len, inc_code) values (6908963, 1, 58.08, 1, 2, 'YTS');
+insert into hbincome (claim_id, house_id, inc_amt, freq_period, freq_len, inc_code) values (6724267, 9, 25.13, 1, 2, 'YTS');
+insert into hbincome (claim_id, house_id, inc_amt, freq_period, freq_len, inc_code) values (6969380, 2, 45.08, 1, 2, 'YTS');
+-----------------------
+CREATE TABLE [hbinccode] (
+    [code] nvarchar(3),
+    [to_date] datetime2(7),
+    [descrip1] nvarchar(64)
+);
+
+insert into hbinccode (code, to_date, descrip1) values ('DLL', '2099-12-31', 'Future-proofed motivating workforce');
+insert into hbinccode (code, to_date, descrip1) values ('DLL', '2099-12-31', 'Virtual encompassing internet solution');
+insert into hbinccode (code, to_date, descrip1) values ('DLL', '2099-12-31', 'Multi-lateral tertiary extranet');
+insert into hbinccode (code, to_date, descrip1) values ('DLL', '2099-12-31', 'Advanced clear-thinking algorithm');
+insert into hbinccode (code, to_date, descrip1) values ('YTS', '2099-12-31', 'Managed methodical framework');
+insert into hbinccode (code, to_date, descrip1) values ('YTS', '2099-12-31', 'Enterprise-wide coherent service-desk');
+insert into hbinccode (code, to_date, descrip1) values ('YTS', '2099-12-31', 'Team-oriented system-worthy migration');
+insert into hbinccode (code, to_date, descrip1) values ('YTS', '2099-12-31', 'Multi-channelled holistic alliance');
+insert into hbinccode (code, to_date, descrip1) values ('YTS', '2099-12-31', 'Face to face responsive architecture');
+insert into hbinccode (code, to_date, descrip1) values ('YTS', '2099-12-31', 'Innovative tertiary monitoring');
 
 ---ACADEMY COUNCIL TAX---
 
@@ -288,19 +327,27 @@ CREATE TABLE [ctaccount] (
     [lead_liab_title] nvarchar(8),
     [lead_liab_name] nvarchar(32),
     [lead_liab_forename] nvarchar(32),
-    [lead_liab_surname] nvarchar(32)
+    [lead_liab_surname] nvarchar(32),
+    [for_addr1] nvarchar(32),
+    [for_addr2] nvarchar(32),
+    [for_addr3] nvarchar(32),
+    [for_addr4] nvarchar(32),
+    [for_postcode] nvarchar(8),
+    [paymeth_code] nvarchar(5)
 );
 
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (815631207, '5', 'Ms', 'COOKE,MS NADY', 'Nady', 'Cooke');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (256644325, '4', 'Honorable', 'BULLIMORE,HONORABLE TATE', 'Tate', 'Bullimore');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (472335332, '0', 'Ms', 'STERNDALE,MS ALFONSE', 'Alfonse', 'Sterndale');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (352059093, '9', 'Mrs', 'OLLIVIER,MRS VAL', 'Val', 'Ollivier');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (652268349, '2', 'Rev', 'PISCOPO,REV CLEMENTINA', 'Clementina', 'Piscopo');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (524457367, '6', 'Ms', 'ROSCRIGG,MS ALF', 'Alf', 'Roscrigg');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (3472806, '5', 'Mr', 'GOULBOURN,MR WORTHY', 'Worthy', 'Goulbourn');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (4392512, '6', 'Ms', 'LAURENTINO,MS EVIE', 'Evie', 'Laurentino');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (3383987, '5', 'Mr', 'MCKEAG,MR PHILLIDA', 'Phillida', 'McKeag');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (4599257, '0', 'Ms', 'KILLIGREW,MS PREN', 'Pren', 'Killigrew');
+
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (815631207, '5', 'Ms', 'COOKE,MS NADY', 'Nady', 'Cooke','6 Cascade Junction', '49','Norway Maple Pass', 'LONDON', 'I3 0RP', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (256644325, '4', 'Honorable', 'BULLIMORE,HONORABLE TATE', 'Tate', 'Bullimore','8 Schlimgen Terrace', '5111', 'Basil Avenue', 'LONDON', 'E0 1MO', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (472335332, '0', 'Ms', 'STERNDALE,MS ALFONSE', 'Alfonse', 'Sterndale','8017 Garrison Point', '2', 'Lake View Crossing', 'LONDON', 'S3 1EV', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (352059093, '9', 'Mrs', 'OLLIVIER,MRS VAL', 'Val', 'Ollivier','320 Little Fleur Way', '62', 'Warrior Avenue', 'LONDON', 'L0 3DM', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (652268349, '2', 'Rev', 'PISCOPO,REV CLEMENTINA', 'Clementina', 'Piscopo','07 Orin Lane', '73', 'Steensland Terrace', 'LONDON', 'H5 2HM', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (524457367, '6', 'Ms', 'ROSCRIGG,MS ALF', 'Alf', 'Roscrigg','2499 Toban Drive', '40 Butterfield', 'Junction', 'LONDON', 'T6 2KQ', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (3472806, '5', 'Mr', 'GOULBOURN,MR WORTHY', 'Worthy', 'Goulbourn','6037 Dexter Way', '1', 'Sommers Way', 'LONDON', 'H5 7ZN', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (4392512, '6', 'Ms', 'LAURENTINO,MS EVIE', 'Evie', 'Laurentino','4065 Debs Hill', '8491', 'John Wall Plaza', 'LONDON', 'R1 1GT', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (3383987, '5', 'Mr', 'MCKEAG,MR PHILLIDA', 'Phillida', 'McKeag','540 Pawling Street', '063', 'Mitchell Way', 'LONDON', 'U9 1CX', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (4599257, '0', 'Ms', 'KILLIGREW,MS PREN', 'Pren', 'Killigrew','0 Clemons Place', '93931', 'Norway Maple Street', 'LONDON', 'F6 5QI', 'CASHM');
+
 
 CREATE TABLE [ctproperty] (
     [property_ref] nvarchar(18),
@@ -328,16 +375,16 @@ CREATE TABLE [hbctaxclaim] (
     [ctax_ref] nvarchar(9)
 );
 
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (7368451, 3, '8156312075');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8920277, 14, '2566443254');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3608321, 14, '4723353320');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2866464, 6, '3520590939');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (9359082, 8, '6522683492');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8722915, 14, '5244573676');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2743325, 3, '271264421');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3581194, 7, '533269188');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8903330, 13, '428069341');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3690439, 4, '999702729');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (7368451, 3, '81563120');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8920277, 1, '25664434');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3608321, 1, '47233320');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2866464, 6, '35200939');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (9359082, 8, '65683492');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8722915, 1, '5573676');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2743325, 3, '21264421');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3581194, 7, '5269188');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8903330, 1, '4069341');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3690439, 4, '9702729');
 
 CREATE TABLE [ctoccupation] (
     [account_ref] int,
@@ -355,6 +402,41 @@ insert into ctoccupation (account_ref, property_ref, vacation_date) values (2050
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (107807366, '247646667', '2018-12-07');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (864594800, '301103337', '2019-02-28');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (998885383, '953980029', '2018-04-15');
+-------------
+CREATE TABLE [vw_acc_bal] (
+    [account_ref] int,
+    [total] numeric
+);
+
+insert into vw_acc_bal (account_ref, total) values (815631207, 0.00);
+insert into vw_acc_bal (account_ref, total) values (256644325, 0.00);
+insert into vw_acc_bal (account_ref, total) values (472335332, 5.00);
+insert into vw_acc_bal (account_ref, total) values (352059093, 13.50);
+insert into vw_acc_bal (account_ref, total) values (652268349, 0.00);
+insert into vw_acc_bal (account_ref, total) values (524457367, 8.00);
+insert into vw_acc_bal (account_ref, total) values (3472806, 0.00);
+insert into vw_acc_bal (account_ref, total) values (4392512, 0.00);
+insert into vw_acc_bal (account_ref, total) values (3383987, 0.00);
+insert into vw_acc_bal (account_ref, total) values (4599257, 0.00);
+
+
+-------------
+CREATE TABLE [ctpaymethod] (
+    [paymeth_code] nvarchar(5),
+    [paymeth_year] datetime,
+    [paymeth_desc] nvarchar(60)
+);
+
+insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Future-proofed motivating workforce');
+insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Virtual encompassing internet solution');
+insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Multi-lateral tertiary extranet');
+insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Advanced clear-thinking algorithm');
+insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Managed methodical framework');
+insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Enterprise-wide coherent service-desk');
+insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Team-oriented system-worthy migration');
+insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Multi-channelled holistic alliance');
+insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Face to face responsive architecture');
+insert into ctpaymethod (paymeth_code, paymeth_year, paymeth_desc) values ('CASHM', '2019-04-01', 'Innovative tertiary monitoring');
 
 ---UHW-----
 USE uhwlive;
@@ -371,14 +453,17 @@ CREATE TABLE [CCContact] (
     [NINo] varchar(12),
     [DOB] datetime,
     [UHContact] int,
+    [Title] varchar(4),
+    [EmailAddress] varchar(255)
 );
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (8852263, 'Myriam', 'Lachaize', 'MT2882204X', '1996-10-03', 9802781);
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (4186867, 'Arlyn', 'Wilce', 'XY1186882E', '1973-08-23', 3651747);
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (6240678, 'Arielle', 'Blenkharn', 'YV3079822V', '1987-06-18', 7741706);
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (9589034, 'Melisa', 'Hansbury', 'HB4070802G', '1954-04-27', 9229870);
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (2770924, 'Enrica', 'Haddacks', 'QW1666860W', '1953-01-08', 4288595);
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (7316698, 'Marion', 'Eisold', 'CZ7830863D', '1962-03-29', 3252753);
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (629036, 'Batholomew', 'Vacher', 'GT4627297R', '1970-07-11', 4808709);
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (5252968, 'Aksel', 'Applegarth', 'CX0622002B', '1963-05-06', 2815228);
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (6340257, 'Drucie', 'Donner', 'JI9527697X', '1953-08-18', 9680326);
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (1877088, 'Steve', 'Jenner', 'SZ8914270O', '1969-04-12', 1586922);
+
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (8852263, 'Myriam', 'Lachaize', 'MT2882204X', '1996-10-03', 9802781, 'Ms', 'Myriam.L@yahoo.com');
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (4186867, 'Arlyn', 'Wilce', 'XY1186882E', '1973-08-23', 3651747, 'Ms', 'Arlyn.W@yahoo.com');
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (6240678, 'Arielle', 'Blenkharn', 'YV3079822V', '1987-06-18', 7741706, 'Mr', 'Arielle.B@yahoo.com');
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (9589034, 'Melisa', 'Hansbury', 'HB4070802G', '1954-04-27', 9229870, 'Mr', 'Melisa.H@yahoo.com');
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (2770924, 'Enrica', 'Haddacks', 'QW1666860W', '1953-01-08', 4288595, 'Mrs', 'Enrica.H@yahoo.com');
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (7316698, 'Marion', 'Eisold', 'CZ7830863D', '1962-03-29', 3252753, 'Ms', 'Marion.E@yahoo.com');
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (629036, 'Batholomew', 'Vacher', 'GT4627297R', '1970-07-11', 4808709, 'Mr', 'Batholomew.V@yahoo.com');
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (5252968, 'Aksel', 'Applegarth', 'CX0622002B', '1963-05-06', 2815228, 'Mr', 'Aksel.A@yahoo.com');
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (6340257, 'Drucie', 'Donner', 'JI9527697X', '1953-08-18', 9680326, 'Ms', 'Drucie.D@yahoo.com');
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (1877088, 'Steve', 'Jenner', 'SZ8914270O', '1969-04-12', 1586922, 'Mr', 'Steve.J@yahoo.com');

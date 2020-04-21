@@ -157,7 +157,7 @@ describe('Singleview API', () => {
     });
   });
 
-  it('Records record from UHT-Contacts', async () => {
+  it('returns info for customer with UHT-Contacts record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/123/record`);
     expect(response).toStrictEqual({
@@ -212,7 +212,7 @@ describe('Singleview API', () => {
     });
   });
 
-  it('returns empty records for non-existent customer', async () => {
+  it('returns info for customer with UHT-Housing Register record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/124/record`);
     const dobMatcher = expect.arrayContaining([
@@ -253,5 +253,89 @@ describe('Singleview API', () => {
         }
       }
     });
+  });
+
+  it('returns info for customer with UHT-Contacts record', async () => {
+    await singleViewDb.any(insertLinksSQL);
+    const response = await doSearchRequest(`${BASE_URL}/customers/125/record`);
+    expect(response).toStrictEqual({
+      customer: {
+        dob: ['1973-08-23 01:00:00'],
+        email: ['Arlyn.W@yahoo.com'],
+        housingNeeds: {},
+        housingRegister: [],
+        name: [{ first: 'Arlyn', last: 'Wilce', title: 'Ms' }],
+        postcode: [],
+        systemIds: { uhw: ['4186867'] }
+      }
+    });
+  });
+
+  xit('returns info for customer with Jigsaw record', async () => {
+    await singleViewDb.any(insertLinksSQL);
+    const response = await doSearchRequest(`${BASE_URL}/customers/126/record`);
+    expect(response).toStrictEqual();
+  });
+
+  it('returns info for customer with Academy-Benefits record', async () => {
+    await singleViewDb.any(insertLinksSQL);
+    const response = await doSearchRequest(`${BASE_URL}/customers/127/record`);
+    expect(response).toStrictEqual({
+      customer: {
+        address: [
+          {
+            address: [
+              '8017 Garrison Point',
+              '2 Lake View Crossing',
+              'London',
+              'S3 1EV'
+            ],
+            source: ['ACADEMY-Benefits']
+          }
+        ],
+        benefits: {
+          income: [
+            {
+              amount: 2.03,
+              description: 'Future-proofed motivating workforce',
+              frequency: 1,
+              period: 'Weekly'
+            },
+            {
+              amount: 2.03,
+              description: 'Virtual encompassing internet solution',
+              frequency: 1,
+              period: 'Weekly'
+            },
+            {
+              amount: 2.03,
+              description: 'Multi-lateral tertiary extranet',
+              frequency: 1,
+              period: 'Weekly'
+            },
+            {
+              amount: 2.03,
+              description: 'Advanced clear-thinking algorithm',
+              frequency: 1,
+              period: 'Weekly'
+            }
+          ],
+          live: false
+        },
+        dob: ['1981-02-08 12:00:00'],
+        housingNeeds: {},
+        housingRegister: [],
+        name: [{ first: 'Flor', last: 'Beden', title: 'Mr' }],
+        nino: ['CD877342Z'],
+        postcode: ['S3 1EV'],
+        systemIds: { academyBenefits: ['60605913'] }
+      }
+    });
+  });
+
+  it('returns info for customer with Academy-CouncilTax record', async () => {
+    await singleViewDb.any(insertLinksSQL);
+    const response = await doSearchRequest(`${BASE_URL}/customers/128/record`);
+    expect(response).toStrictEqual();
   });
 });
