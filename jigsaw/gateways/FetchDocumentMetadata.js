@@ -2,8 +2,8 @@ module.exports = options => {
   const doJigsawGetRequest = options.doJigsawGetRequest;
   const doJigsawPostRequest = options.doJigsawPostRequest;
 
-  const caseUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/casecheck/`;
-  const docsUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/cases/getcasedocs/`;
+  const caseUrl = `${process.env.JigsawCustomerBaseSearchUrl}/api/casecheck/`;
+  const docsUrl = `${process.env.JigsawCustomerBaseSearchUrl}/api/cases/getcasedocs/`;
 
   const fetchMetadata = async jigsawId => {
     const casesResult = await doJigsawGetRequest(caseUrl + jigsawId);

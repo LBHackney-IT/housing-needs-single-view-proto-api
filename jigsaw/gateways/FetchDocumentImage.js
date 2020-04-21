@@ -3,7 +3,7 @@ module.exports = options => {
   return {
     execute: async id => {
       try {
-        const url = `https://zebrahomelessnessproduction.azurewebsites.net/api/blobdownload/${id}`;
+        const url = `${process.env.JigsawCustomerBaseSearchUrl}/api/blobdownload/${id}`;
         return await doJigsawGetRequest(url, {}, true);
       } catch (err) {
         console.log(`Error fetching jigsaw document: ${err}`);
