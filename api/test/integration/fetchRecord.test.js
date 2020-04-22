@@ -280,4 +280,174 @@ describe('Singleview API', () => {
       }
     });
   });
+
+  it('returns info for customer existing in all systems', async () => {
+    const response = await doSearchRequest(`${BASE_URL}/customers/129/record`);
+    expect(response).toStrictEqual({
+      customer: {
+        address: [
+          { address: ['1 Mallard Circle'], source: ['UHT-Contacts'] },
+          {
+            address: ['3 Schlimgen Point'],
+            source: ['UHT-HousingRegister-Correspondence']
+          },
+          {
+            address: ['Hackney London W3 43no'],
+            source: ['JIGSAW']
+          },
+
+          {
+            address: [
+              '6 Cascade Junction',
+              '49 Norway Maple Pass',
+              'London',
+              'I3 0RP'
+            ],
+            source: ['ACADEMY-Benefits']
+          },
+          {
+            address: [
+              '0 Claremont Alley',
+              '6906 Northwestern Avenue',
+              'London',
+              'I0 5XL'
+            ],
+            source: ['ACADEMY-CouncilTax-Property']
+          },
+          {
+            address: [
+              '8017 Garrison Point',
+              '2',
+              'Lake View Crossing',
+              'London',
+              'S3 1EV'
+            ],
+            source: ['ACADEMY-CouncilTax-Forwarding-Address']
+          }
+        ],
+        benefits: {
+          income: [
+            {
+              amount: 89.56,
+              description: 'Future-proofed motivating workforce',
+              frequency: 1,
+              period: 'Weekly'
+            },
+            {
+              amount: 89.56,
+              description: 'Virtual encompassing internet solution',
+              frequency: 1,
+              period: 'Weekly'
+            },
+            {
+              amount: 89.56,
+              description: 'Multi-lateral tertiary extranet',
+              frequency: 1,
+              period: 'Weekly'
+            },
+            {
+              amount: 89.56,
+              description: 'Advanced clear-thinking algorithm',
+              frequency: 1,
+              period: 'Weekly'
+            }
+          ],
+          live: true
+        },
+        councilTax: {
+          accountBalance: 5,
+          paymentMethod: 'Future-proofed motivating workforce',
+          transactions: [
+            {
+              amount: 33.77,
+              date: '2019-04-01T00:00:00.000Z',
+              description: 'description 1'
+            },
+            {
+              amount: 33.77,
+              date: '2019-04-01T00:00:00.000Z',
+              description: 'description 3'
+            },
+            {
+              amount: 33.77,
+              date: '2019-04-01T00:00:00.000Z',
+              description: 'description 5'
+            },
+            {
+              amount: 33.77,
+              date: '2019-04-01T00:00:00.000Z',
+              description: 'description 8'
+            },
+            {
+              amount: 33.77,
+              date: '2019-04-01T00:00:00.000Z',
+              description: 'description 0'
+            }
+          ]
+        },
+        dob: ['1971-12-22 12:00:00', '1991-02-13 12:00:00'],
+        email: ['Elwira.M@yahoo.com', 'james@hotmail.com'],
+        housingNeeds: {
+          currentPlacement: {
+            address: 'Room 1 hallway drive ',
+            duty: 'Section 192',
+            rentCostCustomer: 0,
+            startDate: '2019-04-05 12:00:00',
+            tenancyId: 64444,
+            type: 'Accommodation secured by the Local Authority'
+          },
+          jigsawCaseId: '54321',
+          status: 'Open'
+        },
+        housingRegister: [
+          {
+            applicationRef: 'DIR4704058',
+            applicationStatus: 'Cancelled',
+            band: 'General',
+            bedroomReq: '1                   ',
+            biddingNo: '2000111',
+            startDate: '1900-01-01T00:00:00.000Z'
+          }
+        ],
+        name: [{ first: 'Elwira', last: 'Moncur', title: 'Ms' }],
+        nhsNumber: '',
+        nino: ['CD877332Z', 'ABC12345D'],
+        phone: ['07222222222', '07123456789', '02222222222', '07666666666'],
+        postcode: ['N1 5DZ', 'O70 5TH', 'I3 0RP', 'S3 1EV'],
+        systemIds: {
+          academyBenefits: ['52607656'],
+          academyCouncilTax: ['271264421'],
+          householdRef: '6867133   ',
+          jigsaw: ['12345'],
+          paymentRef: '593507764           ',
+          rent: '000038/08',
+          uhtContacts: '222222',
+          uhtHousingRegister: ['DIR4704058/5'],
+          uhw: ['8852263']
+        },
+        team: {},
+        tenancies: {
+          current: [],
+          previous: [
+            {
+              address: [
+                '7433 Armistice Pass',
+                '07777 Claremont Terrace',
+                'Hackney',
+                'London',
+                'Dv9 17v'
+              ],
+              currentBalance: -669.98,
+              endDate: '2018-03-21T00:00:00.000Z',
+              propRef: '579165050',
+              rentAmount: 0,
+              startDate: '2005-11-08T00:00:00.000Z',
+              tagRef: '000038/08',
+              tenure: 'FactSet Res'
+            }
+          ]
+        }
+      }
+    });
+  });
 });
