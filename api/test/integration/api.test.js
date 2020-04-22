@@ -112,7 +112,6 @@ describe('Singleview API', () => {
   });
 
   it('can disconnect a uht record', async () => {
-    // connect a record first
     const data = {
       customers: [
         {
@@ -132,7 +131,6 @@ describe('Singleview API', () => {
     };
     await doPostRequest(`${BASE_URL}/customers`, data);
 
-    // now disconnect the record
     const deleteResponse = await doDeleteRequest(`${BASE_URL}/customers/1`);
 
     expect(deleteResponse).toEqual('OK');
