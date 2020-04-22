@@ -70,7 +70,7 @@ app.get('/customer/api/customerSearch', (req, res) => {
 });
 
 app.get('/homelessness/api/casecheck/:id', (req, res) => {
-  if (req.id === '12345')
+  if (req.params.id === '12345')
     res.send({
       cases: [
         {
@@ -99,6 +99,25 @@ app.get('/customer/api/CustomerOverview/:id', (req, res) => {
         nationalInsuranceNumber: 'ABC12345D',
         supportWorker: null
       }
+    });
+  } else res.send({ customer: false });
+});
+
+app.get('/accommodation/api/CaseAccommodationPlacement', (req, res) => {
+  if (req.query.caseId === '54321') {
+    res.send({
+      placements: [
+        {
+          address: 'Room 1 hallway drive ',
+          endDate: null,
+          placementDuty: 'Section 192',
+          placementType: 'Accommodation secured by the Local Authority',
+          startDate: '2019-04-05T00:00:00',
+          tenancyId: 64444,
+          rentCostCustomer: 0
+        }
+      ],
+      isCurrentlyInPlacement: true
     });
   } else res.send({ customer: false });
 });

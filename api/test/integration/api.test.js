@@ -438,7 +438,7 @@ describe('Singleview API', () => {
     });
   });
   it('returns empty records for non-existent customer', async () => {
-    const response = await doSearchRequest(`${BASE_URL}/customers/123/record`);
+    const response = await doSearchRequest(`${BASE_URL}/customers/122/record`);
     expect(response).toStrictEqual({
       customer: false
     });
@@ -566,7 +566,18 @@ describe('Singleview API', () => {
         address: [{ address: ['Hackney London W3 43no'], source: ['JIGSAW'] }],
         dob: ['1991-02-13 12:00:00'],
         email: ['james@hotmail.com'],
-        housingNeeds: { status: 'No homelessness case' },
+        housingNeeds: {
+          currentPlacement: {
+            address: 'Room 1 hallway drive ',
+            duty: 'Section 192',
+            rentCostCustomer: 0,
+            startDate: '2019-04-05 12:00:00',
+            tenancyId: 64444,
+            type: 'Accommodation secured by the Local Authority'
+          },
+          jigsawCaseId: '54321',
+          status: 'Open'
+        },
         housingRegister: [],
         nhsNumber: '',
         nino: ['ABC12345D'],
