@@ -34,7 +34,7 @@
     "debug-test": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s test --port 3010 --noAuth --config serverless-api.yml",
     "unit-tests": "jest --testPathIgnorePatterns=api/test/integration --coverage",
     "start-test": "sls offline start -s test --port 3010 --noAuth --config serverless-api.yml & node ./api/test/FakeJigsaw.js",
-    "integration-tests": "jest --testPathPattern=api/test/integration",
+    "integration-tests": "jest --testPathPattern=api/test/integration --runInBand",
     "ci": "start-server-and-test start-test http://localhost:3010/customers?firstName=jon integration-tests",
     "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'"
   }
