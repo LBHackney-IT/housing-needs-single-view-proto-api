@@ -2,9 +2,7 @@ require('dotenv').config();
 const path = require('path');
 const singleViewDb = require('../../lib/PostgresDb');
 const { loadSQL } = require('../../../api/lib/Utils');
-const { truncateTablesSQL, insertLinksSQL } = loadSQL(
-  path.join(__dirname, 'sql')
-);
+const { truncateTablesSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 const BASE_URL = 'http://localhost:3010';
 

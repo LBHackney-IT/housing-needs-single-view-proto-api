@@ -9,7 +9,6 @@ insert into customers (id, created_at, updated_at) values (125, current_timestam
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (101, 125, 3, '4186867', 'Arlyn', 'Wilce', '25 saut road', 'XY1186882E' ,'1973-08-23');
 
 
-
 insert into customers (id, created_at, updated_at) values (126, current_timestamp, current_timestamp);
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (102, 126, 4, '12345', 'Beden', 'Flor', '28 saut road', 'CD877342Z' ,'1981-02-08');
 

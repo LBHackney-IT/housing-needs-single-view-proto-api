@@ -93,7 +93,6 @@ module.exports = options => {
   return {
     execute: async id => {
       try {
-        console.log('this thing ' + id);
         const customer = await fetchCustomer(id, db);
         return processCustomer(customer);
       } catch (err) {
