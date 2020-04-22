@@ -542,10 +542,13 @@ describe('Singleview API', () => {
 
   it('returns info for customer with UHT-Contacts record', async () => {
     await singleViewDb.any(insertLinksSQL);
+    const dobMatcher = expect.arrayContaining([
+      expect.stringContaining('1973-08-23')
+    ]);
     const response = await doSearchRequest(`${BASE_URL}/customers/125/record`);
     expect(response).toStrictEqual({
       customer: {
-        dob: ['1973-08-23 01:00:00'],
+        dob: dobMatcher,
         email: ['Arlyn.W@yahoo.com'],
         housingNeeds: {},
         housingRegister: [],
