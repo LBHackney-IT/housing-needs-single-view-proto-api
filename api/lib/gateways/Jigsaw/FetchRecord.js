@@ -82,7 +82,6 @@ module.exports = options => {
   };
 
   const processCustomer = function(result) {
-    console.log(result);
     const info = result.personInfo;
 
     let customer = {
