@@ -2,7 +2,7 @@ const request = require('request-promise');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-const loginUrl = `https://live.housingjigsaw.co.uk/auth/login`;
+const loginUrl = process.env.JigsawLoginUrl;
 
 let bearerToken = null;
 let lastLogin = null;

@@ -45,6 +45,9 @@ functions:
     environment:
       Jigsaw_email: ${ssm:/hn-single-view-api/${self:provider.stage}/Jigsaw_email}
       Jigsaw_password: ${ssm:/hn-single-view-api/${self:provider.stage}/Jigsaw_password}
+      JigsawLoginUrl: ${ssm:/hn-single-view-api/${self:provider.stage}/JigsawLoginUrl}
+      JigsawCustomerBaseSearchUrl: ${ssm:/hn-single-view-api/${self:provider.stage}/JigsawCustomerBaseSearchUrl}
+      JigsawHomelessnessBaseSearchUrl: ${ssm:/hn-single-view-api/${self:provider.stage}/JigsawHomelessnessBaseSearchUrl}
       UHW_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/UHW_DB}
       UHT_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/UHT_DB}
       ACADEMY_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_DB}

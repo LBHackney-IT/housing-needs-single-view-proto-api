@@ -5,7 +5,7 @@ module.exports = options => {
   const buildSearchRecord = options.buildSearchRecord;
   const doJigsawGetRequest = options.doJigsawGetRequest;
 
-  const searchUrl = `https://zebracustomersproduction.azurewebsites.net/api/customerSearch`;
+  const searchUrl = `${process.env.JigsawCustomerBaseSearchUrl}/api/customerSearch`;
 
   const search = async query => {
     const search = [query.firstName, query.lastName].filter(x => x).join(' ');
