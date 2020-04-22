@@ -35,8 +35,6 @@
     "unit-tests": "jest --testPathIgnorePatterns=api/test/integration --coverage",
     "start-test": "sls offline start -s test --port 3010 --noAuth --config serverless-api.yml & node ./api/test/FakeJigsaw.js",
     "integration-tests": "jest --testPathPattern=api/test/integration",
-    "integration-tests-local": "jest --testPathPattern=api/test/integration --watch",
-    "ci-local": "start-server-and-test start-test http://localhost:3010/customers?firstName=jon integration-tests-local",
     "ci": "start-server-and-test start-test http://localhost:3010/customers?firstName=jon integration-tests",
     "lint": "eslint --fix --ext js api/lib && echo 'Lint complete.'"
   }

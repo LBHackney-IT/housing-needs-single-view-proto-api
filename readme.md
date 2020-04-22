@@ -51,7 +51,7 @@ $ docker-compose up -d external_test_dbs test_db
 3. Run the integration tests
 
 ```
-npm run ci-local
+npm run ci
 ```
 
 ## Usage
