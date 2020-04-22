@@ -11,11 +11,11 @@ const moment = require('moment');
 module.exports = options => {
   const doJigsawGetRequest = options.doJigsawGetRequest;
 
-  const caseUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/casecheck/`;
+  const caseUrl = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/casecheck/`;
   const accomPlacementsUrl = caseId =>
     `https://zebraaccommodationproduction.azurewebsites.net/api/CaseAccommodationPlacement?caseId=${caseId}`;
   const customerUrl = id =>
-    `https://zebracustomersproduction.azurewebsites.net/api/CustomerOverview/${id}`;
+    `${process.env.JigsawCustomerBaseSearchUrl}/api/CustomerOverview/${id}`;
 
   const fetchCases = async id => {
     return await doJigsawGetRequest(caseUrl + id);

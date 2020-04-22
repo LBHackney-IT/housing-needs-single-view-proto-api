@@ -189,12 +189,12 @@ CREATE TABLE [wlmember] (
 
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR6940111', 4, '1965-03-25', 'Hillel', 'Lorenz', 'AB106755C', 'Mr');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR4704058', 5, '1971-12-22', 'Elwira', 'Moncur', 'CD877332Z', 'Ms');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR5135951', 3, '1971-05-18', 'Imojean', 'D''Abbot-Doyle', 'CC80891F', 'Mr');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR5135951', 3, '1971-05-18', 'Imojean', 'D''Abbot-Doyle', 'CC808991F', 'Mr');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR7479057', 1, '1983-08-11', 'Rodrick', 'Kellitt', 'GH210551B', 'Mr')
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR7350104', 1, '1965-08-15', 'Zilvia', 'Tomaello', 'RF735670C', 'Ms');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR3646682', 1, '1975-04-13', 'Dasha', 'Sanchez', 'GD345625V', 'Mr');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR9055215', 6, '1962-07-03', 'Marget', 'Rubie', 'JE799725S', 'Mr');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR1784557', 2, '1979-12-15', 'Gordie', 'Drayson', 'KK933624D', 'Mr');
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR1784557', 2, '1979-12-15', 'Hartwell', 'Lorinez', 'KK933624D', 'Mr');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR6421750', 2, '1979-12-14', 'Eadie', 'Bullan', 'JE019827F', 'Mr');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR9610142', 5, '1969-11-29', 'Nadya', 'Montes', 'ME918699A', 'Miss');
 --------------------
@@ -249,8 +249,8 @@ CREATE TABLE [hbmember] (
 );
 
 
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5260765, 1, 1, 'Elwira', 'Moncur', '1971-12-22', 'CD877332Z', 'Ms');
-insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5759744, 1, 1, 'Mibourne', 'Wendi', '1971-09-25', 'CD877534Z', 'Ms');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5260765, 1, 1, 'Moncur', 'Elwira', '1971-12-22', 'CD877332Z', 'Ms');
+insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5759744, 1, 1, 'Bullimore', 'Tate', '1971-09-25', 'CD877534Z', 'Ms');
 insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (6060591, 2, 2, 'Beden', 'Flor', '1981-02-08', 'CD877342Z', 'Mr');
 insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5479047, 1, 1, 'Veare', 'Arlette', '1986-11-07', 'CD657332Z', 'Mr');
 insert into hbmember (claim_id, house_id, person_ref, surname, forename, birth_date, nino, title) values (5879391, 3, 3, 'Manoelli', 'Nanny', '1987-05-22', 'CF877332Z', 'Ms');
@@ -338,8 +338,8 @@ CREATE TABLE [ctaccount] (
 
 
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (815631207, '5', 'Ms', 'COOKE,MS NADY', 'Nady', 'Cooke','6 Cascade Junction', '49','Norway Maple Pass', 'LONDON', 'I3 0RP', 'CASHM');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (256644325, '4', 'Honorable', 'BULLIMORE,HONORABLE TATE', 'Tate', 'Bullimore','8 Schlimgen Terrace', '5111', 'Basil Avenue', 'LONDON', 'E0 1MO', 'CASHM');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (472335332, '0', 'Ms', 'STERNDALE,MS ALFONSE', 'Alfonse', 'Sterndale','8017 Garrison Point', '2', 'Lake View Crossing', 'LONDON', 'S3 1EV', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (2566443, '4', 'mr', 'BULLIMORE,MR TATE', 'Tate', 'Bullimore','8 Schlimgen Terrace', '5111', 'Basil Avenue', 'LONDON', 'E0 1MO', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (27126442, '1', 'Ms', 'MONCUR,MS ELWIRA', 'Elwira', 'Moncur','8017 Garrison Point', '2', 'Lake View Crossing', 'LONDON', 'S3 1EV', 'CASHM');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (35205909, '9', 'Mrs', 'OLLIVIER,MRS VAL', 'Val', 'Ollivier','320 Little Fleur Way', '62', 'Warrior Avenue', 'LONDON', 'L0 3DM', 'CASHM');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (652268349, '2', 'Rev', 'PISCOPO,REV CLEMENTINA', 'Clementina', 'Piscopo','07 Orin Lane', '73', 'Steensland Terrace', 'LONDON', 'H5 2HM', 'CASHM');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (524457367, '6', 'Ms', 'ROSCRIGG,MS ALF', 'Alf', 'Roscrigg','2499 Toban Drive', '40 Butterfield', 'Junction', 'LONDON', 'T6 2KQ', 'CASHM');
@@ -348,6 +348,16 @@ insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name,
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (3383987, '5', 'Mr', 'MCKEAG,MR PHILLIDA', 'Phillida', 'McKeag','540 Pawling Street', '063', 'Mitchell Way', 'LONDON', 'U9 1CX', 'CASHM');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (4599257, '0', 'Ms', 'KILLIGREW,MS PREN', 'Pren', 'Killigrew','0 Clemons Place', '93931', 'Norway Maple Street', 'LONDON', 'F6 5QI', 'CASHM');
 
+-- insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (472335332, '0', 'Ms', 'STERNDALE,MS ALFONSE', 'Alfonse', 'Sterndale');
+-- insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (25664432, '4', 'MR', 'BULLIMORE,MR TATE', 'Tate', 'Bullimore');
+-- insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (27126442, '1', 'Ms', 'MONCUR,MS ELWIRA', 'Elwira', 'Moncur');
+-- insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (352059093, '9', 'Mrs', 'OLLIVIER,MRS VAL', 'Val', 'Ollivier');
+-- insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (652268349, '2', 'Rev', 'PISCOPO,REV CLEMENTINA', 'Clementina', 'Piscopo');
+-- insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (524457367, '6', 'Ms', 'ROSCRIGG,MS ALF', 'Alf', 'Roscrigg');
+-- insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (3472806, '5', 'Mr', 'GOULBOURN,MR WORTHY', 'Worthy', 'Goulbourn');
+-- insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (4392512, '6', 'Ms', 'LAURENTINO,MS EVIE', 'Evie', 'Laurentino');
+-- insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (3383987, '5', 'Mr', 'MCKEAG,MR PHILLIDA', 'Phillida', 'McKeag');
+-- insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname) values (4599257, '0', 'Ms', 'KILLIGREW,MS PREN', 'Pren', 'Killigrew');
 
 CREATE TABLE [ctproperty] (
     [property_ref] nvarchar(18),
@@ -376,8 +386,8 @@ CREATE TABLE [hbctaxclaim] (
 );
 
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (7368451, 3, '81563120');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8920277, 1, '25664434');
-insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3608321, 1, '47233320');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (5759744, 1, '25664434');
+insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (5260765, 1, '271264421');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2866464, 6, '35200939');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (9359082, 8, '65683492');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8722915, 1, '5573676');
@@ -385,6 +395,16 @@ insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2743325, 3, 
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3581194, 7, '5269188');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8903330, 1, '4069341');
 insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3690439, 4, '9702729');
+-- insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (7368451, 3, '815631207');
+-- insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (5759744, 14, '256644324');
+-- insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (5260765, 14, '271264421');
+-- insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (2866464, 6, '352059099');
+-- insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (9359082, 8, '652268392');
+-- insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8722915, 14, '524453676');
+-- insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (5260765, 3, '271264421');
+-- insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3581194, 7, '533269188');
+-- insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (8903330, 13, '428069341');
+-- insert into hbctaxclaim (claim_id, ctax_claim_id, ctax_ref) values (3690439, 4, '999702729');
 
 CREATE TABLE [ctoccupation] (
     [account_ref] int,
@@ -393,9 +413,12 @@ CREATE TABLE [ctoccupation] (
 );
 
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (815631207, '109262008', '2020-01-02');
-insert into ctoccupation (account_ref, property_ref, vacation_date) values (256644325, '680348096', '2017-09-11');
-insert into ctoccupation (account_ref, property_ref, vacation_date) values (472335332, '109575307', '2017-10-04');
+insert into ctoccupation (account_ref, property_ref, vacation_date) values (2566443, '680348096', '2017-09-11');
+insert into ctoccupation (account_ref, property_ref, vacation_date) values (27126442, '109575307', '2017-10-04');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (35205909, '267583903', '2017-08-28');
+-- insert into ctoccupation (account_ref, property_ref, vacation_date) values (25664432, '680348096', '2017-09-11');
+-- insert into ctoccupation (account_ref, property_ref, vacation_date) values (27126442, '109575307', '2017-10-04');
+-- insert into ctoccupation (account_ref, property_ref, vacation_date) values (5759744, '267583903', '2017-08-28');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (652268349, '149325830', '2017-06-02');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (524457367, '648485095', '2019-05-01');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (205020645, '171903858', '2018-11-01');
@@ -409,7 +432,7 @@ CREATE TABLE [vw_acc_bal] (
 );
 
 insert into vw_acc_bal (account_ref, total) values (815631207, 0.00);
-insert into vw_acc_bal (account_ref, total) values (256644325, 0.00);
+insert into vw_acc_bal (account_ref, total) values (2566443, 0.00);
 insert into vw_acc_bal (account_ref, total) values (472335332, 5.00);
 insert into vw_acc_bal (account_ref, total) values (35205909, 13.50);
 insert into vw_acc_bal (account_ref, total) values (652268349, 0.00);
@@ -447,7 +470,7 @@ CREATE TABLE [dbo].[cttransaction] (
 );
 
 insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 34.77, 815631207);
-insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'ACCE', 35.77, 256644325);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'ACCE', 35.77, 2566443);
 insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 33.77, 472335332);
 insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'ALEP', 32.77, 35205909);
 insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 31.77, 652268349);
@@ -491,7 +514,7 @@ CREATE TABLE [CCContact] (
     [EmailAddress] varchar(255)
 );
 
-insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (8852263, 'Myriam', 'Lachaize', 'MT2882204X', '1996-10-03', 9802781, 'Ms', 'Myriam.L@yahoo.com');
+insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (8852263, 'Elwira', 'Moncur', 'CD877332Z', '1971-12-22', 9802781, 'Ms', 'Elwira.M@yahoo.com');
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (4186867, 'Arlyn', 'Wilce', 'XY1186882E', '1973-08-23', 3651747, 'Ms', 'Arlyn.W@yahoo.com');
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (6240678, 'Arielle', 'Blenkharn', 'YV3079822V', '1987-06-18', 7741706, 'Mr', 'Arielle.B@yahoo.com');
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (9589034, 'Melisa', 'Hansbury', 'HB4070802G', '1954-04-27', 9229870, 'Mr', 'Melisa.H@yahoo.com');
@@ -501,3 +524,13 @@ insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Titl
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (5252968, 'Aksel', 'Applegarth', 'CX0622002B', '1963-05-06', 2815228, 'Mr', 'Aksel.A@yahoo.com');
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (6340257, 'Drucie', 'Donner', 'JI9527697X', '1953-08-18', 9680326, 'Ms', 'Drucie.D@yahoo.com');
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (1877088, 'Steve', 'Jenner', 'SZ8914270O', '1969-04-12', 1586922, 'Mr', 'Steve.J@yahoo.com');
+-- insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (8852263, 'Elwira', 'Moncur', 'CD877332Z', '1971-12-22', 9802781);
+-- insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (4186867, 'Arlyn', 'Wilce', 'XY1186882E', '1973-08-23', 3651747);
+-- insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (6240678, 'Arielle', 'Blenkharn', 'YV3079822V', '1987-06-18', 7741706);
+-- insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (9589034, 'Melisa', 'Hansbury', 'HB4070802G', '1954-04-27', 9229870);
+-- insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (2770924, 'Enrica', 'Haddacks', 'QW1666860W', '1953-01-08', 4288595);
+-- insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (7316698, 'Marion', 'Eisold', 'CZ7830863D', '1962-03-29', 3252753);
+-- insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (629036, 'Batholomew', 'Vacher', 'GT4627297R', '1970-07-11', 4808709);
+-- insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (5252968, 'Aksel', 'Applegarth', 'CX0622002B', '1963-05-06', 2815228);
+-- insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (6340257, 'Drucie', 'Donner', 'JI9527697X', '1953-08-18', 9680326);
+-- insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact) values (1877088, 'Steve', 'Jenner', 'SZ8914270O', '1969-04-12', 1586922);

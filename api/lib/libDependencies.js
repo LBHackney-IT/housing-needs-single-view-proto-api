@@ -21,9 +21,7 @@ const { fetchW2Documents } = require('./W2Utils');
 const {
   doJigsawGetRequest,
   doJigsawPostRequest,
-  doGetRequest,
-  doGetDocRequest,
-  login
+  doGetRequest
 } = require('./JigsawUtils');
 
 const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
@@ -83,8 +81,12 @@ const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
 const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
   {
     buildDocument,
-    doJigsawGetRequest,
-    doJigsawPostRequest
+    fetchDocMetadataGateway: require('../../jigsaw/gateways/FetchDocumentMetadata')(
+      {
+        doJigsawGetRequest,
+        doJigsawPostRequest
+      }
+    )
   }
 );
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
@@ -172,12 +174,6 @@ const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
   buildNote
 });
 
-//document image gateways
-const fetchDocumentImage = require('./gateways/Jigsaw/FetchDocumentImage')({
-  doGetDocRequest,
-  login
-});
-
 // USECASES
 
 const customerSearch = require('./use-cases/CustomerSearch')({
@@ -230,15 +226,9 @@ const fetchNotes = require('./use-cases/FetchNotes')({
   getCustomerLinks
 });
 
-const getJigsawDocument = require('./use-cases/FetchJigsawDocument')({
-  jigsawDocGateway: fetchDocumentImage,
-  jigsawMetadataGateway: jigsawFetchDocumentsGateway
-});
-
 module.exports = {
   customerSearch,
   fetchDocuments,
   fetchRecords,
-  fetchNotes,
-  getJigsawDocument
+  fetchNotes
 };

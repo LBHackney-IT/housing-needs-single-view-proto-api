@@ -13,14 +13,14 @@ const { fetchCustomerSQL, fetchCustomerTransactionsSQL } = loadSQL(
 const fetchCustomer = async (id, db) => {
   return (
     await db.request(fetchCustomerSQL, [
-      { id: 'account_ref', type: 'NVarChar', value: id }
+      { id: 'account_ref', type: 'NVarChar', value: id.slice(0, 8) }
     ])
   )[0];
 };
 
 const fetchCustomerTransactions = async (id, db) => {
   return await db.request(fetchCustomerTransactionsSQL, [
-    { id: 'account_ref', type: 'NVarChar', value: id }
+    { id: 'account_ref', type: 'NVarChar', value: id.slice(0, 8) }
   ]);
 };
 

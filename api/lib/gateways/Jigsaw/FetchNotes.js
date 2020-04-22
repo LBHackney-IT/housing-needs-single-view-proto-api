@@ -6,10 +6,10 @@ module.exports = options => {
   const buildNote = options.buildNote;
 
   const customerNotesUrl = id =>
-    `https://zebracustomersproduction.azurewebsites.net/api/Customer/${id}/Notes`;
-  const caseUrl = `https://zebrahomelessnessproduction.azurewebsites.net/api/casecheck/`;
+    `${process.env.JigsawCustomerBaseSearchUrl}/api/Customer/${id}/Notes`;
+  const caseUrl = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/casecheck/`;
   const caseNotesUrl = id =>
-    `https://zebrahomelessnessproduction.azurewebsites.net/api/Cases/${id}/Notes`;
+    `${process.env.JigsawHomelessnessBaseSearchUrl}/api/Cases/${id}/Notes`;
   const collabCaseworkUrl = `${process.env.COLLAB_CASEWORK_API}/contacts`;
   const collabCaseworkMessagesUrl = id => `${collabCaseworkUrl}/${id}/messages`;
 

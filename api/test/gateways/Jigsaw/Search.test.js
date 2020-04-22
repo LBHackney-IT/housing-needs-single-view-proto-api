@@ -27,8 +27,9 @@ describe('JigsawSearchGateway', () => {
     const firstName = 'maria';
     const queryMatcher = expect.stringMatching(/maria/);
     const searchUrl = expect.stringMatching(
-      /zebracustomersproduction.azurewebsites.net/
+      new RegExp(process.env.JigsawCustomerBaseSearchUrl)
     );
+
     await gateway.execute({ firstName });
 
     expect(doJigsawGetRequest).toHaveBeenCalledWith(searchUrl, {
