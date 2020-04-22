@@ -43,7 +43,7 @@ describe('Singleview API', () => {
 
   afterAll(singleViewDb.$pool.end);
 
-  xit('returns empty records for non-existent customer', async () => {
+  it('returns empty records for non-existent customer', async () => {
     const response = await doSearchRequest(
       `${BASE_URL}/customers?firstName=john&lastName=smith`
     );
@@ -54,7 +54,7 @@ describe('Singleview API', () => {
     });
   });
 
-  xit('returns uht record if customer exists in uht', async () => {
+  it('returns uht record if customer exists in uht', async () => {
     const response = await doSearchRequest(
       `${BASE_URL}/customers?firstName=dani&lastName=beyn`
     );
@@ -79,7 +79,7 @@ describe('Singleview API', () => {
     });
   });
 
-  xit('can connect a single uht record', async () => {
+  it('can connect a single uht record', async () => {
     const data = {
       customers: [
         {
@@ -111,7 +111,7 @@ describe('Singleview API', () => {
     expect(result).toStrictEqual(paramMatcher);
   });
 
-  xit('can disconnect a uht record', async () => {
+  it('can disconnect a uht record', async () => {
     // connect a record first
     const data = {
       customers: [
@@ -150,14 +150,14 @@ describe('Singleview API', () => {
     expect(result).toStrictEqual(paramMatcher);
   });
 
-  xit('returns empty records for non-existent customer', async () => {
+  it('returns empty records for non-existent customer', async () => {
     const response = await doSearchRequest(`${BASE_URL}/customers/123/record`);
     expect(response).toStrictEqual({
       customer: false
     });
   });
 
-  xit('returns info for customer with UHT-Contacts record', async () => {
+  it('returns info for customer with UHT-Contacts record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/123/record`);
     expect(response).toStrictEqual({
@@ -204,7 +204,7 @@ describe('Singleview API', () => {
               rentAmount: 0,
               startDate: '2005-11-08T00:00:00.000Z',
               tagRef: '000038/08',
-              tenure: 'STERIS plc'
+              tenure: 'FactSet Res'
             }
           ]
         }
@@ -212,7 +212,7 @@ describe('Singleview API', () => {
     });
   });
 
-  xit('returns info for customer with UHT-Housing Register record', async () => {
+  it('returns info for customer with UHT-Housing Register record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/124/record`);
     const dobMatcher = expect.arrayContaining([
@@ -255,7 +255,7 @@ describe('Singleview API', () => {
     });
   });
 
-  xit('returns info for customer with UHT-Contacts record', async () => {
+  it('returns info for customer with UHT-Contacts record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/125/record`);
     expect(response).toStrictEqual({
@@ -277,7 +277,7 @@ describe('Singleview API', () => {
     expect(response).toStrictEqual();
   });
 
-  xit('returns info for customer with Academy-Benefits record', async () => {
+  it('returns info for customer with Academy-Benefits record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/127/record`);
     expect(response).toStrictEqual({
@@ -336,6 +336,51 @@ describe('Singleview API', () => {
   it('returns info for customer with Academy-CouncilTax record', async () => {
     await singleViewDb.any(insertLinksSQL);
     const response = await doSearchRequest(`${BASE_URL}/customers/128/record`);
-    expect(response).toStrictEqual();
+    expect(response).toStrictEqual({
+      customer: {
+        address: [
+          {
+            address: [
+              '92548 Kensington Junction',
+              '090 Dixon Junction',
+              'London',
+              'N9 8CK'
+            ],
+            source: ['ACADEMY-CouncilTax-Property']
+          },
+          {
+            address: [
+              '320 Little Fleur Way',
+              '62',
+              'Warrior Avenue',
+              'London',
+              'L0 3DM'
+            ],
+            source: ['ACADEMY-CouncilTax-Forwarding-Address']
+          }
+        ],
+        councilTax: {
+          accountBalance: 14,
+          paymentMethod: 'Future-proofed motivating workforce',
+          transactions: [
+            {
+              amount: 32.77,
+              date: '2019-04-01T00:00:00.000Z',
+              description: 'description 4'
+            },
+            {
+              amount: 32.77,
+              date: '2019-04-01T00:00:00.000Z',
+              description: 'description 7'
+            }
+          ]
+        },
+        housingNeeds: {},
+        housingRegister: [],
+        name: [{ first: 'Val', last: 'Ollivier', title: 'Mrs' }],
+        postcode: ['L0 3DM'],
+        systemIds: { academyCouncilTax: ['352059099'] }
+      }
+    });
   });
 });

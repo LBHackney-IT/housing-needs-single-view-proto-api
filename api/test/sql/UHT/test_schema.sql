@@ -79,7 +79,7 @@ CREATE TABLE [tenagree] (
 );
 
 insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000023/02', '841461088', '9383795', '2018-05-29', '2013-05-22', 'SEC', 'WK', -716.51, '471436430');
-insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000038/08', '579165050', '6867133', '2005-11-08', '2018-03-21', 'SEC', 'WK', -669.98, '593507764');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000038/08', '579165050', '6867133', '2005-11-08', '2018-03-21', 'DEC', 'KW', -669.98, '593507764');
 insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000060/06', '711532210', '2966927', '2014-01-02', '2017-02-08', 'SEC', 'WK', -431.32, '707650073');
 insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000039/01', '019363148', '4750013', '2006-06-03', '2014-07-26', 'SEC', 'WK', -859.92, '031500691');
 insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000027/02', '028269624', '8539472', '2000-06-26', '2017-02-06', 'SEC', 'WK', -942.84, '410710831');
@@ -95,7 +95,7 @@ CREATE TABLE [tenure] (
 );
 
 insert into tenure (ten_type, ten_desc) values ('SEC', 'CIT Group ');
-insert into tenure (ten_type, ten_desc) values ('SEC', 'FactSet Res');
+insert into tenure (ten_type, ten_desc) values ('DEC', 'FactSet Res');
 insert into tenure (ten_type, ten_desc) values ('SEC', 'Customers ');
 insert into tenure (ten_type, ten_desc) values ('SEC', 'Colony ');
 insert into tenure (ten_type, ten_desc) values ('SEC', 'STERIS plc');
@@ -134,7 +134,7 @@ CREATE TABLE [period] (
 );
 
 insert into period (prd_code, prd_desc) values ('WK', 'Monthly(2th)');
-insert into period (prd_code, prd_desc) values ('WK', 'Monthly(3th)');
+insert into period (prd_code, prd_desc) values ('KW', 'Monthly(3th)');
 insert into period (prd_code, prd_desc) values ('WK', 'Monthly(6th)');
 insert into period (prd_code, prd_desc) values ('WK', 'Monthly(0th)');
 insert into period (prd_code, prd_desc) values ('WK', 'Monthly(1th)');
@@ -340,7 +340,7 @@ CREATE TABLE [ctaccount] (
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (815631207, '5', 'Ms', 'COOKE,MS NADY', 'Nady', 'Cooke','6 Cascade Junction', '49','Norway Maple Pass', 'LONDON', 'I3 0RP', 'CASHM');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (256644325, '4', 'Honorable', 'BULLIMORE,HONORABLE TATE', 'Tate', 'Bullimore','8 Schlimgen Terrace', '5111', 'Basil Avenue', 'LONDON', 'E0 1MO', 'CASHM');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (472335332, '0', 'Ms', 'STERNDALE,MS ALFONSE', 'Alfonse', 'Sterndale','8017 Garrison Point', '2', 'Lake View Crossing', 'LONDON', 'S3 1EV', 'CASHM');
-insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (352059093, '9', 'Mrs', 'OLLIVIER,MRS VAL', 'Val', 'Ollivier','320 Little Fleur Way', '62', 'Warrior Avenue', 'LONDON', 'L0 3DM', 'CASHM');
+insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (35205909, '9', 'Mrs', 'OLLIVIER,MRS VAL', 'Val', 'Ollivier','320 Little Fleur Way', '62', 'Warrior Avenue', 'LONDON', 'L0 3DM', 'CASHM');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (652268349, '2', 'Rev', 'PISCOPO,REV CLEMENTINA', 'Clementina', 'Piscopo','07 Orin Lane', '73', 'Steensland Terrace', 'LONDON', 'H5 2HM', 'CASHM');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (524457367, '6', 'Ms', 'ROSCRIGG,MS ALF', 'Alf', 'Roscrigg','2499 Toban Drive', '40 Butterfield', 'Junction', 'LONDON', 'T6 2KQ', 'CASHM');
 insert into ctaccount (account_ref, account_cd, lead_liab_title, lead_liab_name, lead_liab_forename, lead_liab_surname, for_addr1, for_addr2, for_addr3, for_addr4, for_postcode, paymeth_code) values (3472806, '5', 'Mr', 'GOULBOURN,MR WORTHY', 'Worthy', 'Goulbourn','6037 Dexter Way', '1', 'Sommers Way', 'LONDON', 'H5 7ZN', 'CASHM');
@@ -395,7 +395,7 @@ CREATE TABLE [ctoccupation] (
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (815631207, '109262008', '2020-01-02');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (256644325, '680348096', '2017-09-11');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (472335332, '109575307', '2017-10-04');
-insert into ctoccupation (account_ref, property_ref, vacation_date) values (352059093, '267583903', '2017-08-28');
+insert into ctoccupation (account_ref, property_ref, vacation_date) values (35205909, '267583903', '2017-08-28');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (652268349, '149325830', '2017-06-02');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (524457367, '648485095', '2019-05-01');
 insert into ctoccupation (account_ref, property_ref, vacation_date) values (205020645, '171903858', '2018-11-01');
@@ -411,7 +411,7 @@ CREATE TABLE [vw_acc_bal] (
 insert into vw_acc_bal (account_ref, total) values (815631207, 0.00);
 insert into vw_acc_bal (account_ref, total) values (256644325, 0.00);
 insert into vw_acc_bal (account_ref, total) values (472335332, 5.00);
-insert into vw_acc_bal (account_ref, total) values (352059093, 13.50);
+insert into vw_acc_bal (account_ref, total) values (35205909, 13.50);
 insert into vw_acc_bal (account_ref, total) values (652268349, 0.00);
 insert into vw_acc_bal (account_ref, total) values (524457367, 8.00);
 insert into vw_acc_bal (account_ref, total) values (3472806, 0.00);
@@ -449,7 +449,7 @@ CREATE TABLE [dbo].[cttransaction] (
 insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 34.77, 815631207);
 insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'ACCE', 35.77, 256644325);
 insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 33.77, 472335332);
-insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'ALEP', 32.77, 352059093);
+insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'ALEP', 32.77, 35205909);
 insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMA', 31.77, 652268349);
 insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'AEMB', 37.97, 524457367);
 insert into cttransaction (process_date, tran_code, tran_amount, account_ref) values ('2019-04-01', 'ALEP', 34.07, 3472806);
