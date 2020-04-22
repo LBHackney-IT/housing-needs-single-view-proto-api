@@ -12,7 +12,7 @@ describe('Singleview API', () => {
   const rp = require('request-promise');
   const doSearchRequest = async uri => {
     const options = {
-      uri,
+      uri: `${BASE_URL}/${uri}`,
       qs: {},
       json: true
     };
@@ -27,14 +27,14 @@ describe('Singleview API', () => {
   afterAll(singleViewDb.$pool.end);
 
   it('returns empty records for non-existent customer', async () => {
-    const response = await doSearchRequest(`${BASE_URL}/customers/122/record`);
+    const response = await doSearchRequest(`customers/122/record`);
     expect(response).toStrictEqual({
       customer: false
     });
   });
 
   it('returns info for customer with UHT-Contacts record', async () => {
-    const response = await doSearchRequest(`${BASE_URL}/customers/123/record`);
+    const response = await doSearchRequest(`customers/123/record`);
     expect(response).toStrictEqual({
       customer: {
         address: [
@@ -88,7 +88,7 @@ describe('Singleview API', () => {
   });
 
   it('returns info for customer with UHT-Housing Register record', async () => {
-    const response = await doSearchRequest(`${BASE_URL}/customers/124/record`);
+    const response = await doSearchRequest(`customers/124/record`);
     const dobMatcher = expect.arrayContaining([
       expect.stringContaining('1965-03-25')
     ]);
@@ -133,7 +133,7 @@ describe('Singleview API', () => {
     const dobMatcher = expect.arrayContaining([
       expect.stringContaining('1973-08-23')
     ]);
-    const response = await doSearchRequest(`${BASE_URL}/customers/125/record`);
+    const response = await doSearchRequest(`customers/125/record`);
     expect(response).toStrictEqual({
       customer: {
         dob: dobMatcher,
@@ -148,7 +148,7 @@ describe('Singleview API', () => {
   });
 
   it('returns info for customer with Jigsaw record', async () => {
-    const response = await doSearchRequest(`${BASE_URL}/customers/126/record`);
+    const response = await doSearchRequest(`customers/126/record`);
     expect(response).toStrictEqual({
       customer: {
         address: [{ address: ['Hackney London W3 43no'], source: ['JIGSAW'] }],
@@ -177,7 +177,7 @@ describe('Singleview API', () => {
   });
 
   it('returns info for customer with Academy-Benefits record', async () => {
-    const response = await doSearchRequest(`${BASE_URL}/customers/127/record`);
+    const response = await doSearchRequest(`customers/127/record`);
     expect(response).toStrictEqual({
       customer: {
         address: [
@@ -232,7 +232,7 @@ describe('Singleview API', () => {
   });
 
   it('returns info for customer with Academy-CouncilTax record', async () => {
-    const response = await doSearchRequest(`${BASE_URL}/customers/128/record`);
+    const response = await doSearchRequest(`customers/128/record`);
     expect(response).toStrictEqual({
       customer: {
         address: [
@@ -282,7 +282,7 @@ describe('Singleview API', () => {
   });
 
   it('returns info for customer existing in all systems', async () => {
-    const response = await doSearchRequest(`${BASE_URL}/customers/129/record`);
+    const response = await doSearchRequest(`customers/129/record`);
     expect(response).toStrictEqual({
       customer: {
         address: [

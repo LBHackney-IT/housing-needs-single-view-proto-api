@@ -10,7 +10,7 @@ describe('Singleview API', () => {
   const rp = require('request-promise');
   const doSearchRequest = async uri => {
     const options = {
-      uri,
+      uri: `${BASE_URL}/${uri}`,
       qs: {},
       json: true
     };
@@ -20,7 +20,7 @@ describe('Singleview API', () => {
   const doPostRequest = async (uri, body) => {
     const options = {
       method: 'POST',
-      uri,
+      uri: `${BASE_URL}/${uri}`,
       body,
       json: true
     };
@@ -30,7 +30,7 @@ describe('Singleview API', () => {
   const doDeleteRequest = async uri => {
     const options = {
       method: 'DELETE',
-      uri
+      uri: `${BASE_URL}/${uri}`
     };
     return await rp(options);
   };
@@ -43,7 +43,7 @@ describe('Singleview API', () => {
 
   it('returns empty records for non-existent customer', async () => {
     const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=john&lastName=smith`
+      `customers?firstName=john&lastName=smith`
     );
     expect(response).toStrictEqual({
       grouped: [],
@@ -54,7 +54,7 @@ describe('Singleview API', () => {
 
   it('returns uht record if customer exists in uht', async () => {
     const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=dani&lastName=beyn`
+      `customers?firstName=dani&lastName=beyn`
     );
     expect(response).toStrictEqual({
       grouped: [],
@@ -95,10 +95,10 @@ describe('Singleview API', () => {
         }
       ]
     };
-    await doPostRequest(`${BASE_URL}/customers`, data);
+    await doPostRequest(`customers`, data);
 
     const result = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=Henrieta&lastName=sterre`
+      `customers?firstName=Henrieta&lastName=sterre`
     );
 
     const paramMatcher = expect.objectContaining({
@@ -127,14 +127,14 @@ describe('Singleview API', () => {
         }
       ]
     };
-    await doPostRequest(`${BASE_URL}/customers`, data);
+    await doPostRequest(`customers`, data);
 
-    const deleteResponse = await doDeleteRequest(`${BASE_URL}/customers/1`);
+    const deleteResponse = await doDeleteRequest(`customers/1`);
 
     expect(deleteResponse).toEqual('OK');
 
     const result = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=Henrieta&lastName=sterre`
+      `customers?firstName=Henrieta&lastName=sterre`
     );
 
     const paramMatcher = expect.objectContaining({
@@ -148,7 +148,7 @@ describe('Singleview API', () => {
 
   it('returns academy-benefits record if customer exists in academy-benefits', async () => {
     const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=flor&lastName=beden`
+      `customers?firstName=flor&lastName=beden`
     );
     expect(response).toStrictEqual({
       grouped: [],
@@ -173,7 +173,7 @@ describe('Singleview API', () => {
 
   it('returns academy-councilTax record if customer exists in academy-councilTax', async () => {
     const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=alf&lastName=roscrigg`
+      `customers?firstName=alf&lastName=roscrigg`
     );
     expect(response).toStrictEqual({
       grouped: [],
@@ -198,7 +198,7 @@ describe('Singleview API', () => {
 
   it('returns UHT-housingRegister record if customer exists in UHT-housingRegister', async () => {
     const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=Imojean&lastName=D'Abbot-Doyle`
+      `customers?firstName=Imojean&lastName=D'Abbot-Doyle`
     );
     expect(response).toStrictEqual({
       grouped: [],
@@ -223,7 +223,7 @@ describe('Singleview API', () => {
 
   it('returns UHW record if customer exists in UHW', async () => {
     const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=Melisa&lastName=hansbury`
+      `customers?firstName=Melisa&lastName=hansbury`
     );
     expect(response).toStrictEqual({
       grouped: [],
@@ -248,7 +248,7 @@ describe('Singleview API', () => {
 
   it('Can get a record from Jigsaw', async () => {
     const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=firstname&lastName=lastname`
+      `customers?firstName=firstname&lastName=lastname`
     );
     expect(response).toStrictEqual({
       grouped: [],
@@ -269,7 +269,7 @@ describe('Singleview API', () => {
 
   it('Groups search records from all systems if they have same name, nino and dob', async () => {
     const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=elwira&lastName=moncur`
+      `customers?firstName=elwira&lastName=moncur`
     );
     expect(response).toStrictEqual({
       grouped: [
@@ -358,7 +358,7 @@ describe('Singleview API', () => {
 
   it('Groups search records based on claim ID', async () => {
     const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=tate&lastName=Bullimore`
+      `customers?firstName=tate&lastName=Bullimore`
     );
     expect(response).toStrictEqual({
       grouped: [
@@ -398,7 +398,7 @@ describe('Singleview API', () => {
 
   it('Does not group search records only based on name', async () => {
     const response = await doSearchRequest(
-      `${BASE_URL}/customers?firstName=Hartwell&lastName=lorinez`
+      `customers?firstName=Hartwell&lastName=lorinez`
     );
     expect(response).toStrictEqual({
       grouped: [],
