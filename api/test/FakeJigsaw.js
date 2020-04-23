@@ -69,6 +69,59 @@ app.get('/customer/api/customerSearch', (req, res) => {
   }
 });
 
+app.get('/homelessness/api/casecheck/:id', (req, res) => {
+  if (req.params.id === '12345')
+    res.send({
+      cases: [
+        {
+          assignedTo: 'Person',
+          dateOfApproach: '2018-07-05T01:00:00',
+          id: 54321,
+          isCurrent: true,
+          isV2LegacyCase: true,
+          statusName: 'Open'
+        }
+      ]
+    });
+  else res.send({ customer: false });
+});
+
+app.get('/customer/api/CustomerOverview/:id', (req, res) => {
+  if (req.params.id === '12345') {
+    res.send({
+      personInfo: {
+        addressString: 'Hackney London W3 43NO',
+        dateOfBirth: '1991-02-13T00:00:00',
+        emailAddress: 'james@hotmail.com',
+        homePhoneNumber: null,
+        mobilePhoneNumber: '07666666666',
+        nhsNumber: '',
+        nationalInsuranceNumber: 'ABC12345D',
+        supportWorker: null
+      }
+    });
+  } else res.send({ customer: false });
+});
+
+app.get('/accommodation/api/CaseAccommodationPlacement', (req, res) => {
+  if (req.query.caseId === '54321') {
+    res.send({
+      placements: [
+        {
+          address: 'Room 1 hallway drive ',
+          endDate: null,
+          placementDuty: 'Section 192',
+          placementType: 'Accommodation secured by the Local Authority',
+          startDate: '2019-04-05T00:00:00',
+          tenancyId: 64444,
+          rentCostCustomer: 0
+        }
+      ],
+      isCurrentlyInPlacement: true
+    });
+  } else res.send({ customer: false });
+});
+
 app.listen(port, () =>
   console.log(`Fake Jigsaw API listening on port ${port}!`)
 );

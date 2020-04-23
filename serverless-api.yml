@@ -48,6 +48,7 @@ functions:
       JigsawLoginUrl: ${ssm:/hn-single-view-api/${self:provider.stage}/JigsawLoginUrl}
       JigsawCustomerBaseSearchUrl: ${ssm:/hn-single-view-api/${self:provider.stage}/JigsawCustomerBaseSearchUrl}
       JigsawHomelessnessBaseSearchUrl: ${ssm:/hn-single-view-api/${self:provider.stage}/JigsawHomelessnessBaseSearchUrl}
+      JigsawAccommodationBaseSearchUrl: ${ssm:/hn-single-view-api/${self:provider.stage}/JigsawAccommodationBaseSearchUrl}
       UHW_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/UHW_DB}
       UHT_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/UHT_DB}
       ACADEMY_DB: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_DB}

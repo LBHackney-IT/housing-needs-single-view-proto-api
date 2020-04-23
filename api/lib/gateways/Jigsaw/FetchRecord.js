@@ -13,7 +13,7 @@ module.exports = options => {
 
   const caseUrl = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/casecheck/`;
   const accomPlacementsUrl = caseId =>
-    `https://zebraaccommodationproduction.azurewebsites.net/api/CaseAccommodationPlacement?caseId=${caseId}`;
+    `${process.env.JigsawAccommodationBaseSearchUrl}/api/CaseAccommodationPlacement?caseId=${caseId}`;
   const customerUrl = id =>
     `${process.env.JigsawCustomerBaseSearchUrl}/api/CustomerOverview/${id}`;
 
