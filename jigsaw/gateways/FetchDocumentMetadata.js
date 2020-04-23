@@ -2,12 +2,11 @@ module.exports = options => {
   const doJigsawGetRequest = options.doJigsawGetRequest;
   const doJigsawPostRequest = options.doJigsawPostRequest;
 
-  const caseUrl = `${process.env.JigsawCustomerBaseSearchUrl}/api/casecheck/`;
-  const docsUrl = `${process.env.JigsawCustomerBaseSearchUrl}/api/cases/getcasedocs/`;
+  const caseUrl = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/casecheck/`;
+  const docsUrl = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/cases/getcasedocs/`;
 
   const fetchMetadata = async jigsawId => {
     const casesResult = await doJigsawGetRequest(caseUrl + jigsawId);
-
     const requests = casesResult.cases.map(c => {
       return doJigsawPostRequest(docsUrl + c.id, {});
     });
