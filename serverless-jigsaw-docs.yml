@@ -41,6 +41,8 @@ functions:
     environment:
       Jigsaw_email: ${ssm:/hn-single-view-api/${self:provider.stage}/Jigsaw_email}
       Jigsaw_password: ${ssm:/hn-single-view-api/${self:provider.stage}/Jigsaw_password}
+      JigsawLoginUrl: ${ssm:/hn-single-view-api/${self:provider.stage}/JigsawLoginUrl}
+      JigsawHomelessnessBaseSearchUrl: ${ssm:/hn-single-view-api/${self:provider.stage}/JigsawHomelessnessBaseSearchUrl}
       ENV: ${self:provider.stage}
       SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
 
