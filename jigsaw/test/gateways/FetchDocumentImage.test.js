@@ -19,7 +19,7 @@ describe('FetchDocumentImage Gateway', () => {
     createGateway();
     await getJigsawDocumentGateway.execute(123);
     expect(doJigsawGetRequest).toHaveBeenCalledWith(
-      `${process.env.JigsawCustomerBaseSearchUrl}/api/blobdownload/123`,
+      `${process.env.JigsawHomelessnessBaseSearchUrl}/api/blobdownload/123`,
       {},
       true
     );
