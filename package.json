@@ -26,7 +26,7 @@
     ]
   },
   "scripts": {
-    "postinstall": "(cd api && echo 'Installing API node modules' && npm i); (cd authorizer && echo 'Installing Authorizer node modules' && npm i);",
+    "postinstall": "(cd api && echo 'Installing API node modules' && npm i); (cd jigsaw && echo 'Installing jigsaw node modules' && npm i); (cd authorizer && echo 'Installing Authorizer node modules' && npm i);",
     "start": "sls offline start -s dev --noAuth --config serverless-api.yml",
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s dev --noAuth --config serverless-api.yml",
     "start-jigsaw-docs": "sls offline start -s dev --port 3015 --noAuth --config serverless-jigsaw-docs.yml",

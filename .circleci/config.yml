@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo npm i && pushd api && npm i && popd && pushd authorizer && npm i && popd
+            sudo npm i && pushd api && npm i && popd && pushd authorizer && npm i && popd && pushd jigsaw && npm i && popd
 
       - save_cache:
           paths:

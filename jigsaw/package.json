@@ -1,0 +1,8 @@
+{
+  "name": "jigsaw-docs-api",
+  "version": "1.0.0",
+  "dependencies": {
+    "@sentry/node": "^5.12.2",
+    "mime-types": "^2.1.27"
+  }
+}
