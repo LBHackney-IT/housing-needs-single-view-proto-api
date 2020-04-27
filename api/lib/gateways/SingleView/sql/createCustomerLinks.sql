@@ -1,15 +1,13 @@
 INSERT INTO customer_links
   (customer_id, system_id, remote_id, first_name, last_name, address, dob, nino)
 VALUES
-  ($
-(customer_id),
-(SELECT id
-FROM systems
-WHERE name = $
-(system_name)), $
-(remote_id), $
-(first_name), $
-(last_name), $
-(address), $
-(dob), $
-(nino))
+  ($1,
+    (SELECT id
+    FROM systems
+    WHERE name = $2),
+    $3,
+    $4,
+    $5,
+    $6,
+    $7,
+    $8)

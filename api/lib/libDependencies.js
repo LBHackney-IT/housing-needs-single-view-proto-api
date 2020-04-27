@@ -226,9 +226,17 @@ const fetchNotes = require('./use-cases/FetchNotes')({
   getCustomerLinks
 });
 
+const createRecordGateway = require('./gateways/SingleView/CreateRecord')({
+  db: singleViewDb
+});
+const saveCustomer = require('./use-cases/SaveCustomer')({
+  gateway: createRecordGateway
+});
+
 module.exports = {
   customerSearch,
   fetchDocuments,
   fetchRecords,
-  fetchNotes
+  fetchNotes,
+  saveCustomer
 };

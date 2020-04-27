@@ -1,26 +1,28 @@
 const CreateRecord = require('../../../lib/gateways/SingleView/CreateRecord');
-jest.mock('pg-promise');
 
 describe('CreateRecord', () => {
   let db;
-  beforeEach(() => {
-    jest.resetModules();
-    jest.resetAllMocks();
-  });
 
   let none = jest.fn(x => {
     return 'hello';
   });
+
+  let task = jest.fn(x => {
+    return {
+      none: jest.fn(async () => {
+        return x;
+      })
+    };
+  });
   const createGateway = (records, throwsError) => {
     db = {
       one: jest.fn(async () => {
+        if (throwsError) {
+          throw new Error('Database error');
+        }
         return records;
       }),
-      task: jest.fn(async t =>
-        jest.fn(x => {
-          console.log('thisis');
-        })
-      ),
+      task,
       none: jest.fn(async () => {
         return records;
       })
@@ -32,10 +34,9 @@ describe('CreateRecord', () => {
   };
 
   it('creates a cutomer in SV database', async () => {
-    const record = [{ firstName: 'Laura', lastName: 'K' }];
     const gateway = createGateway();
 
-    await gateway.execute(record);
+    await gateway.execute();
 
     expect(db.one).toHaveBeenCalledWith(
       'INSERT INTO customers\nDEFAULT VALUES\nRETURNING id;\n'
@@ -57,6 +58,13 @@ describe('CreateRecord', () => {
     const gateway = createGateway();
     const result = await gateway.execute(record);
 
-    expect(none).toHaveBeenCalledWith('this');
+    // expect(result).toEqual(record);
+    expect(task.none).toHaveBeenCalledWith('this');
+  });
+
+  it('Cathes an error if it is thrown', async () => {
+    const gateway = createGateway({ id: 1 }, true);
+
+    expect(await gateway.execute()).toBeUndefined();
   });
 });

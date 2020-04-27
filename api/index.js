@@ -8,7 +8,8 @@ const {
   customerSearch,
   fetchDocuments,
   fetchNotes,
-  fetchRecords
+  fetchRecords,
+  saveCustomer
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -55,7 +56,7 @@ app.post('/customers', async (req, res) => {
   console.log('SAVING CUSTOMER');
   console.time('SAVING CUSTOMER');
   // Save the selected customer records
-  const customer = await QueryHandler.saveCustomer(req.body.customers);
+  const customer = await saveCustomer(req.body.customers);
   console.timeEnd('SAVING CUSTOMER');
   res.send({ customer });
 });
