@@ -33,7 +33,7 @@ module.exports = options => {
         });
         return customer;
       } catch (err) {
-        console.log(err);
+        console.log('Could not add a customer because of an error:' + err);
       }
     }
   };

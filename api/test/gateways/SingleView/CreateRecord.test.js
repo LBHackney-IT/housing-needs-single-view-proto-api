@@ -1,5 +1,4 @@
 const CreateRecord = require('../../../lib/gateways/SingleView/CreateRecord');
-jest.mock('pg-promise');
 
 class MyDB {
   task(cb) {
@@ -52,5 +51,11 @@ describe('CreateRecord', () => {
     await gateway.execute(records);
 
     expect(db.none).toHaveBeenCalled();
+  });
+
+  it('Cathes an error if it is thrown', async () => {
+    const gateway = createGateway({ id: 1 }, true);
+
+    expect(await gateway.execute()).toBeUndefined();
   });
 });
