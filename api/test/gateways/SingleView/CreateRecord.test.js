@@ -17,7 +17,12 @@ describe('CreateRecord', () => {
   const createGateway = (records, throwsError) => {
     db = new MyDB();
     db.none = jest.fn();
-    db.one = jest.fn(async () => records);
+    db.one = jest.fn(async () => {
+      if (throwsError) {
+        throw new Error('Database error');
+      }
+      return records;
+    });
 
     return CreateRecord({
       db
