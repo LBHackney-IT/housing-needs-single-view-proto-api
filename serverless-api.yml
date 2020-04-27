@@ -92,4 +92,5 @@ custom:
     hn-single-view-api-authorizer:
       name: hn-single-view-api-authorizer
       type: request
+      identitySource: ''
       resultTtlInSeconds: 0
