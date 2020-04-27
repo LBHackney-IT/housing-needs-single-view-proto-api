@@ -1,41 +1,35 @@
 const CreateRecord = require('../../../lib/gateways/SingleView/CreateRecord');
 jest.mock('pg-promise');
 
+class MyDB {
+  task(cb) {
+    cb(this);
+  }
+}
+
 describe('CreateRecord', () => {
-  let db;
   beforeEach(() => {
     jest.resetModules();
     jest.resetAllMocks();
   });
 
-  let none = jest.fn(x => {
-    return 'hello';
-  });
+  let db;
+
   const createGateway = (records, throwsError) => {
-    db = {
-      one: jest.fn(async () => {
-        return records;
-      }),
-      task: jest.fn(async t =>
-        jest.fn(x => {
-          console.log('thisis');
-        })
-      ),
-      none: jest.fn(async () => {
-        return records;
-      })
-    };
+    db = new MyDB();
+    db.none = jest.fn();
+    db.one = jest.fn(async () => records);
 
     return CreateRecord({
       db
     });
   };
 
-  it('creates a cutomer in SV database', async () => {
-    const record = [{ firstName: 'Laura', lastName: 'K' }];
-    const gateway = createGateway();
+  it('creates a customer in SV database', async () => {
+    const records = [{ firstName: 'Laura', lastName: 'K' }];
+    const gateway = createGateway(records);
 
-    await gateway.execute(record);
+    await gateway.execute(records);
 
     expect(db.one).toHaveBeenCalledWith(
       'INSERT INTO customers\nDEFAULT VALUES\nRETURNING id;\n'
@@ -43,7 +37,7 @@ describe('CreateRecord', () => {
   });
 
   it('returns a customer link', async () => {
-    const record = [
+    const records = [
       {
         id: '123',
         firstName: 'Laura',
@@ -54,9 +48,9 @@ describe('CreateRecord', () => {
         nino: '1234567'
       }
     ];
-    const gateway = createGateway();
-    const result = await gateway.execute(record);
+    const gateway = createGateway(records);
+    await gateway.execute(records);
 
-    expect(none).toHaveBeenCalledWith('this');
+    expect(db.none).toHaveBeenCalled();
   });
 });
