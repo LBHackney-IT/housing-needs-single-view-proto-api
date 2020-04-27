@@ -69,6 +69,7 @@ module.exports = options => {
     execute: async id => {
       try {
         const customer = await fetchCustomer(id, db);
+        //console.log(customer);
         return processCustomerResults(customer);
       } catch (err) {
         console.log(`Error fetching customers in UHT-HousingRegister: ${err}`);
