@@ -2,23 +2,12 @@ require('dotenv').config();
 const path = require('path');
 const singleViewDb = require('../../lib/PostgresDb');
 const { loadSQL } = require('../../../api/lib/Utils');
+const { doGetRequest } = require('./TestUtils');
 const { truncateTablesSQL, insertLinksSQL } = loadSQL(
   path.join(__dirname, 'sql')
 );
 
-const BASE_URL = 'http://localhost:3010';
-
 describe('Singleview API', () => {
-  const rp = require('request-promise');
-  const doSearchRequest = async uri => {
-    const options = {
-      uri: `${BASE_URL}/${uri}`,
-      qs: {},
-      json: true
-    };
-    return await rp(options);
-  };
-
   beforeEach(async () => {
     await singleViewDb.any(truncateTablesSQL);
     await singleViewDb.any(insertLinksSQL);
@@ -27,14 +16,14 @@ describe('Singleview API', () => {
   afterAll(singleViewDb.$pool.end);
 
   it('returns empty records for non-existent customer', async () => {
-    const response = await doSearchRequest(`customers/122/record`);
+    const response = await doGetRequest(`customers/122/record`);
     expect(response).toStrictEqual({
       customer: false
     });
   });
 
   it('returns info for customer with UHT-Contacts record', async () => {
-    const response = await doSearchRequest(`customers/123/record`);
+    const response = await doGetRequest(`customers/123/record`);
     expect(response).toStrictEqual({
       customer: {
         address: [
@@ -88,7 +77,7 @@ describe('Singleview API', () => {
   });
 
   it('returns info for customer with UHT-Housing Register record', async () => {
-    const response = await doSearchRequest(`customers/124/record`);
+    const response = await doGetRequest(`customers/124/record`);
     const dobMatcher = expect.arrayContaining([
       expect.stringContaining('1965-03-25')
     ]);
@@ -133,7 +122,7 @@ describe('Singleview API', () => {
     const dobMatcher = expect.arrayContaining([
       expect.stringContaining('1973-08-23')
     ]);
-    const response = await doSearchRequest(`customers/125/record`);
+    const response = await doGetRequest(`customers/125/record`);
     expect(response).toStrictEqual({
       customer: {
         dob: dobMatcher,
@@ -148,7 +137,7 @@ describe('Singleview API', () => {
   });
 
   it('returns info for customer with Jigsaw record', async () => {
-    const response = await doSearchRequest(`customers/126/record`);
+    const response = await doGetRequest(`customers/126/record`);
     expect(response).toStrictEqual({
       customer: {
         address: [{ address: ['Hackney London W3 43no'], source: ['JIGSAW'] }],
@@ -177,7 +166,7 @@ describe('Singleview API', () => {
   });
 
   it('returns info for customer with Academy-Benefits record', async () => {
-    const response = await doSearchRequest(`customers/127/record`);
+    const response = await doGetRequest(`customers/127/record`);
     expect(response).toStrictEqual({
       customer: {
         address: [
@@ -232,7 +221,7 @@ describe('Singleview API', () => {
   });
 
   it('returns info for customer with Academy-CouncilTax record', async () => {
-    const response = await doSearchRequest(`customers/128/record`);
+    const response = await doGetRequest(`customers/128/record`);
     expect(response).toStrictEqual({
       customer: {
         address: [
@@ -282,7 +271,7 @@ describe('Singleview API', () => {
   });
 
   it('returns info for customer existing in all systems', async () => {
-    const response = await doSearchRequest(`customers/129/record`);
+    const response = await doGetRequest(`customers/129/record`);
     expect(response).toStrictEqual({
       customer: {
         address: [
