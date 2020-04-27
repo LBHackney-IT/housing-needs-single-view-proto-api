@@ -233,10 +233,18 @@ const saveCustomer = require('./use-cases/SaveCustomer')({
   gateway: createRecordGateway
 });
 
+const deleteCustomerGateway = require('./gateways/SingleView/DeleteCustomer')({
+  db: singleViewDb
+});
+const deleteCustomer = require('./use-cases/DeleteCustomer')({
+  gateway: deleteCustomerGateway
+});
+
 module.exports = {
   customerSearch,
   fetchDocuments,
   fetchRecords,
   fetchNotes,
-  saveCustomer
+  saveCustomer,
+  deleteCustomer
 };
