@@ -71,44 +71,35 @@ describe('UHTHousingRegisterFetchRecord gateway', () => {
     const gateway = createGateway([customer]);
 
     const record = await gateway.execute(id);
-    expect(record).toEqual(
-      expect.objectContaining({
-        address: [
-          { address: [], source: 'UHT-HousingRegister-WaitingList' },
-          expect.objectContaining({
-            address: ['26 Toban Junction'],
-            source: 'UHT-HousingRegister-Correspondence'
-          })
-        ],
-        dob: ['1965-03-25 01:00:00'],
-        // housingNeeds: {},
-        housingRegister: [
-          {
-            applicationRef: 'DIR6940111',
-            applicationStatus: 'Cancelled',
-            band: 'Urgent',
-            bedroomReq: '1                   ',
-            biddingNo: '2000111',
-          }
-        ],
-        name: [
-          {
-            first: 'Hillel',
-            last: 'Lorenz',
-            title: 'Mr'
-          }
-        ],
-        nino: ['AB106755C'],
-        phone: [],
-        postcode: ['H04 7OT'],
-        systemIds: {
-          uhtHousingRegister: ['DIR6940111/4']
+    expect(record).toEqual({
+      address: [
+        {
+          address: [],
+          source: 'UHT-HousingRegister-WaitingList'
+        },
+        {
+          address: ['26 Toban Junction'],
+          source: 'UHT-HousingRegister-Correspondence'
         }
-      })
-    );
+      ],
+      dob: ['1965-03-25 01:00:00'],
+      housingRegister: {
+        applicationRef: 'DIR6940111',
+        applicationStatus: 'Cancelled',
+        band: 'Urgent',
+        bedroomReq: '1                   ',
+        biddingNo: '2000111',
+        startDate: new Date('1900-01-01T00:00:00.000Z')
+      },
+      name: [{ first: 'Hillel', last: 'Lorenz', title: 'Mr' }],
+      nino: ['AB106755C'],
+      phone: [],
+      postcode: ['H04 7OT'],
+      systemIds: { uhtHousingRegister: ['DIR6940111/4'] }
+    });
   });
 
-  xit('catches and console logs errors', async () => {
+  it('catches and console logs errors', async () => {
     let consoleOutput = '';
     const storeLog = inputs => (consoleOutput += inputs);
     console['log'] = jest.fn(storeLog);
