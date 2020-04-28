@@ -50,7 +50,7 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      TZ: "Europe/London"
+      TZ: Europe/London
 
     steps:
       - attach_workspace:
