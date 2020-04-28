@@ -59,7 +59,7 @@ describe('UHWFetchRecord gateway', () => {
     const record = await gateway.execute(id);
     expect(record).toEqual(
       expect.objectContaining({
-        dob: ['1973-08-23 01:00:00'],
+        dob: [expect.stringContaining('1973-08-23')],
         email: ['Arlyn.W@yahoo.com'],
         name: [{ first: 'Arlyn', last: 'Wilce', title: 'Ms' }],
         postcode: [null],
