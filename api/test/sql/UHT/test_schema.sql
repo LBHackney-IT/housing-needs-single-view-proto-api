@@ -604,3 +604,43 @@ insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) v
 insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 5252968, '2015-10-08', 'DANA', 'Upgradable solution-oriented solution', 95);
 insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 6340257, '2017-06-10', 'DANA', 'Profit-focused optimal application', 37);
 insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 1877088, '2016-12-24', 'DANA', 'Virtual demand-driven portal', 40);
+
+
+----
+
+USE cmData;
+
+CREATE TABLE [BENCLAIM] (
+    [CLAIMNO] int,
+    [CLAIMREFERENCE] nvarchar(10),
+    [CTREFERENCE] nvarchar(10)
+);
+
+insert into BENCLAIM (CLAIMNO, CLAIMREFERENCE, CTREFERENCE) values (258, '6060591', '1111');
+insert into BENCLAIM (CLAIMNO, CLAIMREFERENCE, CTREFERENCE) values (242, '1111111111', '35205909');
+insert into BENCLAIM (CLAIMNO, CLAIMREFERENCE, CTREFERENCE) values (173, '1111111111', '2222');
+insert into BENCLAIM (CLAIMNO, CLAIMREFERENCE, CTREFERENCE) values (246, '1111111111', '3333');
+
+
+
+--------------
+
+CREATE TABLE [W2ObjectNote] (
+    [NoteID] int,
+    [KeyObject] varchar(40),
+    [KeyNumb] int,
+    [NDate] datetime,
+    [UserID] varchar(20),
+    [NoteText] varchar(2500)
+);
+
+insert into W2ObjectNote (NoteID, KeyObject, KeyNumb, NDate, UserID, NoteText) values (1, 'Claim', 258, '2019-11-20', 'TOUTOU', 'Exclusive 3rd generation help-desk');
+insert into W2ObjectNote (NoteID, KeyObject, KeyNumb, NDate, UserID, NoteText) values (2, 'Claim', 242, '2018-01-29', 'TOUTOU', 'Organic optimizing circuit');
+insert into W2ObjectNote (NoteID, KeyObject, KeyNumb, NDate, UserID, NoteText) values (3, 'Claim', 173, '2016-10-03', 'TOUTOU', 'Visionary grid-enabled groupware');
+insert into W2ObjectNote (NoteID, KeyObject, KeyNumb, NDate, UserID, NoteText) values (4, 'Claim', 246, '2015-10-09', 'TOUTOU', 'Devolved cohesive infrastructure');
+insert into W2ObjectNote (NoteID, KeyObject, KeyNumb, NDate, UserID, NoteText) values (5, 'Claim', 288, '2015-11-13', 'TOUTOU', 'Self-enabling optimizing orchestration');
+insert into W2ObjectNote (NoteID, KeyObject, KeyNumb, NDate, UserID, NoteText) values (6, 'Claim', 270, '2020-04-17', 'TOUTOU', 'Operative 24/7 encryption');
+insert into W2ObjectNote (NoteID, KeyObject, KeyNumb, NDate, UserID, NoteText) values (7, 'Claim', 196, '2016-01-09', 'TOUTOU', 'Multi-channelled mission-critical structure');
+insert into W2ObjectNote (NoteID, KeyObject, KeyNumb, NDate, UserID, NoteText) values (8, 'Claim', 196, '2020-01-22', 'TOUTOU', 'Universal asymmetric capacity');
+insert into W2ObjectNote (NoteID, KeyObject, KeyNumb, NDate, UserID, NoteText) values (19, 'Claim', 248, '2017-11-14', 'TOUTOU', 'Team-oriented actuating website');
+insert into W2ObjectNote (NoteID, KeyObject, KeyNumb, NDate, UserID, NoteText) values (18, 'Claim', 271, '2019-11-25', 'TOUTOU', 'Monitored maximized policy');

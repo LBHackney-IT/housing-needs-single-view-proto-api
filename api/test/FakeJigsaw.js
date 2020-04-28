@@ -122,6 +122,25 @@ app.get('/accommodation/api/CaseAccommodationPlacement', (req, res) => {
   } else res.send({ customer: false });
 });
 
+app.get('/api/Customer/:id/Notes', (req, res) => {
+  if (req.params.id === '12345') {
+    res.send({
+      placements: [
+        {
+          address: 'Room 1 hallway drive ',
+          endDate: null,
+          placementDuty: 'Section 192',
+          placementType: 'Accommodation secured by the Local Authority',
+          startDate: '2019-04-05T00:00:00',
+          tenancyId: 64444,
+          rentCostCustomer: 0
+        }
+      ],
+      isCurrentlyInPlacement: true
+    });
+  } else res.send({ customer: false });
+});
+
 app.listen(port, () =>
   console.log(`Fake Jigsaw API listening on port ${port}!`)
 );

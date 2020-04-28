@@ -31,4 +31,3 @@ insert into customer_links (id, customer_id, system_id, remote_id, first_name, l
 
 insert into customers (id, created_at, updated_at) values (130, current_timestamp, current_timestamp);
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (111, 130, 1, '1101447/1', 'Fake', 'Customer', '18 saut road', 'CD877332Z' ,'1971-12-22');
-

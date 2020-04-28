@@ -94,7 +94,7 @@ describe('Fetch Notes', () => {
     });
   });
 
-  it('can return one note from Academy-Benefits', async () => {
+  it('can return notes from Academy-Benefits and Comino', async () => {
     const response = await doSearchRequest(`customers/127/notes`);
     expect(response).toStrictEqual({
       notes: [
@@ -140,8 +140,39 @@ describe('Fetch Notes', () => {
           text: "rec'd from LL on 05/02/10 notifying of rent increase wef:",
           title: 'Note',
           user: 'bebeo'
+        },
+        {
+          date: '2019-11-20 12:00:00',
+          id: 1,
+          system: 'COMINO',
+          text: 'Exclusive 3rd generation help-desk',
+          title: 'Note',
+          user: 'TOUTOU'
         }
       ]
+    });
+  });
+
+  it('can return Academy-councilTax note from Comino', async () => {
+    const response = await doSearchRequest(`customers/128/notes`);
+    expect(response).toStrictEqual({
+      notes: [
+        {
+          date: '2018-01-29 12:00:00',
+          id: 2,
+          system: 'COMINO',
+          text: 'Organic optimizing circuit',
+          title: 'Note',
+          user: 'TOUTOU'
+        }
+      ]
+    });
+  });
+
+  it('can return notes from all systems', async () => {
+    const response = await doSearchRequest(`customers/129/notes`);
+    expect(response).toStrictEqual({
+      notes: []
     });
   });
 });
