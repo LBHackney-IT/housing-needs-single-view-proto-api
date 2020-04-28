@@ -1,6 +1,6 @@
 const AcademyCouncilTaxFetchRecord = require('../../../lib/gateways/Academy-CouncilTax/FetchRecord');
 
-describe('AcademyBenefitsFetchRecord gateway', () => {
+describe('AcademyCouncilTaxFetchRecord gateway', () => {
   let db;
 
   const createGateway = (customer, throwsError) => {
