@@ -21,7 +21,7 @@ describe('UHWFetchRecord gateway', () => {
   it('queries the database with appropriate id', async () => {
     const gateway = createGateway([]);
     const id = '8852263';
-    const idQueryMatcher = expect.stringMatching(/id = @id/);
+    const idQueryMatcher = expect.stringMatching(/ContactNo = @id/);
 
     const paramMatcher = expect.arrayContaining([
       {
