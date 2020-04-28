@@ -69,7 +69,7 @@ module.exports = options => {
   return {
     execute: async id => {
       try {
-        console.log(">IDDDDDD",id);
+        //console.log(">IDDDDDD",id);
         const customer = await fetchCustomer(id, db);
         //console.log(customer);
         return processCustomerResults(customer);
