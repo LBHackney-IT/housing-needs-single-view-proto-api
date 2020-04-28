@@ -86,4 +86,62 @@ describe('Fetch Notes', () => {
       ]
     });
   });
+
+  it('can return one note from Jigsaw', async () => {
+    const response = await doSearchRequest(`customers/126/notes`);
+    expect(response).toStrictEqual({
+      notes: [{}]
+    });
+  });
+
+  it('can return one note from Academy-Benefits', async () => {
+    const response = await doSearchRequest(`customers/127/notes`);
+    expect(response).toStrictEqual({
+      notes: [
+        {
+          date: '2010-03-19 12:08:59',
+          id: '000000000ctax',
+          system: 'ACADEMY-Benefits',
+          text: 'discrepancies report...assessment classification is correct.',
+          title: 'Note',
+          user: 'aaaaaaa'
+        },
+        {
+          date: '2010-03-18 03:04:43',
+          id: '000000001Zero',
+          system: 'ACADEMY-Benefits',
+          text:
+            'transaction Subsidy project:  Removed Coa tick from zero transaction for the period 110210-150210.',
+          title: 'Note',
+          user: 'bbbbbbbb'
+        },
+        {
+          date: '2010-03-01 10:20:21',
+          id: '000000002copy',
+          system: 'ACADEMY-Benefits',
+          text:
+            'of death certificate and intention to claim letter coppied over on to claim 60437767',
+          title: 'Note',
+          user: 'oododo'
+        },
+        {
+          date: '2010-02-23 11:34:30',
+          id: '000000003Email',
+          system: 'ACADEMY-Benefits',
+          text:
+            'receievd from PO, so case reassigned to myselfClaim canx effective 11.02.10 ( CTB) and effective 15.02.10 (HB)The claiamnts partner want to continue the claimI have set up a correspondence claim 00000000 for the partnerI will send out an lll on this claim, send a memo to control to amend creditor ref and send out a claim form as well, when the claim transfers over to momomo',
+          title: 'Note',
+          user: 'oododo'
+        },
+        {
+          date: '2010-02-11 11:44:39',
+          id: '000000004Email',
+          system: 'ACADEMY-Benefits',
+          text: "rec'd from LL on 05/02/10 notifying of rent increase wef:",
+          title: 'Note',
+          user: 'bebeo'
+        }
+      ]
+    });
+  });
 });

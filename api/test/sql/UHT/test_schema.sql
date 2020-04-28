@@ -274,20 +274,21 @@ USE HBCTLIVEDB;
 CREATE TABLE [hbclaim] (
     [claim_id] int,
     [check_digit] nvarchar(1),
-    [status_ind] int
+    [status_ind] int,
+    [notes_db_handle] nvarchar(14)
 );
 
 
-insert into hbclaim (claim_id, check_digit, status_ind) values (5260765, '6', 1);
-insert into hbclaim (claim_id, check_digit, status_ind) values (5759744, '0', 2);
-insert into hbclaim (claim_id, check_digit, status_ind) values (6060591, '3', 3);
-insert into hbclaim (claim_id, check_digit, status_ind) values (5479047, '8', 4);
-insert into hbclaim (claim_id, check_digit, status_ind) values (5879391, '3', 5);
-insert into hbclaim (claim_id, check_digit, status_ind) values (6115325, '5', 6);
-insert into hbclaim (claim_id, check_digit, status_ind) values (5587103, '4', 7);
-insert into hbclaim (claim_id, check_digit, status_ind) values (5315153, '5', 8);
-insert into hbclaim (claim_id, check_digit, status_ind) values (5167284, '3', 9);
-insert into hbclaim (claim_id, check_digit, status_ind) values (5448076, '2', 0);
+insert into hbclaim (claim_id, check_digit, status_ind, notes_db_handle) values (5260765, '6', 1, '11111111111111');
+insert into hbclaim (claim_id, check_digit, status_ind, notes_db_handle) values (5759744, '0', 2, '11111111111111');
+insert into hbclaim (claim_id, check_digit, status_ind, notes_db_handle) values (6060591, '3', 3, '11111111111111');
+insert into hbclaim (claim_id, check_digit, status_ind, notes_db_handle) values (5479047, '8', 4, '11111111111111');
+insert into hbclaim (claim_id, check_digit, status_ind, notes_db_handle) values (5879391, '3', 5, '11111111111111');
+insert into hbclaim (claim_id, check_digit, status_ind, notes_db_handle) values (6115325, '5', 6, '11111111111111');
+insert into hbclaim (claim_id, check_digit, status_ind, notes_db_handle) values (5587103, '4', 7, '11111111111111');
+insert into hbclaim (claim_id, check_digit, status_ind, notes_db_handle) values (5315153, '5', 8, '11111111111111');
+insert into hbclaim (claim_id, check_digit, status_ind, notes_db_handle) values (5167284, '3', 9, '11111111111111');
+insert into hbclaim (claim_id, check_digit, status_ind, notes_db_handle) values (5448076, '2', 0, '11111111111111');
 
 CREATE TABLE [hbmember] (
     [claim_id] int,
@@ -370,6 +371,35 @@ insert into hbinccode (code, to_date, descrip1) values ('YTS', '2099-12-31', 'Te
 insert into hbinccode (code, to_date, descrip1) values ('YTS', '2099-12-31', 'Multi-channelled holistic alliance');
 insert into hbinccode (code, to_date, descrip1) values ('YTS', '2099-12-31', 'Face to face responsive architecture');
 insert into hbinccode (code, to_date, descrip1) values ('YTS', '2099-12-31', 'Innovative tertiary monitoring');
+
+--------------------
+
+CREATE TABLE [hbclaimnotes] (
+    [string_id] int,
+    [row_sequence] int,
+    [text_total] int,
+    [text_value] nvarchar(1786)
+);
+
+insert into hbclaimnotes (string_id, row_sequence, text_total, text_value) values (1, 1, 8125,  "User Id: aaaaaaa  Date: 19.03.2010 12:08:59  000000000
+ctax discrepancies report...assessment classification is correct.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+User Id: bbbbbbbb  Date: 18.03.2010 15:04:43  000000001
+Zero transaction Subsidy project:  Removed Coa tick from zero transaction for the period 110210-150210.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+User Id: oododo  Date: 01.03.2010 10:20:21  000000002
+copy of death certificate and intention to claim letter coppied over on to claim 60437767
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+User Id: oododo  Date: 23.02.2010 11:34:30  000000003
+Email receievd from PO, so case reassigned to myself
+Claim canx effective 11.02.10 ( CTB) and effective 15.02.10 (HB)
+The claiamnts partner want to continue the claim
+I have set up a correspondence claim 00000000 for the partner
+I will send out an lll on this claim, send a memo to control to amend creditor ref and send out a claim form as well, when the claim transfers over to momomo
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+User Id: bebeo  Date: 11.02.2010 11:44:39  000000004
+Email rec'd from LL on 05/02/10 notifying of rent increase wef:");
+
 
 ---ACADEMY COUNCIL TAX---
 
