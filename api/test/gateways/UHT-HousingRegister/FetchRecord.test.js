@@ -82,7 +82,7 @@ describe('UHTHousingRegisterFetchRecord gateway', () => {
           source: 'UHT-HousingRegister-Correspondence'
         }
       ],
-      dob: ['1965-03-25 01:00:00'],
+      dob: [expect.stringContaining('1965-03-25')],
       housingRegister: {
         applicationRef: 'DIR6940111',
         applicationStatus: 'Cancelled',
