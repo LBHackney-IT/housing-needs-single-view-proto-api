@@ -22,6 +22,7 @@ const fetchCustomer = async (id, db) => {
 };
 
 const processCustomerResults = result => {
+  console.log("> reult app ref",result.app_ref);
   return {
     systemIds: {
       uhtHousingRegister: [`${result.app_ref.trim()}/${result.person_no}`]
@@ -68,6 +69,7 @@ module.exports = options => {
   return {
     execute: async id => {
       try {
+        console.log(">IDDDDDD",id);
         const customer = await fetchCustomer(id, db);
         //console.log(customer);
         return processCustomerResults(customer);
