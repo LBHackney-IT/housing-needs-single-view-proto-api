@@ -87,7 +87,7 @@ insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, 
 insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000056/02', '957152794', '8381960', '2001-12-16', '2010-05-28', 'SEC', 'WK', -860.06, '761340403');
 insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000071/01', '041581425', '4595514', '2011-12-20', '2012-10-29', 'SEC', 'WK', -292.14, '339439311');
 insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000051/04', '975605363', '8282501', '2004-11-16', '2014-02-16', 'SEC', 'WK', -380.65, '330021755');
-insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000030/01', '522127710', '1101447', '2003-05-07', '2011-12-21', 'SEC', 'WK', -254.84, '120587287');
+insert into tenagree (tag_ref, prop_ref, house_ref, cot, eot, tenure, prd_code, cur_bal, u_saff_rentacc) values ('000031/01', '522127710', '1101447', '2003-05-07', '2011-12-21', 'SEC', 'WK', -254.84, '120587287');
 ---------------
 CREATE TABLE [tenure] (
     [ten_type] char(3) DEFAULT (space(1)),
@@ -154,8 +154,6 @@ CREATE TABLE [araction] (
     [username] varchar(40) DEFAULT ('')
 );
 
-Table
-SQL
 insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000023/02', '2016-11-27', 'Inverse bi-directional analyzer', 123096274, 'SYSTEM');
 insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000038/08', '2020-02-25', 'Operative analyzing conglomeration', 176403472, 'SYSTEM');
 insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000060/06', '2019-06-04', 'Reverse-engineered user-facing artificial intelligence', 159193206, 'SYSTEM');
