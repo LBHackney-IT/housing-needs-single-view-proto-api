@@ -128,7 +128,7 @@ $ npm run unit-tests
 $ npm run auth
 ```
 
-## Debug the API (VS Code)
+## Configuration for debugging the API (VS Code)
 
 Create a new file at .vscode/launch.json and add the following:
 
