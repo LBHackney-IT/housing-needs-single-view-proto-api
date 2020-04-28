@@ -206,13 +206,14 @@ CREATE TABLE [wlmember] (
     [u_memmobile] char(20) DEFAULT (space((1))),
     [m_address] char(150) DEFAULT (space((1))),
     [u_eff_band_date] smalldatetime DEFAULT (''),
+    [con_key] int DEFAULT (0)
 
 );
 
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR6940111', 4, '1965-03-25', 'Hillel', 'Lorenz', 'AB106755C', 'Mr');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR4704058', 5, '1971-12-22', 'Elwira', 'Moncur', 'CD877332Z', 'Ms');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR5135951', 3, '1971-05-18', 'Imojean', 'D''Abbot-Doyle', 'CC808991F', 'Mr');
-insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR7479057', 1, '1983-08-11', 'Rodrick', 'Kellitt', 'GH210551B', 'Mr')
+insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR7479057', 1, '1983-08-11', 'Rodrick', 'Kellitt', 'GH210551B', 'Mr');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR7350104', 1, '1965-08-15', 'Zilvia', 'Tomaello', 'RF735670C', 'Ms');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR3646682', 1, '1975-04-13', 'Dasha', 'Sanchez', 'GD345625V', 'Mr');
 insert into wlmember (app_ref, person_no, dob, forename, surname, ni_no, title) values ('DIR9055215', 6, '1962-07-03', 'Marget', 'Rubie', 'JE799725S', 'Mr');
@@ -236,6 +237,35 @@ insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR9055215', '1', 'num_
 insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR1784557', '2', 'num_bedrooms');
 insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR6421750', '2', 'num_bedrooms');
 insert into wlaneeds (app_ref, r_to, field_ref) values ('DIR9610142', '1', 'num_bedrooms');
+
+-------------------------------
+
+CREATE TABLE [conlog] (
+    [con_key] int DEFAULT (0),
+    [user_code] char(3) DEFAULT (space(1)),
+    [clog_date] datetime DEFAULT (''),
+    [clog_details] text DEFAULT (space(1))
+);
+
+insert into conlog (con_key, user_code, clog_date, clog_details) values (629314841, 'MAS', '2016-04-18', 'Object-based composite complexity');
+insert into conlog (con_key, user_code, clog_date, clog_details) values (530672748, 'MAS', '2019-09-24', 'Progressive radical standardization');
+insert into conlog (con_key, user_code, clog_date, clog_details) values (302934398, 'MAS', '2020-04-26', 'Re-engineered national ability');
+insert into conlog (con_key, user_code, clog_date, clog_details) values (868776284, 'MAS', '2017-12-12', 'Reverse-engineered reciprocal ability');
+insert into conlog (con_key, user_code, clog_date, clog_details) values (726669153, 'MAS', '2019-08-08', 'Devolved value-added knowledge base');
+insert into conlog (con_key, user_code, clog_date, clog_details) values (995371469, 'MAS', '2016-12-24', 'Multi-channelled radical infrastructure');
+insert into conlog (con_key, user_code, clog_date, clog_details) values (146114001, 'MAS', '2018-12-15', 'Upgradable modular system engine');
+insert into conlog (con_key, user_code, clog_date, clog_details) values (172168279, 'MAS', '2015-07-03', 'Customer-focused client-server migration');
+insert into conlog (con_key, user_code, clog_date, clog_details) values (412769753, 'MAS', '2016-11-11', 'Upgradable mission-critical secured line');
+insert into conlog (con_key, user_code, clog_date, clog_details) values (240815067, 'MAS', '2017-10-29', 'Compatible local hierarchy');
+
+--------------------------------
+
+CREATE TABLE [auser] (
+    [user_code] char(3) DEFAULT (space(1)),
+    [username] varchar(40) DEFAULT ('')
+);
+
+insert into auser (username, user_code) values ('SYSTEM', 'MAS');
 
 -------ACADEMY BENEFITS---------
 
@@ -523,3 +553,24 @@ insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Titl
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (5252968, 'Aksel', 'Applegarth', 'CX0622002B', '1963-05-06', 2815228, 'Mr', 'Aksel.A@yahoo.com');
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (6340257, 'Drucie', 'Donner', 'JI9527697X', '1953-08-18', 9680326, 'Ms', 'Drucie.D@yahoo.com');
 insert into CCContact (ContactNo, Forenames, Surname, NINo, DOB, UHContact, Title, EmailAddress) values (1877088, 'Steve', 'Jenner', 'SZ8914270O', '1969-04-12', 1586922, 'Mr', 'Steve.J@yahoo.com');
+
+------------------
+CREATE TABLE [W2ObjectNote] (
+    [KeyObject] varchar(40),
+    [KeyNumb] int,
+    [NDate] datetime,
+    [UserID] varchar(20),
+    [NoteText] varchar(2000),
+    [NoteID] int 
+);
+
+insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 8852263, '2016-07-31', 'DANA', 'Grass-roots mobile protocol', 82);
+insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 4186867, '2016-10-19', 'DANA', 'Fully-configurable composite model', 92);
+insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 6240678, '2018-01-16', 'DANA', 'Ergonomic scalable toolset', 99);
+insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 9589034, '2016-12-05', 'DANA', 'Synchronised actuating access', 29);
+insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 2770924, '2017-09-12', 'DANA', 'Innovative neutral intranet', 37);
+insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 7316698, '2017-10-28', 'DANA', 'Multi-tiered tangible complexity', 32);
+insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 629036, '2015-11-03', 'DANA', 'Ameliorated stable interface', 38);
+insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 5252968, '2015-10-08', 'DANA', 'Upgradable solution-oriented solution', 95);
+insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 6340257, '2017-06-10', 'DANA', 'Profit-focused optimal application', 37);
+insert into W2ObjectNote (KeyObject, KeyNumb, NDate, UserID, NoteText, NoteID) values ('Contact', 1877088, '2016-12-24', 'DANA', 'Virtual demand-driven portal', 40);

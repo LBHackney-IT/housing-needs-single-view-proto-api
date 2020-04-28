@@ -55,4 +55,35 @@ describe('Fetch Notes', () => {
       ]
     });
   });
+
+  it('can return one note from UHT-HousingRegister', async () => {
+    const response = await doSearchRequest(`customers/124/notes`);
+    expect(response).toStrictEqual({
+      notes: [
+        {
+          date: '2016-04-18 01:00:00',
+          system: 'UHT-HousingRegister',
+          text: 'Object-based composite complexity',
+          title: 'Note',
+          user: 'SYSTEM'
+        }
+      ]
+    });
+  });
+
+  it('can return one note from UHW', async () => {
+    const response = await doSearchRequest(`customers/125/notes`);
+    expect(response).toStrictEqual({
+      notes: [
+        {
+          date: '2016-10-19 01:00:00',
+          id: 92,
+          system: 'UHW',
+          text: 'Fully-configurable composite model',
+          title: 'Note',
+          user: 'DANA'
+        }
+      ]
+    });
+  });
 });
