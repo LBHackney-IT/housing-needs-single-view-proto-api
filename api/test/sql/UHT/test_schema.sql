@@ -144,6 +144,30 @@ insert into period (prd_code, prd_desc) values ('WK', 'Monthly(8th)');
 insert into period (prd_code, prd_desc) values ('WK', 'Monthly(9th)');
 insert into period (prd_code, prd_desc) values ('WK', 'Monthly(0th)');
 
+-------------------------
+
+CREATE TABLE [araction] (
+    [tag_ref] char(11) DEFAULT (space(1)),
+    [action_date] smalldatetime DEFAULT (''),
+    [action_comment] text DEFAULT (space(1)),
+    [araction_sid] int DEFAULT (0),
+    [username] varchar(40) DEFAULT ('')
+);
+
+Table
+SQL
+insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000023/02', '2016-11-27', 'Inverse bi-directional analyzer', 123096274, 'SYSTEM');
+insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000038/08', '2020-02-25', 'Operative analyzing conglomeration', 176403472, 'SYSTEM');
+insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000060/06', '2019-06-04', 'Reverse-engineered user-facing artificial intelligence', 159193206, 'SYSTEM');
+insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000039/01', '2017-10-27', 'Ergonomic cohesive throughput', 118249473, 'SYSTEM');
+insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000027/02', '2020-04-22', 'Multi-lateral 24/7 matrix', 174584281, 'SYSTEM');
+insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000072/01', '2017-09-07', 'Mandatory didactic internet solution', 198160199, 'SYSTEM');
+insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000056/02', '2016-02-10', 'Distributed tangible firmware', 116416078, 'SYSTEM');
+insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000071/01', '2017-03-29', 'Stand-alone user-facing help-desk', 128440792, 'SYSTEM');
+insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000051/04', '2018-02-09', 'Team-oriented leading edge moratorium', 154965148, 'SYSTEM');
+insert into araction (tag_ref, action_date, action_comment, araction_sid, username) values ('000030/01', '2018-08-22', 'Multi-lateral human-resource initiative', 169443447, 'SYSTEM');
+
+
 --------------------UHT Housing Register--------------
 
 CREATE TABLE [wlapp] (
