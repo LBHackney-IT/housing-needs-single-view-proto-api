@@ -22,6 +22,7 @@ services:
       - ~/docker/volumes/postgres2:/var/lib/postgresql/data2
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
+      TZ: Europe/London
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_USER: 'singleview_user'
       POSTGRES_DB: hnsingleview
@@ -34,6 +35,8 @@ services:
       dockerfile: ./dockerfiles/externalDB/Dockerfile
     ports:
       - 1433:1433
+    environment:
+      TZ: Europe/London
 
   test_api:
     container_name: test_api
@@ -46,3 +49,5 @@ services:
     depends_on:
       - test_db
       - external_test_dbs
+    environment:
+      TZ: Europe/London
