@@ -116,18 +116,6 @@ npm run ci
 $ npm run unit-tests
 ```
 
-## Invoke the authorizer
-
-1\. Add a .env file in the authorizer directory (see authorizer/.env.sample for file structure).
-
-2\. Add a event.json file in the authorizer directory (see authorizer/event.json for file structure).
-
-3\. Run the following from the root directory:
-
-```
-$ npm run auth
-```
-
 ## Configuration for debugging the API (VS Code)
 
 Create a new file at .vscode/launch.json and add the following:
