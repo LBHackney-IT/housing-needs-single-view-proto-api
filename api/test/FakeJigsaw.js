@@ -122,23 +122,86 @@ app.get('/accommodation/api/CaseAccommodationPlacement', (req, res) => {
   } else res.send({ customer: false });
 });
 
-app.get('/api/Customer/:id/Notes', (req, res) => {
+app.get('/customer/api/Customer/:id/Notes', (req, res) => {
+  if (req.params.id === '12345') {
+    res.send([]);
+  } else res.send({ customer: false });
+});
+
+app.get('/homelessness/api/casecheck', (req, res) => {
   if (req.params.id === '12345') {
     res.send({
-      placements: [
+      cases: [
         {
-          address: 'Room 1 hallway drive ',
-          endDate: null,
-          placementDuty: 'Section 192',
-          placementType: 'Accommodation secured by the Local Authority',
-          startDate: '2019-04-05T00:00:00',
-          tenancyId: 64444,
-          rentCostCustomer: 0
+          assignedTo: 'Captain Holt',
+          dateOfApproach: '2015-07-05T01:00:00',
+          id: 54321,
+          isCurrent: false,
+          isV2LegacyCase: false,
+          statusName: 'Closed'
         }
-      ],
-      isCurrentlyInPlacement: true
+      ]
     });
-  } else res.send({ customer: false });
+  }
+});
+app.get('/homelessness/api/Cases/:id/Notes', (req, res) => {
+  if (req.params.id === '54321') {
+    res.send([
+      {
+        caseId: 54321,
+        content: 'ADDRESS UPDATED',
+        createdDate: '2016-03-17T08:15:39.543',
+        customerId: 12345,
+        customerName: null,
+        id: 705351,
+        interviewDate: '2015-03-17T00:00:00',
+        isSensitive: null,
+        noteTypeId: 1,
+        officerId: 1111,
+        officerInitials: 'MT',
+        officerName: 'Lumos'
+      }
+    ]);
+  }
+});
+
+app.get('/customer/api/Customer/:id/Notes', (req, res) => {
+  if (req.params.id === '54321') {
+    res.send([
+      {
+        caseId: 54321,
+        content: 'ADDRESS UPDATED',
+        createdDate: '2016-03-17T08:15:39.543',
+        customerId: 12345,
+        customerName: null,
+        id: 705351,
+        interviewDate: '2015-03-17T00:00:00',
+        isSensitive: null,
+        noteTypeId: 1,
+        officerId: 1111,
+        officerInitials: 'MT',
+        officerName: 'Lumos'
+      }
+    ]);
+  }
+});
+
+app.get('/casework/contacts', (req, res) => {
+  res.send([{ jigsawId: '12345', id: 11111 }]);
+});
+
+app.get('/casework/contacts/:id/messages', (req, res) => {
+  if (req.params.id === '11111') {
+    res.send([
+      {
+        id: 11111,
+        outgoing: true,
+        message: 'hello',
+        time: '2015-03-17T00:00:00',
+        user_id: 'wabalubadubdub'
+      }
+    ]);
+  }
 });
 
 app.listen(port, () =>
