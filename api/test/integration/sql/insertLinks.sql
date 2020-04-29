@@ -28,3 +28,6 @@ insert into customer_links (id, customer_id, system_id, remote_id, first_name, l
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (108, 129, 4, '12345', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (109, 129, 5, '5260765/1', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (110, 129, 6, '27126442', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');
+
+insert into customers (id, created_at, updated_at) values (130, current_timestamp, current_timestamp);
+insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (111, 130, 1, '1101447/1', 'Fake', 'Customer', '18 saut road', 'CD877332Z' ,'1971-12-22');
