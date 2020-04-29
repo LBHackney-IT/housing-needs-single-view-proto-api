@@ -11,5 +11,6 @@ ENV=test
 /hn-single-view-api/test/JigsawHomelessnessBaseSearchUrl=http://localhost:8080/homelessness
 /hn-single-view-api/test/JigsawAccommodationBaseSearchUrl=http://localhost:8080/accommodation
 /hn-single-view-api/test/COLLAB_CASEWORK_API=http://localhost:8080/casework
+/hn-single-view-api/test/W2_DOCUMENTS_API=http://localhost:8080
 /hn-single-view-api/SENTRY_DSN=x
 /common/hackney-jwt-secret=x

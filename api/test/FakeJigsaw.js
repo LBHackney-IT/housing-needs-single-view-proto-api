@@ -204,6 +204,44 @@ app.get('/casework/contacts/:id/messages', (req, res) => {
   }
 });
 
+//documents
+
+//`${process.env.W2_DOCUMENTS_API}/${gateway}/customers/${id}/documents`
+
+app.get('/uhw/customers/:id/documents', (req, res) => {
+  if (req.params.id === '4186867') {
+    res.send([
+      {
+        userid: 4186867,
+        id: 123,
+        title: 'document',
+        text: 'this is a doc',
+        date: '2015-05-17T00:00:00',
+        user: 'ONE',
+        system: 'UHW',
+        format: 'pdf'
+      }
+    ]);
+  }
+});
+
+app.get('/hncomino/customers/:id/documents', (req, res) => {
+  if (req.params.id === '6060591') {
+    res.send([
+      {
+        userid: 6060591,
+        id: 321,
+        title: 'documenty',
+        text: 'this is a docy',
+        date: '2015-05-17T00:00:00',
+        user: 'ONEY',
+        system: 'COMINO',
+        format: 'rtf'
+      }
+    ]);
+  }
+});
+
 app.listen(port, () =>
   console.log(`Fake Jigsaw API listening on port ${port}!`)
 );
