@@ -142,14 +142,16 @@ const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-Counc
 const academyBenefitsFetchRecordsGateway = require('./gateways/Academy-Benefits/FetchRecord')(
   {
     db: academyDb,
-    buildNote, Logger
+    buildNote,
+    Logger
   }
 );
 
 const uhtContactsFetchRecordsGateway = require('./gateways/UHT-Contacts/FetchRecord')(
   {
     db: uhtDb,
-    buildNote
+    buildNote,
+    Logger
   }
 );
 
