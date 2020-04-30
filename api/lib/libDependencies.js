@@ -132,7 +132,8 @@ const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
   {
     buildDocument,
-    fetchW2Documents
+    fetchW2Documents,
+    Logger
   }
 );
 
