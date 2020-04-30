@@ -6,6 +6,7 @@ const { searchCustomersSQL } = loadSQL(path.join(__dirname, 'sql'));
 module.exports = options => {
   const db = options.db;
   const buildSearchRecord = options.buildSearchRecord;
+  const Logger = options.Logger;
 
   const validateIds = record => {
     return record.account_ref && record.account_cd;
@@ -53,7 +54,10 @@ module.exports = options => {
         const records = await search(queryParams);
         return processRecords(records);
       } catch (err) {
-        console.log(`Error searching customers in Academy-CouncilTax: ${err}`);
+        Logger.error(
+          `Error searching customers in Academy-CouncilTax: ${err}`,
+          err
+        );
         return [];
       }
     }

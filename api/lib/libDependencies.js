@@ -9,12 +9,31 @@ if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
   });
 }
 
+const Logger = require('./Logger')({ Sentry });
+
 const { Systems } = require('./Constants');
 const SqlServerConnection = require('./SqlServerConnection');
-const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB, sentry: Sentry });
-const uhtDb = new SqlServerConnection({ dbUrl: process.env.UHT_DB, sentry: Sentry  });
-const uhwDb = new SqlServerConnection({ dbUrl: process.env.UHW_DB , sentry: Sentry });
-const cominoDb = new SqlServerConnection({ dbUrl: process.env.HN_COMINO_URL, sentry: Sentry });
+
+const academyDb = new SqlServerConnection({
+  dbUrl: process.env.ACADEMY_DB,
+  logger: Logger
+});
+
+const uhtDb = new SqlServerConnection({
+  dbUrl: process.env.UHT_DB,
+  logger: Logger
+});
+
+const uhwDb = new SqlServerConnection({
+  dbUrl: process.env.UHW_DB,
+  logger: Logger
+});
+
+const cominoDb = new SqlServerConnection({
+  dbUrl: process.env.HN_COMINO_URL,
+  logger: Logger
+});
+
 const singleViewDb = require('./PostgresDb');
 const buildSearchRecord = require('./entities/SearchRecord')();
 const buildDocument = require('./entities/Document')();
@@ -43,37 +62,44 @@ const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
 
 const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
   doJigsawGetRequest,
-  buildSearchRecord
+  buildSearchRecord,
+  Logger
 });
 const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
   {
     db: academyDb,
-    buildSearchRecord
+    buildSearchRecord,
+    Logger
   }
 );
 const uhtContactsSearchGateway = require('./gateways/UHT-Contacts/Search')({
   db: uhtDb,
-  buildSearchRecord
+  buildSearchRecord,
+  Logger
 });
 const uhtHousingRegisterSearchGateway = require('./gateways/UHT-HousingRegister/Search')(
   {
     db: uhtDb,
-    buildSearchRecord
+    buildSearchRecord,
+    Logger
   }
 );
 const academyCouncilTaxSearchGateway = require('./gateways/Academy-CouncilTax/Search')(
   {
     db: academyDb,
-    buildSearchRecord
+    buildSearchRecord,
+    Logger
   }
 );
 const uhwSearchGateway = require('./gateways/UHW/Search')({
   db: uhwDb,
-  buildSearchRecord
+  buildSearchRecord,
+  Logger
 });
 const singleViewSearchGateway = require('./gateways/SingleView/Search')({
   db: singleViewDb,
-  buildSearchRecord
+  buildSearchRecord,
+  Logger
 });
 
 // DOCUMENT GATEWAYS

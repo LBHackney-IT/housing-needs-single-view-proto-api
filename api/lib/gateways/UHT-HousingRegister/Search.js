@@ -6,6 +6,7 @@ const { searchCustomersBaseSQL } = loadSQL(path.join(__dirname, 'sql'));
 module.exports = options => {
   const db = options.db;
   const buildSearchRecord = options.buildSearchRecord;
+  const Logger = options.Logger;
 
   const search = async queryParams => {
     let whereClause = [];
@@ -70,7 +71,10 @@ module.exports = options => {
         const records = await search(queryParams);
         return processRecords(records);
       } catch (err) {
-        console.log(`Error searching customers in UHT-HousingRegister: ${err}`);
+        Logger.error(
+          `Error searching customers in UHT-HousingRegister: ${err}`,
+          err
+        );
         return [];
       }
     }

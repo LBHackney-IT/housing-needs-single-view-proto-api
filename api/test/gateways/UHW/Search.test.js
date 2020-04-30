@@ -3,6 +3,8 @@ const UHWSearch = require('../../../lib/gateways/UHW/Search');
 describe('UHWSearchGateway', () => {
   let buildSearchRecord;
   let db;
+  let Logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
     buildSearchRecord = jest.fn(({ id }) => {
@@ -12,15 +14,19 @@ describe('UHWSearchGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          throw new Error('Database error');
+          throw dbError;
         }
         return records;
       })
     };
 
+    Logger = {
+      error: jest.fn( (msg, err) => {})
+    };
+
     return UHWSearch({
       buildSearchRecord,
-      db
+      db, Logger
     });
   };
 
@@ -78,12 +84,16 @@ describe('UHWSearchGateway', () => {
     expect(records.length).toBe(1);
   });
 
-  it('returns an empty set of records if there is an error', async () => {
+  it('returns an empty set of records if there is an error and calls logger', async () => {
     const record = { ContactNo: 1231 };
     const gateway = createGateway([record], true);
 
     const records = await gateway.execute({});
 
     expect(records.length).toBe(0);
+    expect(Logger.error).toHaveBeenCalledWith(
+      'Error searching customers in UHW: Error: Database error',
+      dbError
+    );
   });
 });
