@@ -218,7 +218,8 @@ const academyCouncilTaxFetchNotesGateway = require('./gateways/Academy-CouncilTa
 );
 const uhwFetchNotesGateway = require('./gateways/UHW/FetchNotes')({
   db: uhwDb,
-  buildNote
+  buildNote,
+  Logger
 });
 const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
   doJigsawGetRequest,
