@@ -6,6 +6,7 @@ const { fetchActionDiaryNotesSQL } = loadSQL(path.join(__dirname, 'sql'));
 module.exports = options => {
   const db = options.db;
   const buildNote = options.buildNote;
+  const Logger = options.Logger;
 
   const fetchHouseRef = async id => {
     if (id) {
@@ -42,7 +43,10 @@ module.exports = options => {
           return processNotes(notes);
         }
       } catch (err) {
-        console.log(`Error fetching notes in UHT-Contacts: ${err}`);
+        Logger.error(
+          `Error fetching notes in UHT-Contacts: ${err}`,
+          err
+        );
       }
       return [];
     }

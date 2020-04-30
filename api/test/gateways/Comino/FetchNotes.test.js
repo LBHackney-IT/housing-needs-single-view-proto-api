@@ -14,7 +14,6 @@ describe('CominoFetchNotesGateway', () => {
 
     db = {
       request: jest.fn(async () => {
-        console.log('booo');
         if (throwsError) {
           throw dbError;
         }
