@@ -171,7 +171,8 @@ const academyCouncilTaxFetchRecordsGateway = require('./gateways/Academy-Council
 );
 
 const uhwFetchRecordsGateway = require('./gateways/UHW/FetchRecord')({
-  db: uhwDb
+  db: uhwDb,
+  Logger
 });
 
 const jigsawFetchRecordsGateway = require('./gateways/Jigsaw/FetchRecord')({

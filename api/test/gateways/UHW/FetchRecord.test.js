@@ -2,19 +2,25 @@ const UHWFetchRecord = require('../../../lib/gateways/UHW/FetchRecord');
 
 describe('UHWFetchRecord gateway', () => {
   let db;
+  let Logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (customer, throwsError) => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          throw new Error('Database error');
+          throw dbError;
         }
         return customer;
       })
     };
 
+    Logger = {
+      error: jest.fn( (msg, err) => {})
+    };
+
     return UHWFetchRecord({
-      db
+      db, Logger
     });
   };
 
@@ -69,16 +75,13 @@ describe('UHWFetchRecord gateway', () => {
   });
 
   it('catches and console logs errors', async () => {
-    let consoleOutput = '';
-    const storeLog = inputs => (consoleOutput += inputs);
-    console['log'] = jest.fn(storeLog);
-
     const gateway = createGateway(null, true);
 
     await gateway.execute('id');
 
-    expect(consoleOutput).toBe(
-      'Error fetching customers in UHW: Error: Database error'
+    expect(Logger.error).toHaveBeenCalledWith(
+      'Error fetching customers in UHW: Error: Database error',
+      dbError
     );
   });
 });

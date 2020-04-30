@@ -33,6 +33,7 @@ const processCustomer = record => {
 
 module.exports = options => {
   const db = options.db;
+  const Logger = options.Logger;
 
   return {
     execute: async id => {
@@ -40,7 +41,10 @@ module.exports = options => {
         const customer = await fetchCustomer(id, db);
         return processCustomer(customer);
       } catch (err) {
-        console.log(`Error fetching customers in UHW: ${err}`);
+        Logger.error(
+          `Error fetching customers in UHW: ${err}`,
+          err
+        );
       }
     }
   };
