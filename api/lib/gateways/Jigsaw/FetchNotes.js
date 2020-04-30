@@ -4,6 +4,7 @@ module.exports = options => {
   const doJigsawGetRequest = options.doJigsawGetRequest;
   const doGetRequest = options.doGetRequest;
   const buildNote = options.buildNote;
+  const Logger = options.Logger;
 
   const customerNotesUrl = id =>
     `${process.env.JigsawCustomerBaseSearchUrl}/api/Customer/${id}/Notes`;
@@ -99,7 +100,10 @@ module.exports = options => {
         }
         return [];
       } catch (err) {
-        console.log(`Error fetching customer notes in Jigsaw: ${err}`);
+        Logger.error(
+          `Error fetching customer notes in Jigsaw: ${err}`,
+          err
+        );
         return [];
       }
     }

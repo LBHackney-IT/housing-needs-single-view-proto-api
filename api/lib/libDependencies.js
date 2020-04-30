@@ -224,7 +224,8 @@ const uhwFetchNotesGateway = require('./gateways/UHW/FetchNotes')({
 const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
   doJigsawGetRequest,
   doGetRequest,
-  buildNote
+  buildNote,
+  Logger
 });
 
 // USECASES
