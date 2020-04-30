@@ -219,10 +219,6 @@ app.get('/casework/contacts/:id/messages', (req, res) => {
   }
 });
 
-//documents
-
-//`${process.env.W2_DOCUMENTS_API}/${gateway}/customers/${id}/documents`
-
 app.get('/uhw/customers/:id/documents', (req, res) => {
   if (req.params.id === '4186867') {
     res.send([
