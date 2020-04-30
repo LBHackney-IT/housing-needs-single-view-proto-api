@@ -1,6 +1,9 @@
 {
   "name": "hn-single-view-api",
   "version": "1.0.0",
+  "dependencies": {
+    "node-lambda-authorizer": "LBHackney-IT/node-lambda-authorizer.git#master"
+  },
   "devDependencies": {
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
@@ -26,11 +29,10 @@
     ]
   },
   "scripts": {
-    "postinstall": "(cd api && echo 'Installing API node modules' && npm i); (cd jigsaw && echo 'Installing jigsaw node modules' && npm i); (cd authorizer && echo 'Installing Authorizer node modules' && npm i);",
+    "postinstall": "(cd api && echo 'Installing API node modules' && npm i); (cd jigsaw && echo 'Installing jigsaw node modules' && npm i);",
     "start": "sls offline start -s dev --noAuth --config serverless-api.yml",
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s dev --noAuth --config serverless-api.yml",
     "start-jigsaw-docs": "sls offline start -s dev --port 3015 --noAuth --config serverless-jigsaw-docs.yml",
-    "auth": "serverless invoke local -s dev -f hn-single-view-api-authorizer -p authorizer/event.json --config serverless-api.yml",
     "debug-test": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s test --port 3010 --noAuth --config serverless-api.yml",
     "unit-tests": "jest --testPathIgnorePatterns=api/test/integration --coverage",
     "start-test": "sls offline start -s test --port 3010 --noAuth --config serverless-api.yml & node ./api/test/FakeJigsawAndW2.js",
