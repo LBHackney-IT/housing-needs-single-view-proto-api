@@ -114,7 +114,7 @@ const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefit
 );
 const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
   buildDocument,
-  fetchW2Documents
+  fetchW2Documents, Logger
 });
 const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
   {

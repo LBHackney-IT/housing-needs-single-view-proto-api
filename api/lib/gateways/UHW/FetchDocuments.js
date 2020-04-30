@@ -1,5 +1,5 @@
 module.exports = options => {
-  const { buildDocument, fetchW2Documents } = options;
+  const { buildDocument, fetchW2Documents, Logger } = options;
 
   return {
     execute: async (id, token) => {
@@ -13,7 +13,7 @@ module.exports = options => {
 
         return cominoRecords.map(doc => buildDocument(doc));
       } catch (e) {
-        console.log(`Error fetching documents from UHW: ${e}`);
+        Logger.error(`Error fetching documents from UHW: ${e}`, e);
         return [];
       }
     }
