@@ -83,7 +83,22 @@ app.get('/homelessness/api/casecheck/:id', (req, res) => {
         }
       ]
     });
-  else res.send({ customer: false });
+  else res.send({ cases: false });
+});
+
+app.post('/homelessness/api/cases/getcasedocs/:id', (req, res) => {
+  res.send({
+    caseDocuments: [
+      {
+        assignedTo: 'Someone',
+        date: '2011-07-05T01:00:00',
+        id: 121212,
+        isCurrent: true,
+        isV2LegacyCase: true,
+        statusName: 'Open'
+      }
+    ]
+  });
 });
 
 app.get('/customer/api/CustomerOverview/:id', (req, res) => {
@@ -226,20 +241,18 @@ app.get('/uhw/customers/:id/documents', (req, res) => {
 });
 
 app.get('/hncomino/customers/:id/documents', (req, res) => {
-  if (req.params.id === '6060591') {
-    res.send([
-      {
-        userid: 6060591,
-        id: 321,
-        title: 'documenty',
-        text: 'this is a docy',
-        date: '2015-05-17T00:00:00',
-        user: 'ONEY',
-        system: 'COMINO',
-        format: 'rtf'
-      }
-    ]);
-  }
+  res.send([
+    {
+      userid: parseInt(req.params.id),
+      id: 321,
+      title: 'documenty',
+      text: 'this is a docy',
+      date: '2015-05-17T00:00:00',
+      user: 'ONEY',
+      system: 'COMINO',
+      format: 'rtf'
+    }
+  ]);
 });
 
 app.listen(port, () =>
