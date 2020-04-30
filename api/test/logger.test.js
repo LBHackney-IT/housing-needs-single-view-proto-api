@@ -1,14 +1,3 @@
-// module.exports = options => {
-//   const Sentry = options.Sentry;
-//   return {
-//     error: (consoleMsg, error) => {
-//       if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
-//         Sentry.captureException(error);
-//       }
-//       console.log(consoleMsg);
-//     }
-//   };
-// };
 const logger = require('../lib/logger');
 
 describe('Logger', () => {
@@ -20,7 +9,7 @@ describe('Logger', () => {
     };
 
     return logger({Sentry})
-  }
+  };
 
   let consoleOutput;
 
@@ -31,8 +20,6 @@ describe('Logger', () => {
   });
 
   it('does not call sentry in test env just logs error message', async () => {
-    // const result = records.sort(compareDate);
-    // expect(process.env.APP_PORT).toBe("8080");
     const logger = createLogger();
     const message = 'test';
     const error = new Error;
