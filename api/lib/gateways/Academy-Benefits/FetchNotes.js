@@ -7,6 +7,7 @@ module.exports = options => {
   const db = options.db;
   const buildNote = options.buildNote;
   const cominoFetchNotesGateway = options.cominoFetchNotesGateway;
+  const Logger = options.Logger;
 
   const fetchSystemId = async id => {
     if (id) return id.split('/')[0];
@@ -85,8 +86,9 @@ module.exports = options => {
         }
         return [];
       } catch (err) {
-        console.log(
-          `Error fetching customer notes in Academy-Benefits: ${err}`
+        Logger.error(
+          `Error fetching customer notes in Academy-Benefits: ${err}`,
+          err
         );
         return [];
       }

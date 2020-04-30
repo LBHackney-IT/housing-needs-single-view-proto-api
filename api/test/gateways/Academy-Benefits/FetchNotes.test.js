@@ -9,6 +9,8 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
   let cominoFetchNotesGateway;
   let getSystemId;
   let records;
+  let Logger;
+  const dbError = new Error('Database error');
 
   beforeEach(() => {
     records = [
@@ -44,7 +46,7 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          throw new Error('Database error');
+          throw dbError;
         }
         return records;
       })
@@ -58,11 +60,16 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
       })
     };
 
+    Logger = {
+      error: jest.fn( (msg, err) => {})
+    };
+
     return academyBenefitsFetchNotes({
       buildNote,
       db,
       cominoFetchNotesGateway,
-      getSystemId
+      getSystemId,
+      Logger
     });
   };
 
@@ -127,12 +134,16 @@ describe('AcademyBenefitsFetchNotesGateway', () => {
     }
   });
 
-  it('returns an empty set of notes if there is an error', async () => {
+  it('returns an empty set of notes if there is an error and calls logger', async () => {
     const gateway = createGateway(true, true);
 
     const records = await gateway.execute(id);
 
     expect(buildNote).not.toHaveBeenCalled();
     expect(records.length).toBe(0);
+    expect(Logger.error).toHaveBeenCalledWith(
+      'Error fetching customer notes in Academy-Benefits: Error: Database error',
+      dbError
+    );
   });
 });

@@ -192,7 +192,8 @@ const academyBenefitsFetchNotesGateway = require('./gateways/Academy-Benefits/Fe
   {
     db: academyDb,
     buildNote,
-    cominoFetchNotesGateway
+    cominoFetchNotesGateway,
+    Logger
   }
 );
 const uhtContactsFetchNotesGateway = require('./gateways/UHT-Contacts/FetchNotes')(

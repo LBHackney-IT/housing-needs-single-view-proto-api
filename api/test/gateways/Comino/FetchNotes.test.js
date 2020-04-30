@@ -51,7 +51,7 @@ describe('CominoFetchNotesGateway', () => {
     ]);
   };
 
-  xit('queries the database with the claim id and not account_ref if the query contains a claim id ', async () => {
+  it('queries the database with the claim id and not account_ref if the query contains a claim id ', async () => {
     const gateway = createGateway([]);
 
     await gateway.execute({ claim_id, account_ref });
@@ -67,7 +67,7 @@ describe('CominoFetchNotesGateway', () => {
     expect(db.request).toHaveBeenCalledTimes(1);
   });
 
-  xit('queries the database with with the account_ref if query has account ref and does not have claim id', async () => {
+  it('queries the database with with the account_ref if query has account ref and does not have claim id', async () => {
     const gateway = createGateway([]);
 
     await gateway.execute({ account_ref });
