@@ -3,7 +3,7 @@ const UHTContactsFetchNotes = require('../../../lib/gateways/UHT-Contacts/FetchN
 describe('UHTContactsFetchNotes gateway', () => {
   let buildNote;
   let db;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (notes, throwsError) => {
@@ -20,14 +20,14 @@ describe('UHTContactsFetchNotes gateway', () => {
       })
     };
 
-    Logger = {
-      error: jest.fn( (msg, err) => {})
+    logger = {
+      error: jest.fn((msg, err) => {})
     };
 
     return UHTContactsFetchNotes({
       buildNote,
       db,
-      Logger
+      logger
     });
   };
 
@@ -79,7 +79,7 @@ describe('UHTContactsFetchNotes gateway', () => {
     await gateway.execute('id');
 
     expect(buildNote).toHaveBeenCalledTimes(0);
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error fetching notes in UHT-Contacts: Error: Database error',
       dbError
     );

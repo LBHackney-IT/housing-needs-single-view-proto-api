@@ -2,7 +2,7 @@ const CustomerLinks = require('../../../lib/gateways/SingleView/CustomerLinks');
 
 describe('CustomerLinks', () => {
   let db;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
@@ -15,13 +15,13 @@ describe('CustomerLinks', () => {
       })
     };
 
-    Logger = {
-      error: jest.fn( (msg, err) => {})
+    logger = {
+      error: jest.fn((msg, err) => {})
     };
 
     return CustomerLinks({
       db,
-      Logger
+      logger
     });
   };
 
@@ -39,7 +39,7 @@ describe('CustomerLinks', () => {
     const gateway = createGateway([], true);
 
     expect(await gateway.execute()).toBeUndefined();
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Could fetch customer links because of an error: Error: Database error',
       dbError
     );

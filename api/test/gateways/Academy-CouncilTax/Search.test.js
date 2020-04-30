@@ -21,12 +21,13 @@ describe('AcademyCouncilTaxSearchGateway', () => {
     };
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return academyCouncilTaxSearch({
       buildSearchRecord,
-      db, Logger
+      db,
+      Logger
     });
   };
 

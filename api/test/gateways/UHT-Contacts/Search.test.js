@@ -21,12 +21,13 @@ describe('UHTContactsSearchGateway', () => {
     };
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return UHTContactsSearch({
       buildSearchRecord,
-      db, Logger
+      db,
+      Logger
     });
   };
 

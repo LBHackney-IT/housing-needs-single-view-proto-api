@@ -19,28 +19,28 @@ describe('UHWFetchDocumentsGateway', () => {
   let buildDocument;
   let fetchW2Documents;
   let createGateway;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
-  createGateway = (throwsError) => {
+  createGateway = throwsError => {
     fetchW2Documents = jest.fn(() => {
       if (throwsError) {
-        throw dbError
+        throw dbError;
       }
-      return mockUhwDocuments
+      return mockUhwDocuments;
     });
 
     buildDocument = jest.fn(doc => buildDoc(doc));
 
-    Logger = {
-      error: jest.fn( (msg, err) => {})
+    logger = {
+      error: jest.fn((msg, err) => {})
     };
 
     return UHWFetchDocuments({
       buildDocument,
       fetchW2Documents,
-      Logger
-    })
+      logger
+    });
   };
 
   it('gets and processes the docs if customer has a system id', async () => {
@@ -79,7 +79,7 @@ describe('UHWFetchDocumentsGateway', () => {
 
     expect(buildDocument).not.toHaveBeenCalled();
     expect(documents.length).toBe(0);
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error fetching documents from UHW: Error: Database error',
       dbError
     );

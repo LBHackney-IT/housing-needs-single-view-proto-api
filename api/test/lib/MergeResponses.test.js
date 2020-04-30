@@ -1,6 +1,6 @@
 const mergeResponses = require('../../lib/MergeResponses');
 
-describe ('MergeResponses', () => {
+describe('MergeResponses', () => {
   const responses = [
     {
       housingRegister: [

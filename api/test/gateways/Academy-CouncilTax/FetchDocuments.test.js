@@ -31,26 +31,25 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
   let Logger;
   const dbError = new Error('Database error');
 
-  const createGateway = (throwsError) => {
+  const createGateway = throwsError => {
     buildDocument = jest.fn(doc => buildDoc(doc));
 
     fetchW2Documents = jest.fn(() => {
       if (throwsError) {
         throw dbError;
       }
-      return mockCominoDocuments
+      return mockCominoDocuments;
     });
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return academyCouncilTaxFetchDocuments({
       buildDocument,
       fetchW2Documents,
       Logger
-    })
-
+    });
   };
 
   it('requests Comino documents with the account reference if called with an id (account reference)', async () => {

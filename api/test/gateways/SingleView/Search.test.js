@@ -21,12 +21,13 @@ describe('SingleViewSearchGateway', () => {
     };
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return singleViewSearch({
       buildSearchRecord,
-      db, Logger
+      db,
+      Logger
     });
   };
 

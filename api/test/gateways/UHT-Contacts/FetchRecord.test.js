@@ -2,7 +2,7 @@ const UHTContactsFetchRecord = require('../../../lib/gateways/UHT-Contacts/Fetch
 
 describe('UHTContactsFetchRecord gateway', () => {
   let db;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (customer, throwsError) => {
@@ -15,12 +15,13 @@ describe('UHTContactsFetchRecord gateway', () => {
       })
     };
 
-    Logger = {
-      error: jest.fn( (msg, err) => {})
+    logger = {
+      error: jest.fn((msg, err) => {})
     };
 
     return UHTContactsFetchRecord({
-      db, Logger
+      db,
+      logger
     });
   };
 

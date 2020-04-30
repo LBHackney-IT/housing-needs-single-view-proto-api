@@ -16,11 +16,12 @@ describe('UHWFetchRecord gateway', () => {
     };
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return UHWFetchRecord({
-      db, Logger
+      db,
+      Logger
     });
   };
 

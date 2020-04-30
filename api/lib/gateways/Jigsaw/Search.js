@@ -4,7 +4,7 @@ const { Systems } = require('../../Constants');
 module.exports = options => {
   const buildSearchRecord = options.buildSearchRecord;
   const doJigsawGetRequest = options.doJigsawGetRequest;
-  const Logger = options.Logger;
+  const logger = options.logger;
 
   const searchUrl = `${process.env.JigsawCustomerBaseSearchUrl}/api/customerSearch`;
 
@@ -43,7 +43,7 @@ module.exports = options => {
         const results = await search(queryParams);
         return processRecords(results);
       } catch (err) {
-        Logger.error(`Error searching customers in Jigsaw: ${err}`, err);
+        logger.error(`Error searching customers in Jigsaw: ${err}`, err);
         return [];
       }
     }

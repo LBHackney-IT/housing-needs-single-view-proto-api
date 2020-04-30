@@ -16,11 +16,12 @@ describe('AcademyCouncilTaxFetchRecord gateway', () => {
     };
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return AcademyCouncilTaxFetchRecord({
-      db, Logger
+      db,
+      Logger
     });
   };
 

@@ -22,7 +22,7 @@ describe('CominoFetchNotesGateway', () => {
     };
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return cominoFetchNotes({

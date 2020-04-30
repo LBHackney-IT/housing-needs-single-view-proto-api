@@ -21,12 +21,13 @@ describe('AcademyBenefitsSearchGateway', () => {
     };
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return academyBenefitsSearch({
       buildSearchRecord,
-      db, Logger
+      db,
+      Logger
     });
   };
 

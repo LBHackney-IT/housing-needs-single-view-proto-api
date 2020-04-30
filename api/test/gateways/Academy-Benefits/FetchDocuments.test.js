@@ -20,10 +20,10 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
   let buildDocument;
   let db;
   let fetchW2Documents;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
-  const createGateway = (throwsError) => {
+  const createGateway = throwsError => {
     buildDocument = jest.fn(doc => buildDoc(doc));
     db = {
       request: jest.fn(async () => {
@@ -35,16 +35,16 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     };
     fetchW2Documents = jest.fn(() => mockCominoDocuments);
 
-    Logger = {
-      error: jest.fn( (msg, err) => {})
+    logger = {
+      error: jest.fn((msg, err) => {})
     };
 
     return academyBenefitsFetchDocuments({
       buildDocument,
       db,
       fetchW2Documents,
-      Logger
-    })
+      logger
+    });
   };
 
   it('gets the docs if customer has a system id', async () => {
@@ -94,7 +94,7 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
 
     expect(buildDocument).toHaveBeenCalledTimes(0);
     expect(records.length).toBe(0);
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error fetching customer documents in Academy-Benefits: Error: Database error',
       dbError
     );

@@ -10,7 +10,6 @@ describe('JigsawFetchNotesGateway', () => {
   let Logger;
   const dbError = new Error('Database error');
 
-
   const createGateway = (records, existsInSystem, throwsError) => {
     buildNote = jest.fn(input => {
       return input;
@@ -32,7 +31,7 @@ describe('JigsawFetchNotesGateway', () => {
     });
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return jigsawFetchNotes({

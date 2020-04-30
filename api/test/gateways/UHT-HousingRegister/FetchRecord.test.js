@@ -16,11 +16,12 @@ describe('UHTHousingRegisterFetchRecord gateway', () => {
     };
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return UHTHousingRegisterFetchRecord({
-      db, Logger
+      db,
+      Logger
     });
   };
 

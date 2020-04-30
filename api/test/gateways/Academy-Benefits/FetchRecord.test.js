@@ -16,11 +16,12 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
     };
 
     Logger = {
-      error: jest.fn( (msg, err) => {})
+      error: jest.fn((msg, err) => {})
     };
 
     return AcademyBenefitsFetchRecord({
-      db, Logger
+      db,
+      Logger
     });
   };
 
