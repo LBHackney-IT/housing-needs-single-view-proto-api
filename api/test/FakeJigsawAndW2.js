@@ -219,34 +219,17 @@ app.get('/casework/contacts/:id/messages', (req, res) => {
   }
 });
 
-app.get('/uhw/customers/:id/documents', (req, res) => {
-  if (req.params.id === '4186867') {
-    res.send([
-      {
-        userid: 4186867,
-        id: 123,
-        title: 'document',
-        text: 'this is a doc',
-        date: '2015-05-17T00:00:00',
-        user: 'ONE',
-        system: 'UHW',
-        format: 'pdf'
-      }
-    ]);
-  }
-});
-
-app.get('/hncomino/customers/:id/documents', (req, res) => {
+app.get('/:gateway/customers/:id/documents', (req, res) => {
   res.send([
     {
       userid: parseInt(req.params.id),
-      id: 321,
-      title: 'documenty',
-      text: 'this is a docy',
+      id: 123,
+      title: 'document',
+      text: `this is a ${req.params.gateway} doc`,
       date: '2015-05-17T00:00:00',
-      user: 'ONEY',
-      system: 'COMINO',
-      format: 'rtf'
+      user: 'ONE',
+      system: `${req.params.gateway}`,
+      format: 'pdf'
     }
   ]);
 });

@@ -48,8 +48,8 @@ describe('Fetch Documents', () => {
           date: '2015-05-17 12:00:00',
           format: 'pdf',
           id: 123,
-          system: 'UHW',
-          text: 'this is a doc',
+          system: 'uhw',
+          text: 'this is a uhw doc',
           title: 'document',
           user: 'ONE',
           userid: 4186867
@@ -74,12 +74,12 @@ describe('Fetch Documents', () => {
         },
         {
           date: '2015-05-17 12:00:00',
-          format: 'rtf',
-          id: 321,
-          system: 'COMINO',
-          text: 'this is a docy',
-          title: 'documenty',
-          user: 'ONEY',
+          format: 'pdf',
+          id: 123,
+          system: 'hncomino',
+          text: 'this is a hncomino doc',
+          title: 'document',
+          user: 'ONE',
           userid: 6060591
         }
       ]
@@ -92,12 +92,12 @@ describe('Fetch Documents', () => {
       documents: [
         {
           date: '2015-05-17 12:00:00',
-          format: 'rtf',
-          id: 321,
-          system: 'COMINO',
-          text: 'this is a docy',
-          title: 'documenty',
-          user: 'ONEY',
+          format: 'pdf',
+          id: 123,
+          system: 'hncomino',
+          text: 'this is a hncomino doc',
+          title: 'document',
+          user: 'ONE',
           userid: 35205909
         }
       ]
@@ -127,8 +127,8 @@ describe('Fetch Documents', () => {
           date: '2015-05-17 12:00:00',
           format: 'pdf',
           id: 123,
-          system: 'UHW',
-          text: 'this is a doc',
+          system: 'uhw',
+          text: 'this is a uhw doc',
           title: 'document',
           user: 'ONE',
           userid: 4186867
@@ -152,22 +152,22 @@ describe('Fetch Documents', () => {
         },
         {
           date: '2015-05-17 12:00:00',
-          format: 'rtf',
-          id: 321,
-          system: 'COMINO',
-          text: 'this is a docy',
-          title: 'documenty',
-          user: 'ONEY',
+          format: 'pdf',
+          id: 123,
+          system: 'hncomino',
+          text: 'this is a hncomino doc',
+          title: 'document',
+          user: 'ONE',
           userid: 6060591
         },
         {
           date: '2015-05-17 12:00:00',
-          format: 'rtf',
-          id: 321,
-          system: 'COMINO',
-          text: 'this is a docy',
-          title: 'documenty',
-          user: 'ONEY',
+          format: 'pdf',
+          id: 123,
+          system: 'hncomino',
+          text: 'this is a hncomino doc',
+          title: 'document',
+          user: 'ONE',
           userid: 35205909
         }
       ]
