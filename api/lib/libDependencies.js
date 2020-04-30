@@ -108,7 +108,8 @@ const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefit
   {
     db: academyDb,
     buildDocument,
-    fetchW2Documents
+    fetchW2Documents,
+    Logger
   }
 );
 const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({

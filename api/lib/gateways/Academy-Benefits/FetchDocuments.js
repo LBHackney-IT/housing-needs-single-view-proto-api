@@ -4,8 +4,7 @@ const { Systems } = require('../../Constants');
 const { fetchCustomerDocumentsSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 module.exports = options => {
-  const { buildDocument, db, fetchW2Documents } = options;
-
+  const { buildDocument, db, fetchW2Documents, Logger } = options;
   const fetchSystemId = async id => {
     if (id) return id.split('/')[0];
   };
@@ -49,8 +48,9 @@ module.exports = options => {
 
         return documents;
       } catch (err) {
-        console.log(
-          `Error fetching customer documents in Academy-Benefits: ${err}`
+        Logger.error(
+          `Error fetching customer documents in Academy-Benefits: ${err}`,
+          err
         );
         return [];
       }

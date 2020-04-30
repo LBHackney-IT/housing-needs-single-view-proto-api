@@ -12,16 +12,6 @@ const mockCominoDocuments = [
   }
 ];
 
-const prepareTestGateway = (gateway, dependencies = {}) => {
-  return (opts = {}) => {
-    const { raiseError } = opts;
-
-    if (raiseError) return gateway({});
-
-    return gateway(dependencies);
-  };
-};
-
 describe('AcademyBenefitsFetchDocumentsGateway', () => {
   const id = '123';
   const token = 'a_token';
@@ -30,21 +20,32 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
   let buildDocument;
   let db;
   let fetchW2Documents;
-  let createGateway;
+  let Logger;
+  const dbError = new Error('Database error');
 
-  beforeEach(() => {
+  const createGateway = (throwsError) => {
     buildDocument = jest.fn(doc => buildDoc(doc));
     db = {
-      request: jest.fn(async () => [academyDocument])
+      request: jest.fn(async () => {
+        if (throwsError) {
+          throw dbError;
+        }
+        return [academyDocument];
+      })
     };
     fetchW2Documents = jest.fn(() => mockCominoDocuments);
 
-    createGateway = prepareTestGateway(academyBenefitsFetchDocuments, {
+    Logger = {
+      error: jest.fn( (msg, err) => {})
+    };
+
+    return academyBenefitsFetchDocuments({
       buildDocument,
       db,
-      fetchW2Documents
-    });
-  });
+      fetchW2Documents,
+      Logger
+    })
+  };
 
   it('gets the docs if customer has a system id', async () => {
     const gateway = createGateway();
@@ -86,12 +87,16 @@ describe('AcademyBenefitsFetchDocumentsGateway', () => {
     expect(buildDocument).toHaveBeenCalledWith(cominoMatcher);
   });
 
-  it('returns an empty set of documents if there is an error', async () => {
-    const gateway = createGateway({ raiseError: true });
+  it('returns an empty set of documents if there is an error and calls logger', async () => {
+    const gateway = createGateway(true);
 
     const records = await gateway.execute(id, token);
 
     expect(buildDocument).toHaveBeenCalledTimes(0);
     expect(records.length).toBe(0);
+    expect(Logger.error).toHaveBeenCalledWith(
+      'Error fetching customer documents in Academy-Benefits: Error: Database error',
+      dbError
+    );
   });
 });
