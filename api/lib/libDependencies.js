@@ -185,7 +185,8 @@ const jigsawFetchRecordsGateway = require('./gateways/Jigsaw/FetchRecord')({
 
 const cominoFetchNotesGateway = require('./gateways/Comino/FetchNotes')({
   buildNote,
-  db: cominoDb
+  db: cominoDb,
+  Logger
 });
 const academyBenefitsFetchNotesGateway = require('./gateways/Academy-Benefits/FetchNotes')(
   {
