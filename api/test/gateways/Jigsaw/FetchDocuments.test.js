@@ -3,6 +3,8 @@ const jigsawFetchDocuments = require('../../../lib/gateways/Jigsaw/FetchDocument
 describe('JigsawFetchDocumentsGateway', () => {
   const id = '123';
   let fetchDocMetadataGateway;
+  let Logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
     buildDocument = jest.fn();
@@ -10,15 +12,20 @@ describe('JigsawFetchDocumentsGateway', () => {
     fetchDocMetadataGateway = {
       execute: jest.fn(async () => {
         if (throwsError) {
-          throw new Error('error');
+          throw dbError;
         }
         return records;
       })
     };
 
+    Logger = {
+      error: jest.fn( (msg, err) => {})
+    };
+
     return jigsawFetchDocuments({
       fetchDocMetadataGateway,
-      buildDocument
+      buildDocument,
+      Logger
     });
   };
 
@@ -61,7 +68,7 @@ describe('JigsawFetchDocumentsGateway', () => {
     expect(buildDocument).toHaveBeenCalledWith(recordMatcher);
   });
 
-  it('returns an empty set of records if an error is thrown', async () => {
+  it('returns an empty set of records if an error is thrown and calls logger', async () => {
     const record = { id };
     const gateway = createGateway([record], true);
 
@@ -69,5 +76,9 @@ describe('JigsawFetchDocumentsGateway', () => {
 
     expect(buildDocument).toHaveBeenCalledTimes(0);
     expect(records.length).toBe(0);
+    expect(Logger.error).toHaveBeenCalledWith(
+      'Error fetching customer documents in Jigsaw: Error: Database error',
+      dbError
+    );
   });
 });

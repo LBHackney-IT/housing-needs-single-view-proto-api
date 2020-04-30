@@ -114,7 +114,8 @@ const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefit
 );
 const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
   buildDocument,
-  fetchW2Documents, Logger
+  fetchW2Documents,
+  Logger
 });
 const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
   {
@@ -124,7 +125,8 @@ const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
         doJigsawGetRequest,
         doJigsawPostRequest
       }
-    )
+    ),
+    Logger
   }
 );
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
