@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const querystring = require('querystring');
 const {
+  Sentry,
   customerSearch,
   fetchDocuments,
   fetchNotes,
@@ -12,15 +13,7 @@ const {
   deleteCustomer
 } = require('./lib/libDependencies');
 
-let Sentry;
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
-  Sentry = require('@sentry/node');
-
-  Sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    environment: process.env.ENV
-  });
-
   app.use(Sentry.Handlers.requestHandler());
 }
 
@@ -115,6 +108,21 @@ app.get('/customers/:id/documents', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+if (Sentry) {
+  app.use(
+    Sentry.Handlers.errorHandler({
+      shouldHandleError(err) {
+        return true;
+      }
+    })
+  );
+}
+
+app.use(function(err, req, res, next) {
+  console.log(err);
+  res.sendStatus(500);
 });
 
 module.exports = {

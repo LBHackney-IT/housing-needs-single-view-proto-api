@@ -3,6 +3,7 @@ const url = require('url');
 
 class SqlServerConnection {
   constructor(config) {
+    this.Sentry = config.sentry;
     const dbUrl = url.parse(config.dbUrl);
     const [user, pass] = dbUrl.auth.split(':');
 
@@ -18,6 +19,7 @@ class SqlServerConnection {
 
     this.pool.on('error', err => {
       console.log(err);
+      this.Sentry.captureException(err)
     });
   }
 
@@ -33,6 +35,7 @@ class SqlServerConnection {
       return result.recordset;
     } catch (err) {
       console.log(err);
+      this.Sentry.captureException(err)
     }
   }
 }

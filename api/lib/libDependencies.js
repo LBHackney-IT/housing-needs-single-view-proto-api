@@ -1,9 +1,20 @@
+let Sentry;
+if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
+  console.log('yes?');
+  Sentry = require('@sentry/node');
+
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.ENV
+  });
+}
+
 const { Systems } = require('./Constants');
 const SqlServerConnection = require('./SqlServerConnection');
-const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB });
-const uhtDb = new SqlServerConnection({ dbUrl: process.env.UHT_DB });
-const uhwDb = new SqlServerConnection({ dbUrl: process.env.UHW_DB });
-const cominoDb = new SqlServerConnection({ dbUrl: process.env.HN_COMINO_URL });
+const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB, sentry: Sentry });
+const uhtDb = new SqlServerConnection({ dbUrl: process.env.UHT_DB, sentry: Sentry  });
+const uhwDb = new SqlServerConnection({ dbUrl: process.env.UHW_DB , sentry: Sentry });
+const cominoDb = new SqlServerConnection({ dbUrl: process.env.HN_COMINO_URL, sentry: Sentry });
 const singleViewDb = require('./PostgresDb');
 const buildSearchRecord = require('./entities/SearchRecord')();
 const buildDocument = require('./entities/Document')();
@@ -241,6 +252,7 @@ const deleteCustomer = require('./use-cases/DeleteCustomer')({
 });
 
 module.exports = {
+  Sentry,
   customerSearch,
   fetchDocuments,
   fetchRecords,
