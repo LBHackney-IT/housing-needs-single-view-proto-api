@@ -1,6 +1,5 @@
 let Sentry;
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
-  console.log('yes?');
   Sentry = require('@sentry/node');
 
   Sentry.init({
