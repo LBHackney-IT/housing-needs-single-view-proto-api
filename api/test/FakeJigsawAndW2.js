@@ -159,28 +159,7 @@ app.get('/homelessness/api/casecheck', (req, res) => {
     });
   }
 });
-app.get('/homelessness/api/Cases/:id/Notes', (req, res) => {
-  if (req.params.id === '54321') {
-    res.send([
-      {
-        caseId: 54321,
-        content: 'ADDRESS UPDATED',
-        createdDate: '2016-03-17T08:15:39.543',
-        customerId: 12345,
-        customerName: null,
-        id: 705351,
-        interviewDate: '2015-03-17T00:00:00',
-        isSensitive: null,
-        noteTypeId: 1,
-        officerId: 1111,
-        officerInitials: 'MT',
-        officerName: 'Lumos'
-      }
-    ]);
-  }
-});
-
-app.get('/customer/api/Customer/:id/Notes', (req, res) => {
+app.get('/:type/api/Cases/:id/Notes', (req, res) => {
   if (req.params.id === '54321') {
     res.send([
       {
