@@ -2,7 +2,7 @@ const AcademyBenefitsFetchRecord = require('../../../lib/gateways/Academy-Benefi
 
 describe('AcademyBenefitsFetchRecord gateway', () => {
   let db;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (customer, throwsError) => {
@@ -15,13 +15,13 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
       })
     };
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return AcademyBenefitsFetchRecord({
       db,
-      Logger
+      logger
     });
   };
 
@@ -161,7 +161,7 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
     const gateway = createGateway(null, true);
 
     await gateway.execute('id');
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error fetching customers in Academy-Benefits: Error: Database error',
       dbError
     );

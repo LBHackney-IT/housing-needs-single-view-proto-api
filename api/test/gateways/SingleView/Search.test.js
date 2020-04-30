@@ -3,7 +3,7 @@ const singleViewSearch = require('../../../lib/gateways/SingleView/Search');
 describe('SingleViewSearchGateway', () => {
   let db;
   let buildSearchRecord;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
@@ -20,14 +20,14 @@ describe('SingleViewSearchGateway', () => {
       })
     };
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return singleViewSearch({
       buildSearchRecord,
       db,
-      Logger
+      logger
     });
   };
 
@@ -90,7 +90,7 @@ describe('SingleViewSearchGateway', () => {
     const records = await gateway.execute({});
 
     expect(records.length).toBe(0);
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error searching linked records in SingleView: Error: Database error',
       dbError
     );

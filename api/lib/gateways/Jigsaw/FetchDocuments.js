@@ -4,7 +4,7 @@ const { formatRecordDate } = require('../../Utils');
 module.exports = options => {
   const fetchDocMetadataGateway = options.fetchDocMetadataGateway;
   const buildDocument = options.buildDocument;
-  const Logger = options.Logger;
+  const logger = options.logger;
 
   const processDocuments = (documents, userid) => {
     return documents.map(doc => {
@@ -30,7 +30,7 @@ module.exports = options => {
         }
         return [];
       } catch (err) {
-        Logger.error(
+        logger.error(
           `Error fetching customer documents in Jigsaw: ${err}`,
           err
         );

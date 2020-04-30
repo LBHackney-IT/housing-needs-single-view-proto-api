@@ -6,7 +6,7 @@ describe('CominoFetchNotesGateway', () => {
   const account_ref = '123';
   let buildNote;
   let db;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (notes, throwsError) => {
@@ -21,14 +21,14 @@ describe('CominoFetchNotesGateway', () => {
       })
     };
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return cominoFetchNotes({
       buildNote,
       db,
-      Logger
+      logger
     });
   };
 
@@ -111,7 +111,7 @@ describe('CominoFetchNotesGateway', () => {
 
     expect(buildNote).toHaveBeenCalledTimes(0);
     expect(records.length).toBe(0);
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error fetching customer notes in Comino: Error: Database error',
       dbError
     );

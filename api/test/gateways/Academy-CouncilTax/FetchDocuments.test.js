@@ -28,7 +28,7 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
 
   let buildDocument;
   let fetchW2Documents;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = throwsError => {
@@ -41,14 +41,14 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
       return mockCominoDocuments;
     });
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return academyCouncilTaxFetchDocuments({
       buildDocument,
       fetchW2Documents,
-      Logger
+      logger
     });
   };
 
@@ -81,7 +81,7 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
     const documents = await gateway.execute(id, token);
 
     expect(documents.length).toBe(0);
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error fetching customer documents in Comino: Error: Database error',
       dbError
     );

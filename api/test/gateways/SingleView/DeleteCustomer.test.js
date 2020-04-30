@@ -2,7 +2,7 @@ const DeleteCustomer = require('../../../lib/gateways/SingleView/DeleteCustomer'
 
 describe('DeleteCustomer', () => {
   let db;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
@@ -15,13 +15,13 @@ describe('DeleteCustomer', () => {
       })
     };
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return DeleteCustomer({
       db,
-      Logger
+      logger
     });
   };
 
@@ -52,7 +52,7 @@ describe('DeleteCustomer', () => {
     const gateway = createGateway({ id: 1 }, true);
 
     expect(await gateway.execute()).toBeUndefined();
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Could not add a disconnect customer because of an error: Error: Database error',
       dbError
     );

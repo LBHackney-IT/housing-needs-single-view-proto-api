@@ -3,7 +3,7 @@ const jigsawSearch = require('../../../lib/gateways/Jigsaw/Search');
 describe('JigsawSearchGateway', () => {
   let buildSearchRecord;
   let doJigsawGetRequest;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
@@ -18,14 +18,14 @@ describe('JigsawSearchGateway', () => {
       return records;
     });
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return jigsawSearch({
       buildSearchRecord,
       doJigsawGetRequest,
-      Logger
+      logger
     });
   };
 
@@ -97,7 +97,7 @@ describe('JigsawSearchGateway', () => {
     const records = await gateway.execute({});
 
     expect(records.length).toBe(0);
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error searching customers in Jigsaw: Error: Database error',
       dbError
     );

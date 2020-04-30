@@ -6,7 +6,7 @@ const { fetchCustomerNotesSQL } = loadSQL(path.join(__dirname, 'sql'));
 module.exports = options => {
   const db = options.db;
   const buildNote = options.buildNote;
-  const Logger = options.Logger;
+  const logger = options.logger;
 
   const fetchCustomerNotes = async id => {
     return await db.request(fetchCustomerNotesSQL, [
@@ -36,7 +36,7 @@ module.exports = options => {
         }
         return [];
       } catch (err) {
-        Logger.error(`Error fetching customer notes in UHW: ${err}`, err);
+        logger.error(`Error fetching customer notes in UHW: ${err}`, err);
         return [];
       }
     }

@@ -10,7 +10,7 @@ const moment = require('moment');
 
 module.exports = options => {
   const doJigsawGetRequest = options.doJigsawGetRequest;
-  const Logger = options.Logger;
+  const logger = options.logger;
 
   const caseUrl = `${process.env.JigsawHomelessnessBaseSearchUrl}/api/casecheck/`;
   const accomPlacementsUrl = caseId =>
@@ -131,7 +131,7 @@ module.exports = options => {
 
         return customer;
       } catch (err) {
-        Logger.error(`Error fetching customers in Jigsaw: ${err}`, err);
+        logger.error(`Error fetching customers in Jigsaw: ${err}`, err);
       }
     }
   };

@@ -2,7 +2,7 @@ const UHTHousingRegisterFetchRecord = require('../../../lib/gateways/UHT-Housing
 
 describe('UHTHousingRegisterFetchRecord gateway', () => {
   let db;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (customer, throwsError) => {
@@ -15,13 +15,13 @@ describe('UHTHousingRegisterFetchRecord gateway', () => {
       })
     };
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return UHTHousingRegisterFetchRecord({
       db,
-      Logger
+      logger
     });
   };
 
@@ -111,7 +111,7 @@ describe('UHTHousingRegisterFetchRecord gateway', () => {
 
     await gateway.execute('id');
 
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error fetching customers in UHT-HousingRegister: Error: Database error',
       dbError
     );

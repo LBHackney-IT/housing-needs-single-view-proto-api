@@ -13,7 +13,7 @@ describe('CreateRecord', () => {
   });
 
   let db;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
@@ -26,13 +26,13 @@ describe('CreateRecord', () => {
       return records;
     });
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return CreateRecord({
       db,
-      Logger
+      logger
     });
   };
 
@@ -69,7 +69,7 @@ describe('CreateRecord', () => {
     const gateway = createGateway({ id: 1 }, true);
 
     expect(await gateway.execute()).toBeUndefined();
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Could not add a customer because of an error: Error: Database error',
       dbError
     );

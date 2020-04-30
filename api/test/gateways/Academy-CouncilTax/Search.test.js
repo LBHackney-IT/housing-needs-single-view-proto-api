@@ -3,7 +3,7 @@ const academyCouncilTaxSearch = require('../../../lib/gateways/Academy-CouncilTa
 describe('AcademyCouncilTaxSearchGateway', () => {
   let buildSearchRecord;
   let db;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
@@ -20,14 +20,14 @@ describe('AcademyCouncilTaxSearchGateway', () => {
       })
     };
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return academyCouncilTaxSearch({
       buildSearchRecord,
       db,
-      Logger
+      logger
     });
   };
 
@@ -102,7 +102,7 @@ describe('AcademyCouncilTaxSearchGateway', () => {
     const records = await gateway.execute({});
 
     expect(records.length).toBe(0);
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error searching customers in Academy-CouncilTax: Error: Database error',
       dbError
     );

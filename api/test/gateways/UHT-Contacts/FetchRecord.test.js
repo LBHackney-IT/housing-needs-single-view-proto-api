@@ -143,7 +143,7 @@ describe('UHTContactsFetchRecord gateway', () => {
 
     await gateway.execute('id');
 
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error fetching customers in UHT-Contacts: Error: Database error',
       dbError
     );

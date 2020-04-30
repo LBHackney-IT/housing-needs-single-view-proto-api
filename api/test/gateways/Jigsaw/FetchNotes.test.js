@@ -7,7 +7,7 @@ describe('JigsawFetchNotesGateway', () => {
   let doJigsawGetRequest;
   let doGetRequest;
   let buildNote;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (records, existsInSystem, throwsError) => {
@@ -30,7 +30,7 @@ describe('JigsawFetchNotesGateway', () => {
       return records;
     });
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
@@ -38,7 +38,7 @@ describe('JigsawFetchNotesGateway', () => {
       doJigsawGetRequest,
       buildNote,
       doGetRequest,
-      Logger
+      logger
     });
   };
 
@@ -108,7 +108,7 @@ describe('JigsawFetchNotesGateway', () => {
 
     expect(buildNote).toHaveBeenCalledTimes(0);
     expect(result.length).toBe(0);
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error fetching customer notes in Jigsaw: Error: Database error',
       dbError
     );

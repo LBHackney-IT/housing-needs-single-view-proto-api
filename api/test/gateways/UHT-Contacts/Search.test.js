@@ -3,7 +3,7 @@ const UHTContactsSearch = require('../../../lib/gateways/UHT-Contacts/Search');
 describe('UHTContactsSearchGateway', () => {
   let buildSearchRecord;
   let db;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
@@ -20,14 +20,14 @@ describe('UHTContactsSearchGateway', () => {
       })
     };
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return UHTContactsSearch({
       buildSearchRecord,
       db,
-      Logger
+      logger
     });
   };
 
@@ -104,7 +104,7 @@ describe('UHTContactsSearchGateway', () => {
     const records = await gateway.execute({});
 
     expect(records.length).toBe(0);
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error searching customers in UHT-Contacts: Error: Database error',
       dbError
     );

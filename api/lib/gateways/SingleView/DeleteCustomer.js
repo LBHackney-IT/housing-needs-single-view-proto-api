@@ -1,6 +1,6 @@
 module.exports = options => {
   const db = options.db;
-  const Logger = options.Logger;
+  const logger = options.logger;
 
   return {
     execute: async id => {
@@ -12,7 +12,7 @@ module.exports = options => {
         await db.none(removeLinksQuery, { id });
         return await db.none(removeCustomerQuery, { id });
       } catch (err) {
-        Logger.error(
+        logger.error(
           `Could not add a disconnect customer because of an error: ${err}`,
           err
         );

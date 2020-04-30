@@ -4,7 +4,7 @@ describe('AcademyCouncilTaxFetchNotesGateway', () => {
   const id = '123';
 
   let cominoFetchNotesGateway;
-  let Logger;
+  let logger;
   const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError, existsInSystem) => {
@@ -17,13 +17,13 @@ describe('AcademyCouncilTaxFetchNotesGateway', () => {
       })
     };
 
-    Logger = {
+    logger = {
       error: jest.fn((msg, err) => {})
     };
 
     return academyCouncilTaxFetchNotes({
       cominoFetchNotesGateway,
-      Logger
+      logger
     });
   };
 
@@ -67,7 +67,7 @@ describe('AcademyCouncilTaxFetchNotesGateway', () => {
 
     expect(notes.length).toBe(0);
 
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(logger.error).toHaveBeenCalledWith(
       'Error fetching customer notes in Comino: Error: Database error',
       dbError
     );

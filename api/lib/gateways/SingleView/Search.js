@@ -7,7 +7,7 @@ const { customerSearchSQL } = loadSQL(path.join(__dirname, 'sql'));
 module.exports = options => {
   const db = options.db;
   const buildSearchRecord = options.buildSearchRecord;
-  const Logger = options.Logger;
+  const logger = options.logger;
 
   const search = async queryParams => {
     let whereClause = [];
@@ -51,7 +51,7 @@ module.exports = options => {
         const results = await search(queryParams);
         return processRecords(results);
       } catch (err) {
-        Logger.error(
+        logger.error(
           `Error searching linked records in SingleView: ${err}`,
           err
         );
