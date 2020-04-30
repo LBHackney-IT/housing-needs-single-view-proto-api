@@ -158,7 +158,8 @@ const uhtContactsFetchRecordsGateway = require('./gateways/UHT-Contacts/FetchRec
 const uhtHousingRegisterFetchRecordsGateway = require('./gateways/UHT-HousingRegister/FetchRecord')(
   {
     db: uhtDb,
-    buildNote
+    buildNote,
+    Logger
   }
 );
 
