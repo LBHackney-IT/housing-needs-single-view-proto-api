@@ -48,10 +48,7 @@ module.exports = options => {
         }
         return [];
       } catch (err) {
-        Logger.error(
-          `Error fetching customer notes in Comino: ${err}`,
-          err
-        );
+        Logger.error(`Error fetching customer notes in Comino: ${err}`, err);
         return [];
       }
     }

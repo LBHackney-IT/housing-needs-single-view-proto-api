@@ -36,10 +36,7 @@ module.exports = options => {
         }
         return [];
       } catch (err) {
-        Logger.error(
-          `Error fetching customer notes in UHW: ${err}`,
-          err
-        );
+        Logger.error(`Error fetching customer notes in UHW: ${err}`, err);
         return [];
       }
     }

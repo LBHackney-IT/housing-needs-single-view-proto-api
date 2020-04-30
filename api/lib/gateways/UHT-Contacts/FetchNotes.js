@@ -43,10 +43,7 @@ module.exports = options => {
           return processNotes(notes);
         }
       } catch (err) {
-        Logger.error(
-          `Error fetching notes in UHT-Contacts: ${err}`,
-          err
-        );
+        Logger.error(`Error fetching notes in UHT-Contacts: ${err}`, err);
       }
       return [];
     }

@@ -131,10 +131,7 @@ module.exports = options => {
 
         return customer;
       } catch (err) {
-        Logger.error(
-          `Error fetching customers in Jigsaw: ${err}`,
-          err
-        );
+        Logger.error(`Error fetching customers in Jigsaw: ${err}`, err);
       }
     }
   };

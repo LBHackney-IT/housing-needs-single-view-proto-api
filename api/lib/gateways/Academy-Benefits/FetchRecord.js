@@ -117,7 +117,10 @@ module.exports = options => {
 
         return customer;
       } catch (err) {
-        Logger.error(`Error fetching customers in Academy-Benefits: ${err}`, err);
+        Logger.error(
+          `Error fetching customers in Academy-Benefits: ${err}`,
+          err
+        );
       }
     }
   };

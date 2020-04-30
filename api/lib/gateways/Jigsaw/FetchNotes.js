@@ -100,10 +100,7 @@ module.exports = options => {
         }
         return [];
       } catch (err) {
-        Logger.error(
-          `Error fetching customer notes in Jigsaw: ${err}`,
-          err
-        );
+        Logger.error(`Error fetching customer notes in Jigsaw: ${err}`, err);
         return [];
       }
     }
