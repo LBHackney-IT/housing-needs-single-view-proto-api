@@ -68,6 +68,7 @@ const processCustomer = record => {
 
 module.exports = options => {
   const db = options.db;
+  const Logger = options.Logger;
 
   return {
     execute: async id => {
@@ -82,7 +83,10 @@ module.exports = options => {
 
         return customer;
       } catch (err) {
-        console.log(`Error fetching customers in Academy-CouncilTax: ${err}`);
+        Logger.error(
+          `Error fetching customers in Academy-CouncilTax: ${err}`,
+          err
+        );
       }
     }
   };
