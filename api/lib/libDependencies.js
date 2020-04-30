@@ -206,12 +206,14 @@ const uhtContactsFetchNotesGateway = require('./gateways/UHT-Contacts/FetchNotes
 const uhtHousingRegisterFetchNotesGateway = require('./gateways/UHT-HousingRegister/FetchNotes')(
   {
     db: uhtDb,
-    buildNote
+    buildNote,
+    Logger
   }
 );
 const academyCouncilTaxFetchNotesGateway = require('./gateways/Academy-CouncilTax/FetchNotes')(
   {
-    cominoFetchNotesGateway
+    cominoFetchNotesGateway,
+    Logger
   }
 );
 const uhwFetchNotesGateway = require('./gateways/UHW/FetchNotes')({

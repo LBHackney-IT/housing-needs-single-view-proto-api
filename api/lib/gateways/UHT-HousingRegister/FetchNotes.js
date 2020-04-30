@@ -6,6 +6,7 @@ const { fetchCustomerNotesSQL } = loadSQL(path.join(__dirname, 'sql'));
 module.exports = options => {
   const db = options.db;
   const buildNote = options.buildNote;
+  const Logger = options.Logger;
 
   const fetchCustomerNotes = async id => {
     const [app_ref, person_no] = id.split('/');
@@ -37,8 +38,9 @@ module.exports = options => {
         }
         return [];
       } catch (err) {
-        console.log(
-          `Error fetching customer notes in UHT-HousingRegister: ${err}`
+        Logger.error(
+          `Error fetching customer notes in UHT-HousingRegister: ${err}`,
+          err
         );
         return [];
       }
