@@ -55,7 +55,8 @@ const {
 } = require('./JigsawUtils');
 
 const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
-  db: singleViewDb
+  db: singleViewDb,
+  Logger
 });
 
 // SEARCH GATEWAYS
@@ -281,14 +282,16 @@ const fetchNotes = require('./use-cases/FetchNotes')({
 });
 
 const createRecordGateway = require('./gateways/SingleView/CreateRecord')({
-  db: singleViewDb
+  db: singleViewDb,
+  Logger
 });
 const saveCustomer = require('./use-cases/SaveCustomer')({
   gateway: createRecordGateway
 });
 
 const deleteCustomerGateway = require('./gateways/SingleView/DeleteCustomer')({
-  db: singleViewDb
+  db: singleViewDb,
+  Logger
 });
 const deleteCustomer = require('./use-cases/DeleteCustomer')({
   gateway: deleteCustomerGateway
