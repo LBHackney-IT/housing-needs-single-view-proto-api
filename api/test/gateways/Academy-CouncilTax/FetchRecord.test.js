@@ -2,19 +2,26 @@ const AcademyCouncilTaxFetchRecord = require('../../../lib/gateways/Academy-Coun
 
 describe('AcademyCouncilTaxFetchRecord gateway', () => {
   let db;
+  let logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (customer, throwsError) => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          throw new Error('Database error');
+          throw dbError;
         }
         return customer;
       })
     };
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return AcademyCouncilTaxFetchRecord({
-      db
+      db,
+      logger
     });
   };
 
@@ -171,17 +178,14 @@ describe('AcademyCouncilTaxFetchRecord gateway', () => {
     });
   });
 
-  it('catches and console logs errors', async () => {
-    let consoleOutput = '';
-    const storeLog = inputs => (consoleOutput += inputs);
-    console['log'] = jest.fn(storeLog);
-
+  it('catches and calls logger with errors', async () => {
     const gateway = createGateway(null, true);
 
     await gateway.execute('id');
 
-    expect(consoleOutput).toBe(
-      'Error fetching customers in Academy-CouncilTax: Error: Database error'
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching customers in Academy-CouncilTax: Error: Database error',
+      dbError
     );
   });
 });

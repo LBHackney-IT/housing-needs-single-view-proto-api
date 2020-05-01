@@ -3,6 +3,7 @@ const url = require('url');
 
 class SqlServerConnection {
   constructor(config) {
+    this.logger = config.logger;
     const dbUrl = url.parse(config.dbUrl);
     const [user, pass] = dbUrl.auth.split(':');
 
@@ -17,7 +18,7 @@ class SqlServerConnection {
     this.poolConnect = this.pool.connect();
 
     this.pool.on('error', err => {
-      console.log(err);
+      this.logger.error(err, err);
     });
   }
 
@@ -32,7 +33,7 @@ class SqlServerConnection {
       const result = await request.query(query);
       return result.recordset;
     } catch (err) {
-      console.log(err);
+      this.logger.error(err, err);
     }
   }
 }

@@ -2,6 +2,8 @@ const UHTContactsFetchRecord = require('../../../lib/gateways/UHT-Contacts/Fetch
 
 describe('UHTContactsFetchRecord gateway', () => {
   let db;
+  let logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (customer, throwsError) => {
     db = {
@@ -13,8 +15,13 @@ describe('UHTContactsFetchRecord gateway', () => {
       })
     };
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return UHTContactsFetchRecord({
-      db
+      db,
+      logger
     });
   };
 
@@ -131,17 +138,14 @@ describe('UHTContactsFetchRecord gateway', () => {
     );
   });
 
-  it('catches and console logs errors', async () => {
-    let consoleOutput = '';
-    const storeLog = inputs => (consoleOutput += inputs);
-    console['log'] = jest.fn(storeLog);
-
+  it('catches and calls logger', async () => {
     const gateway = createGateway(null, true);
 
     await gateway.execute('id');
 
-    expect(consoleOutput).toBe(
-      'Error fetching customers in UHT-Contacts: Error: Database error'
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching customers in UHT-Contacts: Error: Database error',
+      dbError
     );
   });
 });

@@ -1,5 +1,5 @@
 module.exports = options => {
-  const { buildDocument, fetchW2Documents } = options;
+  const { buildDocument, fetchW2Documents, logger } = options;
 
   return {
     execute: async (id, token) => {
@@ -13,7 +13,10 @@ module.exports = options => {
 
         return cominoRecords.map(doc => buildDocument(doc));
       } catch (err) {
-        console.log(`Error fetching customer documents in Comino: ${err}`);
+        logger.error(
+          `Error fetching customer documents in Comino: ${err}`,
+          err
+        );
         return [];
       }
     }

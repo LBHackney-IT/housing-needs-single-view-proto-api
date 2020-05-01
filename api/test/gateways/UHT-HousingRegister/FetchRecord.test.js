@@ -2,19 +2,26 @@ const UHTHousingRegisterFetchRecord = require('../../../lib/gateways/UHT-Housing
 
 describe('UHTHousingRegisterFetchRecord gateway', () => {
   let db;
+  let logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (customer, throwsError) => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          throw new Error('Database error');
+          throw dbError;
         }
         return customer;
       })
     };
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return UHTHousingRegisterFetchRecord({
-      db
+      db,
+      logger
     });
   };
 
@@ -99,17 +106,14 @@ describe('UHTHousingRegisterFetchRecord gateway', () => {
     });
   });
 
-  it('catches and console logs errors', async () => {
-    let consoleOutput = '';
-    const storeLog = inputs => (consoleOutput += inputs);
-    console['log'] = jest.fn(storeLog);
-
+  it('catches and calls logger', async () => {
     const gateway = createGateway(null, true);
 
     await gateway.execute('id');
 
-    expect(consoleOutput).toBe(
-      'Error fetching customers in UHT-HousingRegister: Error: Database error'
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching customers in UHT-HousingRegister: Error: Database error',
+      dbError
     );
   });
 });

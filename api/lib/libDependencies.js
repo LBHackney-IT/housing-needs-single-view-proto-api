@@ -1,9 +1,38 @@
+let Sentry;
+if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
+  Sentry = require('@sentry/node');
+
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.ENV
+  });
+}
+
+const logger = require('./logger')({ Sentry });
+
 const { Systems } = require('./Constants');
 const SqlServerConnection = require('./SqlServerConnection');
-const academyDb = new SqlServerConnection({ dbUrl: process.env.ACADEMY_DB });
-const uhtDb = new SqlServerConnection({ dbUrl: process.env.UHT_DB });
-const uhwDb = new SqlServerConnection({ dbUrl: process.env.UHW_DB });
-const cominoDb = new SqlServerConnection({ dbUrl: process.env.HN_COMINO_URL });
+
+const academyDb = new SqlServerConnection({
+  dbUrl: process.env.ACADEMY_DB,
+  logger: logger
+});
+
+const uhtDb = new SqlServerConnection({
+  dbUrl: process.env.UHT_DB,
+  logger: logger
+});
+
+const uhwDb = new SqlServerConnection({
+  dbUrl: process.env.UHW_DB,
+  logger: logger
+});
+
+const cominoDb = new SqlServerConnection({
+  dbUrl: process.env.HN_COMINO_URL,
+  logger: logger
+});
+
 const singleViewDb = require('./PostgresDb');
 const buildSearchRecord = require('./entities/SearchRecord')();
 const buildDocument = require('./entities/Document')();
@@ -25,44 +54,52 @@ const {
 } = require('./JigsawUtils');
 
 const getCustomerLinks = require('./gateways/SingleView/CustomerLinks')({
-  db: singleViewDb
+  db: singleViewDb,
+  logger
 });
 
 // SEARCH GATEWAYS
 
 const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
   doJigsawGetRequest,
-  buildSearchRecord
+  buildSearchRecord,
+  logger
 });
 const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
   {
     db: academyDb,
-    buildSearchRecord
+    buildSearchRecord,
+    logger
   }
 );
 const uhtContactsSearchGateway = require('./gateways/UHT-Contacts/Search')({
   db: uhtDb,
-  buildSearchRecord
+  buildSearchRecord,
+  logger
 });
 const uhtHousingRegisterSearchGateway = require('./gateways/UHT-HousingRegister/Search')(
   {
     db: uhtDb,
-    buildSearchRecord
+    buildSearchRecord,
+    logger
   }
 );
 const academyCouncilTaxSearchGateway = require('./gateways/Academy-CouncilTax/Search')(
   {
     db: academyDb,
-    buildSearchRecord
+    buildSearchRecord,
+    logger
   }
 );
 const uhwSearchGateway = require('./gateways/UHW/Search')({
   db: uhwDb,
-  buildSearchRecord
+  buildSearchRecord,
+  logger
 });
 const singleViewSearchGateway = require('./gateways/SingleView/Search')({
   db: singleViewDb,
-  buildSearchRecord
+  buildSearchRecord,
+  logger
 });
 
 // DOCUMENT GATEWAYS
@@ -71,12 +108,14 @@ const academyBenefitsFetchDocumentsGateway = require('./gateways/Academy-Benefit
   {
     db: academyDb,
     buildDocument,
-    fetchW2Documents
+    fetchW2Documents,
+    logger
   }
 );
 const uhwFetchDocumentsGateway = require('./gateways/UHW/FetchDocuments')({
   buildDocument,
-  fetchW2Documents
+  fetchW2Documents,
+  logger
 });
 const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
   {
@@ -86,13 +125,15 @@ const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
         doJigsawGetRequest,
         doJigsawPostRequest
       }
-    )
+    ),
+    logger
   }
 );
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
   {
     buildDocument,
-    fetchW2Documents
+    fetchW2Documents,
+    logger
   }
 );
 
@@ -101,77 +142,90 @@ const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-Counc
 const academyBenefitsFetchRecordsGateway = require('./gateways/Academy-Benefits/FetchRecord')(
   {
     db: academyDb,
-    buildNote
+    buildNote,
+    logger
   }
 );
 
 const uhtContactsFetchRecordsGateway = require('./gateways/UHT-Contacts/FetchRecord')(
   {
     db: uhtDb,
-    buildNote
+    buildNote,
+    logger
   }
 );
 
 const uhtHousingRegisterFetchRecordsGateway = require('./gateways/UHT-HousingRegister/FetchRecord')(
   {
     db: uhtDb,
-    buildNote
+    buildNote,
+    logger
   }
 );
 
 const academyCouncilTaxFetchRecordsGateway = require('./gateways/Academy-CouncilTax/FetchRecord')(
   {
-    db: academyDb
+    db: academyDb,
+    logger
   }
 );
 
 const uhwFetchRecordsGateway = require('./gateways/UHW/FetchRecord')({
-  db: uhwDb
+  db: uhwDb,
+  logger
 });
 
 const jigsawFetchRecordsGateway = require('./gateways/Jigsaw/FetchRecord')({
   doJigsawGetRequest,
-  doGetRequest
+  doGetRequest,
+  logger
 });
 
 // NOTES GATEWAYS
 
 const cominoFetchNotesGateway = require('./gateways/Comino/FetchNotes')({
   buildNote,
-  db: cominoDb
+  db: cominoDb,
+  logger
 });
 const academyBenefitsFetchNotesGateway = require('./gateways/Academy-Benefits/FetchNotes')(
   {
     db: academyDb,
     buildNote,
-    cominoFetchNotesGateway
+    cominoFetchNotesGateway,
+    logger
   }
 );
 const uhtContactsFetchNotesGateway = require('./gateways/UHT-Contacts/FetchNotes')(
   {
     db: uhtDb,
-    buildNote
+    buildNote,
+    logger
   }
 );
 const uhtHousingRegisterFetchNotesGateway = require('./gateways/UHT-HousingRegister/FetchNotes')(
   {
     db: uhtDb,
-    buildNote
+    buildNote,
+    logger
   }
 );
 const academyCouncilTaxFetchNotesGateway = require('./gateways/Academy-CouncilTax/FetchNotes')(
   {
-    cominoFetchNotesGateway
+    cominoFetchNotesGateway,
+    logger
   }
 );
 const uhwFetchNotesGateway = require('./gateways/UHW/FetchNotes')({
   db: uhwDb,
-  buildNote
+  buildNote,
+  logger
 });
 const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
   doJigsawGetRequest,
   doGetRequest,
-  buildNote
+  buildNote,
+  logger
 });
 
 // USECASES
@@ -227,20 +281,23 @@ const fetchNotes = require('./use-cases/FetchNotes')({
 });
 
 const createRecordGateway = require('./gateways/SingleView/CreateRecord')({
-  db: singleViewDb
+  db: singleViewDb,
+  logger
 });
 const saveCustomer = require('./use-cases/SaveCustomer')({
   gateway: createRecordGateway
 });
 
 const deleteCustomerGateway = require('./gateways/SingleView/DeleteCustomer')({
-  db: singleViewDb
+  db: singleViewDb,
+  logger
 });
 const deleteCustomer = require('./use-cases/DeleteCustomer')({
   gateway: deleteCustomerGateway
 });
 
 module.exports = {
+  Sentry,
   customerSearch,
   fetchDocuments,
   fetchRecords,

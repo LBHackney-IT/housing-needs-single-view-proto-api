@@ -7,6 +7,8 @@ describe('JigsawFetchNotesGateway', () => {
   let doJigsawGetRequest;
   let doGetRequest;
   let buildNote;
+  let logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (records, existsInSystem, throwsError) => {
     buildNote = jest.fn(input => {
@@ -15,7 +17,7 @@ describe('JigsawFetchNotesGateway', () => {
 
     doJigsawGetRequest = jest.fn(async url => {
       if (throwsError) {
-        throw new Error('error');
+        throw dbError;
       }
       if (url.includes('casecheck')) return { cases: records };
       if (url.includes('Notes')) return records;
@@ -28,10 +30,15 @@ describe('JigsawFetchNotesGateway', () => {
       return records;
     });
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return jigsawFetchNotes({
       doJigsawGetRequest,
       buildNote,
-      doGetRequest
+      doGetRequest,
+      logger
     });
   };
 
@@ -95,11 +102,15 @@ describe('JigsawFetchNotesGateway', () => {
     );
   });
 
-  it('returns empty records if an error is thrown', async () => {
+  it('returns empty records if an error is thrown and calls logger', async () => {
     const gateway = createGateway([{}], true, true);
     const result = await gateway.execute(id);
 
     expect(buildNote).toHaveBeenCalledTimes(0);
     expect(result.length).toBe(0);
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching customer notes in Jigsaw: Error: Database error',
+      dbError
+    );
   });
 });

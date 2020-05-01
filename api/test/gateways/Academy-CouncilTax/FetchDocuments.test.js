@@ -28,17 +28,29 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
 
   let buildDocument;
   let fetchW2Documents;
-  let createGateway;
+  let logger;
+  const dbError = new Error('Database error');
 
-  beforeEach(() => {
+  const createGateway = throwsError => {
     buildDocument = jest.fn(doc => buildDoc(doc));
-    fetchW2Documents = jest.fn(() => mockCominoDocuments);
 
-    createGateway = prepareTestGateway(academyCouncilTaxFetchDocuments, {
-      buildDocument,
-      fetchW2Documents
+    fetchW2Documents = jest.fn(() => {
+      if (throwsError) {
+        throw dbError;
+      }
+      return mockCominoDocuments;
     });
-  });
+
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
+    return academyCouncilTaxFetchDocuments({
+      buildDocument,
+      fetchW2Documents,
+      logger
+    });
+  };
 
   it('requests Comino documents with the account reference if called with an id (account reference)', async () => {
     const gateway = createGateway();
@@ -65,9 +77,13 @@ describe('AcademyCouncilTaxFetchDocumentsGateway', () => {
   });
 
   it('returns an empty set of records if there is an error', async () => {
-    const gateway = createGateway({ raiseError: true });
+    const gateway = createGateway(true);
     const documents = await gateway.execute(id, token);
 
     expect(documents.length).toBe(0);
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching customer documents in Comino: Error: Database error',
+      dbError
+    );
   });
 });

@@ -15,6 +15,8 @@ describe('UHTHousingFetchNotesGateway', () => {
 
   let buildNote;
   let db;
+  let logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (records, existsInSystem, throwsError) => {
     buildNote = jest.fn();
@@ -22,15 +24,20 @@ describe('UHTHousingFetchNotesGateway', () => {
     db = {
       request: jest.fn(async (name, id) => {
         if (throwsError) {
-          throw new Error('error');
+          throw dbError;
         }
         return records;
       })
     };
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return uhtHousingRegisterFetchNotes({
       buildNote,
-      db
+      db,
+      logger
     });
   };
 
@@ -81,12 +88,16 @@ describe('UHTHousingFetchNotesGateway', () => {
     expect(buildNote).toHaveBeenCalledWith(paramMatcher);
   });
 
-  it('returns an empty set of notes if there is an error', async () => {
+  it('returns an empty set of notes if there is an error and calls logger', async () => {
     const gateway = createGateway([{}], true, true);
 
     const records = await gateway.execute(id);
 
     expect(buildNote).toHaveBeenCalledTimes(0);
     expect(records.length).toBe(0);
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching customer notes in UHT-HousingRegister: Error: Database error',
+      dbError
+    );
   });
 });

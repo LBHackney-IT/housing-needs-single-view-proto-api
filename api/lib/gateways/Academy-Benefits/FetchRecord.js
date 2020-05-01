@@ -99,6 +99,7 @@ let processBenefits = function(benefits) {
 
 module.exports = options => {
   const db = options.db;
+  const logger = options.logger;
 
   return {
     execute: async id => {
@@ -116,7 +117,10 @@ module.exports = options => {
 
         return customer;
       } catch (err) {
-        console.log(`Error fetching customers in Academy-Benefits: ${err}`);
+        logger.error(
+          `Error fetching customers in Academy-Benefits: ${err}`,
+          err
+        );
       }
     }
   };

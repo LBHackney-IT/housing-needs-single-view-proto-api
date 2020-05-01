@@ -3,6 +3,8 @@ const UHTContactsFetchNotes = require('../../../lib/gateways/UHT-Contacts/FetchN
 describe('UHTContactsFetchNotes gateway', () => {
   let buildNote;
   let db;
+  let logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (notes, throwsError) => {
     buildNote = jest.fn(({ id }) => {
@@ -12,15 +14,20 @@ describe('UHTContactsFetchNotes gateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          throw new Error('Database error');
+          throw dbError;
         }
         return notes;
       })
     };
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return UHTContactsFetchNotes({
       buildNote,
-      db
+      db,
+      logger
     });
   };
 
@@ -67,22 +74,19 @@ describe('UHTContactsFetchNotes gateway', () => {
   });
 
   it('catches and console logs errors', async () => {
-    let consoleOutput = '';
-    const storeLog = inputs => (consoleOutput += inputs);
-    console['log'] = jest.fn(storeLog);
-
     const gateway = createGateway(null, true);
 
     await gateway.execute('id');
 
     expect(buildNote).toHaveBeenCalledTimes(0);
-    expect(consoleOutput).toBe(
-      'Error fetching notes in UHT-Contacts: Error: Database error'
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching notes in UHT-Contacts: Error: Database error',
+      dbError
     );
   });
 
   it('returns empty array when system id is not found', async () => {
-    const gateway = createGateway(null, false, true);
+    const gateway = createGateway(null, true);
 
     const notes = await gateway.execute('id');
 

@@ -6,21 +6,29 @@ describe('CominoFetchNotesGateway', () => {
   const account_ref = '123';
   let buildNote;
   let db;
+  let logger;
+  const dbError = new Error('Database error');
+
   const createGateway = (notes, throwsError) => {
     buildNote = jest.fn();
 
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          throw new Error('Database error');
+          throw dbError;
         }
         return notes;
       })
     };
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return cominoFetchNotes({
       buildNote,
-      db
+      db,
+      logger
     });
   };
 
@@ -96,13 +104,16 @@ describe('CominoFetchNotesGateway', () => {
     expect(buildNote).toHaveBeenCalledWith(noteMatcher);
   });
 
-  it('returns an empty set of notes if there is an error', async () => {
-    const record = { claim_id, NoteText: 123 };
-    const gateway = createGateway([record], true);
+  it('returns an empty set of notes if there is an error and calls logger', async () => {
+    const gateway = createGateway([], true);
 
-    const records = await gateway.execute(claim_id);
+    const records = await gateway.execute({ claim_id });
 
     expect(buildNote).toHaveBeenCalledTimes(0);
     expect(records.length).toBe(0);
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching customer notes in Comino: Error: Database error',
+      dbError
+    );
   });
 });

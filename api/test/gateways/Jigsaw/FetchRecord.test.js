@@ -2,11 +2,13 @@ const JigsawFetchRecord = require('../../../lib/gateways/Jigsaw/FetchRecord');
 
 describe('JigsawFetchRecord gateway', () => {
   let doJigsawGetRequest;
+  let logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (customerDetails, throwsError) => {
     doJigsawGetRequest = jest.fn(async url => {
       if (throwsError) {
-        throw new Error('error');
+        throw dbError;
       }
       if (url.includes('casecheck'))
         return {
@@ -52,8 +54,13 @@ describe('JigsawFetchRecord gateway', () => {
         };
     });
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return JigsawFetchRecord({
-      doJigsawGetRequest
+      doJigsawGetRequest,
+      logger
     });
   };
 
@@ -128,16 +135,13 @@ describe('JigsawFetchRecord gateway', () => {
   });
 
   it('catches and console logs errors', async () => {
-    let consoleOutput = '';
-    const storeLog = inputs => (consoleOutput += inputs);
-    console['log'] = jest.fn(storeLog);
-
     const gateway = createGateway(null, true);
 
     await gateway.execute('id');
 
-    expect(consoleOutput).toBe(
-      'Error fetching customers in Jigsaw: Error: error'
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching customers in Jigsaw: Error: Database error',
+      dbError
     );
   });
 });

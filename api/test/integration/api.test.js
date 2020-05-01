@@ -4,11 +4,7 @@ const singleViewDb = require('../../lib/PostgresDb');
 const { loadSQL } = require('../../../api/lib/Utils');
 const { truncateTablesSQL } = loadSQL(path.join(__dirname, 'sql'));
 
-const {
-  doDeleteRequest,
-  doPostRequest,
-  doGetRequest
-} = require('./TestUtils');
+const { doDeleteRequest, doPostRequest, doGetRequest } = require('./TestUtils');
 
 describe('Singleview API', () => {
   beforeEach(() => {

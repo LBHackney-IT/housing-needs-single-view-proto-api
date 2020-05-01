@@ -3,6 +3,8 @@ const academyBenefitsSearch = require('../../../lib/gateways/Academy-Benefits/Se
 describe('AcademyBenefitsSearchGateway', () => {
   let buildSearchRecord;
   let db;
+  let logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
     buildSearchRecord = jest.fn(({ id }) => {
@@ -12,15 +14,20 @@ describe('AcademyBenefitsSearchGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          throw new Error('Database error');
+          throw dbError;
         }
         return records;
       })
     };
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return academyBenefitsSearch({
       buildSearchRecord,
-      db
+      db,
+      logger
     });
   };
 
@@ -90,12 +97,16 @@ describe('AcademyBenefitsSearchGateway', () => {
     expect(records.length).toBe(0);
   });
 
-  it('returns an empty set of records if there is an error', async () => {
+  it('returns an empty set of records if there is an error and calls logger', async () => {
     const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
     const gateway = createGateway([record], true);
 
     const records = await gateway.execute({});
 
     expect(records.length).toBe(0);
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error searching customers in Academy-Benefits: Error: Database error',
+      dbError
+    );
   });
 });

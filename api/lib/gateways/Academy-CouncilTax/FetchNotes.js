@@ -1,5 +1,6 @@
 module.exports = options => {
   const cominoFetchNotesGateway = options.cominoFetchNotesGateway;
+  const logger = options.logger;
 
   return {
     execute: async id => {
@@ -12,7 +13,7 @@ module.exports = options => {
         }
         return [];
       } catch (err) {
-        console.log(`Error fetching customer notes in Comino: ${err}`);
+        logger.error(`Error fetching customer notes in Comino: ${err}`, err);
         return [];
       }
     }

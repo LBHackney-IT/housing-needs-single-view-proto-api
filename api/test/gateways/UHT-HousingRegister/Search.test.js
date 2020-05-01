@@ -3,6 +3,8 @@ const UHTHousingRegisterSearch = require('../../../lib/gateways/UHT-HousingRegis
 describe('UHTHousingRegisterSearchGateway', () => {
   let buildSearchRecord;
   let db;
+  let logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
     buildSearchRecord = jest.fn(({ id }) => {
@@ -12,15 +14,20 @@ describe('UHTHousingRegisterSearchGateway', () => {
     db = {
       request: jest.fn(async () => {
         if (throwsError) {
-          throw new Error('Database error');
+          throw dbError;
         }
         return records;
       })
     };
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return UHTHousingRegisterSearch({
       buildSearchRecord,
-      db
+      db,
+      logger
     });
   };
 
@@ -89,12 +96,16 @@ describe('UHTHousingRegisterSearchGateway', () => {
     expect(records.length).toBe(0);
   });
 
-  it('returns an empty set of records if there is an error', async () => {
+  it('returns an empty set of records if there is an error and calls logger', async () => {
     const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
     const gateway = createGateway([record], true);
 
     const records = await gateway.execute({});
 
     expect(records.length).toBe(0);
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error searching customers in UHT-HousingRegister: Error: Database error',
+      dbError
+    );
   });
 });

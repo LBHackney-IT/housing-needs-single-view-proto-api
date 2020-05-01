@@ -12,16 +12,6 @@ const mockUhwDocuments = [
   }
 ];
 
-const prepareTestGateway = (gateway, dependencies = {}) => {
-  return (opts = {}) => {
-    const { raiseError } = opts;
-
-    if (raiseError) return gateway({});
-
-    return gateway(dependencies);
-  };
-};
-
 describe('UHWFetchDocumentsGateway', () => {
   const id = '123';
   const token = 'a_token';
@@ -29,16 +19,29 @@ describe('UHWFetchDocumentsGateway', () => {
   let buildDocument;
   let fetchW2Documents;
   let createGateway;
+  let logger;
+  const dbError = new Error('Database error');
 
-  beforeEach(() => {
-    buildDocument = jest.fn(doc => buildDoc(doc));
-    fetchW2Documents = jest.fn(() => mockUhwDocuments);
-
-    createGateway = prepareTestGateway(UHWFetchDocuments, {
-      buildDocument,
-      fetchW2Documents
+  createGateway = throwsError => {
+    fetchW2Documents = jest.fn(() => {
+      if (throwsError) {
+        throw dbError;
+      }
+      return mockUhwDocuments;
     });
-  });
+
+    buildDocument = jest.fn(doc => buildDoc(doc));
+
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
+    return UHWFetchDocuments({
+      buildDocument,
+      fetchW2Documents,
+      logger
+    });
+  };
 
   it('gets and processes the docs if customer has a system id', async () => {
     const gateway = createGateway();
@@ -76,5 +79,9 @@ describe('UHWFetchDocumentsGateway', () => {
 
     expect(buildDocument).not.toHaveBeenCalled();
     expect(documents.length).toBe(0);
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching documents from UHW: Error: Database error',
+      dbError
+    );
   });
 });

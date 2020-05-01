@@ -7,6 +7,7 @@ const { createCustomerSQL, createCustomerLinksSQL } = loadSQL(
 
 module.exports = options => {
   const db = options.db;
+  const logger = options.logger;
 
   return {
     execute: async records => {
@@ -33,7 +34,10 @@ module.exports = options => {
         });
         return customer;
       } catch (err) {
-        console.log('Could not add a customer because of an error:' + err);
+        logger.error(
+          `Could not add a customer because of an error: ${err}`,
+          err
+        );
       }
     }
   };

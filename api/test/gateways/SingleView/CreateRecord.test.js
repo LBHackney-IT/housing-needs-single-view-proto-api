@@ -13,19 +13,26 @@ describe('CreateRecord', () => {
   });
 
   let db;
+  let logger;
+  const dbError = new Error('Database error');
 
   const createGateway = (records, throwsError) => {
     db = new MyDB();
     db.none = jest.fn();
     db.one = jest.fn(async () => {
       if (throwsError) {
-        throw new Error('Database error');
+        throw dbError;
       }
       return records;
     });
 
+    logger = {
+      error: jest.fn((msg, err) => {})
+    };
+
     return CreateRecord({
-      db
+      db,
+      logger
     });
   };
 
@@ -58,9 +65,13 @@ describe('CreateRecord', () => {
     expect(db.none).toHaveBeenCalled();
   });
 
-  it('Cathes an error if it is thrown', async () => {
+  it('Catches an error if it is thrown and calls the logger', async () => {
     const gateway = createGateway({ id: 1 }, true);
 
     expect(await gateway.execute()).toBeUndefined();
+    expect(logger.error).toHaveBeenCalledWith(
+      'Could not add a customer because of an error: Error: Database error',
+      dbError
+    );
   });
 });
