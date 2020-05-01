@@ -2,7 +2,7 @@
   "name": "hn-single-view-api",
   "version": "1.0.0",
   "dependencies": {
-    "node-lambda-authorizer": "LBHackney-IT/node-lambda-authorizer.git#master"
+    "node-lambda-authorizer": "LBHackney-IT/node-lambda-authorizer.git#dfc45f0"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
