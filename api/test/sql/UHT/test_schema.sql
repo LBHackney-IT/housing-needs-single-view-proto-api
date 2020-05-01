@@ -400,7 +400,25 @@ I will send out an lll on this claim, send a memo to control to amend creditor r
 User Id: bebeo  Date: 11.02.2010 11:44:39  000000004
 Email rec'd from LL on 05/02/10 notifying of rent increase wef:");
 
+CREATE TABLE [hbdocout] (
+    [document_id] int,
+    [claim_id] int,
+    [correspondence_code] nvarchar(20),
+    [user_id] nvarchar(8),
+    [sent_date] datetime2(7),
+    [completed_date] datetime2(7)
+);
 
+insert into hbdocout (document_id, claim_id, correspondence_code, user_id, sent_date, completed_date) values (6, 5260765, 'LL-ADJUSTMENT', 'meap', '2017-11-03', '2020-03-25');
+insert into hbdocout (document_id, claim_id, correspondence_code, user_id, sent_date, completed_date) values (5, 5759744, 'LL-ADJUSTMENT', 'meap', '2016-11-27', '2019-05-11');
+insert into hbdocout (document_id, claim_id, correspondence_code, user_id, sent_date, completed_date) values (1, 6060591, 'LL-ADJUSTMENT', 'meap', '2017-10-31', '2018-11-21');
+insert into hbdocout (document_id, claim_id, correspondence_code, user_id, sent_date, completed_date) values (2, 5479047, 'LL-ADJUSTMENT', 'meap', '2015-07-10', '2018-09-22');
+insert into hbdocout (document_id, claim_id, correspondence_code, user_id, sent_date, completed_date) values (8, 5879391, 'LL-ADJUSTMENT', 'meap', '2015-11-20', '2019-12-08');
+insert into hbdocout (document_id, claim_id, correspondence_code, user_id, sent_date, completed_date) values (5, 6115325, 'LL-ADJUSTMENT', 'meap', '2016-08-14', '2019-06-24');
+insert into hbdocout (document_id, claim_id, correspondence_code, user_id, sent_date, completed_date) values (1, 5587103, 'LL-ADJUSTMENT', 'meap', '2016-06-08', '2019-12-26');
+insert into hbdocout (document_id, claim_id, correspondence_code, user_id, sent_date, completed_date) values (1, 5315153, 'LL-ADJUSTMENT', 'meap', '2017-01-25', '2018-07-19');
+insert into hbdocout (document_id, claim_id, correspondence_code, user_id, sent_date, completed_date) values (4, 5167284, 'LL-ADJUSTMENT', 'meap', '2018-02-12', '2018-11-18');
+insert into hbdocout (document_id, claim_id, correspondence_code, user_id, sent_date, completed_date) values (5, 5448076, 'LL-ADJUSTMENT', 'meap', '2015-11-27', '2018-08-24');
 ---ACADEMY COUNCIL TAX---
 
 CREATE TABLE [ctaccount] (

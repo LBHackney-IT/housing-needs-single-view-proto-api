@@ -22,7 +22,6 @@ insert into customer_links (id, customer_id, system_id, remote_id, first_name, l
 
 insert into customers (id, created_at, updated_at) values (129, current_timestamp, current_timestamp);
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (105, 129, 1, '6867133/2', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');
-
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (106, 129, 2, 'DIR4704058/5', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (107, 129, 3, '8852263', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (108, 129, 4, '12345', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');
@@ -31,3 +30,9 @@ insert into customer_links (id, customer_id, system_id, remote_id, first_name, l
 
 insert into customers (id, created_at, updated_at) values (130, current_timestamp, current_timestamp);
 insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (111, 130, 1, '1101447/1', 'Fake', 'Customer', '18 saut road', 'CD877332Z' ,'1971-12-22');
+
+insert into customers (id, created_at, updated_at) values (133, current_timestamp, current_timestamp);
+insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (114, 133, 3, '4186867', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');
+insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (115, 133, 4, '12345', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');
+insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (116, 133, 5, '6060591/2', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');
+insert into customer_links (id, customer_id, system_id, remote_id, first_name, last_name, address, nino, dob) values (117, 133, 6, '35205909', 'Elwira', 'Moncur', '28 saut road', 'CD877332Z' ,'1971-12-22');

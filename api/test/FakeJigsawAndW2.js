@@ -83,7 +83,22 @@ app.get('/homelessness/api/casecheck/:id', (req, res) => {
         }
       ]
     });
-  else res.send({ customer: false });
+  else res.send({ cases: false });
+});
+
+app.post('/homelessness/api/cases/getcasedocs/:id', (req, res) => {
+  res.send({
+    caseDocuments: [
+      {
+        assignedTo: 'Someone',
+        date: '2011-07-05T01:00:00',
+        id: 121212,
+        isCurrent: true,
+        isV2LegacyCase: true,
+        statusName: 'Open'
+      }
+    ]
+  });
 });
 
 app.get('/customer/api/CustomerOverview/:id', (req, res) => {
@@ -144,28 +159,7 @@ app.get('/homelessness/api/casecheck', (req, res) => {
     });
   }
 });
-app.get('/homelessness/api/Cases/:id/Notes', (req, res) => {
-  if (req.params.id === '54321') {
-    res.send([
-      {
-        caseId: 54321,
-        content: 'ADDRESS UPDATED',
-        createdDate: '2016-03-17T08:15:39.543',
-        customerId: 12345,
-        customerName: null,
-        id: 705351,
-        interviewDate: '2015-03-17T00:00:00',
-        isSensitive: null,
-        noteTypeId: 1,
-        officerId: 1111,
-        officerInitials: 'MT',
-        officerName: 'Lumos'
-      }
-    ]);
-  }
-});
-
-app.get('/customer/api/Customer/:id/Notes', (req, res) => {
+app.get('/:type/api/Cases/:id/Notes', (req, res) => {
   if (req.params.id === '54321') {
     res.send([
       {
@@ -202,6 +196,21 @@ app.get('/casework/contacts/:id/messages', (req, res) => {
       }
     ]);
   }
+});
+
+app.get('/:gateway/customers/:id/documents', (req, res) => {
+  res.send([
+    {
+      userid: parseInt(req.params.id),
+      id: 123,
+      title: 'document',
+      text: `this is a ${req.params.gateway} doc`,
+      date: '2015-05-17T00:00:00',
+      user: 'ONE',
+      system: `${req.params.gateway}`,
+      format: 'pdf'
+    }
+  ]);
 });
 
 app.listen(port, () =>
