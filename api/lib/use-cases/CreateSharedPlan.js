@@ -1,5 +1,5 @@
 module.exports = ({ fetchRecords, sharedPlan }) => {
-  return async ({ customerId }) => {
+  return async ({ customerId, token }) => {
     const record = await fetchRecords(customerId);
 
     if (!record) {
@@ -11,7 +11,8 @@ module.exports = ({ fetchRecords, sharedPlan }) => {
         firstName: record.firstName,
         lastName: record.lastName,
         systemIds: [record.id, ...Object.values(record.systemIds)]
-      }
+      },
+      token
     });
 
     return plan;
