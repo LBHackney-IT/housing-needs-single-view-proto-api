@@ -59,6 +59,7 @@ functions:
       JIGSAW_DOCUMENTS_API: ${ssm:/hn-single-view-api/${self:provider.stage}/JIGSAW_DOCUMENTS_API}
       ENV: ${self:provider.stage}
       SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
+      SHARED_PLAN_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/SHARED_PLAN_BASE_URL}
 
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
