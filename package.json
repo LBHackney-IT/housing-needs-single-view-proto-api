@@ -5,6 +5,7 @@
     "node-lambda-authorizer": "LBHackney-IT/node-lambda-authorizer.git#dfc45f0"
   },
   "devDependencies": {
+    "nock": "^12.0.3",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",

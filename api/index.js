@@ -10,7 +10,8 @@ const {
   fetchNotes,
   fetchRecords,
   saveCustomer,
-  deleteCustomer
+  deleteCustomer,
+  createSharedPlan
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -106,6 +107,24 @@ app.get('/customers/:id/documents', async (req, res, next) => {
     console.timeEnd(`GET CUSTOMER DOCS id="${req.params.id}"`);
     res.send(results);
   } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/customers/:id/shared-plans', async (req, res, next) => {
+  try {
+    console.time('create-shared-plan');
+    console.log('create shared plan', { params: req.params });
+
+    const { id: planId } = await createSharedPlan({
+      customerId: req.params.id,
+      token: res.locals.hackneyToken
+    });
+
+    console.timeEnd('create-shared-plan');
+    return res.send({ planId });
+  } catch (err) {
+    console.log('create shared plan failed', { error: err });
     next(err);
   }
 });

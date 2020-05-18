@@ -228,6 +228,12 @@ const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
   logger
 });
 
+// Other gateways
+const SharedPlanApi = require('./gateways/SharedPlan/SharedPlanApi');
+const sharedPlan = new SharedPlanApi({
+  baseUrl: process.env.SHARED_PLAN_BASE_URL
+});
+
 // USECASES
 
 const customerSearch = require('./use-cases/CustomerSearch')({
@@ -296,6 +302,11 @@ const deleteCustomer = require('./use-cases/DeleteCustomer')({
   gateway: deleteCustomerGateway
 });
 
+const createSharedPlan = require('./use-cases/CreateSharedPlan')({
+  fetchRecords,
+  sharedPlan
+});
+
 module.exports = {
   Sentry,
   customerSearch,
@@ -303,5 +314,6 @@ module.exports = {
   fetchRecords,
   fetchNotes,
   saveCustomer,
-  deleteCustomer
+  deleteCustomer,
+  createSharedPlan
 };
