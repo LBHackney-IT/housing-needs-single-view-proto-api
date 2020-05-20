@@ -21,11 +21,11 @@ class SharedPlanApi {
   }
 
   async find({ firstName, lastName, systemIds, token }) {
-    const response = await rp(`${this.baseUrl}/plans`, {
-      method: 'GET',
+    const response = await rp(`${this.baseUrl}/plans/find`, {
+      method: 'POST',
       auth: { bearer: token },
       json: true,
-      qs: {
+      body: {
         firstName,
         lastName,
         systemIds

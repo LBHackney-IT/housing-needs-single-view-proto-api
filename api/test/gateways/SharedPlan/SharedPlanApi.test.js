@@ -42,10 +42,8 @@ describe('SharedPlanApi', () => {
           authorization: `Bearer ${expectedToken}`
         }
       })
-        .get(
-          '/plans?firstName=Stanley&lastName=McTest&systemIds=123&systemIds=456'
-        )
-        .reply(201, expectedPlanIds);
+        .post('/plans/find')
+        .reply(200, expectedPlanIds);
     });
 
     it('calls the API endpoint with valid querystring', async () => {
