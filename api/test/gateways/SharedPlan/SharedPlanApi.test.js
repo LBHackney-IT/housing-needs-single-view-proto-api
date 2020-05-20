@@ -12,7 +12,7 @@ describe('SharedPlanApi', () => {
           authorization: `Bearer ${expectedToken}`
         }
       })
-        .post('/')
+        .post('/plans')
         .reply(201, { id: expectedPlanId });
     });
 
@@ -28,6 +28,36 @@ describe('SharedPlanApi', () => {
       });
 
       expect(createdPlan.id).toBe(expectedPlanId);
+      expect(nock.isDone()).toBe(true);
+    });
+  });
+
+  describe('find', () => {
+    const expectedPlanIds = ['SP-1', 'SP-2'];
+    const expectedToken = 'a-really-secure-token';
+
+    beforeEach(() => {
+      nock('https://shared.plan', {
+        reqheaders: {
+          authorization: `Bearer ${expectedToken}`
+        }
+      })
+        .get(
+          '/plans?firstName=Stanley&lastName=McTest&systemIds=123&systemIds=456'
+        )
+        .reply(201, expectedPlanIds);
+    });
+
+    it('calls the API endpoint with valid querystring', async () => {
+      const api = new SharedPlanApi({ baseUrl: 'https://shared.plan' });
+      const { planIds } = await api.find({
+        token: expectedToken,
+        firstName: 'Stanley',
+        lastName: 'McTest',
+        systemIds: ['123', '456']
+      });
+
+      expect(planIds).toStrictEqual(expectedPlanIds);
       expect(nock.isDone()).toBe(true);
     });
   });
