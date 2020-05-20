@@ -11,7 +11,8 @@ const {
   fetchRecords,
   saveCustomer,
   deleteCustomer,
-  createSharedPlan
+  createSharedPlan,
+  findSharedPlans
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -125,6 +126,24 @@ app.post('/customers/:id/shared-plans', async (req, res, next) => {
     return res.send({ planId });
   } catch (err) {
     console.log('create shared plan failed', { error: err });
+    next(err);
+  }
+});
+
+app.get('/customers/:id/shared-plans', async (req, res, next) => {
+  try {
+    console.time('find-shared-plan');
+    console.log('find shared plan', { params: req.params });
+
+    const { planIds } = await findSharedPlans({
+      customerId: req.params.id,
+      token: res.locals.hackneyToken
+    });
+
+    console.timeEnd('find-shared-plan');
+    return res.send({ planIds });
+  } catch (err) {
+    console.log('find shared plans failed', { error: err });
     next(err);
   }
 });
