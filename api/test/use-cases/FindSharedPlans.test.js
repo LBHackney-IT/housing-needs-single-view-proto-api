@@ -3,8 +3,12 @@ const findSharedPlans = require('../../lib/use-cases/FindSharedPlans');
 describe('CreateSharedPlan', () => {
   const expectedRecord = {
     id: '123',
-    firstName: 'Test',
-    lastName: 'Person',
+    name: [
+      {
+        first: 'Test',
+        last: 'Person'
+      }
+    ],
     systemIds: {
       ACADEMY: 'ACADEMY-123',
       JIGSAW: 'JIGSAW-123'
