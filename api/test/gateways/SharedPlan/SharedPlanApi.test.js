@@ -33,7 +33,7 @@ describe('SharedPlanApi', () => {
   });
 
   describe('find', () => {
-    const expectedPlanIds = ['SP-1', 'SP-2'];
+    const expectedResponse = { planIds: ['SP-1', 'SP-2'] };
     const expectedToken = 'a-really-secure-token';
 
     beforeEach(() => {
@@ -43,7 +43,7 @@ describe('SharedPlanApi', () => {
         }
       })
         .post('/plans/find')
-        .reply(200, expectedPlanIds);
+        .reply(200, expectedResponse);
     });
 
     it('calls the API endpoint with valid querystring', async () => {
@@ -55,7 +55,7 @@ describe('SharedPlanApi', () => {
         systemIds: ['123', '456']
       });
 
-      expect(planIds).toStrictEqual(expectedPlanIds);
+      expect(planIds).toStrictEqual(expectedResponse.planIds);
       expect(nock.isDone()).toBe(true);
     });
   });

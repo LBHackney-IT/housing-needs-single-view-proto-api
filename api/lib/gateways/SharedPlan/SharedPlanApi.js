@@ -32,7 +32,7 @@ class SharedPlanApi {
       }
     });
 
-    return { planIds: response };
+    return response;
   }
 }
 
