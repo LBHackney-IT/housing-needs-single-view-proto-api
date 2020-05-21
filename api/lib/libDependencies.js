@@ -307,6 +307,11 @@ const createSharedPlan = require('./use-cases/CreateSharedPlan')({
   sharedPlan
 });
 
+const findSharedPlans = require('./use-cases/FindSharedPlans')({
+  fetchRecords,
+  sharedPlan
+});
+
 module.exports = {
   Sentry,
   customerSearch,
@@ -315,5 +320,6 @@ module.exports = {
   fetchNotes,
   saveCustomer,
   deleteCustomer,
-  createSharedPlan
+  createSharedPlan,
+  findSharedPlans
 };
