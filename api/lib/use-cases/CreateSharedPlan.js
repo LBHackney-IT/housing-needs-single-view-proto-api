@@ -6,11 +6,16 @@ module.exports = ({ fetchRecords, sharedPlan }) => {
       throw new Error('Unable to create plan, unknown customer');
     }
 
+    const systemIds = [].concat.apply(
+      [customerId],
+      Object.values(record.systemIds)
+    );
+
     const plan = await sharedPlan.create({
       customer: {
-        firstName: record.firstName,
-        lastName: record.lastName,
-        systemIds: [record.id, ...Object.values(record.systemIds)]
+        firstName: record.name[0].first,
+        lastName: record.name[0].last,
+        systemIds
       },
       token
     });

@@ -12,7 +12,7 @@ describe('SharedPlanApi', () => {
           authorization: `Bearer ${expectedToken}`
         }
       })
-        .post('/plans')
+        .post('/api/plans')
         .reply(201, { id: expectedPlanId });
     });
 
@@ -39,14 +39,14 @@ describe('SharedPlanApi', () => {
     beforeEach(() => {
       nock('https://shared.plan', {
         reqheaders: {
-          authorization: `Bearer ${expectedToken}`
+          Authorization: `Bearer ${expectedToken}`
         }
       })
-        .post('/plans/find')
+        .post('/api/plans/find')
         .reply(200, expectedResponse);
     });
 
-    it('calls the API endpoint with valid querystring', async () => {
+    it('calls the API endpoint with valid body', async () => {
       const api = new SharedPlanApi({ baseUrl: 'https://shared.plan' });
       const { planIds } = await api.find({
         token: expectedToken,

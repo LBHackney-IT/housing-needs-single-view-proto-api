@@ -5,10 +5,15 @@ module.exports = ({ fetchRecords, sharedPlan }) => {
       throw new Error('Unable to find plans, unknown customer');
     }
 
+    const systemIds = [].concat.apply(
+      [customerId],
+      Object.values(record.systemIds)
+    );
+
     const { planIds } = await sharedPlan.find({
       firstName: record.name[0].first,
       lastName: record.name[0].last,
-      systemIds: [record.id, ...Object.values(record.systemIds)],
+      systemIds,
       token
     });
 

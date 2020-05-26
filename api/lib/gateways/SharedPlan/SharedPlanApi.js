@@ -6,9 +6,11 @@ class SharedPlanApi {
   }
 
   async create({ customer, token }) {
-    const response = await rp(`${this.baseUrl}/plans`, {
+    const response = await rp(`${this.baseUrl}/api/plans`, {
       method: 'POST',
-      auth: { bearer: token },
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       json: true,
       body: {
         firstName: customer.firstName,
@@ -21,18 +23,25 @@ class SharedPlanApi {
   }
 
   async find({ firstName, lastName, systemIds, token }) {
-    const response = await rp(`${this.baseUrl}/plans/find`, {
-      method: 'POST',
-      auth: { bearer: token },
-      json: true,
-      body: {
-        firstName,
-        lastName,
-        systemIds
-      }
-    });
-
-    return response;
+    try {
+      const response = await rp(`${this.baseUrl}/api/plans/find`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        json: true,
+        body: {
+          firstName,
+          lastName,
+          systemIds
+        }
+      });
+      return response;
+    } catch (err) {
+      return {
+        planIds: []
+      };
+    }
   }
 }
 

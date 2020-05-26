@@ -3,8 +3,12 @@ const createSharedPlan = require('../../lib/use-cases/CreateSharedPlan');
 describe('CreateSharedPlan', () => {
   const expectedRecord = {
     id: '123',
-    firstName: 'Bob',
-    lastName: 'Smith',
+    name: [
+      {
+        first: 'Bob',
+        last: 'Smith'
+      }
+    ],
     systemIds: {
       ACADEMY: 'ACADEMY-123',
       JIGSAW: 'JIGSAW-123'
@@ -31,8 +35,8 @@ describe('CreateSharedPlan', () => {
 
     expect(container.sharedPlan.create).toHaveBeenCalledWith({
       customer: {
-        firstName: expectedRecord.firstName,
-        lastName: expectedRecord.lastName,
+        firstName: expectedRecord.name[0].first,
+        lastName: expectedRecord.name[0].last,
         systemIds: expect.arrayContaining([
           expectedRecord.id,
           expectedRecord.systemIds.ACADEMY,
