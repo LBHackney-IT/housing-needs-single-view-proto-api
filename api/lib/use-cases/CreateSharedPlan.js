@@ -15,7 +15,9 @@ module.exports = ({ fetchRecords, sharedPlan }) => {
       customer: {
         firstName: record.name[0].first,
         lastName: record.name[0].last,
-        systemIds
+        systemIds,
+        numbers: record.phone,
+        emails: record.email
       },
       token
     });
