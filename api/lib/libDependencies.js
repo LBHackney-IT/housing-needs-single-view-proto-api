@@ -229,9 +229,15 @@ const jigsawFetchNotesGateway = require('./gateways/Jigsaw/FetchNotes')({
 });
 
 // Other gateways
+
 const SharedPlanApi = require('./gateways/SharedPlan/SharedPlanApi');
 const sharedPlan = new SharedPlanApi({
   baseUrl: process.env.SHARED_PLAN_BASE_URL
+});
+
+const VulnerabilitiesApi = require('./gateways/Vulnerabilities/VulnerabilitiesApi');
+const vulnerabilities = new VulnerabilitiesApi({
+  baseUrl: process.env.VULNERABILITIES_BASE_URL
 });
 
 // USECASES
@@ -312,6 +318,20 @@ const findSharedPlans = require('./use-cases/FindSharedPlans')({
   sharedPlan
 });
 
+const createVulnerabilitySnapshot = require('./use-cases/CreateVulnerabilitySnapshot')(
+  {
+    fetchRecords,
+    vulnerabilities
+  }
+);
+
+const findVulnerabilitySnapshots = require('./use-cases/FindVulnerabilitySnapshots')(
+  {
+    fetchRecords,
+    vulnerabilities
+  }
+);
+
 module.exports = {
   Sentry,
   customerSearch,
@@ -321,5 +341,7 @@ module.exports = {
   saveCustomer,
   deleteCustomer,
   createSharedPlan,
-  findSharedPlans
+  findSharedPlans,
+  createVulnerabilitySnapshot,
+  findVulnerabilitySnapshots
 };
