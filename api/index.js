@@ -12,7 +12,9 @@ const {
   saveCustomer,
   deleteCustomer,
   createSharedPlan,
-  findSharedPlans
+  findSharedPlans,
+  createVulnerabilitySnapshot,
+  findVulnerabilitySnapshots
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -144,6 +146,42 @@ app.get('/customers/:id/shared-plans', async (req, res, next) => {
     return res.send({ planIds });
   } catch (err) {
     console.log('find shared plans failed', { error: err });
+    next(err);
+  }
+});
+
+app.post('/customers/:id/vulnerabilities', async (req, res, next) => {
+  try {
+    console.time('create-vulnerability-snapshot');
+    console.log('create vulnerability snapshot', { params: req.params });
+
+    const { id: snapshotId } = await createVulnerabilitySnapshot({
+      customerId: req.params.id,
+      token: res.locals.hackneyToken
+    });
+
+    console.timeEnd('create-vulnerability-snapshot');
+    return res.send({ snapshotId });
+  } catch (err) {
+    console.log('create vulnerability snapshot failed', { error: err });
+    next(err);
+  }
+});
+
+app.get('/customers/:id/vulnerabilities', async (req, res, next) => {
+  try {
+    console.time('find-vulnerability-snapshots');
+    console.log('find vulnerability snapshots', { params: req.params });
+
+    const { snapshotIds } = await findVulnerabilitySnapshots({
+      customerId: req.params.id,
+      token: res.locals.hackneyToken
+    });
+
+    console.timeEnd('find-vulnerability-snapshots');
+    return res.send({ snapshotIds });
+  } catch (err) {
+    console.log('find vulnerability snapshots', { error: err });
     next(err);
   }
 });
