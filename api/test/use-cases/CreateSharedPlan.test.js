@@ -12,7 +12,9 @@ describe('CreateSharedPlan', () => {
     systemIds: {
       ACADEMY: 'ACADEMY-123',
       JIGSAW: 'JIGSAW-123'
-    }
+    },
+    phone: [],
+    email: []
   };
 
   const expectedPlanId = 'SP-1';
@@ -41,7 +43,10 @@ describe('CreateSharedPlan', () => {
           expectedRecord.id,
           expectedRecord.systemIds.ACADEMY,
           expectedRecord.systemIds.JIGSAW
-        ])
+        ]),
+        numbers: [],
+        emails: [],
+        hasPhp: false
       },
       token: expectedToken
     });
