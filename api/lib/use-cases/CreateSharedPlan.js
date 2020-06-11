@@ -11,11 +11,8 @@ module.exports = ({ fetchRecords, sharedPlan }) => {
       Object.values(record.systemIds)
     );
 
-    const jigsawCaseId = record.housingNeeds
-      ? record.housingNeeds.jigsawCaseId
-        ? true
-        : false
-      : false;
+    const jigsawCaseId =
+      record.housingNeeds && record.housingNeeds.jigsawCaseId ? true : false;
 
     const plan = await sharedPlan.create({
       customer: {
