@@ -53,4 +53,32 @@ describe('CreateSharedPlan', () => {
 
     expect(plan.id).toBe(expectedPlanId);
   });
+
+  it('creates a shared plan with correct details if customer has php', async () => {
+    expectedRecord.housingNeeds = { jigsawCaseId: '123' };
+    const execute = createSharedPlan(container);
+
+    const plan = await execute({
+      customerId: expectedRecord.id,
+      token: expectedToken
+    });
+
+    expect(container.sharedPlan.create).toHaveBeenCalledWith({
+      customer: {
+        firstName: expectedRecord.name[0].first,
+        lastName: expectedRecord.name[0].last,
+        systemIds: expect.arrayContaining([
+          expectedRecord.id,
+          expectedRecord.systemIds.ACADEMY,
+          expectedRecord.systemIds.JIGSAW
+        ]),
+        numbers: [],
+        emails: [],
+        hasPhp: true
+      },
+      token: expectedToken
+    });
+
+    expect(plan.id).toBe(expectedPlanId);
+  });
 });
