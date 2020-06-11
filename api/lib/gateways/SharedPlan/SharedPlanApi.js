@@ -17,7 +17,8 @@ class SharedPlanApi {
         lastName: customer.lastName,
         systemIds: customer.systemIds,
         numbers: customer.numbers,
-        emails: customer.emails
+        emails: customer.emails,
+        hasPhp: customer.hasPhp
       }
     });
 

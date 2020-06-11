@@ -11,13 +11,17 @@ module.exports = ({ fetchRecords, sharedPlan }) => {
       Object.values(record.systemIds)
     );
 
+    const jigsawCaseId =
+      record.housingNeeds && record.housingNeeds.jigsawCaseId ? true : false;
+
     const plan = await sharedPlan.create({
       customer: {
         firstName: record.name[0].first,
         lastName: record.name[0].last,
         systemIds,
         numbers: record.phone,
-        emails: record.email
+        emails: record.email,
+        hasPhp: jigsawCaseId
       },
       token
     });
