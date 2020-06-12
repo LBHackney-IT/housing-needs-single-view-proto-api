@@ -12,7 +12,7 @@ describe('VulnerabilitiesApi', () => {
           authorization: `Bearer ${expectedToken}`
         }
       })
-        .post('/api/vulnerabilities')
+        .post('/api/snapshots')
         .reply(201, { id: expectedSnapshotId });
     });
 
@@ -44,7 +44,7 @@ describe('VulnerabilitiesApi', () => {
           Authorization: `Bearer ${expectedToken}`
         }
       })
-        .post('/api/vulnerabilities/find')
+        .post('/api/snapshots/find')
         .reply(200, expectedResponse);
     });
 
