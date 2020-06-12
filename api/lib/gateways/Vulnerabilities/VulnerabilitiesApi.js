@@ -6,7 +6,7 @@ class VulnerabilitiesApi {
   }
 
   async create({ customer, token }) {
-    const response = await rp(`${this.baseUrl}/api/vulnerabilities`, {
+    const response = await rp(`${this.baseUrl}/api/snapshots`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`
@@ -24,7 +24,7 @@ class VulnerabilitiesApi {
 
   async find({ firstName, lastName, systemIds, token }) {
     try {
-      const response = await rp(`${this.baseUrl}/api/vulnerabilities/find`, {
+      const response = await rp(`${this.baseUrl}/api/snapshots/find`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`
