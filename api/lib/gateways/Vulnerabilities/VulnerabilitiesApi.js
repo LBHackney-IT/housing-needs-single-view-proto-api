@@ -19,7 +19,7 @@ class VulnerabilitiesApi {
       }
     });
 
-    return { id: response.id };
+    return { snapshotId: response.id };
   }
 
   async find({ firstName, lastName, systemIds, token }) {

@@ -155,7 +155,7 @@ app.post('/customers/:id/vulnerabilities', async (req, res, next) => {
     console.time('create-vulnerability-snapshot');
     console.log('create vulnerability snapshot', { params: req.params });
 
-    const { id: snapshotId } = await createVulnerabilitySnapshot({
+    const { snapshotId } = await createVulnerabilitySnapshot({
       customerId: req.params.id,
       token: res.locals.hackneyToken
     });

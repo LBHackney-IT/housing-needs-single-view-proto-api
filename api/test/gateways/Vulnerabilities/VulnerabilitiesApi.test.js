@@ -29,7 +29,7 @@ describe('VulnerabilitiesApi', () => {
         }
       });
 
-      expect(createdSnapshot.id).toBe(expectedSnapshotId);
+      expect(createdSnapshot.snapshotId).toBe(expectedSnapshotId);
       expect(nock.isDone()).toBe(true);
     });
   });
