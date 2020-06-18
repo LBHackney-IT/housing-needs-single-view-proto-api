@@ -23,7 +23,7 @@ if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
 
 app.use(bodyParser.json());
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   if (req.headers.authorization) {
     res.locals.hackneyToken = req.headers.authorization.replace('Bearer ', '');
   }
@@ -31,7 +31,7 @@ app.use(function(req, res, next) {
 });
 
 // CORS
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();
@@ -173,13 +173,13 @@ app.get('/customers/:id/vulnerabilities', async (req, res, next) => {
     console.time('find-vulnerability-snapshots');
     console.log('find vulnerability snapshots', { params: req.params });
 
-    const { snapshotIds } = await findVulnerabilitySnapshots({
+    const { snapshots } = await findVulnerabilitySnapshots({
       customerId: req.params.id,
       token: res.locals.hackneyToken
     });
 
     console.timeEnd('find-vulnerability-snapshots');
-    return res.send({ snapshotIds });
+    return res.send({ snapshots });
   } catch (err) {
     console.log('find vulnerability snapshots', { error: err });
     next(err);
@@ -196,7 +196,7 @@ if (Sentry) {
   );
 }
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   console.log(err);
   res.sendStatus(500);
 });
