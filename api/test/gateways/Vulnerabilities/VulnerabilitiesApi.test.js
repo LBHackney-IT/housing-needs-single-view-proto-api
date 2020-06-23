@@ -23,6 +23,7 @@ describe('VulnerabilitiesApi', () => {
       const createdSnapshot = await api.create({
         token: expectedToken,
         customer: {
+          dob: {},
           firstName: 'Stanley',
           lastName: 'McTest',
           systemIds: ['123', '456', '789']
