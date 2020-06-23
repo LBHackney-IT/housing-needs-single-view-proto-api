@@ -13,6 +13,7 @@ class VulnerabilitiesApi {
       },
       json: true,
       body: {
+        dob: customer.dob,
         firstName: customer.firstName,
         lastName: customer.lastName,
         systemIds: customer.systemIds
