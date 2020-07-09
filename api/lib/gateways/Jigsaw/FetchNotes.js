@@ -38,7 +38,7 @@ module.exports = options => {
     };
 
     const smsContacts = await doGetRequest(collabCaseworkUrl, {}, authHeader);
-    const matches = smsContacts.find(c => c.jigsawId === jigsawId);
+    const matches = smsContacts.find(c => `${c.jigsawId}` === jigsawId);
 
     if (!matches) return [];
 
