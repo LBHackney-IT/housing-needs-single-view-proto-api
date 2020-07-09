@@ -150,6 +150,7 @@ describe('fetch records test', () => {
           status: 'Open'
         },
         housingRegister: [],
+        name: [{ first: 'James', last: 'Smith', title: 'Mr' }],
         nhsNumber: '',
         nino: ['ABC12345D'],
         phone: ['07666666666'],
@@ -392,7 +393,10 @@ describe('fetch records test', () => {
             startDate: '1900-01-01T00:00:00.000Z'
           }
         ],
-        name: [{ first: 'Elwira', last: 'Moncur', title: 'Ms' }],
+        name: [
+          { first: 'Elwira', last: 'Moncur', title: 'Ms' },
+          { first: 'James', last: 'Smith', title: 'Mr' }
+        ],
         nhsNumber: '',
         nino: ['CD877332Z', 'ABC12345D'],
         phone: ['07222222222', '07123456789', '02222222222', '07666666666'],

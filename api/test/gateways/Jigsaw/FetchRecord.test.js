@@ -26,6 +26,9 @@ describe('JigsawFetchRecord gateway', () => {
       if (url.includes('CustomerOverview'))
         return {
           personInfo: {
+            firstName: customerDetails.firstName,
+            lastName: customerDetails.lastName,
+            personTitle: customerDetails.personTitle,
             addressString: customerDetails.address,
             dateOfBirth: customerDetails.dob,
             emailAddress: customerDetails.email,
@@ -65,6 +68,9 @@ describe('JigsawFetchRecord gateway', () => {
   };
 
   const customerDetails = {
+    personTitle: 'Mr',
+    firstName: 'jon',
+    lastName: 'smith',
     jigsawCaseId: '54321',
     address: 'Hackney London W3 43no',
     dob: '1991-02-13 12:00:00',
@@ -118,6 +124,13 @@ describe('JigsawFetchRecord gateway', () => {
     const record = await gateway.execute(id);
 
     expect(record).toEqual({
+      name: [
+        {
+          first: customerDetails.firstName,
+          last: customerDetails.lastName,
+          title: customerDetails.personTitle
+        }
+      ],
       systemIds: { jigsaw: [id] },
       housingNeeds: {
         jigsawCaseId: customerDetails.jigsawCaseId,

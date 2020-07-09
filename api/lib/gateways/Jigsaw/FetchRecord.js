@@ -89,6 +89,9 @@ module.exports = options => {
       team: {}
     };
 
+    customer.name = [
+      { first: info.firstName, last: info.lastName, title: info.personTitle }
+    ];
     customer.address = [
       {
         source: Systems.JIGSAW,
