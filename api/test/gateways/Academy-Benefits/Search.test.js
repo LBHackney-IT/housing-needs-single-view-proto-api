@@ -1,8 +1,8 @@
 const academyBenefitsSearch = require('../../../lib/gateways/Academy-Benefits/Search');
+const nock = require('nock');
 
 describe('AcademyBenefitsSearchGateway', () => {
   let buildSearchRecord;
-  let db;
   let logger;
   const dbError = new Error('Database error');
 
@@ -11,14 +11,12 @@ describe('AcademyBenefitsSearchGateway', () => {
       return { id };
     });
 
-    db = {
-      request: jest.fn(async () => {
-        if (throwsError) {
-          throw dbError;
-        }
-        return records;
-      })
-    };
+    searchDb = async (queryParams) => {
+    if (throwsError) throw dbError; 
+      return records
+    }
+
+    searchAPI = async () => {};
 
     logger = {
       error: jest.fn((msg, err) => {})
@@ -26,54 +24,11 @@ describe('AcademyBenefitsSearchGateway', () => {
 
     return academyBenefitsSearch({
       buildSearchRecord,
-      db,
+      searchDb,
+      searchAPI,
       logger
     });
   };
-
-  it('queries the database for forename if the query contains firstname', async () => {
-    const gateway = createGateway([]);
-    const firstName = 'maria';
-    const queryMatcher = expect.stringMatching(/forename LIKE @forename/);
-    const paramMatcher = expect.arrayContaining([
-      expect.objectContaining({ value: `%${firstName.toUpperCase()}%` })
-    ]);
-
-    await gateway.execute({ firstName });
-
-    expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
-  });
-
-  it('does not query the database for the forename if the query does not have a firstname', async () => {
-    const gateway = createGateway([]);
-    const queryMatcher = expect.not.stringMatching(/forename LIKE @forename/);
-
-    await gateway.execute({});
-
-    expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
-  });
-
-  it('queries the database for lastname if the query contains lastname', async () => {
-    const gateway = createGateway([]);
-    const lastName = 'smith';
-    queryMatcher = expect.stringMatching(/surname LIKE/);
-    const paramMatcher = expect.arrayContaining([
-      expect.objectContaining({ value: `%${lastName.toUpperCase()}%` })
-    ]);
-
-    await gateway.execute({ lastName });
-
-    expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
-  });
-
-  it('does not query the database for the lastname if the query does not have a lastname', async () => {
-    const gateway = createGateway([]);
-    const queryMatcher = expect.not.stringMatching(/surname LIKE @surname/);
-
-    await gateway.execute({});
-
-    expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
-  });
 
   it('returns record if all id components exist', async () => {
     const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };

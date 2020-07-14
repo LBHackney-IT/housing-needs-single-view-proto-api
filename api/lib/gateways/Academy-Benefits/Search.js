@@ -1,37 +1,10 @@
-const path = require('path');
-const { loadSQL } = require('../../Utils');
 const { Systems } = require('../../Constants');
-const { searchCustomersSQL } = loadSQL(path.join(__dirname, 'sql'));
 
 module.exports = options => {
-  const db = options.db;
+  const searchDb = options.searchDb;
+  const searchAPI = options.searchAPI;
   const buildSearchRecord = options.buildSearchRecord;
   const logger = options.logger;
-
-  const search = async queryParams => {
-    let whereClause = [];
-    let params = [];
-    if (queryParams.firstName && queryParams.firstName !== '') {
-      params.push({
-        id: 'forename',
-        type: 'NVarChar',
-        value: `%${queryParams.firstName.toUpperCase().trim()}%`
-      });
-      whereClause.push('forename LIKE @forename');
-    }
-    if (queryParams.lastName && queryParams.lastName !== '') {
-      params.push({
-        id: 'surname',
-        type: 'NVarChar',
-        value: `%${queryParams.lastName.toUpperCase().trim()}%`
-      });
-      whereClause.push('surname LIKE @surname');
-    }
-
-    whereClause = whereClause.map(clause => `(${clause})`);
-    const query = `${searchCustomersSQL} AND(${whereClause.join(' AND ')})`;
-    return await db.request(query, params);
-  };
 
   const validateIds = record => {
     return record.claim_id && record.check_digit && record.person_ref;
@@ -66,8 +39,9 @@ module.exports = options => {
   return {
     execute: async queryParams => {
       try {
-        const records = await search(queryParams);
-        return processRecords(records);
+        const dbRecords = await searchDb(queryParams);
+        const apiRecords = await searchAPI(queryParams);
+        return processRecords(dbRecords);
       } catch (err) {
         logger.error(
           `Error searching customers in Academy-Benefits: ${err}`,
