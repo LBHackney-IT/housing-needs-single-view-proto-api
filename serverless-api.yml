@@ -72,7 +72,10 @@ functions:
         - node_modules/**
     environment:
       jwtsecret: ${ssm:/common/hackney-jwt-secret}
-      allowedGroups: 'housingneeds-singleview-beta'
+      allowedGroups:
+        "Fn::Join":
+          - ','
+          - ${self:custom.allowedGroups.${self:provider.stage}}
       ENV: ${self:provider.stage}
       SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
 
@@ -90,6 +93,23 @@ resources:
 
 custom:
   stage: ${self:provider.stage}
+  allowedGroups:
+    staging:
+      - contact-centre-staging
+      - benefit-counter-staging
+      - housing-counter-staging
+      - housing-officer-staging
+      - area-housing-manager-staging
+      - housing-needs-staging
+      - housingneeds-singleview-beta
+    production:
+      - contact-centre-production
+      - benefit-counter-production
+      - housing-counter-production
+      - housing-officer-production
+      - area-housing-manager-production
+      - housing-needs-production
+      - housingneeds-singleview-beta
   authorizer:
     hn-single-view-api-authorizer:
       name: hn-single-view-api-authorizer
