@@ -36,8 +36,8 @@ module.exports = options => {
       });
   };
 
-  const search = async (queryParams) => {
-    const response = await rp(`${baseUrl}/api/v1/claimants`, {
+  const callApi = async (queryParams, cursor) => {
+    return await rp(`${baseUrl}/api/v1/claimants`, {
       method: 'GET',
       headers: {
         'X-API-Key': apiKey
@@ -45,13 +45,25 @@ module.exports = options => {
       json: true,
       qs: {
         first_name: queryParams.firstName,
-        last_name: queryParams.lastName
+        last_name: queryParams.lastName,
+        cursor: cursor,
+        limit: 100
       }
     });
-    return processRecords(response.claimants);
+  }
+
+  const search = async (queryParams) => {
+    let response = await callApi(queryParams);
+    let claimants = response.claimants;
+
+    while (response.nextCursor) {
+      response = await callApi(queryParams, response.nextCursor)
+      claimants = [...claimants, ...response.claimants]
+    }
+    return processRecords(claimants);
   }
 
   return {
-    searchAPI: search
+    execute: search
   }
 }

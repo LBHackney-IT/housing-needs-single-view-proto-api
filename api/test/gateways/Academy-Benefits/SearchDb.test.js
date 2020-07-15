@@ -32,7 +32,7 @@ describe('AcademyBenefitsSearchGateway', () => {
       expect.objectContaining({ value: `%${firstName.toUpperCase()}%` })
     ]);
 
-    await gateway.searchDb({ firstName });
+    await gateway.execute({ firstName });
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
@@ -41,7 +41,7 @@ describe('AcademyBenefitsSearchGateway', () => {
     const gateway = createGateway([]);
     const queryMatcher = expect.not.stringMatching(/forename LIKE @forename/);
 
-    await gateway.searchDb({});
+    await gateway.execute({});
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
   });
@@ -54,7 +54,7 @@ describe('AcademyBenefitsSearchGateway', () => {
       expect.objectContaining({ value: `%${lastName.toUpperCase()}%` })
     ]);
 
-    await gateway.searchDb({ lastName });
+    await gateway.execute({ lastName });
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
   });
@@ -63,7 +63,7 @@ describe('AcademyBenefitsSearchGateway', () => {
     const gateway = createGateway([]);
     const queryMatcher = expect.not.stringMatching(/surname LIKE @surname/);
 
-    await gateway.searchDb({});
+    await gateway.execute({});
 
     expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
   });
@@ -73,7 +73,7 @@ describe('AcademyBenefitsSearchGateway', () => {
     const gateway = createGateway([record]);
     const recordMatcher = expect.objectContaining({ id: '123d/1' });
 
-    const records = await gateway.searchDb({});
+    const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
     expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
@@ -84,7 +84,7 @@ describe('AcademyBenefitsSearchGateway', () => {
     const record = { claim_id: '123', check_digit: 'd' };
     const gateway = createGateway([record]);
 
-    const records = await gateway.searchDb({});
+    const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(0);
     expect(records.length).toBe(0);
@@ -95,7 +95,7 @@ describe('AcademyBenefitsSearchGateway', () => {
     const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
     const gateway = createGateway([record]);
 
-    const response = await gateway.searchDb({});
+    const response = await gateway.execute({});
 
     expect(response).toEqual([{id: '123d/1'}])
   });

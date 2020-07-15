@@ -64,6 +64,6 @@ module.exports = options => {
   };
 
   return {
-    searchDb: search
+    execute: search
   }
 };

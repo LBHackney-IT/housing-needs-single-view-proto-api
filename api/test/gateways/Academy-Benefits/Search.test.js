@@ -23,15 +23,19 @@ describe('AcademyBenefitsSearchGateway', () => {
       return { id };
     });
 
-    searchDb = jest.fn(async (queryParams) => {
-      if (throwsDbError) throw dbError;
-      return dbRecords
-    })
+    searchDb = {
+      execute: jest.fn(async (queryParams) => {
+        if (throwsDbError) throw dbError;
+        return dbRecords
+      })
+    }
 
-    searchAPI = jest.fn(async (queryParams) => {
-      if (throwsApiError) throw apiError;
-      return apiRecords;
-    })
+    searchAPI = {
+      execute: jest.fn(async (queryParams) => {
+        if (throwsApiError) throw apiError;
+        return apiRecords;
+      })
+    }
 
     logger = {
       error: jest.fn((msg, err) => { }),
@@ -52,7 +56,7 @@ describe('AcademyBenefitsSearchGateway', () => {
 
     await gateway.execute(queryParams);
 
-    expect(searchDb).toHaveBeenCalledWith(queryParams);
+    expect(searchDb.execute).toHaveBeenCalledWith(queryParams);
   });
 
   it('calls the search API function with given query params', async () => {
@@ -61,7 +65,7 @@ describe('AcademyBenefitsSearchGateway', () => {
 
     await gateway.execute(queryParams);
 
-    expect(searchAPI).toHaveBeenCalledWith(queryParams);
+    expect(searchAPI.execute).toHaveBeenCalledWith(queryParams);
   });
 
   it('returns an empty set of records if there is an error and calls logger', async () => {

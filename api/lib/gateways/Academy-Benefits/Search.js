@@ -7,7 +7,7 @@ module.exports = options => {
 
   const getDbRecords = async queryParams => {
     try {
-      return await searchDb(queryParams);
+      return await searchDb.execute(queryParams);
     } catch (err) {
       logger.error(
         `Error searching customers in Academy-Benefits: ${err}`,
@@ -19,7 +19,7 @@ module.exports = options => {
 
   const getApiRecords = async queryParams => {
     try {
-      return await searchAPI(queryParams);
+      return await searchAPI.execute(queryParams);
     } catch (err) {
       logger.error(
         `Error searching customers in Academy-Benefits API: ${err}`,
@@ -68,7 +68,7 @@ module.exports = options => {
   return {
     execute: async queryParams => {
       const dbRecords = await getDbRecords(queryParams);
-      const apiRecords = await getApiRecords(queryParams)
+      const apiRecords = await getApiRecords(queryParams);
       checkRecordsAreIdentical(dbRecords, apiRecords);
       return dbRecords;
     }
