@@ -6,6 +6,9 @@ module.exports = options => {
         Sentry.captureException(error);
       }
       console.log(consoleMsg);
+    },
+    log: (msg) => {
+      console.log(msg)
     }
   };
 };

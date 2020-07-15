@@ -66,18 +66,18 @@ const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
   logger
 });
 const academyBenefitsSearchDb = require('./gateways/Academy-Benefits/SearchDb')({
-  db: academyDb
+  db: academyDb,
+  buildSearchRecord,
 });
 const academyBenefitsSearchAPI = require('./gateways/Academy-Benefits/SearchAPI')({
   baseUrl: process.env.ACADEMY_API_BASE_URL,
-  apiKey: process.env.ACADEMY_API_API_KEY
+  apiKey: process.env.ACADEMY_API_API_KEY,
+  buildSearchRecord,
 })
 const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
   {
-    searchDb: academyBenefitsSearchDb, 
+    searchDb: academyBenefitsSearchDb,
     searchApi: academyBenefitsSearchAPI,
-    db: academyDb,
-    buildSearchRecord,
     logger
   }
 );
@@ -135,7 +135,6 @@ const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
         doJigsawPostRequest
       }
     ),
-    logger
   }
 );
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(

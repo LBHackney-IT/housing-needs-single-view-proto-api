@@ -4,27 +4,34 @@ const searchAPI = require('../../../lib/gateways/Academy-Benefits/SearchAPI');
 describe("Search Academy - Benefits using API", () => {
 
   const createGateway = (records, queryParams = {}) => {
+    buildSearchRecord = jest.fn(({ id }) => {
+      return { id };
+    });
     const apiKey = 'my-super-secure-api-key';
     const baseUrl = 'https://https://our-new-shiny-api';
 
     nock(baseUrl, {
       reqHeaders: {
-        'X-API-Key': apiKey 
+        'X-API-Key': apiKey
       }
     })
-    .get('/api/v1/claimants')
-    .query(queryParams)
-    .reply(200, {claimants: records});
-    
-    return searchAPI({baseUrl, apiKey})
+      .get('/api/v1/claimants')
+      .query(queryParams)
+      .reply(200, { claimants: records });
+
+    return searchAPI({
+      baseUrl,
+      apiKey,
+      buildSearchRecord
+    })
   };
 
   it('queries the API for forename if the query contains firstname', async () => {
     const firstName = 'maria';
-    const gateway = createGateway([], {first_name: firstName});
-    
+    const gateway = createGateway([], { first_name: firstName });
+
     await gateway.searchAPI({ firstName });
-    
+
     expect(nock.isDone()).toBe(true);
   })
 
@@ -38,7 +45,7 @@ describe("Search Academy - Benefits using API", () => {
 
   it('queries the API for lastname if the query contains lastname', async () => {
     const lastName = 'smith';
-    const gateway = createGateway([], {last_name: lastName});
+    const gateway = createGateway([], { last_name: lastName });
 
     await gateway.searchAPI({ lastName });
 
@@ -53,9 +60,9 @@ describe("Search Academy - Benefits using API", () => {
     expect(nock.isDone()).toBe(true);
   });
 
-  it('returns records from the API', async () => {
-    const record = [{
-      claimId: 1,
+  it('returns record if all id components exist', async () => {
+    const record = {
+      claimId: 123,
       checkDigit: 'X',
       personRef: 2,
       firstName: 'Maria',
@@ -69,11 +76,34 @@ describe("Search Academy - Benefits using API", () => {
         addressLine4: null,
         postCode: 'E1 1JJ',
       }
-    }];
+    };
+    const gateway = createGateway([record]);
+    const recordMatcher = expect.objectContaining({ id: '123X/2' });
+
+    const records = await gateway.searchAPI({});
+
+    expect(buildSearchRecord).toHaveBeenCalledTimes(1);
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
+    expect(records.length).toBe(1);
+  });
+
+  it("doesn't return a record if any of the id components are missing", async () => {
+    const record = { claimId: '123', checkDigit: 'd' };
+    const gateway = createGateway([record]);
+
+    const records = await gateway.searchAPI({});
+
+    expect(buildSearchRecord).toHaveBeenCalledTimes(0);
+    expect(records.length).toBe(0);
+  });
+
+
+  it('returns records from the database', async () => {
+    const record = { claimId: '123', checkDigit: 'd', personRef: '1' };
     const gateway = createGateway([record]);
 
     const response = await gateway.searchAPI({});
 
-    expect(response).toEqual([record])
+    expect(response).toEqual([{ id: '123d/1' }])
   });
 });

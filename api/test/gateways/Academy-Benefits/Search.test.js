@@ -1,25 +1,41 @@
 const academyBenefitsSearch = require('../../../lib/gateways/Academy-Benefits/Search');
-const nock = require('nock');
 
 describe('AcademyBenefitsSearchGateway', () => {
   let buildSearchRecord;
   let logger;
+  let searchDb;
+  let searchAPI;
   const dbError = new Error('Database error');
+  const apiError = new Error('API Error');
+  const randomRecord1 = { firstName: 'Joe', nino: 'Dx231234f', lastName: 'bloggs', id: `123d/1`, };
+  const randomRecord2 = { firstName: 'Sarah', nino: 'HG231234f', lastName: 'blake', id: `144e/2`, };
+  const randomRecordWithAllFields = {
+    firstName: 'Joe',
+    nino: 'Dx231234f',
+    lastName: 'bloggs',
+    id: `123d/1`,
+    dob: '2018-03-01',
+    postcode: 'E1 1JT',
+  };
 
-  const createGateway = (records, throwsError) => {
+  const createGateway = ({ dbRecords = [], apiRecords = [], throwsDbError = false, throwsApiError = false }) => {
     buildSearchRecord = jest.fn(({ id }) => {
       return { id };
     });
 
-    searchDb = async (queryParams) => {
-    if (throwsError) throw dbError; 
-      return records
-    }
+    searchDb = jest.fn(async (queryParams) => {
+      if (throwsDbError) throw dbError;
+      return dbRecords
+    })
 
-    searchAPI = async () => {};
+    searchAPI = jest.fn(async (queryParams) => {
+      if (throwsApiError) throw apiError;
+      return apiRecords;
+    })
 
     logger = {
-      error: jest.fn((msg, err) => {})
+      error: jest.fn((msg, err) => { }),
+      log: jest.fn()
     };
 
     return academyBenefitsSearch({
@@ -30,31 +46,27 @@ describe('AcademyBenefitsSearchGateway', () => {
     });
   };
 
-  it('returns record if all id components exist', async () => {
-    const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
-    const gateway = createGateway([record]);
-    const recordMatcher = expect.objectContaining({ id: '123d/1' });
+  it('calls the search DB function with given query params', async () => {
+    const queryParams = { queryOne: 'query', name: 'name' };
+    const gateway = createGateway({});
 
-    const records = await gateway.execute({});
+    await gateway.execute(queryParams);
 
-    expect(buildSearchRecord).toHaveBeenCalledTimes(1);
-    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
-    expect(records.length).toBe(1);
+    expect(searchDb).toHaveBeenCalledWith(queryParams);
   });
 
-  it("doesn't return a record if any of the id components are missing", async () => {
-    const record = { claim_id: '123', check_digit: 'd' };
-    const gateway = createGateway([record]);
+  it('calls the search API function with given query params', async () => {
+    const queryParams = { queryOne: 'query', name: 'name' };
+    const gateway = createGateway({});
 
-    const records = await gateway.execute({});
+    await gateway.execute(queryParams);
 
-    expect(buildSearchRecord).toHaveBeenCalledTimes(0);
-    expect(records.length).toBe(0);
+    expect(searchAPI).toHaveBeenCalledWith(queryParams);
   });
 
   it('returns an empty set of records if there is an error and calls logger', async () => {
-    const record = { claim_id: '123', check_digit: 'd', person_ref: '1' };
-    const gateway = createGateway([record], true);
+    const record = randomRecord1;
+    const gateway = createGateway({ dbRecords: [record], throwsDbError: true });
 
     const records = await gateway.execute({});
 
@@ -63,5 +75,51 @@ describe('AcademyBenefitsSearchGateway', () => {
       'Error searching customers in Academy-Benefits: Error: Database error',
       dbError
     );
+  });
+
+  it('calls logger if the API throws an error but still returns records from DB', async () => {
+    const record = randomRecord1;
+    const gateway = createGateway({ dbRecords: [record], throwsApiError: true });
+
+    const records = await gateway.execute({});
+
+    expect(records.length).toBe(1);
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error searching customers in Academy-Benefits API: Error: API Error',
+      apiError
+    );
+  });
+
+  it('logs if the API and DB return the same records', async () => {
+    const record = randomRecord1;
+    const gateway = createGateway({ dbRecords: [record], apiRecords: [record] });
+
+    await gateway.execute({});
+    expect(logger.log).toHaveBeenCalledWith("Academy records retrieved from the API and the DB are identical");
+  });
+
+  it('logs if the API and DB return different numbers records', async () => {
+    const dbRecords = [randomRecord1, randomRecord2];
+    const apiRecords = [randomRecord1];
+    const gateway = createGateway({ dbRecords: dbRecords, apiRecords: apiRecords });
+
+    await gateway.execute({});
+
+    expect(logger.log).toHaveBeenCalledWith("Academy API and DB have returned different records")
+    expect(logger.log).toHaveBeenCalledWith({ "DB records": dbRecords })
+    expect(logger.log).toHaveBeenCalledWith({ "API records": apiRecords })
+  });
+
+  it('logs if the API and DB return different records and returns the DB records', async () => {
+    const dbRecord = randomRecord1;
+    const apiRecord = randomRecordWithAllFields;
+    const gateway = createGateway({ dbRecords: [dbRecord], apiRecords: [apiRecord] });
+
+    const response = await gateway.execute({});
+
+    expect(logger.log).toHaveBeenCalledWith("Academy API and DB have returned different records")
+    expect(logger.log).toHaveBeenCalledWith({ "DB records": [dbRecord] })
+    expect(logger.log).toHaveBeenCalledWith({ "API records": [apiRecord] })
+    expect(response).toEqual([dbRecord])
   });
 });
