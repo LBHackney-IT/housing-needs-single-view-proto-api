@@ -42,11 +42,12 @@ module.exports = options => {
   const sameResults = (dbRecords, apiRecords) => {
     if (dbRecords.length !== apiRecords.length) return false;
     let equal = true;
-    dbRecords.forEach(record => {
+    for (const record of dbRecords) {
       if (!apiRecords.find(r => recordEquality(record, r))) {
         equal = false;
+        break;
       }
-    });
+    };
     return equal;
   }
 

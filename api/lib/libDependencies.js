@@ -135,6 +135,7 @@ const jigsawFetchDocumentsGateway = require('./gateways/Jigsaw/FetchDocuments')(
         doJigsawPostRequest
       }
     ),
+    logger
   }
 );
 const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-CouncilTax/FetchDocuments')(
