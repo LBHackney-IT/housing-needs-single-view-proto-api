@@ -109,10 +109,10 @@ workflows:
       - deploy-staging:
           requires:
             - integration_test
-          filters:
-            branches:
-              only:
-                - master
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
       - permit-deploy-production:
           type: approval
           requires:
