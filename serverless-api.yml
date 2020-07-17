@@ -61,6 +61,8 @@ functions:
       SENTRY_DSN: ${ssm:/hn-single-view-api/SENTRY_DSN}
       SHARED_PLAN_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/SHARED_PLAN_BASE_URL}
       VULNERABILITIES_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/VULNERABILITIES_BASE_URL}
+      ACADEMY_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_BASE_URL}
+      ACADEMY_API_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_API_KEY}
 
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
