@@ -77,7 +77,7 @@ const academyBenefitsSearchAPI = require('./gateways/Academy-Benefits/SearchAPI'
 const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
   {
     searchDb: academyBenefitsSearchDb,
-    searchApi: academyBenefitsSearchAPI,
+    searchAPI: academyBenefitsSearchAPI,
     logger
   }
 );
