@@ -77,16 +77,18 @@ describe("Search Academy - Benefits using API", () => {
         addressLine2: null,
         addressLine3: null,
         addressLine4: null,
-        postCode: 'E1 1JJ',
+        postcode: 'E1 1JJ',
       }
     };
     const gateway = createGateway([record]);
     const recordMatcher = expect.objectContaining({ id: '123X/2' });
+    const addressMatcher = expect.objectContaining({ address: ['Hackney', null, null, null, 'E1 1JJ']})
 
     const records = await gateway.execute({});
 
     expect(buildSearchRecord).toHaveBeenCalledTimes(1);
     expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
+    expect(buildSearchRecord).toHaveBeenCalledWith(addressMatcher);
     expect(records.length).toBe(1);
   });
 
