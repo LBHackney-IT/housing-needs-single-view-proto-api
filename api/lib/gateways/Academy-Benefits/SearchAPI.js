@@ -20,14 +20,16 @@ module.exports = options => {
           lastName: record.lastName,
           dob: record.dateOfBirth,
           nino: record.niNumber,
-          address: [
-            record.addressLine1,
-            record.addressLine2,
-            record.addressLine3,
-            record.addressLine4,
-            record.postcode
-          ],
-          postcode: record.postcode,
+          address: record.claimantAddress
+          ? [
+            record.claimantAddress.addressLine1,
+            record.claimantAddress.addressLine2,
+            record.claimantAddress.addressLine3,
+            record.claimantAddress.addressLine4,
+            record.claimantAddress.postcode
+            ]
+          : [],
+          postcode: record.claimantAddress ? record.claimantAddress.postcode : null,
           source: Systems.ACADEMY_BENEFITS,
           links: {
             hbClaimId: record.claimId
