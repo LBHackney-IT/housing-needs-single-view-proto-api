@@ -1,29 +1,176 @@
 const AcademyBenefitsFetchRecord = require('../../../lib/gateways/Academy-Benefits/FetchRecord');
 
 describe('AcademyBenefitsFetchRecord gateway', () => {
-  let db;
-  let logger;
+  let  logger, fetchDB, fetchAPI;
   const dbError = new Error('Database error');
-
-  const createGateway = (customer, throwsError) => {
+  const apiError = new Error('API Error');
+  const randomRecord1 = {
+    claim_id: '12345',
+    address: [
+      {
+        address: [
+          '6 Cascade Junction',
+          '49 Norway Maple Pass',
+          'London',
+          'I3 0RP'
+        ],
+        source: 'ACADEMY-Benefits'
+      }
+    ],
+    name: [
+      {
+        first: 'Elwira',
+        last: 'Moncur',
+        title: 'Ms'
+      }
+    ],
+    nino: ['CD877332Z'],
+    postcode: ['I3 0RP'],
+    systemIds: {
+      academyBenefits: ['52607656']
+    },
+    benefits: [{
+      live: true
+    }]
+  }
+  const randomRecord2 = {
+    claim_id: '12435',
+    address: [
+      {
+        address: [
+          '7 Cascade Junction',
+          '46 Norway Maple Pass',
+          'London',
+          'I3 0RP'
+        ],
+        source: 'ACADEMY-Benefits'
+      }
+    ],
+    name: [
+      {
+        first: 'Elwira',
+        last: 'Moncur',
+        title: 'Mrs'
+      }
+    ],
+    nino: ['CD877332Z'],
+    postcode: ['I3 0RP'],
+    systemIds: {
+      academyBenefits: ['53607656']
+    },
+    benefits: [{
+      live: true
+    }]
+  }
+  const createGateway = ({
+    dbCustomer = {},
+    apiCustomer = {},
+    throwsApiError = false,
+    throwsFetchCustomerDbError = false,
+    throwsDbError = false,
+    dbRecords = [] 
+  }) => {
     db = {
       request: jest.fn(async () => {
-        if (throwsError) {
+        if (throwsDbError) {
           throw dbError;
         }
-        return customer;
+        return dbRecords;
+      })
+    }
+
+    fetchDB = {
+      execute: jest.fn(async () => {
+        if (throwsFetchCustomerDbError) throw dbError;
+        return dbCustomer;
+      })
+    };
+
+    fetchAPI = {
+      execute: jest.fn(async () => {
+        if (throwsApiError) throw apiError;
+        return apiCustomer;
       })
     };
 
     logger = {
-      error: jest.fn((msg, err) => {})
+      error: jest.fn((msg, err) => { }),
+      log: jest.fn()
     };
 
     return AcademyBenefitsFetchRecord({
       db,
-      logger
+      logger,
+      fetchDB,
+      fetchAPI
     });
   };
+
+  it('calls the fetch DB function with given ids', async () => {
+    const claimId = '54321';
+    const personRef = '12345';
+    const gateway = createGateway({});
+
+    await gateway.execute('54321/12345');
+
+    expect(fetchDB.execute).toHaveBeenCalledWith(claimId, personRef);
+  });
+
+  it('calls the fetch API function with given ids', async () => {
+    const claimId = '54321';
+    const personRef = '12345';
+    const gateway = createGateway({});
+
+    await gateway.execute('54321/12345');
+
+    expect(fetchAPI.execute).toHaveBeenCalledWith(claimId, personRef);
+  });
+
+  it('Calls the logger if there is an error fetching customer from db gateway', async () => {
+    const record = randomRecord1;
+    const gateway = createGateway({ dbCustomer: record, throwsFetchCustomerDbError: true });
+
+    await gateway.execute('2476');
+
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching customers in Academy-Benefits: Error: Database error',
+      dbError
+    );
+  });
+
+  it('calls logger if the API throws an error but still returns records from DB', async () => {
+    const record = randomRecord1;
+    const gateway = createGateway({ dbCustomer: record, throwsApiError: true });
+    const claimId = '12345'
+    const records = await gateway.execute(claimId);
+    expect(logger.error).toHaveBeenCalledWith(
+      'Error fetching customers in Academy-Benefits API: Error: API Error',
+      apiError
+    );
+
+    expect(records.claim_id).toBe(claimId);
+  });
+
+  it('logs if the API and DB return the same record', async () => {
+    const record = randomRecord1;
+    const gateway = createGateway({ dbCustomer: record, apiCustomer: record });
+
+    await gateway.execute('67890');
+    expect(logger.log).toHaveBeenCalledWith("Academy records retrieved from the API and the DB are identical");
+  });
+
+  it('logs if the API and DB return different records and returns the DB records', async () => {
+    const dbRecord = randomRecord1;
+    const apiRecord = randomRecord2;
+    const gateway = createGateway({ dbCustomer: dbRecord, apiCustomer: apiRecord });
+
+    const response = await gateway.execute(dbRecord.claim_id);
+
+    expect(logger.log).toHaveBeenCalledWith("Academy API and DB have returned different record")
+    expect(logger.log).toHaveBeenCalledWith({ "DB record": dbRecord })
+    expect(logger.log).toHaveBeenCalledWith({ "API record": apiRecord })
+    expect(response.claim_id).toBe(dbRecord.claim_id)
+  });
 
   it('queries the database with appropriate id', async () => {
     const gateway = createGateway([]);
@@ -45,21 +192,8 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   it('returns nicely formatted customer data', async () => {
     const id = '5260765/1';
 
-    const customerData = [
+    const benefitsData = [
       {
-        claim_id: 5260765,
-        check_digit: '6',
-        title: 'Ms',
-        forename: 'Elwira',
-        surname: 'Moncur',
-        birth_date: new Date('1971-12-22T00:00:00.000Z'),
-        nino: 'CD877332Z',
-        addr1: '6 Cascade Junction',
-        addr2: '49 Norway Maple Pass',
-        addr3: 'LONDON',
-        addr4: null,
-        post_code: 'I3 0RP',
-        status_ind: 1,
         amount: 102.02,
         freq_len: 2,
         freq_period: 1,
@@ -90,7 +224,36 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
         description: 'Advanced clear-thinking algorithm'
       }
     ];
-    const gateway = createGateway(customerData);
+    const customer = {
+      address: [
+        {
+          address: [
+            '6 Cascade Junction',
+            '49 Norway Maple Pass',
+            'London',
+            'I3 0RP'
+          ],
+          source: 'ACADEMY-Benefits'
+        }
+      ],
+      name: [
+        {
+          first: 'Elwira',
+          last: 'Moncur',
+          title: 'Ms'
+        }
+      ],
+      nino: ['CD877332Z'],
+      postcode: ['I3 0RP'],
+      systemIds: {
+        academyBenefits: ['52607656']
+      },
+      benefits: {
+        live: true
+      }
+    }
+
+    const gateway = createGateway({ dbRecords: benefitsData, dbCustomer: customer });
 
     const record = await gateway.execute(id);
     expect(record).toEqual(
@@ -158,7 +321,7 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   });
 
   it('catches and calls logger', async () => {
-    const gateway = createGateway(null, true);
+    const gateway = createGateway({ throwsDbError: true });
 
     await gateway.execute('id');
     expect(logger.error).toHaveBeenCalledWith(

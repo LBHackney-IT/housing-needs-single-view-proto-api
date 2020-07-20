@@ -37,7 +37,7 @@ module.exports = options => {
       });
   };
 
-  const search = async (queryParams) => {
+  const search = async queryParams => {
     let whereClause = [];
     let params = [];
     if (queryParams.firstName && queryParams.firstName !== '') {
@@ -56,7 +56,7 @@ module.exports = options => {
       });
       whereClause.push('surname LIKE @surname');
     }
-  
+
     whereClause = whereClause.map(clause => `(${clause})`);
     const query = `${searchCustomersSQL} AND(${whereClause.join(' AND ')})`;
     const records = await db.request(query, params);
@@ -65,5 +65,5 @@ module.exports = options => {
 
   return {
     execute: search
-  }
+  };
 };

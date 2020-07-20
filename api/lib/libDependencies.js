@@ -65,15 +65,19 @@ const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
   buildSearchRecord,
   logger
 });
-const academyBenefitsSearchDb = require('./gateways/Academy-Benefits/SearchDb')({
-  db: academyDb,
-  buildSearchRecord,
-});
-const academyBenefitsSearchAPI = require('./gateways/Academy-Benefits/SearchAPI')({
-  baseUrl: process.env.ACADEMY_API_BASE_URL,
-  apiKey: process.env.ACADEMY_API_API_KEY,
-  buildSearchRecord,
-})
+const academyBenefitsSearchDb = require('./gateways/Academy-Benefits/SearchDb')(
+  {
+    db: academyDb,
+    buildSearchRecord
+  }
+);
+const academyBenefitsSearchAPI = require('./gateways/Academy-Benefits/SearchAPI')(
+  {
+    baseUrl: process.env.ACADEMY_API_BASE_URL,
+    apiKey: process.env.ACADEMY_API_API_KEY,
+    buildSearchRecord
+  }
+);
 const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
   {
     searchDb: academyBenefitsSearchDb,
@@ -81,6 +85,7 @@ const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search
     logger
   }
 );
+
 const uhtContactsSearchGateway = require('./gateways/UHT-Contacts/Search')({
   db: uhtDb,
   buildSearchRecord,
@@ -147,11 +152,20 @@ const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-Counc
 );
 
 // RECORDS GATEWAYS
-
-const academyBenefitsFetchRecordsGateway = require('./gateways/Academy-Benefits/FetchRecord')(
+const academyBenefitsFetchDb = require('./gateways/Academy-Benefits/FetchCustomerDB')({
+  db: academyDb
+});
+const academyBenefitsFetchAPI = require('./gateways/Academy-Benefits/FetchCustomerAPI')(
+  {
+    baseUrl: process.env.ACADEMY_API_BASE_URL,
+    apiKey: process.env.ACADEMY_API_API_KEY
+  }
+);
+const academyBenefitsFetchRecordsGateway = require('./gateways/Academy-Benefits/FetchRecord.js')(
   {
     db: academyDb,
-    buildNote,
+    fetchDB: academyBenefitsFetchDb,
+    fetchAPI: academyBenefitsFetchAPI,
     logger
   }
 );
