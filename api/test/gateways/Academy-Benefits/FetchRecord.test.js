@@ -152,8 +152,9 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   });
 
   it('logs if the API and DB return the same record', async () => {
-    const record = randomRecord1;
-    const gateway = createGateway({ dbCustomer: record, apiCustomer: record });
+    const record = {...randomRecord1};
+    const record1 = {...randomRecord1};
+    const gateway = createGateway({ dbCustomer: record, apiCustomer: record1 });
 
     await gateway.execute('67890');
     expect(logger.log).toHaveBeenCalledWith("Academy records retrieved from the API and the DB are identical");
