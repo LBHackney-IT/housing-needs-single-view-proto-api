@@ -21,15 +21,17 @@ module.exports = options => {
           dob: record.dateOfBirth,
           nino: record.niNumber,
           address: record.claimantAddress
-          ? [
-            record.claimantAddress.addressLine1,
-            record.claimantAddress.addressLine2,
-            record.claimantAddress.addressLine3,
-            record.claimantAddress.addressLine4,
-            record.claimantAddress.postcode
-            ]
-          : [],
-          postcode: record.claimantAddress ? record.claimantAddress.postcode : null,
+            ? [
+                record.claimantAddress.addressLine1,
+                record.claimantAddress.addressLine2,
+                record.claimantAddress.addressLine3,
+                record.claimantAddress.addressLine4,
+                record.claimantAddress.postcode
+              ]
+            : [],
+          postcode: record.claimantAddress
+            ? record.claimantAddress.postcode
+            : null,
           source: Systems.ACADEMY_BENEFITS,
           links: {
             hbClaimId: record.claimId
@@ -52,20 +54,20 @@ module.exports = options => {
         limit: 100
       }
     });
-  }
+  };
 
-  const search = async (queryParams) => {
+  const search = async queryParams => {
     let response = await callApi(queryParams);
     let claimants = response.claimants;
 
     while (response.nextCursor) {
-      response = await callApi(queryParams, response.nextCursor)
-      claimants = [...claimants, ...response.claimants]
+      response = await callApi(queryParams, response.nextCursor);
+      claimants = [...claimants, ...response.claimants];
     }
     return processRecords(claimants);
-  }
+  };
 
   return {
     execute: search
-  }
-}
+  };
+};

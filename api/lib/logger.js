@@ -7,8 +7,8 @@ module.exports = options => {
       }
       console.log(consoleMsg);
     },
-    log: (msg) => {
-      console.log(msg)
+    log: msg => {
+      console.log(msg);
     }
   };
 };
