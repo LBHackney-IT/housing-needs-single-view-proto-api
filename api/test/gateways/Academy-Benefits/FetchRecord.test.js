@@ -4,7 +4,7 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   let  logger, fetchDB, fetchAPI;
   const dbError = new Error('Database error');
   const apiError = new Error('API Error');
-  const randomRecord1 = {
+  const randomRecord1 = () => ({
     claim_id: '12345',
     address: [
       {
@@ -32,7 +32,7 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
     benefits: [{
       live: true
     }]
-  }
+  })
   const randomRecord2 = {
     claim_id: '12435',
     address: [
@@ -139,7 +139,7 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   });
 
   it('calls logger if the API throws an error but still returns records from DB', async () => {
-    const record = randomRecord1;
+    const record = randomRecord1();
     const gateway = createGateway({ dbCustomer: record, throwsApiError: true });
     const claimId = '12345'
     const records = await gateway.execute(claimId);
@@ -152,8 +152,8 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   });
 
   it('logs if the API and DB return the same record', async () => {
-    const record = {...randomRecord1};
-    const record1 = {...randomRecord1};
+    const record = {...randomRecord1()};
+    const record1 = {...randomRecord1()};
     const gateway = createGateway({ dbCustomer: record, apiCustomer: record1 });
 
     await gateway.execute('67890');
@@ -161,7 +161,7 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   });
 
   it('logs if the API and DB return different records and returns the DB records', async () => {
-    const dbRecord = randomRecord1;
+    const dbRecord = randomRecord1();
     const apiRecord = randomRecord2;
     const gateway = createGateway({ dbCustomer: dbRecord, apiCustomer: apiRecord });
 
@@ -172,6 +172,17 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
     expect(logger.log).toHaveBeenCalledWith({ "API record": apiRecord })
     expect(response.claim_id).toBe(dbRecord.claim_id)
   });
+
+  it("ignore case and whitespace when checking equality", async() => {
+    const record = {...randomRecord1()};
+    const record1 = {...randomRecord1()};
+    record1.postcode[0] = 'i3 0rp   ';
+    record1.name[0].last = 'MONCUR  ';
+    const gateway = createGateway({ dbCustomer: record, apiCustomer: record1 });
+
+    await gateway.execute('67890');
+    expect(logger.log).toHaveBeenCalledWith("Academy records retrieved from the API and the DB are identical");
+  })
 
   it('queries the database with appropriate id', async () => {
     const gateway = createGateway([]);

@@ -4,9 +4,7 @@ const nock = require('nock');
 describe('AcademyBenefitsFetchRecord gateway', () => {
   let db;
   let logger;
-
-  const dbError = new Error('Database error');
-
+  
   const createGateway = (customer, personRef, claimId) => {
     const baseUrl = 'https://test-domain.com';
     const apiKey = 'anbdabkd';

@@ -5,6 +5,7 @@ const { fetchCustomerBenefitsSQL, fetchCustomerHouseholdSQL } = loadSQL(
 );
 const { IncomeFrequency } = require('../../Constants');
 const isEqual = require('lodash/isEqual');
+const isEqualWith = require('lodash/isEqualWith');
 
 async function fetchCustomerDb(claim_id, person_ref, fetchDB, logger) {
   try {
@@ -18,7 +19,6 @@ async function fetchCustomerAPI(claim_id, person_ref, fetchAPI, logger) {
   try {
     return await fetchAPI.execute(claim_id, person_ref);
   } catch (err) {
-    console.log(err);
     logger.error(
       `Error fetching customers in Academy-Benefits API: ${err}`,
       err
@@ -35,11 +35,9 @@ async function fetchCustomer(id, fetchDB, fetchAPI, logger) {
     fetchAPI,
     logger
   );
-    console.log(recordEquality(customer, customerAPI));
   if (recordEquality(customer, customerAPI)) {
     logger.log('Academy records retrieved from the API and the DB are identical');
   } else {
-    console.log("same results error")
     logger.log('Academy API and DB have returned different record');
     logger.log({ 'DB record': customer });
     logger.log({ 'API record': customerAPI });
@@ -48,25 +46,27 @@ async function fetchCustomer(id, fetchDB, fetchAPI, logger) {
 }
 
   const recordEquality = (record1, record2) => {
-    console.log(record2);
-    console.log(record1);
+    if (record1 === record2) return true;
+    if (!record1 || !record2) return false;
     return (
       record1.claim_id === record2.claim_id &&
-      isEqual(record1.name, record2.name) &&
-      isEqual(record1.nino, record2.nino) &&
-      isEqual(record1.postcode, record2.postcode) &&
-      isEqual(record1.systemIds, record2.systemIds) &&
-      isEqual(record1.benefits, record2.benefits)
+      isEqualWith(record1.name, record2.name, stringDataEquality) &&
+      isEqualWith(record1.nino, record2.nino, stringDataEquality) &&
+      isEqualWith(record1.postcode, record2.postcode, stringDataEquality) &&
+      isEqualWith(record1.systemIds, record2.systemIds, stringDataEquality)
     );
+
   };
   
-  // const stringDataEquality = (string1, string2) => {
-  //   console.log(string1);
-  //   console.log(string2);
-  //   if (string1 === string2) return true;
-  //   if (!string1 || !string2) return false;
-  //   return string1.toLowerCase().trim() === string2.toLowerCase().trim();
-  // };
+  const stringDataEquality = (string1, string2) => {
+    if (typeof string1  === "string") {
+      if (string1 === string2) return true;
+      if (!string1 || !string2) return false;
+
+      return string1.toLowerCase().trim() === string2.toLowerCase().trim();
+    }
+
+  };
 
 async function fetchBenefits(id, db) {
   const claim_id = id.split('/')[0];
@@ -126,7 +126,6 @@ module.exports = options => {
           customer.household = processHousehold(household);
         return customer;
       } catch (err) {
-        console.log(err);
         logger.error(
           `Error fetching customers in Academy-Benefits: ${err}`,
           err

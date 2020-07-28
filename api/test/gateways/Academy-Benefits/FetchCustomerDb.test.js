@@ -3,7 +3,6 @@ const AcademyBenefitsFetchRecord = require('../../../lib/gateways/Academy-Benefi
 describe('AcademyBenefitsFetchRecord gateway', () => {
   let db;
   let logger;
-  const dbError = new Error('Database error');
   const createGateway = (customer = [{}]) => {
     db = {
       request: jest.fn(async () => {
