@@ -47,7 +47,6 @@ async function fetchCustomer(id, fetchDB, fetchAPI, logger) {
 }
 
 const recordEquality = (record1, record2) => {
-  if (record1 === record2) return true;
   if (!record1 || !record2) return false;
   return (
     record1.claim_id === record2.claim_id &&

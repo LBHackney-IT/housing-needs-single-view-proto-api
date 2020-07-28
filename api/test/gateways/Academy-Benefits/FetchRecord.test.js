@@ -152,8 +152,8 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   });
 
   it('logs if the API and DB return the same record', async () => {
-    const record = {...randomRecord1()};
-    const record1 = {...randomRecord1()};
+    const record = randomRecord1();
+    const record1 =randomRecord1();
     const gateway = createGateway({ dbCustomer: record, apiCustomer: record1 });
 
     await gateway.execute('67890');
@@ -174,8 +174,8 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   });
 
   it("ignore case and whitespace when checking equality", async() => {
-    const record = {...randomRecord1()};
-    const record1 = {...randomRecord1()};
+    const record = randomRecord1();
+    const record1 = randomRecord1();
     record1.postcode[0] = 'i3 0rp   ';
     record1.name[0].last = 'MONCUR  ';
     const gateway = createGateway({ dbCustomer: record, apiCustomer: record1 });
