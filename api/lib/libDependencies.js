@@ -152,9 +152,11 @@ const academyCouncilTaxFetchDocumentsGateway = require('./gateways/Academy-Counc
 );
 
 // RECORDS GATEWAYS
-const academyBenefitsFetchDb = require('./gateways/Academy-Benefits/FetchCustomerDB')({
-  db: academyDb
-});
+const academyBenefitsFetchDb = require('./gateways/Academy-Benefits/FetchCustomerDB')(
+  {
+    db: academyDb
+  }
+);
 const academyBenefitsFetchAPI = require('./gateways/Academy-Benefits/FetchCustomerAPI')(
   {
     baseUrl: process.env.ACADEMY_API_BASE_URL,
