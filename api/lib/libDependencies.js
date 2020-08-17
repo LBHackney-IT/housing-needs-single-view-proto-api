@@ -65,23 +65,11 @@ const jigsawSearchGateway = require('./gateways/Jigsaw/Search')({
   buildSearchRecord,
   logger
 });
-const academyBenefitsSearchDb = require('./gateways/Academy-Benefits/SearchDb')(
-  {
-    db: academyDb,
-    buildSearchRecord
-  }
-);
-const academyBenefitsSearchAPI = require('./gateways/Academy-Benefits/SearchAPI')(
-  {
-    baseUrl: process.env.ACADEMY_API_BASE_URL,
-    apiKey: process.env.ACADEMY_API_API_KEY,
-    buildSearchRecord
-  }
-);
 const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search')(
   {
-    searchDb: academyBenefitsSearchDb,
-    searchAPI: academyBenefitsSearchAPI,
+    buildSearchRecord,
+    baseUrl: process.env.ACADEMY_API_BASE_URL,
+    apiKey: process.env.ACADEMY_API_API_KEY,
     logger
   }
 );
