@@ -1,82 +1,90 @@
+const rp = require('request-promise');
+const { Systems } = require('../../Constants');
 const moment = require('moment');
 
 module.exports = options => {
-  const searchDb = options.searchDb;
-  const searchAPI = options.searchAPI;
   const logger = options.logger;
+  const baseUrl = options.baseUrl;
+  const apiKey = options.apiKey;
+  const buildSearchRecord = options.buildSearchRecord;
 
-  const getDbRecords = async queryParams => {
-    try {
-      return await searchDb.execute(queryParams);
-    } catch (err) {
-      logger.error(
-        `Error searching customers in Academy-Benefits: ${err}`,
-        err
-      );
-      return [];
+  const search = async queryParams => {
+    let response = await callApi(queryParams);
+    let claimants = response.claimants;
+
+    while (response.nextCursor) {
+      response = await callApi(queryParams, response.nextCursor);
+      claimants = [...claimants, ...response.claimants];
     }
+    return processRecords(claimants);
   };
 
   const getApiRecords = async queryParams => {
     try {
-      return await searchAPI.execute(queryParams);
+      return await search(queryParams);
     } catch (err) {
       logger.error(
-        `Error searching customers in Academy-Benefits API: ${err}`,
+        `Error searching customers in Academy-Benefits API: ${err.error}`,
         err
       );
       return [];
     }
   };
 
-  const checkRecordsAreIdentical = (dbRecords, apiRecords) => {
-    if (sameResults(dbRecords, apiRecords)) {
-      logger.log(
-        'Academy records retrieved from the API and the DB are identical'
-      );
-    } else {
-      logger.log('Academy API and DB have returned different records');
-      logger.log({ 'DB records': dbRecords });
-      logger.log({ 'API records': apiRecords });
-    }
-  };
-
-  const sameResults = (dbRecords, apiRecords) => {
-    if (dbRecords.length !== apiRecords.length) return false;
-    let equal = true;
-    for (const record of dbRecords) {
-      if (!apiRecords.find(r => recordEquality(record, r))) {
-        equal = false;
-        break;
+  const callApi = async (queryParams, cursor) => {
+    return await rp(`${baseUrl}/api/v1/claimants`, {
+      method: 'GET',
+      headers: {
+        'X-API-Key': apiKey
+      },
+      json: true,
+      qs: {
+        first_name: queryParams.firstName,
+        last_name: queryParams.lastName,
+        cursor: cursor,
+        limit: 100
       }
-    }
-    return equal;
+    });
   };
 
-  const recordEquality = (record1, record2) => {
-    return (
-      record1.id === record2.id &&
-      stringDataEquality(record1.firstName, record2.firstName) &&
-      stringDataEquality(record1.lastName, record2.lastName) &&
-      stringDataEquality(record1.nino, record2.nino) &&
-      stringDataEquality(record1.postcode, record2.postcode) &&
-      (record1.dob === record2.dob ||
-        moment(record1.dob).diff(moment(record2.dob), 'days') < 1)
-    );
+  const validateIds = record => {
+    return record.claimId && record.checkDigit && record.personRef;
   };
 
-  const stringDataEquality = (string1, string2) => {
-    if (string1 == string2) return true;
-    if (!string1 || !string2) return false;
-    return string1.toLowerCase().trim() === string2.toLowerCase().trim();
+  const processRecords = records => {
+    return records
+      .filter(record => validateIds(record))
+      .map(record => {
+        return buildSearchRecord({
+          id: `${record.claimId}${record.checkDigit}/${record.personRef}`,
+          firstName: record.firstName,
+          lastName: record.lastName,
+          dob: moment(record.dateOfBirth, moment.ISO_8601),
+          nino: record.niNumber,
+          address: record.claimantAddress
+            ? [
+                record.claimantAddress.addressLine1,
+                record.claimantAddress.addressLine2,
+                record.claimantAddress.addressLine3,
+                record.claimantAddress.addressLine4,
+                record.claimantAddress.postcode
+              ]
+            : [],
+          postcode: record.claimantAddress
+            ? record.claimantAddress.postcode
+            : null,
+          source: Systems.ACADEMY_BENEFITS,
+          links: {
+            hbClaimId: record.claimId
+          }
+        });
+      });
   };
 
   return {
     execute: async queryParams => {
-      const dbRecords = await getDbRecords(queryParams);
       const apiRecords = await getApiRecords(queryParams);
-      checkRecordsAreIdentical(dbRecords, apiRecords);
-      return dbRecords;
+      return apiRecords;
     }
   };
 };

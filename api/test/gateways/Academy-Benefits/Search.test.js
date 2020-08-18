@@ -1,40 +1,41 @@
 const academyBenefitsSearch = require('../../../lib/gateways/Academy-Benefits/Search');
+const nock = require('nock');
 
 describe('AcademyBenefitsSearchGateway', () => {
+  const apiKey = 'my-super-secure-api-key';
+  const baseUrl = 'https://https://our-new-shiny-api';
   let buildSearchRecord;
   let logger;
-  let searchDb;
-  let searchAPI;
-  const dbError = new Error('Database error');
-  const apiError = new Error('API Error');
-  const randomRecord1 = { firstName: 'Joe', nino: 'Dx231234f', lastName: 'bloggs', id: `123d/1`, };
-  const randomRecord2 = { firstName: 'Sarah', nino: 'HG231234f', lastName: 'blake', id: `144e/2`, };
-  const randomRecordWithAllFields = {
-    firstName: 'Joe',
-    nino: 'Dx231234f',
-    lastName: 'bloggs',
-    id: `123d/1`,
-    dob: '2018-03-01',
-    postcode: 'E1 1JT',
-  };
 
-  const createGateway = ({ dbRecords = [], apiRecords = [], throwsDbError = false, throwsApiError = false }) => {
+  const mockRequest = (claimants, queryParams, nextCursor) => {
+    nock(baseUrl, {
+      reqHeaders: {
+        'X-API-Key': apiKey
+      }
+    }).get('/api/v1/claimants')
+    .query({...queryParams, limit: 100})
+    .reply(200, { claimants, nextCursor });
+  }
+
+  const mockRequestError = () => {
+    nock(baseUrl, {
+      reqHeaders: {
+        'X-API-Key': apiKey
+      }
+    }).get('/api/v1/claimants')
+    .query({limit: 100})
+    .reply(500, "Really bad error")
+  }
+
+  const createGateway = ({ claimants = [], throwsApiError = false, queryParams = {}, nextCursor = '' }) => {
     buildSearchRecord = jest.fn(({ id }) => {
       return { id };
     });
 
-    searchDb = {
-      execute: jest.fn(async (queryParams) => {
-        if (throwsDbError) throw dbError;
-        return dbRecords
-      })
-    }
-
-    searchAPI = {
-      execute: jest.fn(async (queryParams) => {
-        if (throwsApiError) throw apiError;
-        return apiRecords;
-      })
+    if (throwsApiError) {
+      mockRequestError()      
+    } else {
+      mockRequest(claimants, queryParams, nextCursor);
     }
 
     logger = {
@@ -43,87 +44,120 @@ describe('AcademyBenefitsSearchGateway', () => {
     };
 
     return academyBenefitsSearch({
+      baseUrl,
+      apiKey,
       buildSearchRecord,
-      searchDb,
-      searchAPI,
       logger
     });
   };
 
-  it('calls the search DB function with given query params', async () => {
-    const queryParams = { queryOne: 'query', name: 'name' };
-    const gateway = createGateway({});
+  it('queries the API for forename if the query contains firstname', async () => {
+    const firstName = 'maria';
+    const gateway = createGateway({ queryParams: { first_name: firstName }});
 
-    await gateway.execute(queryParams);
+    await gateway.execute({ firstName });
 
-    expect(searchDb.execute).toHaveBeenCalledWith(queryParams);
+    expect(nock.isDone()).toBe(true);
+  })
+
+  it('queries the API for lastname if the query contains lastname', async () => {
+    const lastName = 'smith';
+    const gateway = createGateway({queryParams: { last_name: lastName }});
+
+    await gateway.execute({ lastName });
+
+    expect(nock.isDone()).toBe(true);
   });
 
-  it('calls the search API function with given query params', async () => {
-    const queryParams = { queryOne: 'query', name: 'name' };
+  it('does not query the API if there are no query parameters', async () => {
     const gateway = createGateway({});
 
-    await gateway.execute(queryParams);
+    await gateway.execute({});
 
-    expect(searchAPI.execute).toHaveBeenCalledWith(queryParams);
+    expect(nock.isDone()).toBe(true);
   });
 
   it('returns an empty set of records if there is an error and calls logger', async () => {
-    const record = randomRecord1;
-    const gateway = createGateway({ dbRecords: [record], throwsDbError: true });
+    const gateway = createGateway({ throwsApiError: true });
 
     const records = await gateway.execute({});
 
     expect(records.length).toBe(0);
     expect(logger.error).toHaveBeenCalledWith(
-      'Error searching customers in Academy-Benefits: Error: Database error',
-      dbError
+      'Error searching customers in Academy-Benefits API: Really bad error',
+      expect.anything()
     );
   });
 
-  it('calls logger if the API throws an error but still returns records from DB', async () => {
-    const record = randomRecord1;
-    const gateway = createGateway({ dbRecords: [record], throwsApiError: true });
-
-    const records = await gateway.execute({});
-
-    expect(records.length).toBe(1);
-    expect(logger.error).toHaveBeenCalledWith(
-      'Error searching customers in Academy-Benefits API: Error: API Error',
-      apiError
-    );
-  });
-
-  it('logs if the API and DB return the same records', async () => {
-    const record = randomRecord1;
-    const gateway = createGateway({ dbRecords: [record], apiRecords: [record] });
-
-    await gateway.execute({});
-    expect(logger.log).toHaveBeenCalledWith("Academy records retrieved from the API and the DB are identical");
-  });
-
-  it('logs if the API and DB return different numbers records', async () => {
-    const dbRecords = [randomRecord1, randomRecord2];
-    const apiRecords = [randomRecord1];
-    const gateway = createGateway({ dbRecords: dbRecords, apiRecords: apiRecords });
-
-    await gateway.execute({});
-
-    expect(logger.log).toHaveBeenCalledWith("Academy API and DB have returned different records")
-    expect(logger.log).toHaveBeenCalledWith({ "DB records": dbRecords })
-    expect(logger.log).toHaveBeenCalledWith({ "API records": apiRecords })
-  });
-
-  it('logs if the API and DB return different records and returns the DB records', async () => {
-    const dbRecord = randomRecord1;
-    const apiRecord = randomRecordWithAllFields;
-    const gateway = createGateway({ dbRecords: [dbRecord], apiRecords: [apiRecord] });
+  it('returns the API records if the API call is successfull', async () => {
+    const record = {
+      claimId: 123,
+      checkDigit: 'X',
+      personRef: 2,
+      firstName: 'Maria',
+      lastName: 'Woodstock',
+      dateOfBirth: '1980-02-01',
+      niNumber: 'CH763625R',
+      claimantAddress: {
+        addressLine1: 'Hackney',
+        addressLine2: null,
+        addressLine3: null,
+        addressLine4: null,
+        postcode: 'E1 1JJ',
+      }
+    };
+    const gateway = createGateway({ claimants: [record] });
 
     const response = await gateway.execute({});
 
-    expect(logger.log).toHaveBeenCalledWith("Academy API and DB have returned different records")
-    expect(logger.log).toHaveBeenCalledWith({ "DB records": [dbRecord] })
-    expect(logger.log).toHaveBeenCalledWith({ "API records": [apiRecord] })
-    expect(response).toEqual([dbRecord])
+    const recordMatcher = expect.objectContaining({ id: '123X/2' });
+    const addressMatcher = expect.objectContaining({ address: ['Hackney', null, null, null, 'E1 1JJ']})
+
+    expect(buildSearchRecord).toHaveBeenCalledTimes(1);
+    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
+    expect(buildSearchRecord).toHaveBeenCalledWith(addressMatcher);
+    expect(response.length).toBe(1);
+  });
+
+  it("doesn't return a record if any of the id components are missing", async () => {
+    const record = { claimId: '123', checkDigit: 'd' };
+    const gateway = createGateway({claimants: [record]});
+
+    const records = await gateway.execute({});
+
+    expect(buildSearchRecord).toHaveBeenCalledTimes(0);
+    expect(records.length).toBe(0);
+  });
+
+  it('gets all pages of results from the API', async () => {
+    const records = [
+      { claimId: '123', checkDigit: 'd', personRef: '1' },
+      { claimId: '342', checkDigit: 'r', personRef: '2' },
+      { claimId: '777', checkDigit: 't', personRef: '1' },
+    ]
+    const gateway = createGateway({claimants: [records[0]], nextCursor: '1234-45-2'});
+
+    mockRequest([records[1]], {cursor: '1234-45-2'}, '378-98-92');
+    mockRequest([records[2]], {cursor: '378-98-92'}, '');
+
+    await gateway.execute({});
+
+    expect(nock.isDone()).toBe(true);
+  });
+
+  it('returns results from all pages', async () => {
+    const records = [
+      { claimId: '123', checkDigit: 'd', personRef: '1' },
+      { claimId: '342', checkDigit: 'r', personRef: '2' },
+      { claimId: '777', checkDigit: 't', personRef: '1' },
+    ]
+    const gateway = createGateway({claimants: [records[0]], nextCursor: '1234-45-2'});
+
+    mockRequest([records[1]], {cursor: '1234-45-2'}, '378-98-92');
+    mockRequest([records[2]], {cursor: '378-98-92'}, '');
+
+    const response = await gateway.execute({});
+
+    expect(response).toEqual([{ id: '123d/1' }, {id: '342r/2'}, {id: '777t/1'}])
   });
 });
