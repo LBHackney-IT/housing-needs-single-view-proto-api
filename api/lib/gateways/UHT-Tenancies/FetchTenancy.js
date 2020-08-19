@@ -1,6 +1,6 @@
 const path = require('path');
 const { formatRecordDate, loadSQL } = require('../../Utils');
-const { Systems } = require('../../Constants');
+// const { Systems } = require('../../Constants');
 const { fetchTenancySQL } = loadSQL(path.join(__dirname, 'sql'));
 
 module.exports = options => {
