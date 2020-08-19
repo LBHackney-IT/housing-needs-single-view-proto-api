@@ -13,7 +13,7 @@ module.exports = options => {
     // ]);
     return {
       id: '123456/1',
-      address: '123 Kosher Avenue',
+      address: '1 Hill Street N16 5TT',
       type: 'Secure',
       startDate: '1992-06-13',
       residents: [
@@ -53,7 +53,7 @@ module.exports = options => {
         const tenancy = await fetchTenancy(id);
         return processTenancy(tenancy);
       } catch (err) {
-        logger.error(`Error fetching tenancy in UHT-Tenancy: ${err}`, err);
+        logger.error(`Error fetching tenancy in UHT-Tenancies: ${err}`, err);
       }
       return [];
     }
