@@ -1,79 +1,66 @@
-const path = require('path');
-const { loadSQL } = require('../../Utils');
-const { Systems } = require('../../Constants');
-const { searchCustomersBaseSQL } = loadSQL(path.join(__dirname, 'sql'));
+const moment = require('moment');
 
 module.exports = options => {
-  const db = options.db;
-  const buildSearchRecord = options.buildSearchRecord;
+  const searchDb = options.searchDb;
+  const searchApi = options.searchApi;
   const logger = options.logger;
 
-  let whereClause = [];
-  let params = [];
-
-  const search = async queryParams => {
-    if (queryParams.firstName && queryParams.firstName !== '') {
-      params.push({
-        id: 'forename',
-        type: 'NVarChar',
-        value: `%${queryParams.firstName.toUpperCase().trim()}%`
-      });
-      whereClause.push(
-        'forename collate SQL_Latin1_General_CP1_CI_AS LIKE @forename'
+  const checkRecordsAreIdentical = (dbRecords, apiRecords) => {
+    if (sameResults(dbRecords, apiRecords)) {
+      logger.log(
+        'UHT Contact records retrieved from the API and the DB are identical'
       );
+    } else {
+      logger.log('Housing API and UH DB have returned different records');
+      logger.log({ 'DB records': dbRecords });
+      logger.log({ 'API records': apiRecords });
     }
-
-    if (queryParams.lastName && queryParams.lastName !== '') {
-      params.push({
-        id: 'surname',
-        type: 'NVarChar',
-        value: `%${queryParams.lastName.toUpperCase().trim()}%`
-      });
-      whereClause.push(
-        'surname collate SQL_Latin1_General_CP1_CI_AS LIKE @surname'
-      );
-    }
-
-    whereClause = whereClause.map(clause => `(${clause})`);
-    const query = `${searchCustomersBaseSQL} WHERE (${whereClause.join(
-      ' AND '
-    )})`;
-    return await db.request(query, params);
   };
 
-  const validateIds = record => {
-    return record.house_ref && record.person_no;
+  const sameResults = (dbRecords, apiRecords) => {
+    if (dbRecords.length !== apiRecords.length) return false;
+    let equal = true;
+    for (const record of dbRecords) {
+      if (!apiRecords.find(r => recordEquality(record, r))) {
+        equal = false;
+        break;
+      }
+    }
+    return equal;
   };
 
-  const processRecords = records => {
-    return records
-      .filter(record => validateIds(record))
-      .map(record => {
-        return buildSearchRecord({
-          id: `${record.house_ref.trim()}/${record.person_no}`,
-          firstName: record.forename,
-          lastName: record.surname,
-          dob: record.dob,
-          nino: record.ni_no,
-          address: record.address,
-          postcode: record.postcode,
-          source: Systems.UHT_CONTACTS,
-          links: {
-            uhContact: record.con_key
-          }
-        });
-      });
+  const recordEquality = (record1, record2) => {
+    return (
+      record1.id === record2.id &&
+      record1.links.uhContact === record2.links.uhContact &&
+      stringDataEquality(record1.firstName, record2.firstName) &&
+      stringDataEquality(record1.lastName, record2.lastName) &&
+      stringDataEquality(record1.nino, record2.nino) &&
+      stringDataEquality(record1.postcode, record2.postcode) &&
+      (record1.dob === record2.dob ||
+        moment(record1.dob).diff(moment(record2.dob), 'days') < 1)
+    );
+  };
+
+  const stringDataEquality = (string1, string2) => {
+    if (string1 == string2) return true;
+    if (!string1 || !string2) return false;
+    return string1.toLowerCase().trim() === string2.toLowerCase().trim();
   };
 
   return {
     execute: async queryParams => {
+      let dbRecords;
       try {
-        const records = await search(queryParams);
-        return processRecords(records);
+        dbRecords = await searchDb.execute(queryParams);
       } catch (err) {
+        console.log(err);
         logger.error(`Error searching customers in UHT-Contacts: ${err}`, err);
         return [];
       }
+      const apiRecords = await searchApi.execute(queryParams);
+      checkRecordsAreIdentical(dbRecords, apiRecords);
+      return dbRecords;
     }
   };
 };

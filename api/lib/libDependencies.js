@@ -73,10 +73,19 @@ const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search
     logger
   }
 );
-
-const uhtContactsSearchGateway = require('./gateways/UHT-Contacts/Search')({
-  db: uhtDb,
+const uhtContactsSearchApi = require('./gateways/UHT-Contacts/SearchApi')({
+  baseUrl: process.env.HOUSING_API_BASE_URL,
+  apiKey: process.env.HOUSING_API_API_KEY,
   buildSearchRecord,
+  logger
+});
+const uhtContactsSearchDb = require('./gateways/UHT-Contacts/SearchDb')({
+  db: uhtDb,
+  buildSearchRecord
+});
+const uhtContactsSearchGateway = require('./gateways/UHT-Contacts/Search')({
+  searchDb: uhtContactsSearchDb,
+  searchApi: uhtContactsSearchApi,
   logger
 });
 const uhtHousingRegisterSearchGateway = require('./gateways/UHT-HousingRegister/Search')(

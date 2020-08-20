@@ -2,104 +2,93 @@ const UHTContactsSearch = require('../../../lib/gateways/UHT-Contacts/Search');
 
 describe('UHTContactsSearchGateway', () => {
   let buildSearchRecord;
-  let db;
   let logger;
+  let searchDb;
+  let searchApi;
   const dbError = new Error('Database error');
+  const apiError = new Error('Api Error');
+  const randomRecord1 = {
+      id: '1244/3',
+      firstName: 'Jimmy',
+      lastName: 'Jones',
+      dob: '22/08/2013',
+      nino: 'JE97254728D',
+      address: '1234 the road, London, Hackney',
+      postcode: 'LG7 4GH',
+      source: 'UHT-Contacts', 
+      links: {
+        uhContact: '12345' 
+      }
+  };
+  const randomRecord2 = {
+      id: '1354/1',
+      firstName: 'Sarah',
+      lastName: 'Jane',
+      dob: '14/02/1953',
+      nino: 'CS46287Y',
+      address: '1 down the lane, Hackney',
+      postcode: 'HG4 3TH',
+      source: 'UHT-Contacts', 
+      links: {
+        uhContact: '8217648' 
+      }
+  };
 
-  const createGateway = (records, throwsError) => {
+  const createGateway = ({dbRecords = [], throwsDbError = false, apiRecords = [], throwsApiError = false}) => {
     buildSearchRecord = jest.fn(({ id }) => {
       return { id };
     });
-
-    db = {
-      request: jest.fn(async () => {
-        if (throwsError) {
+    searchDb = {
+      execute: jest.fn((query) => {
+        if (throwsDbError) {
           throw dbError;
         }
-        return records;
+        return dbRecords;
+      }
+    )};
+    searchApi = {
+      execute: jest.fn((query) => {
+        if (throwsApiError) {
+          throw apiError;
+        }
+        return apiRecords;
       })
-    };
+    }
 
     logger = {
-      error: jest.fn((msg, err) => {})
+      error: jest.fn((msg, err) => {}),
+      log: jest.fn()
     };
 
     return UHTContactsSearch({
       buildSearchRecord,
-      db,
+      searchDb,
+      searchApi,
       logger
     });
   };
 
-  it('queries the database for forename if the query contains firstname', async () => {
-    const gateway = createGateway([]);
-    const firstName = 'maria';
-    const queryMatcher = expect.stringMatching(/LIKE @forename/);
-    const paramMatcher = expect.arrayContaining([
-      expect.objectContaining({ value: `%${firstName.toUpperCase()}%` })
-    ]);
+  it('calls the search DB function with given query params', async () => {
+    const queryParams = { queryOne: 'query', name: 'name' };
+    const gateway = createGateway({});
 
-    await gateway.execute({ firstName });
+    await gateway.execute(queryParams);
 
-    expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
+    expect(searchDb.execute).toHaveBeenCalledWith(queryParams);
   });
 
-  it('does not query the database for the forename if the query does not have a firstname', async () => {
-    const gateway = createGateway([]);
-    const queryMatcher = expect.not.stringMatching(/LIKE @forename/);
+  it('calls the search API function with given query params', async () => {
+    const queryParams = { queryOne: 'query', name: 'name' };
+    const gateway = createGateway({});
 
-    await gateway.execute({});
+    await gateway.execute(queryParams);
 
-    expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
-  });
-
-  it('queries the database for surname if the query contains surname', async () => {
-    const gateway = createGateway([]);
-    const lastName = 'smith';
-    const queryMatcher = expect.stringMatching(/LIKE @surname/);
-    const paramMatcher = expect.arrayContaining([
-      expect.objectContaining({ value: `%${lastName.toUpperCase()}%` })
-    ]);
-
-    await gateway.execute({ lastName });
-
-    expect(db.request).toHaveBeenCalledWith(queryMatcher, paramMatcher);
-  });
-
-  it('does not query the database for the surname if the query does not have a lastname', async () => {
-    const gateway = createGateway([]);
-    const queryMatcher = expect.not.stringMatching(/LIKE @surname/);
-
-    await gateway.execute({});
-
-    expect(db.request).toHaveBeenCalledWith(queryMatcher, expect.anything());
-  });
-
-  it('returns record if all id components exist', async () => {
-    const record = { house_ref: '123 ', person_no: 'd' };
-    const gateway = createGateway([record]);
-    const recordMatcher = expect.objectContaining({ id: '123/d' });
-
-    const records = await gateway.execute({});
-
-    expect(buildSearchRecord).toHaveBeenCalledTimes(1);
-    expect(records.length).toBe(1);
-    expect(buildSearchRecord).toHaveBeenCalledWith(recordMatcher);
-  });
-
-  it("doesn't return a record if any of the id components are missing", async () => {
-    const record = { house_ref: '123 ' };
-    const gateway = createGateway([record]);
-
-    const records = await gateway.execute({});
-
-    expect(buildSearchRecord).toHaveBeenCalledTimes(0);
-    expect(records.length).toBe(0);
+    expect(searchApi.execute).toHaveBeenCalledWith(queryParams);
   });
 
   it('returns an empty set of records if there is an error and calls logger', async () => {
     const record = { account_ref: '123', account_cd: '1' };
-    const gateway = createGateway([record], true);
+    const gateway = createGateway({ dbRecords: [record], throwsDbError:  true});
 
     const records = await gateway.execute({});
 
@@ -108,5 +97,39 @@ describe('UHTContactsSearchGateway', () => {
       'Error searching customers in UHT-Contacts: Error: Database error',
       dbError
     );
+  });
+
+  it('logs if the API and DB return the same records', async () => {
+    const dbRecord = {... randomRecord1};
+    const apiRecord = {...randomRecord1};
+    const gateway = createGateway({ dbRecords: [dbRecord], apiRecords: [apiRecord] });
+
+    await gateway.execute({});
+    expect(logger.log).toHaveBeenCalledWith("UHT Contact records retrieved from the API and the DB are identical");
+  });
+
+  it('logs if the API and DB return different numbers records', async () => {
+    const dbRecords = [{...randomRecord1}, {...randomRecord2}];
+    const apiRecords = [{...randomRecord1}];
+    const gateway = createGateway({ dbRecords: dbRecords, apiRecords: apiRecords });
+
+    await gateway.execute({});
+
+    expect(logger.log).toHaveBeenCalledWith("Housing API and UH DB have returned different records")
+    expect(logger.log).toHaveBeenCalledWith({ "DB records": dbRecords })
+    expect(logger.log).toHaveBeenCalledWith({ "API records": apiRecords })
+  });
+
+  it('logs if the API and DB return different records and returns the DB records', async () => {
+    const dbRecord = {...randomRecord1};
+    const apiRecord = {...randomRecord2};
+    const gateway = createGateway({ dbRecords: [dbRecord], apiRecords: [apiRecord] });
+
+    const response = await gateway.execute({});
+
+    expect(logger.log).toHaveBeenCalledWith("Housing API and UH DB have returned different records")
+    expect(logger.log).toHaveBeenCalledWith({ "DB records": [dbRecord] })
+    expect(logger.log).toHaveBeenCalledWith({ "API records": [apiRecord] })
+    expect(response).toEqual([dbRecord])
   });
 });
