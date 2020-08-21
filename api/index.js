@@ -188,16 +188,15 @@ app.get('/customers/:id/vulnerabilities', async (req, res, next) => {
 });
 
 app.get('/tenancies/:id', async (req, res, next) => {
+  const tenancyId = req.params.id.replace('-', '/');
   try {
     console.time('get-tenancy');
     console.log('get-tenancy', { params: req.params });
 
-    const tenancy = await fetchTenancy({
-      tenancyId: req.params.id,
-      token: res.locals.hackneyToken
-    });
+    const tenancy = await fetchTenancy(tenancyId, res.locals.hackneyToken);
 
     console.timeEnd('get-tenancy');
+
     return res.send({ tenancy });
   } catch (err) {
     console.log('get-tenancy', { error: err });

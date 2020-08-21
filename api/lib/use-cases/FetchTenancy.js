@@ -1,7 +1,12 @@
 module.exports = options => {
-  const gateway = options.gateway;
+  const fetchTenancyGateway = options.fetchTenancyGateway;
+  const fetchTenantsGateway = options.fetchTenantsGateway;
 
   return async (id, token) => {
-    return await gateway.execute(id, token);
+    const tenancy = await fetchTenancyGateway.execute(id, token);
+    const tenants = await fetchTenantsGateway.execute(id, token);
+    tenancy.tenants = tenants;
+
+    return tenancy;
   };
 };

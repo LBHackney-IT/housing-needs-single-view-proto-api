@@ -247,6 +247,13 @@ const uhtFetchTenancyGateway = require('./gateways/UHT-Tenancies/FetchTenancy')(
   }
 );
 
+const uhtFetchTenantsGateway = require('./gateways/UHT-Tenancies/FetchTenants')(
+  {
+    db: uhtDb,
+    logger
+  }
+);
+
 // USECASES
 
 const customerSearch = require('./use-cases/CustomerSearch')({
@@ -340,7 +347,8 @@ const findVulnerabilitySnapshots = require('./use-cases/FindVulnerabilitySnapsho
 );
 
 const fetchTenancy = require('./use-cases/FetchTenancy')({
-  gateway: uhtFetchTenancyGateway
+  fetchTenancyGateway: uhtFetchTenancyGateway,
+  fetchTenantsGateway: uhtFetchTenantsGateway
 });
 
 module.exports = {
