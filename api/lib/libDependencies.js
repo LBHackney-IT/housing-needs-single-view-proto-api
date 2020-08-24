@@ -351,6 +351,8 @@ const fetchTenancy = require('./use-cases/FetchTenancy')({
   fetchTenantsGateway: uhtFetchTenantsGateway
 });
 
+console.log('LIBDEP-CHECK', fetchTenancyGateway);
+
 module.exports = {
   Sentry,
   customerSearch,
