@@ -34,7 +34,7 @@ module.exports = options => {
         const tenants = await fetchTenants(id);
         return processTenants(tenants);
       } catch (err) {
-        logger.error(`Error fetching tenants in UHT-Tenancies: ${err}`, err);
+        logger.error(`Error fetching tenants in UHT-Tenancies/FetchTenants: ${err}`, err);
       }
       return [];
     }
