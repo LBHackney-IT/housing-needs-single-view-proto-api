@@ -102,6 +102,7 @@ const academyCouncilTaxSearchGateway = require('./gateways/Academy-CouncilTax/Se
     logger
   }
 );
+  
 const uhwSearchGateway = require('./gateways/UHW/Search')({
   db: uhwDb,
   buildSearchRecord,
@@ -275,6 +276,11 @@ const uhtFetchTenantsGateway = require('./gateways/UHT-Tenancies/FetchTenants')(
     logger
   }
 );
+const  CautionaryAlertsApi = require('./gateways/CautionaryAlerts/CautionaryAlertsApi');
+const cautionaryAlerts = new CautionaryAlertsApi({
+  apiKey: process.env.CAUTIONARY_ALERTS_API_KEY,
+  baseUrl: process.env.CAUTIONARY_ALERTS_BASE_URL
+});
 
 // USECASES
 
