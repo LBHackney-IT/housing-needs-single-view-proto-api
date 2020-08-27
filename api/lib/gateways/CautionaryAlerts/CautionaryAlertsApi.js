@@ -31,7 +31,7 @@ class CautionaryAlertsApi {
     }
   }
 
-  async searchPeopleAlerts(tagref, personNumber) {
+  async searchPeopleAlerts({tagRef, personNumber}) {
     try {
       const response = await rp(
         `${this.baseUrl}/api/v1/cautionary-alerts/people`,
@@ -42,7 +42,7 @@ class CautionaryAlertsApi {
           },
           json: true,
           qs: {
-            tag_ref: tagref,
+            tag_ref: tagRef,
             person_number: personNumber
           }
         }
