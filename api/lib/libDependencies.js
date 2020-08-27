@@ -277,7 +277,7 @@ const uhtFetchTenantsGateway = require('./gateways/UHT-Tenancies/FetchTenants')(
   }
 );
 const CautionaryAlertsApi = require('./gateways/CautionaryAlerts/CautionaryAlertsApi');
-const cautionaryAlerts = new CautionaryAlertsApi({
+new CautionaryAlertsApi({
   apiKey: process.env.CAUTIONARY_ALERTS_API_KEY,
   baseUrl: process.env.CAUTIONARY_ALERTS_BASE_URL,
   logger: logger

@@ -66,48 +66,83 @@ describe('CautionaryAlertsApiGateway', () => {
           expect(apiResponse).toEqual(peopleResponse);
           expect(nock.isDone()).toBe(true);
         });
-    
-        /*it('returns an empty array if error', async () => {
-            const api = new CautionaryAlertsApi({
-                baseUrl: baseUrl,
-                apiKey: apiKey,
-                logger: logger
-              });
-              
-              const apiResponse = await api.searchPeopleAlerts({tagRef: '111111', personNumber: '-2'});
-    
-          expect(snapshotIds).toStrictEqual([]);
-        });*/
       });
 
-      describe('searchPropertyAlerts', () => {
-          const propertyRef = '1234567890';
-          
+      describe('searchPeopleAlertsReturns404', () => {
+        beforeEach(() => {
+          nock(baseUrl, {
+            reqheaders: {
+              'X-API-Key': apiKey
+            }
+          }).get('/api/v1/cautionary-alerts/people')
+          .reply(404, { contacts: [] });
+        });
+    
+        it('returns an empty array if there are no query parameters', async () => {
+          const api = new CautionaryAlertsApi({
+            baseUrl: baseUrl,
+            apiKey: apiKey,
+            logger: logger
+          });
+
+          const apiResponse = await api.searchPeopleAlerts({});
+          expect(apiResponse.contacts.length).toBe(0);
+          expect(logger.error).toHaveBeenCalledWith(
+            'Error getting cautionary alerts for people: StatusCodeError: 404 - {\"contacts\":[]}',
+            expect.anything()
+          );
+        });
+      });
+
+      describe('getAlertsForProperty', () => {
+          const propertyRef = '000012712';
           beforeEach(() => {
             nock(baseUrl, {
               reqheaders: {
                   'X-API-Key': apiKey
               }
-            }).get(`api/v1/cautionary-alerts/properties/${propertyRef}`)
-              .reply(200, peopleResponse);
+            }).get(`/api/v1/cautionary-alerts/properties/${propertyRef}`)
+            .reply(200, propertyResponse);
           });
     
-        /*it('calls the API endpoint with valid body', async () => {
-          const api = new VulnerabilitiesApi({
-            baseUrl: 'https://vulnerabilities'
+          it('calls the API endpoint with valid parameters', async () => {
+            const api = new CautionaryAlertsApi({
+              baseUrl: baseUrl,
+              apiKey: apiKey,
+              logger: logger
+            });
+            
+            const apiResponse = await api.getAlertsForProperty(propertyRef);
+            expect(apiResponse).toEqual(propertyResponse);
+            expect(nock.isDone()).toBe(true);
           });
-          const { snapshotIds } = await api.find({
-            token: expectedToken,
-            firstName: 'Stanley',
-            lastName: 'McTest',
-            systemIds: ['123', '456']
+
+        });
+
+        describe('getAlertsForPropertyReturns404', () => {
+          const propertyRef = '';
+          beforeEach(() => {
+            nock(baseUrl, {
+              reqheaders: {
+                  'X-API-Key': apiKey
+              }
+            }).get(`/api/v1/cautionary-alerts/properties/${propertyRef}`)
+            .reply(404, { alerts: []});
           });
-    
-          expect(snapshotIds).toStrictEqual(expectedResponse.snapshotIds);
-          expect(nock.isDone()).toBe(true);
-        });*/
-
-      });
-
-
+      
+          it('returns an empty array if there are no query parameters', async () => {
+            const api = new CautionaryAlertsApi({
+              baseUrl: baseUrl,
+              apiKey: apiKey,
+              logger: logger
+            });
+  
+            const apiResponse = await api.getAlertsForProperty('');
+            expect(apiResponse.alerts.length).toBe(0);
+            expect(logger.error).toHaveBeenCalledWith(
+              'Error getting cautionary alerts for property: StatusCodeError: 404 - {\"alerts\":[]}',
+              expect.anything()
+            );
+          });
+        });
 });
