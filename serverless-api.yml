@@ -63,6 +63,8 @@ functions:
       VULNERABILITIES_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/VULNERABILITIES_BASE_URL}
       ACADEMY_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_BASE_URL}
       ACADEMY_API_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_API_KEY}
+      HOUSING_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_BASE_URL}
+      HOUSING_API_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_API_KEY}
 
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
