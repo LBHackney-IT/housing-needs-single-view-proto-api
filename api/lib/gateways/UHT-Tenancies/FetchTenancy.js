@@ -22,7 +22,8 @@ module.exports = options => {
       postCode: checkString(results.post_code),
       type: checkString(results.tenure),
       startDate: results.cot,
-      endDate: results.eot
+      endDate: results.eot,
+      incomeCollectionPatch: results.ic_patch
     };
   };
 

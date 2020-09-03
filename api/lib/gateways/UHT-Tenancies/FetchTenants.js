@@ -20,10 +20,10 @@ module.exports = options => {
         forename: checkString(result.forename),
         surname: checkString(result.surname),
         dob: result.dob,
-        mobileNum: '00000FAKE',
-        homeNum: '00000FAKE',
-        workNum: '00000FAKE',
-        email: 'fake@FAKEemail.com'
+        mobileNum: result.con_phone1,
+        homeNum: result.con_phone2,
+        workNum: result.con_phone3,
+        email: result.email_address
       };
     });
   };

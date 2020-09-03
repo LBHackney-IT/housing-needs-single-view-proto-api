@@ -2,6 +2,7 @@ SELECT
   t.tag_ref,
   t.cot,
   t.eot,
+  t.u_rent_patch as ic_patch,
   t.tenure,
   p.address1,
   p.post_code
