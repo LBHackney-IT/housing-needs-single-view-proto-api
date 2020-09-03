@@ -262,6 +262,20 @@ const vulnerabilities = new VulnerabilitiesApi({
   baseUrl: process.env.VULNERABILITIES_BASE_URL
 });
 
+const uhtFetchTenancyGateway = require('./gateways/UHT-Tenancies/FetchTenancy')(
+  {
+    db: uhtDb,
+    logger
+  }
+);
+
+const uhtFetchTenantsGateway = require('./gateways/UHT-Tenancies/FetchTenants')(
+  {
+    db: uhtDb,
+    logger
+  }
+);
+
 // USECASES
 
 const customerSearch = require('./use-cases/CustomerSearch')({
@@ -354,6 +368,11 @@ const findVulnerabilitySnapshots = require('./use-cases/FindVulnerabilitySnapsho
   }
 );
 
+const fetchTenancy = require('./use-cases/FetchTenancy')({
+  fetchTenancyGateway: uhtFetchTenancyGateway,
+  fetchTenantsGateway: uhtFetchTenantsGateway
+});
+
 module.exports = {
   Sentry,
   customerSearch,
@@ -365,5 +384,6 @@ module.exports = {
   createSharedPlan,
   findSharedPlans,
   createVulnerabilitySnapshot,
-  findVulnerabilitySnapshots
+  findVulnerabilitySnapshots,
+  fetchTenancy
 };
