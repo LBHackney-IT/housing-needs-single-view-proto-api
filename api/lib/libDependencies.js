@@ -158,7 +158,8 @@ const academyBenefitsFetchDb = require('./gateways/Academy-Benefits/FetchCustome
 const academyBenefitsFetchAPI = require('./gateways/Academy-Benefits/FetchCustomerAPI')(
   {
     baseUrl: process.env.ACADEMY_API_BASE_URL,
-    apiKey: process.env.ACADEMY_API_API_KEY
+    apiKey: process.env.ACADEMY_API_API_KEY,
+    apiToken: process.env.ACADEMY_API_API_TOKEN //Lambda authoriser token
   }
 );
 const academyBenefitsFetchRecordsGateway = require('./gateways/Academy-Benefits/FetchRecord.js')(
@@ -203,6 +204,15 @@ const jigsawFetchRecordsGateway = require('./gateways/Jigsaw/FetchRecord')({
   doGetRequest,
   logger
 });
+
+/*const cautionaryAlertsGateway = require('../../../lib/gateways/CautionaryAlerts/CautionaryAlertsApi')(
+  {
+    logger: logger,
+    baseUrl: process.env.CAUTIONARY_ALERTS_BASE_URL,
+    apiKey: process.env.CAUTIONARY_ALERTS_API_KEY,
+    apiToken: process.env.CAUTIONARY_ALERTS_API_TOKEN //Lambda authoriser token
+  }
+);*/
 
 // NOTES GATEWAYS
 
@@ -276,12 +286,6 @@ const uhtFetchTenantsGateway = require('./gateways/UHT-Tenancies/FetchTenants')(
     logger
   }
 );
-const CautionaryAlertsApi = require('./gateways/CautionaryAlerts/CautionaryAlertsApi');
-new CautionaryAlertsApi({
-  apiKey: process.env.CAUTIONARY_ALERTS_API_KEY,
-  baseUrl: process.env.CAUTIONARY_ALERTS_BASE_URL,
-  logger: logger
-});
 
 // USECASES
 
@@ -392,6 +396,5 @@ module.exports = {
   findSharedPlans,
   createVulnerabilitySnapshot,
   findVulnerabilitySnapshots,
-  fetchTenancy,
-  cautionaryAlerts
+  fetchTenancy
 };

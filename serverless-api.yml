@@ -63,10 +63,12 @@ functions:
       VULNERABILITIES_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/VULNERABILITIES_BASE_URL}
       ACADEMY_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_BASE_URL}
       ACADEMY_API_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_API_KEY}
-      HOUSING_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_BASE_URL}
+      ACADEMY_API_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_API_TOKEN}
+      HOUSING_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_BASE_URL}     
       HOUSING_API_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_API_KEY}
       CAUTIONARY_ALERTS_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_BASE_URL}
       CAUTIONARY_ALERTS_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_API_KEY}
+      CAUTIONARY_ALERTS_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_API_TOKEN}
 
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
