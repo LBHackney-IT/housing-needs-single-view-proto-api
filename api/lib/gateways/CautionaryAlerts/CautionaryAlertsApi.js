@@ -13,7 +13,7 @@ module.exports = options => {
         {
           method: 'GET',
           headers: {
-            'X-API-Key': apiKey,
+            'X-API-Key': apiKey, //Use API Gateway authorisation
             'Authorization': apiToken //Use Lambda authoriser
           },
           json: true
@@ -33,7 +33,7 @@ module.exports = options => {
       const response = await rp(`${baseUrl}/api/v1/cautionary-alerts/people`, {
         method: 'GET',
         headers: {
-          'X-API-Key': apiKey,
+          'X-API-Key': apiKey, //Use API Gateway authorisation
           'Authorization': apiToken //Use Lambda authoriser
         },
         json: true,
@@ -52,14 +52,7 @@ module.exports = options => {
   };
 
   return {
-    getAlertsForProperty: async propertyRef => {
-      const records = await alertsForProperty(propertyRef);
-      return records;
-    },
-
-    searchPeopleAlerts: async (tagRef, personNumber) => {
-      const records = await alertsForPeople(tagRef, personNumber);
-      return records;
-    }
+    alertsForProperty,
+    alertsForPeople
   };
 };

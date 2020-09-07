@@ -70,7 +70,7 @@ describe('CautionaryAlertsApiGateway', () => {
         it('calls the API endpoint with valid parameters', async () => {
           const api = createGateway();
 
-          const apiResponse = await api.searchPeopleAlerts('1111111','23');
+          const apiResponse = await api.alertsForPeople('1111111','23');
           expect(apiResponse).toEqual(peopleResponse);
           expect(nock.isDone()).toBe(true);
         });
@@ -90,7 +90,7 @@ describe('CautionaryAlertsApiGateway', () => {
         it('returns an empty array if there are no query parameters', async () => {
           const api = createGateway();
 
-          const apiResponse = await api.searchPeopleAlerts({});
+          const apiResponse = await api.alertsForPeople({});
           expect(apiResponse.contacts.length).toBe(0);
           expect(logger.error).toHaveBeenCalledWith(
             'Error getting cautionary alerts for people: StatusCodeError: 404 - {\"contacts\":[]}',
@@ -113,7 +113,7 @@ describe('CautionaryAlertsApiGateway', () => {
     
           it('calls the API endpoint with valid parameters', async () => {
             const api = createGateway();
-            const apiResponse = await api.getAlertsForProperty(propertyRef);
+            const apiResponse = await api.alertsForProperty(propertyRef);
             expect(apiResponse).toEqual(propertyResponse);
             expect(nock.isDone()).toBe(true);
           });
@@ -135,7 +135,7 @@ describe('CautionaryAlertsApiGateway', () => {
           it('returns an empty array if there are no query parameters', async () => {
             const api = createGateway();
   
-            const apiResponse = await api.getAlertsForProperty('');
+            const apiResponse = await api.alertsForProperty('');
             expect(apiResponse.alerts.length).toBe(0);
             expect(logger.error).toHaveBeenCalledWith(
               'Error getting cautionary alerts for property: StatusCodeError: 404 - {\"alerts\":[]}',
