@@ -287,6 +287,12 @@ const uhtFetchTenantsGateway = require('./gateways/UHT-Tenancies/FetchTenants')(
   }
 );
 
+const tenanciesApi = require('./gateways/Tenancies/TenanciesApi')({
+  baseUrl: process.env.TENANCY_API_BASE_URL,
+  token: process.env.TENANCY_API_TOKEN,
+  logger
+});
+
 // USECASES
 
 const customerSearch = require('./use-cases/CustomerSearch')({
@@ -384,6 +390,10 @@ const fetchTenancy = require('./use-cases/FetchTenancy')({
   fetchTenantsGateway: uhtFetchTenantsGateway
 });
 
+const searchTenancies = require('./use-cases/SearchTenancies')({
+  gateway: tenanciesApi
+});
+
 module.exports = {
   Sentry,
   customerSearch,
@@ -396,5 +406,6 @@ module.exports = {
   findSharedPlans,
   createVulnerabilitySnapshot,
   findVulnerabilitySnapshots,
-  fetchTenancy
+  fetchTenancy,
+  searchTenancies,
 };

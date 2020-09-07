@@ -15,7 +15,8 @@ const {
   findSharedPlans,
   createVulnerabilitySnapshot,
   findVulnerabilitySnapshots,
-  fetchTenancy
+  fetchTenancy,
+  searchTenancies,
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -200,6 +201,21 @@ app.get('/tenancies/:id', async (req, res, next) => {
     return res.send({ tenancy });
   } catch (err) {
     console.log('get-tenancy', { error: err });
+  }
+});
+
+app.get('/tenancies', async (req, res, next) => {
+  try {
+    console.log('search-tenancies', { query: req.query });
+    console.time('search-tenancies', { query: req.query });
+
+    const tenancies = await searchTenancies(req.query);
+
+    console.timeEnd('search-tenancies');
+
+    return res.send({ tenancies });
+  } catch (err) {
+    console.log('search-tenancies', { error: err });
     next(err);
   }
 });

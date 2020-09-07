@@ -14,5 +14,6 @@ ENV=test
 /hn-single-view-api/test/W2_DOCUMENTS_API=http://localhost:8080
 /hn-single-view-api/SENTRY_DSN=x
 /common/hackney-jwt-secret=x
-/hn-single-view-api/test/ACADEMY_API_BASE_URL=http://localhost:8090
+/hn-single-view-api/test/ACADEMY_API_BASE_URL=http://localhost:8090/academy
 /hn-single-view-api/test/ACADEMY_API_API_KEY=super-secret-api-key
+/hn-single-view-api/test/TENANCY_API_BASE_URL=http://localhost:8090/tenancies
