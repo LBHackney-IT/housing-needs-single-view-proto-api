@@ -69,6 +69,8 @@ functions:
       CAUTIONARY_ALERTS_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_BASE_URL}
       CAUTIONARY_ALERTS_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_API_KEY}
       CAUTIONARY_ALERTS_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_API_TOKEN}
+      TENANCY_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/TENANCY_API_BASE_URL}
+      TENANCY_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/TENANCY_API_TOKEN}
 
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
