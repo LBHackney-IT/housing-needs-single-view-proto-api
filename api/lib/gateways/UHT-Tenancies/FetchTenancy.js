@@ -23,7 +23,8 @@ module.exports = options => {
       type: checkString(results.tenure),
       startDate: results.cot,
       endDate: results.eot,
-      incomeCollectionPatch: results.ic_patch
+      incomeCollectionPatch: results.ic_patch,
+      uprn: checkString(results.uprn)
     };
   };
 
