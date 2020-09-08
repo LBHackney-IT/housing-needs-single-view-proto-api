@@ -13,7 +13,7 @@ module.exports = options => {
       },
       json: true,
       qs: {
-        limit: 100,
+        limit: 1000,
         cursor,
         address: query.address,
         freehold_only: query.freehold_only,

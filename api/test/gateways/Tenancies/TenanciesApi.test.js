@@ -13,7 +13,7 @@ describe('Tenancies API', () => {
         'Accept': 'application/json'
       }
     }).get('/api/v1/tenancies')
-      .query({ ...queryParams, limit: 100 })
+      .query({ ...queryParams, limit: 1000 })
       .reply(200, { tenancies, nextCursor })
   }
 
@@ -24,7 +24,7 @@ describe('Tenancies API', () => {
         'Accept': 'application/json'
       }
     }).get('/api/v1/tenancies')
-      .query({ ...queryParams, limit: 100 })
+      .query({ ...queryParams, limit: 1000 })
       .reply(500, 'Really bad error')
   }
 
