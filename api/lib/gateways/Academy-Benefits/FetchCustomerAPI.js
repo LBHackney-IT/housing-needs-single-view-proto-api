@@ -10,7 +10,6 @@ const {
 
 module.exports = options => {
   const baseUrl = options.baseUrl;
-  const apiKey = options.apiKey;
   const apiToken = options.apiToken;
 
   let processCustomer = function(record) {
@@ -50,7 +49,6 @@ module.exports = options => {
     return await rp(`${baseUrl}/api/v1/claim/${claimId}/person/${personRef}`, {
       method: 'GET',
       headers: {
-        'X-API-Key': apiKey, //Use API Gateway authorisation
         'Authorization': apiToken //Use lambda authoriser
       },
       json: true

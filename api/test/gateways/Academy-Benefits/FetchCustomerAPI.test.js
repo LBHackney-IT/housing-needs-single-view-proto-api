@@ -7,11 +7,11 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   
   const createGateway = (customer, personRef, claimId) => {
     const baseUrl = 'https://test-domain.com';
-    const apiKey = 'anbdabkd';
+    const apiToken = 'anbdabkd';
     const mockRequest =
       nock(baseUrl, {
         reqHeaders: {
-          'X-API-Key': apiKey
+          'Authorization': apiToken //Use lambda authoriser
         }
       }).get(`/api/v1/claim/${claimId}/person/${personRef}`)
         .reply(200, customer);
@@ -22,7 +22,7 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
 
     return AcademyBenefitsFetchRecordAPI({
       baseUrl,
-      apiKey,
+      apiToken,
       logger
     });
 

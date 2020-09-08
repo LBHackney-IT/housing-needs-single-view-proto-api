@@ -3,7 +3,6 @@ const rp = require('request-promise');
 module.exports = options => {
   const logger = options.logger;
   const baseUrl = options.baseUrl;
-  const apiKey = options.apiKey;
   const apiToken = options.apiToken;
 
   const alertsForProperty = async propertyRef => {
@@ -13,7 +12,6 @@ module.exports = options => {
         {
           method: 'GET',
           headers: {
-            'X-API-Key': apiKey, //Use API Gateway authorisation
             'Authorization': apiToken //Use Lambda authoriser
           },
           json: true
@@ -33,7 +31,6 @@ module.exports = options => {
       const response = await rp(`${baseUrl}/api/v1/cautionary-alerts/people`, {
         method: 'GET',
         headers: {
-          'X-API-Key': apiKey, //Use API Gateway authorisation
           'Authorization': apiToken //Use Lambda authoriser
         },
         json: true,

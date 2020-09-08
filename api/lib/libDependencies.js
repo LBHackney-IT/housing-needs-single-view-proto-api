@@ -69,7 +69,7 @@ const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search
   {
     buildSearchRecord,
     baseUrl: process.env.ACADEMY_API_BASE_URL,
-    apiKey: process.env.ACADEMY_API_API_KEY,
+    apiToken: process.env.ACADEMY_API_API_TOKEN,
     logger
   }
 );
@@ -158,7 +158,6 @@ const academyBenefitsFetchDb = require('./gateways/Academy-Benefits/FetchCustome
 const academyBenefitsFetchAPI = require('./gateways/Academy-Benefits/FetchCustomerAPI')(
   {
     baseUrl: process.env.ACADEMY_API_BASE_URL,
-    apiKey: process.env.ACADEMY_API_API_KEY,
     apiToken: process.env.ACADEMY_API_API_TOKEN //Lambda authoriser token
   }
 );
@@ -209,7 +208,6 @@ const jigsawFetchRecordsGateway = require('./gateways/Jigsaw/FetchRecord')({
   {
     logger: logger,
     baseUrl: process.env.CAUTIONARY_ALERTS_BASE_URL,
-    apiKey: process.env.CAUTIONARY_ALERTS_API_KEY,
     apiToken: process.env.CAUTIONARY_ALERTS_API_TOKEN //Lambda authoriser token
   }
 );*/
