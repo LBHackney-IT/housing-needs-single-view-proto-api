@@ -62,12 +62,10 @@ functions:
       SHARED_PLAN_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/SHARED_PLAN_BASE_URL}
       VULNERABILITIES_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/VULNERABILITIES_BASE_URL}
       ACADEMY_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_BASE_URL}
-      ACADEMY_API_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_API_KEY}
       ACADEMY_API_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_API_TOKEN}
       HOUSING_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_BASE_URL}     
       HOUSING_API_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_API_KEY}
       CAUTIONARY_ALERTS_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_BASE_URL}
-      CAUTIONARY_ALERTS_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_API_KEY}
       CAUTIONARY_ALERTS_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_API_TOKEN}
       TENANCY_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/TENANCY_API_BASE_URL}
       TENANCY_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/TENANCY_API_TOKEN}

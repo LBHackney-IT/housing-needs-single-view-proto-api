@@ -40,8 +40,6 @@ describe('CautionaryAlertsApiGateway', () => {
       let logger = {
         error: jest.fn((msg, err) => {})
         };
-    
-        const apiKey = 'a-really-secure-token';
         const apiToken = 'a-really-secure-token';
         const baseUrl = 'https://universal-housing.com';
     
@@ -50,7 +48,6 @@ describe('CautionaryAlertsApiGateway', () => {
         return CautionaryAlertsApi({
           logger,
           baseUrl,
-          apiKey,
           apiToken,
         });
       };
@@ -59,8 +56,7 @@ describe('CautionaryAlertsApiGateway', () => {
         beforeEach(() => {
           nock(baseUrl, {
             reqheaders: {
-              'X-API-Key': apiKey,
-              'Authorization': apiToken
+              'Authorization': `Bearer ${apiToken}`
             }
           }).get('/api/v1/cautionary-alerts/people')
           .query({tag_ref: '1111111', person_number: '23'})
@@ -80,8 +76,7 @@ describe('CautionaryAlertsApiGateway', () => {
         beforeEach(() => {
           nock(baseUrl, {
             reqheaders: {
-              'X-API-Key': apiKey,
-              'Authorization': apiToken
+              'Authorization': `Bearer ${apiToken}`
             }
           }).get('/api/v1/cautionary-alerts/people')
           .reply(404, { contacts: [] });
@@ -104,8 +99,7 @@ describe('CautionaryAlertsApiGateway', () => {
           beforeEach(() => {
             nock(baseUrl, {
               reqheaders: {
-                  'X-API-Key': apiKey,
-                  'Authorization': apiToken
+                'Authorization': `Bearer ${apiToken}`
               }
             }).get(`/api/v1/cautionary-alerts/properties/${propertyRef}`)
             .reply(200, propertyResponse);
@@ -125,8 +119,7 @@ describe('CautionaryAlertsApiGateway', () => {
           beforeEach(() => {
             nock(baseUrl, {
               reqheaders: {
-                  'X-API-Key': apiKey,
-                  'Authorization': apiToken
+                'Authorization': `Bearer ${apiToken}`
               }
             }).get(`/api/v1/cautionary-alerts/properties/${propertyRef}`)
             .reply(404, { alerts: []});

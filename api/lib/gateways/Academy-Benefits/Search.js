@@ -5,7 +5,7 @@ const moment = require('moment');
 module.exports = options => {
   const logger = options.logger;
   const baseUrl = options.baseUrl;
-  const apiKey = options.apiKey;
+  const apiToken = options.apiToken;
   const buildSearchRecord = options.buildSearchRecord;
 
   const search = async queryParams => {
@@ -35,7 +35,7 @@ module.exports = options => {
     return await rp(`${baseUrl}/api/v1/claimants`, {
       method: 'GET',
       headers: {
-        'X-API-Key': apiKey
+        'Authorization': `Bearer ${apiToken}` //Use lambda authoriser
       },
       json: true,
       qs: {
