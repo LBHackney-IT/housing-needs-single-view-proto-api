@@ -209,7 +209,6 @@ const jigsawFetchRecordsGateway = require('./gateways/Jigsaw/FetchRecord')({
   {
     logger: logger,
     baseUrl: process.env.CAUTIONARY_ALERTS_BASE_URL,
-    apiKey: process.env.CAUTIONARY_ALERTS_API_KEY,
     apiToken: process.env.CAUTIONARY_ALERTS_API_TOKEN //Lambda authoriser token
   }
 );*/

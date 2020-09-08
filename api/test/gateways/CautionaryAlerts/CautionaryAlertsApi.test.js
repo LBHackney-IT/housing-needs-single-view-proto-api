@@ -41,7 +41,6 @@ describe('CautionaryAlertsApiGateway', () => {
         error: jest.fn((msg, err) => {})
         };
     
-        const apiKey = 'a-really-secure-token';
         const apiToken = 'a-really-secure-token';
         const baseUrl = 'https://universal-housing.com';
     
@@ -50,7 +49,6 @@ describe('CautionaryAlertsApiGateway', () => {
         return CautionaryAlertsApi({
           logger,
           baseUrl,
-          apiKey,
           apiToken,
         });
       };
@@ -59,7 +57,6 @@ describe('CautionaryAlertsApiGateway', () => {
         beforeEach(() => {
           nock(baseUrl, {
             reqheaders: {
-              'X-API-Key': apiKey,
               'Authorization': apiToken
             }
           }).get('/api/v1/cautionary-alerts/people')
@@ -80,7 +77,6 @@ describe('CautionaryAlertsApiGateway', () => {
         beforeEach(() => {
           nock(baseUrl, {
             reqheaders: {
-              'X-API-Key': apiKey,
               'Authorization': apiToken
             }
           }).get('/api/v1/cautionary-alerts/people')
@@ -104,7 +100,6 @@ describe('CautionaryAlertsApiGateway', () => {
           beforeEach(() => {
             nock(baseUrl, {
               reqheaders: {
-                  'X-API-Key': apiKey,
                   'Authorization': apiToken
               }
             }).get(`/api/v1/cautionary-alerts/properties/${propertyRef}`)
@@ -125,7 +120,6 @@ describe('CautionaryAlertsApiGateway', () => {
           beforeEach(() => {
             nock(baseUrl, {
               reqheaders: {
-                  'X-API-Key': apiKey,
                   'Authorization': apiToken
               }
             }).get(`/api/v1/cautionary-alerts/properties/${propertyRef}`)
