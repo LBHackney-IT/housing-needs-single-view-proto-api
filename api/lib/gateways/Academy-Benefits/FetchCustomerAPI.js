@@ -49,7 +49,7 @@ module.exports = options => {
     return await rp(`${baseUrl}/api/v1/claim/${claimId}/person/${personRef}`, {
       method: 'GET',
       headers: {
-        'Authorization': apiToken //Use lambda authoriser
+        'Authorization': `Bearer ${apiToken}` //Use lambda authoriser
       },
       json: true
     });

@@ -2,7 +2,7 @@ const academyBenefitsSearch = require('../../../lib/gateways/Academy-Benefits/Se
 const nock = require('nock');
 
 describe('AcademyBenefitsSearchGateway', () => {
-  const apiKey = 'my-super-secure-api-key';
+  const apiToken = 'my-super-secure-api-key';
   const baseUrl = 'https://https://our-new-shiny-api';
   let buildSearchRecord;
   let logger;
@@ -10,7 +10,7 @@ describe('AcademyBenefitsSearchGateway', () => {
   const mockRequest = (claimants, queryParams, nextCursor) => {
     nock(baseUrl, {
       reqHeaders: {
-        'X-API-Key': apiKey
+        'Authorization': `Bearer ${apiToken}`
       }
     }).get('/api/v1/claimants')
     .query({...queryParams, limit: 100})
@@ -20,7 +20,7 @@ describe('AcademyBenefitsSearchGateway', () => {
   const mockRequestError = () => {
     nock(baseUrl, {
       reqHeaders: {
-        'X-API-Key': apiKey
+        'Authorization': `Bearer ${apiToken}`
       }
     }).get('/api/v1/claimants')
     .query({limit: 100})
@@ -45,7 +45,7 @@ describe('AcademyBenefitsSearchGateway', () => {
 
     return academyBenefitsSearch({
       baseUrl,
-      apiKey,
+      apiToken,
       buildSearchRecord,
       logger
     });

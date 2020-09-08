@@ -56,7 +56,7 @@ describe('CautionaryAlertsApiGateway', () => {
         beforeEach(() => {
           nock(baseUrl, {
             reqheaders: {
-              'Authorization': apiToken
+              'Authorization': `Bearer ${apiToken}`
             }
           }).get('/api/v1/cautionary-alerts/people')
           .query({tag_ref: '1111111', person_number: '23'})
@@ -76,7 +76,7 @@ describe('CautionaryAlertsApiGateway', () => {
         beforeEach(() => {
           nock(baseUrl, {
             reqheaders: {
-              'Authorization': apiToken
+              'Authorization': `Bearer ${apiToken}`
             }
           }).get('/api/v1/cautionary-alerts/people')
           .reply(404, { contacts: [] });
@@ -99,7 +99,7 @@ describe('CautionaryAlertsApiGateway', () => {
           beforeEach(() => {
             nock(baseUrl, {
               reqheaders: {
-                  'Authorization': apiToken
+                'Authorization': `Bearer ${apiToken}`
               }
             }).get(`/api/v1/cautionary-alerts/properties/${propertyRef}`)
             .reply(200, propertyResponse);
@@ -119,7 +119,7 @@ describe('CautionaryAlertsApiGateway', () => {
           beforeEach(() => {
             nock(baseUrl, {
               reqheaders: {
-                  'Authorization': apiToken
+                'Authorization': `Bearer ${apiToken}`
               }
             }).get(`/api/v1/cautionary-alerts/properties/${propertyRef}`)
             .reply(404, { alerts: []});

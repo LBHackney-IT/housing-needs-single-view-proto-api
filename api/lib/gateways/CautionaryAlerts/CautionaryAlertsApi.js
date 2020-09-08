@@ -12,7 +12,7 @@ module.exports = options => {
         {
           method: 'GET',
           headers: {
-            'Authorization': apiToken //Use Lambda authoriser
+            'Authorization': `Bearer ${apiToken}` //Use Lambda authoriser
           },
           json: true
         }
@@ -31,7 +31,7 @@ module.exports = options => {
       const response = await rp(`${baseUrl}/api/v1/cautionary-alerts/people`, {
         method: 'GET',
         headers: {
-          'Authorization': apiToken //Use Lambda authoriser
+          'Authorization': `Bearer ${apiToken}` //Use Lambda authoriser
         },
         json: true,
         qs: {

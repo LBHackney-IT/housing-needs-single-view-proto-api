@@ -11,7 +11,7 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
     const mockRequest =
       nock(baseUrl, {
         reqHeaders: {
-          'Authorization': apiToken //Use lambda authoriser
+          'Authorization': `Bearer ${apiToken}`
         }
       }).get(`/api/v1/claim/${claimId}/person/${personRef}`)
         .reply(200, customer);
