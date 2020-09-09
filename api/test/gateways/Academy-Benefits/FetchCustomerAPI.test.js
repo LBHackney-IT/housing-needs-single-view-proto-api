@@ -8,13 +8,13 @@ describe('AcademyBenefitsFetchRecord gateway', () => {
   const createGateway = (customer, personRef, claimId) => {
     const baseUrl = 'https://test-domain.com';
     const apiToken = 'anbdabkd';
-    const mockRequest =
-      nock(baseUrl, {
-        reqHeaders: {
-          'Authorization': `Bearer ${apiToken}`
-        }
-      }).get(`/api/v1/claim/${claimId}/person/${personRef}`)
-        .reply(200, customer);
+
+    nock(baseUrl, {
+      reqheaders: {
+        'Authorization': `Bearer ${apiToken}`
+      }
+    }).get(`/api/v1/claim/${claimId}/person/${personRef}`)
+      .reply(200, customer);
 
     logger = {
       error: jest.fn((msg, err) => { })

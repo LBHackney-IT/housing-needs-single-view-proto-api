@@ -9,7 +9,7 @@ describe('AcademyBenefitsSearchGateway', () => {
 
   const mockRequest = (claimants, queryParams, nextCursor) => {
     nock(baseUrl, {
-      reqHeaders: {
+      reqheaders: {
         'Authorization': `Bearer ${apiToken}`
       }
     }).get('/api/v1/claimants')
@@ -19,7 +19,7 @@ describe('AcademyBenefitsSearchGateway', () => {
 
   const mockRequestError = () => {
     nock(baseUrl, {
-      reqHeaders: {
+      reqheaders: {
         'Authorization': `Bearer ${apiToken}`
       }
     }).get('/api/v1/claimants')

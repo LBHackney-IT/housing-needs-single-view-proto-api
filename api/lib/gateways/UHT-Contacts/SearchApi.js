@@ -5,6 +5,7 @@ module.exports = options => {
   const logger = options.logger;
   const apiKey = options.apiKey;
   const baseUrl = options.baseUrl;
+  const token = options.token;
   const buildSearchRecord = options.buildSearchRecord;
 
   const search = async queryParams => {
@@ -26,7 +27,8 @@ module.exports = options => {
     return await rp(`${baseUrl}/api/v1/households`, {
       method: 'GET',
       headers: {
-        'X-API-Key': apiKey
+        'X-API-Key': apiKey,
+        'Authorization': `Bearer ${token}`
       },
       json: true,
       qs: {
