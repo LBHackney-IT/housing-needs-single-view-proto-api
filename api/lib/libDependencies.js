@@ -76,6 +76,7 @@ const academyBenefitsSearchGateway = require('./gateways/Academy-Benefits/Search
 const uhtContactsSearchApi = require('./gateways/UHT-Contacts/SearchApi')({
   baseUrl: process.env.HOUSING_API_BASE_URL,
   apiKey: process.env.HOUSING_API_API_KEY,
+  token: process.env.HOUSING_API_TOKEN,
   buildSearchRecord,
   logger
 });

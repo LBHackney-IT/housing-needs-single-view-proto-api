@@ -6,6 +6,7 @@ describe('UHTContactsSearchAPIGateway', () => {
   let logger;
   const baseUrl = 'https://universal-housing.com';
   const apiKey = 'secret-secret-secret';
+  const token = 'very-secret-token';
   const fullApiResponse = {
     houseReference: '123',
     personNumber: 3,
@@ -33,8 +34,9 @@ describe('UHTContactsSearchAPIGateway', () => {
   }
   const mockRequest = (households, queryParams, nextCursor = '') => {
     nock(baseUrl, {
-      reqHeaders: {
-        'X-API-Key': apiKey
+      reqheaders: {
+        'X-API-Key': apiKey,
+        'Authorization': `Bearer ${token}`
       }
     }).get('/api/v1/households')
     .query({...queryParams, limit: 100})
@@ -42,8 +44,9 @@ describe('UHTContactsSearchAPIGateway', () => {
   }
   const mockRequestError = (queryParams) => {
     nock(baseUrl, {
-      reqHeaders: {
-        'X-API-Key': apiKey
+      reqheaders: {
+        'X-API-Key': apiKey,
+        'Authorization': `Bearer ${token}`
       }
     }).get('/api/v1/households')
     .query({...queryParams, limit: 100})
@@ -69,6 +72,7 @@ describe('UHTContactsSearchAPIGateway', () => {
       buildSearchRecord,
       baseUrl,
       apiKey,
+      token,
       logger
     });
   };
