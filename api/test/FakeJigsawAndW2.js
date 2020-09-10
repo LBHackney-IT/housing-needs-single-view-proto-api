@@ -17,8 +17,10 @@ app.get('/auth/login', (req, res) => {
 });
 
 app.post('/auth/login', (req, res) => {
-  res.setHeader('set-cookie', ['one;two']);
-  res.setHeader('location', 'accesstoken=accesstoken');
+  res.setHeader('set-cookie', [
+    'access_token=accesstoken; expires=Thu, 10 Sep 2020 10:22:52 GMT; path=/; secure; samesite=strict'
+  ]);
+  res.setHeader('location', '/');
 
   const body =
     '<!DOCTYPE html> <html> <body> <input name=__RequestVerificationToken value=token></body></html>';
