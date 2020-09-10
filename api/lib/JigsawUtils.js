@@ -50,14 +50,16 @@ const login = async function() {
       simple: false
     });
 
-    const matched = httpResponse.headers.location.match(/accesstoken=([^&]*)/);
-    if (matched) {
-      bearerToken = matched[1];
-      lastLogin = new Date();
-      return bearerToken;
-    } else {
-      throw 'Could not get auth token';
+    for (const header of httpResponse.headers['set-cookie']) {
+      const matched = header.match(/access_token=([^;]*)/);
+      if (matched) {
+        bearerToken = matched[1];
+        lastLogin = new Date();
+        return bearerToken;
+      }
     }
+
+    throw 'Could not get auth token';
   }
 };
 
