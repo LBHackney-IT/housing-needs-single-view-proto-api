@@ -2,6 +2,9 @@ const FetchContacts = require('../../../lib/gateways/MaT-Service-API/FetchContac
 const nock = require('nock');
 
 describe('MaT-Service-API FetchContacts gateway', () => {
+  const uprn = '12345678901';
+  const data = { contacts: [{ contactId: 1 }] };
+
   const createGateway = (response, uprn) => {
     const baseUrl = 'https://test-domain.com';
     const apiToken = 'anbdabkd';
@@ -21,19 +24,15 @@ describe('MaT-Service-API FetchContacts gateway', () => {
   };
 
   it('queries the API with appropriate ids', async () => {
-    const uprn = '12345678901';
-    const gateway = createGateway(null, uprn);
+    const gateway = createGateway(data, uprn);
     await gateway.execute(uprn);
     expect(nock.isDone()).toBe(true);
   });
 
   it('returns the data from the API', async () => {
-    const uprn = '12345678901';
-    const data = 'dummyData';
-
     const gateway = createGateway(data, uprn);
 
     const response = await gateway.execute(uprn);
-    expect(response).toEqual(data);
+    expect(response).toEqual(data.contacts);
   });
 });

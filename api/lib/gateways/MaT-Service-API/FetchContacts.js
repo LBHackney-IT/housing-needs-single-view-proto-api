@@ -12,6 +12,8 @@ module.exports = options => {
           Authorization: `Bearer ${apiToken}`
         },
         json: true
+      }).then(response => {
+        return response.contacts;
       });
     }
   };

@@ -1,9 +1,18 @@
 describe('FetchTenancy', () => {
   let fetchTenancyGateway;
-  let fetchTenantsGateway;
+  let matServiceFetchContactsGateway;
+  let dummyContactsGatewayResponse;
+  let dummyTenancyGatewayResponse;
 
-  const dummyTenantsGatewayResponse = {
-    tenants: [
+  beforeEach(() => {
+    dummyTenancyGatewayResponse = {
+      id: '123456/1',
+      address: '12 Hill Street N16 5TT',
+      type: 'Secure',
+      startDate: '1992-06-13',
+      uprn: '123456'
+    };
+    dummyContactsGatewayResponse = [
       {
         title: 'Mrs',
         forename: 'Joan',
@@ -14,30 +23,18 @@ describe('FetchTenancy', () => {
         workNum: '02012345678',
         email: 'mjf@email.com'
       }
-    ]
-  };
-
-  const dummyTenancyGatewayResponse = {
-    tenancy: {
-      id: '123456/1',
-      address: '12 Hill Street N16 5TT',
-      type: 'Secure',
-      startDate: '1992-06-13',
-      dummyTenantsGatewayResponse
-    }
-  };
-  beforeEach(() => {
+    ];
     fetchTenancyGateway = {
       execute: jest.fn(() => dummyTenancyGatewayResponse)
     };
 
-    fetchTenantsGateway = {
-      execute: jest.fn(() => dummyTenantsGatewayResponse)
+    matServiceFetchContactsGateway = {
+      execute: jest.fn(() => dummyContactsGatewayResponse)
     };
 
     fetchTenancy = require('../../lib/use-cases/FetchTenancy')({
       fetchTenancyGateway,
-      fetchTenantsGateway
+      matServiceFetchContactsGateway
     });
   });
 
@@ -51,13 +48,15 @@ describe('FetchTenancy', () => {
     expect(result).toBe(dummyTenancyGatewayResponse);
   });
 
-  it('can fetch tenants from the Tenants Gateway and return it', async () => {
+  it('can fetch contacts from the MaT Service API Gateway and return them', async () => {
     const id = 1;
     const token = 'abc';
 
     const result = await fetchTenancy(id, token);
 
-    expect(fetchTenantsGateway.execute).toHaveBeenCalledWith(id, token);
-    expect(result.tenants).toBe(dummyTenantsGatewayResponse);
+    expect(matServiceFetchContactsGateway.execute).toHaveBeenCalledWith(
+      dummyTenancyGatewayResponse.uprn
+    );
+    expect(result.contacts).toBe(dummyContactsGatewayResponse);
   });
 });
