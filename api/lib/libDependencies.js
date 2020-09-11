@@ -205,6 +205,13 @@ const jigsawFetchRecordsGateway = require('./gateways/Jigsaw/FetchRecord')({
   logger
 });
 
+const matServiceFetchContactsGateway = require('./gateways/MaT-Service-API/FetchContacts')(
+  {
+    baseUrl: process.env.MAT_SERVICE_API_BASE_URL,
+    apiToken: process.env.MAT_SERVICE_API_TOKEN
+  }
+);
+
 /*const cautionaryAlertsGateway = require('../../../lib/gateways/CautionaryAlerts/CautionaryAlertsApi')(
   {
     logger: logger,
@@ -273,13 +280,6 @@ const vulnerabilities = new VulnerabilitiesApi({
 });
 
 const uhtFetchTenancyGateway = require('./gateways/UHT-Tenancies/FetchTenancy')(
-  {
-    db: uhtDb,
-    logger
-  }
-);
-
-const uhtFetchTenantsGateway = require('./gateways/UHT-Tenancies/FetchTenants')(
   {
     db: uhtDb,
     logger
@@ -386,7 +386,7 @@ const findVulnerabilitySnapshots = require('./use-cases/FindVulnerabilitySnapsho
 
 const fetchTenancy = require('./use-cases/FetchTenancy')({
   fetchTenancyGateway: uhtFetchTenancyGateway,
-  fetchTenantsGateway: uhtFetchTenantsGateway
+  matServiceFetchContactsGateway
 });
 
 const searchTenancies = require('./use-cases/SearchTenancies')({
@@ -406,5 +406,5 @@ module.exports = {
   createVulnerabilitySnapshot,
   findVulnerabilitySnapshots,
   fetchTenancy,
-  searchTenancies,
+  searchTenancies
 };

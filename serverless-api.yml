@@ -63,13 +63,15 @@ functions:
       VULNERABILITIES_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/VULNERABILITIES_BASE_URL}
       ACADEMY_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_BASE_URL}
       ACADEMY_API_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/ACADEMY_API_API_TOKEN}
-      HOUSING_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_BASE_URL}     
+      HOUSING_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_BASE_URL}
       HOUSING_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_TOKEN}
       HOUSING_API_API_KEY: ${ssm:/hn-single-view-api/${self:provider.stage}/HOUSING_API_API_KEY}
       CAUTIONARY_ALERTS_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_BASE_URL}
       CAUTIONARY_ALERTS_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/CAUTIONARY_ALERTS_API_TOKEN}
       TENANCY_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/TENANCY_API_BASE_URL}
       TENANCY_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/TENANCY_API_TOKEN}
+      MAT_SERVICE_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/MAT_SERVICE_API_BASE_URL}
+      MAT_SERVICE_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/MAT_SERVICE_API_TOKEN}
 
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
@@ -82,7 +84,7 @@ functions:
     environment:
       jwtsecret: ${ssm:/common/hackney-jwt-secret}
       allowedGroups:
-        "Fn::Join":
+        'Fn::Join':
           - ','
           - ${self:custom.allowedGroups.${self:provider.stage}}
       ENV: ${self:provider.stage}
