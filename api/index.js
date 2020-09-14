@@ -16,7 +16,7 @@ const {
   createVulnerabilitySnapshot,
   findVulnerabilitySnapshots,
   fetchTenancy,
-  searchTenancies,
+  searchTenancies
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -201,6 +201,7 @@ app.get('/tenancies/:id', async (req, res, next) => {
     return res.send({ tenancy });
   } catch (err) {
     console.log('get-tenancy', { error: err });
+    next(err);
   }
 });
 
