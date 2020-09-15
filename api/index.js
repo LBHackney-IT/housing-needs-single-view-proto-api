@@ -16,7 +16,8 @@ const {
   createVulnerabilitySnapshot,
   findVulnerabilitySnapshots,
   fetchTenancy,
-  searchTenancies
+  searchTenancies,
+  fetchCautionaryAlerts
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -217,6 +218,25 @@ app.get('/tenancies', async (req, res, next) => {
     return res.send({ tenancies });
   } catch (err) {
     console.log('search-tenancies', { error: err });
+    next(err);
+  }
+});
+
+app.get('/tenancies/:tag_ref/:person_no/alerts', async (req, res, next) => {
+  try {
+    console.log('search-cautionary-alerts', { query: req.query });
+    console.time('search-cautionary-alerts', { query: req.query });
+
+    const contacts = await fetchCautionaryAlerts(
+      req.params.tag_ref,
+      req.params.person_no
+    );
+
+    console.timeEnd('search-cautionary-alerts');
+
+    return res.send(contacts);
+  } catch (err) {
+    console.log('search-cautionary-alerts', { error: err });
     next(err);
   }
 });
