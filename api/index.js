@@ -197,9 +197,13 @@ app.get('/tenancies/:id', async (req, res, next) => {
 
     const tenancy = await fetchTenancy(tenancyId, res.locals.hackneyToken);
 
+    const alerts = await fetchCautionaryAlerts(
+      tenancyId.split('/')[0],
+      parseInt(tenancyId.split('/')[1])
+    );
     console.timeEnd('get-tenancy');
 
-    return res.send({ tenancy });
+    return res.send({ tenancy, alerts });
   } catch (err) {
     console.log('get-tenancy', { error: err });
     next(err);
@@ -218,25 +222,6 @@ app.get('/tenancies', async (req, res, next) => {
     return res.send({ tenancies });
   } catch (err) {
     console.log('search-tenancies', { error: err });
-    next(err);
-  }
-});
-
-app.get('/tenancies/:tag_ref/:person_no/alerts', async (req, res, next) => {
-  try {
-    console.log('search-cautionary-alerts', { query: req.query });
-    console.time('search-cautionary-alerts', { query: req.query });
-
-    const contacts = await fetchCautionaryAlerts(
-      req.params.tag_ref,
-      req.params.person_no
-    );
-
-    console.timeEnd('search-cautionary-alerts');
-
-    return res.send(contacts);
-  } catch (err) {
-    console.log('search-cautionary-alerts', { error: err });
     next(err);
   }
 });
