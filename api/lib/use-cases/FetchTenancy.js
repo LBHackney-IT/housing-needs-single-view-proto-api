@@ -1,8 +1,8 @@
 module.exports = options => {
   const fetchTenancyGateway = options.fetchTenancyGateway;
   const fetchTenantsGateway = options.fetchTenantsGateway;
-
   const matServiceFetchContactsGateway = options.matServiceFetchContactsGateway;
+  const matServiceFetchTasksGateway = options.matServiceFetchTasksGateway;
 
   return async (id, token) => {
     const tenancy = await fetchTenancyGateway.execute(id, token);
@@ -29,6 +29,9 @@ module.exports = options => {
 
     tenancy.contacts = mergedContacts;
 
+    const tasks = await matServiceFetchTasksGateway.execute(id);
+
+    tenancy.tasks = tasks;
     return tenancy;
   };
 };
