@@ -279,6 +279,13 @@ const vulnerabilities = new VulnerabilitiesApi({
   baseUrl: process.env.VULNERABILITIES_BASE_URL
 });
 
+const uhtFetchTenantsGateway = require('./gateways/UHT-Tenancies/FetchTenants')(
+  {
+    db: uhtDb,
+    logger
+  }
+);
+
 const uhtFetchTenancyGateway = require('./gateways/UHT-Tenancies/FetchTenancy')(
   {
     db: uhtDb,
@@ -386,7 +393,8 @@ const findVulnerabilitySnapshots = require('./use-cases/FindVulnerabilitySnapsho
 
 const fetchTenancy = require('./use-cases/FetchTenancy')({
   fetchTenancyGateway: uhtFetchTenancyGateway,
-  matServiceFetchContactsGateway
+  matServiceFetchContactsGateway,
+  fetchTenantsGateway: uhtFetchTenantsGateway
 });
 
 const searchTenancies = require('./use-cases/SearchTenancies')({

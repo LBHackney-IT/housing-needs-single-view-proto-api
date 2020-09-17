@@ -195,15 +195,22 @@ app.get('/tenancies/:id', async (req, res, next) => {
     console.time('get-tenancy');
     console.log('get-tenancy', { params: req.params });
 
-    const tenancy = await fetchTenancy(tenancyId, res.locals.hackneyToken);
+    let tenancy = await fetchTenancy(tenancyId, res.locals.hackneyToken);
 
-    const alerts = await fetchCautionaryAlerts(
-      tenancyId.split('/')[0],
-      parseInt(tenancyId.split('/')[1])
-    );
+    const mergedContacts = tenancy.contacts.map(async contact => {
+      const alerts = await fetchCautionaryAlerts(
+        tenancyId.split('/')[0],
+        contact.personNo
+      );
+      return { ...contact, alerts: alerts.contacts[0].alerts };
+    });
+    const resolvedContacts = await Promise.all(mergedContacts);
+
+    tenancy.contacts = resolvedContacts;
+
     console.timeEnd('get-tenancy');
 
-    return res.send({ tenancy, alerts });
+    return res.send({ tenancy });
   } catch (err) {
     console.log('get-tenancy', { error: err });
     next(err);
