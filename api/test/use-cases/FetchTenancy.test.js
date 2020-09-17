@@ -15,17 +15,35 @@ describe('FetchTenancy', () => {
     dummyContactsGatewayResponse = [
       {
         title: 'Mrs',
-        forename: 'Joan',
-        surname: 'Fisher',
-        dob: '1970-02-30',
+        firstName: 'Joan',
+        lastName: 'Fisher',
+        dateOfBirth: '1970-02-30',
         mobileNum: '07777123456',
         homeNum: '02088881234',
         workNum: '02012345678',
-        email: 'mjf@email.com'
+        emailAddress: 'mjf@email.com'
+      }
+    ];
+    dummyTenantsGatewayResponse = [
+      {
+        personNo: 1,
+        responsible: true,
+        relationship: 'relationship',
+        title: 'Mrs',
+        firstName: 'Joan',
+        lastName: 'Fisher',
+        dateOfBirth: '1970-02-30',
+        telephone1: '07777123456',
+        telephone2: '02088881234',
+        telephone3: '02012345678',
+        emailAddress: 'mjf@email.com'
       }
     ];
     fetchTenancyGateway = {
       execute: jest.fn(() => dummyTenancyGatewayResponse)
+    };
+    fetchTenantsGateway = {
+      execute: jest.fn(() => dummyTenantsGatewayResponse)
     };
 
     matServiceFetchContactsGateway = {
@@ -34,8 +52,25 @@ describe('FetchTenancy', () => {
 
     fetchTenancy = require('../../lib/use-cases/FetchTenancy')({
       fetchTenancyGateway,
-      matServiceFetchContactsGateway
+      matServiceFetchContactsGateway,
+      fetchTenantsGateway
     });
+
+    mergedResponse = [
+      {
+        personNo: 1,
+        relationship: 'relationship',
+        responsible: true,
+        title: 'Mrs',
+        firstName: 'Joan',
+        lastName: 'Fisher',
+        dateOfBirth: '1970-02-30',
+        telephone1: '07777123456',
+        telephone2: '02088881234',
+        telephone3: '02012345678',
+        emailAddress: 'mjf@email.com'
+      }
+    ];
   });
 
   it('can fetch a tenancy from the Tenancy Gateway and return it', async () => {
@@ -57,6 +92,6 @@ describe('FetchTenancy', () => {
     expect(matServiceFetchContactsGateway.execute).toHaveBeenCalledWith(
       dummyTenancyGatewayResponse.uprn
     );
-    expect(result.contacts).toBe(dummyContactsGatewayResponse);
+    expect(result.contacts).toStrictEqual(mergedResponse);
   });
 });
