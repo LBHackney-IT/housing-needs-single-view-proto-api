@@ -16,6 +16,7 @@ const {
   createVulnerabilitySnapshot,
   findVulnerabilitySnapshots,
   fetchTenancy,
+  fetchAreaPatch,
   searchTenancies
 } = require('./lib/libDependencies');
 
@@ -195,10 +196,11 @@ app.get('/tenancies/:id', async (req, res, next) => {
     console.log('get-tenancy', { params: req.params });
 
     const tenancy = await fetchTenancy(tenancyId, res.locals.hackneyToken);
+    const areaPatch = await fetchAreaPatch(tenancy.uprn, tenancy.postcode);
 
     console.timeEnd('get-tenancy');
 
-    return res.send({ tenancy });
+    return res.send({ tenancy, areaPatch });
   } catch (err) {
     console.log('get-tenancy', { error: err });
     next(err);
