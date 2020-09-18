@@ -26,12 +26,11 @@ module.exports = options => {
       });
       return tenant;
     });
-
     tenancy.contacts = mergedContacts;
 
     const tasks = await matServiceFetchTasksGateway.execute(id);
-
     tenancy.tasks = tasks;
+
     return tenancy;
   };
 };
