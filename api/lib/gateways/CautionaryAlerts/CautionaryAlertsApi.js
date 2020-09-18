@@ -41,7 +41,7 @@ module.exports = options => {
       });
       return response;
     } catch (err) {
-      if (!(err.statusCode === 404)) {
+      if (err.statusCode !== 404) {
         logger.error(`Error getting cautionary alerts for people: ${err}`, err);
       }
       return {
