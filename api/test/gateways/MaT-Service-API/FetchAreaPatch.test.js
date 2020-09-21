@@ -3,7 +3,6 @@ const nock = require('nock');
 
 describe('MaT-Service-API FetchAreaPatch gateway', () => {
   const uprn = '12345678901';
-  const postcode = 'A1RTY';
   const data = {
     patch: {
       patchCode: 'some patch code',
@@ -13,7 +12,7 @@ describe('MaT-Service-API FetchAreaPatch gateway', () => {
     }
   };
 
-  const createGateway = (response, uprn, postcode) => {
+  const createGateway = (response, uprn) => {
     const baseUrl = 'https://test-domain.com';
     const apiToken = 'anbdabkd';
 
@@ -22,7 +21,7 @@ describe('MaT-Service-API FetchAreaPatch gateway', () => {
         Authorization: `Bearer ${apiToken}`
       }
     })
-      .get(`/api/properties/${uprn}/patch?${postcode}`)
+      .get(`/api/properties/${uprn}/patch`)
       .reply(200, response);
 
     return FetchAreaPatch({
@@ -32,15 +31,15 @@ describe('MaT-Service-API FetchAreaPatch gateway', () => {
   };
 
   it('queries the API with appropriate parameters', async () => {
-    const gateway = createGateway(data, uprn, postcode);
-    await gateway.execute(uprn, postcode);
+    const gateway = createGateway(data, uprn);
+    await gateway.execute(uprn);
     expect(nock.isDone()).toBe(true);
   });
 
   it('returns the data from the API', async () => {
-    const gateway = createGateway(data, uprn, postcode);
+    const gateway = createGateway(data, uprn);
 
-    const response = await gateway.execute(uprn, postcode);
+    const response = await gateway.execute(uprn);
     expect(response).toEqual(data);
   });
 });

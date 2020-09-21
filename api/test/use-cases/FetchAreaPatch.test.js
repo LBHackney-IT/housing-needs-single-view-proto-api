@@ -17,14 +17,10 @@ describe('FetchAreaPatch', () => {
 
   it('can fetch area patch from the MaT Service API Gateway and return it', async () => {
     const uprn = 12345678910;
-    const postcode = 'A1TYU';
 
-    const result = await fetchAreaPatch(uprn, postcode);
+    const result = await fetchAreaPatch(uprn);
 
-    expect(matServiceFetchAreaPatchGateway.execute).toHaveBeenCalledWith(
-      uprn,
-      postcode
-    );
+    expect(matServiceFetchAreaPatchGateway.execute).toHaveBeenCalledWith(uprn);
     expect(result).toBe(gatewayResponse);
   });
 });

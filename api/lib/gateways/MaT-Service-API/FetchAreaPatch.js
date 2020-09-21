@@ -5,8 +5,8 @@ module.exports = options => {
   const apiToken = options.apiToken;
 
   return {
-    execute: async (uprn, postcode) => {
-      return await rp(`${baseUrl}/api/properties/${uprn}/patch?${postcode}`, {
+    execute: async uprn => {
+      return await rp(`${baseUrl}/api/properties/${uprn}/patch`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${apiToken}`

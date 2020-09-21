@@ -197,7 +197,7 @@ app.get('/tenancies/:id', async (req, res, next) => {
     console.log('get-tenancy', { params: req.params });
 
     const tenancy = await fetchTenancy(tenancyId, res.locals.hackneyToken);
-    const areaPatch = await fetchAreaPatch(tenancy.uprn, tenancy.postcode);
+    const areaPatch = await fetchAreaPatch(tenancy.uprn);
 
     tenancy.areaPatch = areaPatch;
 
