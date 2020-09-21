@@ -17,7 +17,7 @@ const {
   findVulnerabilitySnapshots,
   fetchTenancy,
   fetchAreaPatch,
-  fetchCautionaryAlerts
+  fetchCautionaryAlerts,
   searchTenancies
 } = require('./lib/libDependencies');
 

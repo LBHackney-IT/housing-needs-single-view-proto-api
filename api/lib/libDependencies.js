@@ -431,6 +431,6 @@ module.exports = {
   findVulnerabilitySnapshots,
   fetchTenancy,
   fetchAreaPatch,
-  searchTenancies
+  searchTenancies,
   fetchCautionaryAlerts
 };
