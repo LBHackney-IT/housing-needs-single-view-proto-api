@@ -12,7 +12,7 @@ module.exports = options => {
         {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${apiToken}` //Use Lambda authoriser
+            Authorization: `Bearer ${apiToken}` //Use Lambda authoriser
           },
           json: true
         }
@@ -31,7 +31,7 @@ module.exports = options => {
       const response = await rp(`${baseUrl}/api/v1/cautionary-alerts/people`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${apiToken}` //Use Lambda authoriser
+          Authorization: `Bearer ${apiToken}` //Use Lambda authoriser
         },
         json: true,
         qs: {
@@ -41,9 +41,11 @@ module.exports = options => {
       });
       return response;
     } catch (err) {
-      logger.error(`Error getting cautionary alerts for people: ${err}`, err);
+      if (err.statusCode !== 404) {
+        logger.error(`Error getting cautionary alerts for people: ${err}`, err);
+      }
       return {
-        contacts: []
+        contacts: [{ alerts: [] }]
       };
     }
   };

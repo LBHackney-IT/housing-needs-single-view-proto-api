@@ -16,8 +16,9 @@ const {
   createVulnerabilitySnapshot,
   findVulnerabilitySnapshots,
   fetchTenancy,
-  searchTenancies,
-  fetchCautionaryAlerts
+  fetchAreaPatch,
+  fetchCautionaryAlerts,
+  searchTenancies
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -195,7 +196,10 @@ app.get('/tenancies/:id', async (req, res, next) => {
     console.time('get-tenancy');
     console.log('get-tenancy', { params: req.params });
 
-    let tenancy = await fetchTenancy(tenancyId, res.locals.hackneyToken);
+    const tenancy = await fetchTenancy(tenancyId, res.locals.hackneyToken);
+    const areaPatch = await fetchAreaPatch(tenancy.uprn);
+
+    tenancy.areaPatch = areaPatch;
 
     const mergedContacts = tenancy.contacts.map(async contact => {
       const alerts = await fetchCautionaryAlerts(
