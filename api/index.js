@@ -199,6 +199,8 @@ app.get('/tenancies/:id', async (req, res, next) => {
     const tenancy = await fetchTenancy(tenancyId, res.locals.hackneyToken);
     const areaPatch = await fetchAreaPatch(tenancy.uprn, tenancy.postcode);
 
+    tenancy.areaPatch = areaPatch;
+
     const mergedContacts = tenancy.contacts.map(async contact => {
       const alerts = await fetchCautionaryAlerts(
         tenancyId.split('/')[0],
@@ -212,7 +214,7 @@ app.get('/tenancies/:id', async (req, res, next) => {
 
     console.timeEnd('get-tenancy');
 
-    return res.send({ tenancy, areaPatch });
+    return res.send({ tenancy });
   } catch (err) {
     console.log('get-tenancy', { error: err });
     next(err);
