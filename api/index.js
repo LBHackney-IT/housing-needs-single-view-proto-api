@@ -17,6 +17,7 @@ const {
   findVulnerabilitySnapshots,
   fetchTenancy,
   fetchAreaPatch,
+  fetchCautionaryAlerts
   searchTenancies
 } = require('./lib/libDependencies');
 
@@ -197,6 +198,17 @@ app.get('/tenancies/:id', async (req, res, next) => {
 
     const tenancy = await fetchTenancy(tenancyId, res.locals.hackneyToken);
     const areaPatch = await fetchAreaPatch(tenancy.uprn, tenancy.postcode);
+
+    const mergedContacts = tenancy.contacts.map(async contact => {
+      const alerts = await fetchCautionaryAlerts(
+        tenancyId.split('/')[0],
+        contact.personNo
+      );
+      return { ...contact, alerts: alerts.contacts[0].alerts };
+    });
+    const resolvedContacts = await Promise.all(mergedContacts);
+
+    tenancy.contacts = resolvedContacts;
 
     console.timeEnd('get-tenancy');
 

@@ -219,13 +219,13 @@ const matServiceFetchAreaPatchGateway = require('./gateways/MaT-Service-API/Fetc
   }
 );
 
-/*const cautionaryAlertsGateway = require('../../../lib/gateways/CautionaryAlerts/CautionaryAlertsApi')(
+const cautionaryAlertsGateway = require('./gateways/CautionaryAlerts/CautionaryAlertsApi')(
   {
     logger: logger,
     baseUrl: process.env.CAUTIONARY_ALERTS_BASE_URL,
     apiToken: process.env.CAUTIONARY_ALERTS_API_TOKEN //Lambda authoriser token
   }
-);*/
+);
 
 // NOTES GATEWAYS
 
@@ -285,6 +285,13 @@ const VulnerabilitiesApi = require('./gateways/Vulnerabilities/VulnerabilitiesAp
 const vulnerabilities = new VulnerabilitiesApi({
   baseUrl: process.env.VULNERABILITIES_BASE_URL
 });
+
+const uhtFetchTenantsGateway = require('./gateways/UHT-Tenancies/FetchTenants')(
+  {
+    db: uhtDb,
+    logger
+  }
+);
 
 const uhtFetchTenancyGateway = require('./gateways/UHT-Tenancies/FetchTenancy')(
   {
@@ -393,7 +400,8 @@ const findVulnerabilitySnapshots = require('./use-cases/FindVulnerabilitySnapsho
 
 const fetchTenancy = require('./use-cases/FetchTenancy')({
   fetchTenancyGateway: uhtFetchTenancyGateway,
-  matServiceFetchContactsGateway
+  matServiceFetchContactsGateway,
+  fetchTenantsGateway: uhtFetchTenantsGateway
 });
 
 const fetchAreaPatch = require('./use-cases/FetchAreaPatch')({
@@ -403,6 +411,10 @@ const fetchAreaPatch = require('./use-cases/FetchAreaPatch')({
 
 const searchTenancies = require('./use-cases/SearchTenancies')({
   gateway: tenanciesApi
+});
+
+const fetchCautionaryAlerts = require('./use-cases/FetchCautionaryAlerts')({
+  cautionaryAlertsGateway
 });
 
 module.exports = {
@@ -420,4 +432,5 @@ module.exports = {
   fetchTenancy,
   fetchAreaPatch,
   searchTenancies
+  fetchCautionaryAlerts
 };
