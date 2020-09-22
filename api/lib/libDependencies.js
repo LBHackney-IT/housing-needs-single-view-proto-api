@@ -219,6 +219,12 @@ const matServiceFetchAreaPatchGateway = require('./gateways/MaT-Service-API/Fetc
   }
 );
 
+const matServiceFetchTasksGateway = require('./gateways/MaT-Service-API/FetchTasks')(
+  {
+    baseUrl: process.env.MAT_SERVICE_API_BASE_URL,
+    apiToken: process.env.MAT_SERVICE_API_TOKEN
+  }
+);
 const cautionaryAlertsGateway = require('./gateways/CautionaryAlerts/CautionaryAlertsApi')(
   {
     logger: logger,
@@ -401,7 +407,8 @@ const findVulnerabilitySnapshots = require('./use-cases/FindVulnerabilitySnapsho
 const fetchTenancy = require('./use-cases/FetchTenancy')({
   fetchTenancyGateway: uhtFetchTenancyGateway,
   matServiceFetchContactsGateway,
-  fetchTenantsGateway: uhtFetchTenantsGateway
+  fetchTenantsGateway: uhtFetchTenantsGateway,
+  matServiceFetchTasksGateway
 });
 
 const fetchAreaPatch = require('./use-cases/FetchAreaPatch')({
