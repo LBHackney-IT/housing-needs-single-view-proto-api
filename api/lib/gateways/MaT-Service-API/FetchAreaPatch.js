@@ -9,7 +9,7 @@ module.exports = options => {
       return await rp(`${baseUrl}/api/properties/${uprn}/patch`, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${apiToken}`
+          Cookie: `hackneyToken=${apiToken};`
         },
         json: true
       }).then(response => {

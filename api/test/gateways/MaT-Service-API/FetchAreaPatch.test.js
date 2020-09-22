@@ -18,7 +18,7 @@ describe('MaT-Service-API FetchAreaPatch gateway', () => {
 
     nock(baseUrl, {
       reqheaders: {
-        Authorization: `Bearer ${apiToken}`
+        Cookie: `hackneyToken=${apiToken};`
       }
     })
       .get(`/api/properties/${uprn}/patch`)

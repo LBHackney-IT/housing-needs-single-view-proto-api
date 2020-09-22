@@ -9,7 +9,7 @@ module.exports = options => {
       return await rp(`${baseUrl}/api/contacts?uprn=${uprn}`, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${apiToken}`
+          Cookie: `hackneyToken=${apiToken};`
         },
         json: true
       }).then(response => {
