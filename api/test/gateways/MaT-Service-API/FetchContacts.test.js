@@ -11,7 +11,7 @@ describe('MaT-Service-API FetchContacts gateway', () => {
 
     nock(baseUrl, {
       reqheaders: {
-        Authorization: `Bearer ${apiToken}`
+        Cookie: `hackneyToken=${apiToken};`
       }
     })
       .get(`/api/contacts?uprn=${uprn}`)
