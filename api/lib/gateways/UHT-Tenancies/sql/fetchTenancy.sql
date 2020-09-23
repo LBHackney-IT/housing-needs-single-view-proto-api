@@ -4,6 +4,7 @@ SELECT
   t.eot,
   t.u_rent_patch as ic_patch,
   t.tenure,
+  t.u_saff_rentacc,
   p.address1,
   p.post_code,
   p.u_llpg_ref as uprn

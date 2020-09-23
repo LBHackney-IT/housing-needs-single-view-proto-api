@@ -24,7 +24,8 @@ module.exports = options => {
       startDate: results.cot,
       endDate: results.eot,
       incomeCollectionPatch: results.ic_patch,
-      uprn: checkString(results.uprn)
+      uprn: checkString(results.uprn),
+      paymentRef: checkString(results.u_saff_rentacc)
     };
   };
 
