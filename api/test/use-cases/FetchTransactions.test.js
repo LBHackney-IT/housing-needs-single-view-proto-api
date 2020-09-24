@@ -9,18 +9,18 @@ describe('FetchTransactions', () => {
     postCode: 'AB1QWE'
   };
 
-  const dummyTransactionsGatewayResponse = {
+  const dummyTransactionsGatewayCleanDataResponse = {
     request: {
       paymentRef: '0000000001',
       postCode: 'AB1QWE'
     },
     transactions: [
       {
-        date: '2019-10-02T00:00:00',
+        date: '02/10/2019',
         description: 'Total Charge',
         in: '',
-        out: '(¤104.10)',
-        balance: '¤66.78'
+        out: '-£104.10',
+        balance: '-£66.78'
       }
     ]
   };
@@ -30,7 +30,8 @@ describe('FetchTransactions', () => {
   };
 
   const mraApiFetchTransactionsGateway = {
-    execute: jest.fn(() => dummyTransactionsGatewayResponse)
+    execute: jest.fn(),
+    cleanData: jest.fn(() => dummyTransactionsGatewayCleanDataResponse)
   };
 
   const fetchTransactions = require('../../lib/use-cases/FetchTransactions')({
@@ -48,6 +49,6 @@ describe('FetchTransactions', () => {
       tenancyResult.paymentRef,
       tenancyResult.postCode
     );
-    expect(result).toBe(dummyTransactionsGatewayResponse);
+    expect(result).toBe(dummyTransactionsGatewayCleanDataResponse);
   });
 });

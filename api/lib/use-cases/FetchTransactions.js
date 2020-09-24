@@ -9,6 +9,10 @@ module.exports = options => {
       tenancy.postCode
     );
 
-    return tenancyTransactions;
+    const transactions = mraApiFetchTransactionsGateway.cleanData(
+      tenancyTransactions
+    );
+
+    return transactions;
   };
 };
