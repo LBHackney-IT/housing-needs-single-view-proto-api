@@ -312,6 +312,14 @@ const tenanciesApi = require('./gateways/Tenancies/TenanciesApi')({
   logger
 });
 
+const mraApiFetchTransactionsGateway = require('./gateways/MRA-API/FetchTransactions')(
+  {
+    baseUrl: process.env.MRA_API_BASE_URL,
+    apiToken: process.env.MRA_API_TOKEN,
+    logger
+  }
+);
+
 // USECASES
 
 const customerSearch = require('./use-cases/CustomerSearch')({
@@ -416,6 +424,11 @@ const fetchAreaPatch = require('./use-cases/FetchAreaPatch')({
   matServiceFetchAreaPatchGateway
 });
 
+const fetchTransactions = require('./use-cases/FetchTransactions')({
+  mraApiFetchTransactionsGateway,
+  fetchTenancyGateway: uhtFetchTenancyGateway
+});
+
 const searchTenancies = require('./use-cases/SearchTenancies')({
   gateway: tenanciesApi
 });
@@ -439,5 +452,6 @@ module.exports = {
   fetchTenancy,
   fetchAreaPatch,
   searchTenancies,
-  fetchCautionaryAlerts
+  fetchCautionaryAlerts,
+  fetchTransactions
 };

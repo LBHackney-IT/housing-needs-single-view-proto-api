@@ -18,7 +18,8 @@ const {
   fetchTenancy,
   fetchAreaPatch,
   fetchCautionaryAlerts,
-  searchTenancies
+  searchTenancies,
+  fetchTransactions
 } = require('./lib/libDependencies');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
@@ -217,6 +218,23 @@ app.get('/tenancies/:id', async (req, res, next) => {
     return res.send({ tenancy });
   } catch (err) {
     console.log('get-tenancy', { error: err });
+    next(err);
+  }
+});
+
+app.get('/tenancies/:id/transactions', async (req, res, next) => {
+  const tenancyId = req.params.id.replace('-', '/');
+  try {
+    console.time('get-transactions');
+    console.log('get-transactions', { params: req.params });
+
+    const transactions = await fetchTransactions(tenancyId);
+
+    console.timeEnd('get-transactions');
+
+    return res.send({ transactions });
+  } catch (err) {
+    console.log('get-transactions', { error: err });
     next(err);
   }
 });
