@@ -73,7 +73,7 @@ functions:
       MAT_SERVICE_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/MAT_SERVICE_API_BASE_URL}
       MAT_SERVICE_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/MAT_SERVICE_API_TOKEN}
       MRA_API_BASE_URL: ${ssm:/hn-single-view-api/${self:provider.stage}/MRA_API_BASE_URL}
-      MRA_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/MRA_API_TOKEN}~true
+      MRA_API_TOKEN: ${ssm:/hn-single-view-api/${self:provider.stage}/MRA_API_TOKEN~true}
 
   hn-single-view-api-authorizer:
     name: hn-single-view-api-authorizer-${self:provider.stage}
