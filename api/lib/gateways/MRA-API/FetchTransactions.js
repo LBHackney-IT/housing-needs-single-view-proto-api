@@ -42,14 +42,6 @@ module.exports = options => {
           transaction.balance = transaction.balance.replace('(', '-');
           transaction.balance = transaction.balance.replace('¤', '£');
           transaction.balance = transaction.balance.replace(')', '');
-          if (transaction.balance.charAt(0) === '-') {
-            transaction.balance = transaction.balance.replace('-', '');
-          } else {
-            transaction.balance =
-              transaction.balance.slice(0, 0) +
-              '-' +
-              transaction.balance.slice(0);
-          }
         }
       });
       return data;
