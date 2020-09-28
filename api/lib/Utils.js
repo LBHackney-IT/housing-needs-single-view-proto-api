@@ -47,6 +47,16 @@ let Utils = {
     return input;
   },
 
+  cleanContacts(contacts) {
+    const date = new Date('1900-01-01T00:00:00.000Z');
+    contacts.forEach(contact => {
+      if (contact.dateOfBirth && `${contact.dateOfBirth}` == date) {
+        contact.dateOfBirth = undefined;
+      }
+    });
+    return contacts;
+  },
+
   upperCase(input) {
     input = Utils.checkString(input);
     if (!input) return null;

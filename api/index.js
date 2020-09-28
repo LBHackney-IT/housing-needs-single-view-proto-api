@@ -21,6 +21,7 @@ const {
   searchTenancies,
   fetchTransactions
 } = require('./lib/libDependencies');
+const { cleanContacts } = require('./lib/Utils');
 
 if (process.env.ENV === 'staging' || process.env.ENV === 'production') {
   app.use(Sentry.Handlers.requestHandler());
@@ -210,8 +211,7 @@ app.get('/tenancies/:id', async (req, res, next) => {
       return { ...contact, alerts: alerts.contacts[0].alerts };
     });
     const resolvedContacts = await Promise.all(mergedContacts);
-
-    tenancy.contacts = resolvedContacts;
+    tenancy.contacts = cleanContacts(resolvedContacts);
 
     console.timeEnd('get-tenancy');
 
