@@ -33,6 +33,6 @@ describe('MaT-Service-API FetchTasks gateway', () => {
     const gateway = createGateway(data, tag_ref);
 
     const response = await gateway.execute(tag_ref);
-    expect(response).toEqual(data);
+    expect({ tasks: response }).toEqual(data);
   });
 });
