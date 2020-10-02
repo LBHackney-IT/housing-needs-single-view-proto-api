@@ -13,7 +13,7 @@ module.exports = options => {
         },
         json: true
       }).then(response => {
-        return response;
+        return response.tasks;
       });
     }
   };
